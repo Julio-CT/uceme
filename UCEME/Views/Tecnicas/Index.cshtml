@@ -1,0 +1,28 @@
+﻿@model IEnumerable<UCEME.Models.ClasesVista.TecnicaVista>
+
+@{
+    ViewBag.Title = "Innovaciones Tecnicas - UCEME";
+
+}
+
+@*<h2 class="titulo">Tecnicas Exclusivas</h2>*@
+
+@if (Request.IsAuthenticated)
+{
+    <div id="anadir" class="botones" style="float: right;">
+        <input type="button" onclick="manager.anadir()" class="nuevo" value=" " />
+    </div>
+    <br />
+    <br />
+}
+<div id="contenedor">
+@foreach (var item in Model)
+    {
+        @Html.DisplayFor(modelItem => item, "TecnicaVista")
+    }
+</div>
+<div id="loading"></div>
+
+@section scripts {
+    <script src="~/Scripts/Internal/Tecnicas/Index.js"async></script>
+}

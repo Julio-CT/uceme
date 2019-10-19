@@ -1,0 +1,26 @@
+﻿@model UCEME.Models.PaginaAmiga
+
+@{
+    ViewBag.Title = "Editar";
+    var srt = Model.icono;
+    var imagen = Url.Content(srt);
+    Layout = null;
+}
+
+@using (Html.BeginForm("Editar", "PaginaAmiga", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+        @Html.HiddenFor(model => model.idPagina)
+        <h3>Título: @Html.EditorFor(model => model.nombre, "StringMed")</h3>
+        <h5>Enlace: @Html.EditorFor(model => model.link)</h5>
+        <h5>Icono:</h5><img src="@imagen" style="margin-right:10px;width:80px;height:80px;" />
+        <input type="file" id="fichero" name="fichero" title="Cambiar Icono (preferible 80x80)" />
+        <h5>Descripcion:</h5>@Html.EditorFor(model => model.descripcion)
+
+        <div class="botones" style="width:320px;">
+                 <input class="aceptar" style="float:left;margin-left:0;" type="submit" value=" " />
+                 <input class="cancelar" style="float:left;margin-left:10px;" type="button" onclick="paginaAmiga.cancelarEdicion()" value=" " />
+        </div>
+
+}
+<br />
+<br />

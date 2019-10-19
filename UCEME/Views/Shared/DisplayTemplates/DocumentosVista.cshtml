@@ -1,0 +1,30 @@
+﻿@model UCEME.Models.ClasesVista.DocumentosVista
+
+@{
+    ViewBag.Title = "Documentos";
+    var idel = Model.IdDocumento;
+
+}
+
+<div class="cont" style="height:100px; width:95%; margin:0 auto;">
+
+    <div style="display:block; height:100px;" class="sombra">
+
+      <h3>  <a href="@Model.Link">
+            <img src="~/images/pdf.png" class="sombra" style="float:left; margin-right:10px; width:51px; height:51px; margin-left:10px;" alt="@Model.Nombre" />
+
+       @Model.Nombre
+            </a></h3>
+        <br />
+
+        @if (Request.IsAuthenticated)
+        {
+             <div id="@idel" class="botones" style="float: right; margin-left: 15px; display: block;">
+                <input type="button" onclick="documento.borrarItem(@idel)" class="eliminar" />
+            </div>
+        }
+        <br />
+    </div>
+    <div style="clear: both;"></div>
+</div>
+<br />

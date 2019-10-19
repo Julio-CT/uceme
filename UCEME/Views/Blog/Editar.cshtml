@@ -1,0 +1,32 @@
+﻿@model UCEME.Models.ClasesVista.BlogVista
+
+@{
+    ViewBag.Title = "Editar";
+    var srt = Model.Foto;
+    var imagen = Url.Content(srt);
+}
+
+@using (Html.BeginForm("Editar", "Blog", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    @Html.HiddenFor(model => model.IdBlog)
+    <h3 style="text-align: center;">Título: @Html.EditorFor(model => model.Titulo, "StringMed")</h3>
+    <h5>Imagen:</h5>
+    <img src="@imagen" style="margin-right:10px;" width="200" height="200" />
+    <input type="file" id="fichero" name="fichero" title="Cambiar Foto" style="width: 625px;" />
+    <h5>Texto:</h5>
+    @Html.EditorFor(model => model.Texto)
+
+    <div class="botones" style="width: 350px;">
+        <input class="aceptar" style="float: left; margin-left: 0;" type="submit" value=" " />
+        <input class="cancelar" style="float: left; margin-left: 10px;" type="button" onclick="refrescar('blog')" value=" " />
+    </div>
+
+}
+<br/>
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/Internal/Blog/Anadir.js" async></script>
+}

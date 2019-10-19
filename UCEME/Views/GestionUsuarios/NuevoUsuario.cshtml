@@ -1,0 +1,112 @@
+﻿@model UCEME.Models.ClasesVista.UsuarioVista
+
+@{
+    ViewBag.Title = "NuevoUsuario";
+}
+
+<h2 class="titulo">Nuevo Usuario</h2>
+<br />
+
+@using (Html.BeginForm("NuevoUsuario", "GestionUsuarios", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Nombre)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Nombre)
+            @Html.ValidationMessageFor(model => model.Nombre)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Apellidos)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Apellidos)
+            @Html.ValidationMessageFor(model => model.Apellidos)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Nick)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Nick)
+            @Html.ValidationMessageFor(model => model.Nick)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Login)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Login)
+            @Html.ValidationMessageFor(model => model.Login)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Foto)
+        </div>
+        <div class="editor-field">
+            <input type="file" id="fichero" name="fichero" title="Foto" style="width: 625px;" />
+            @Html.ValidationMessageFor(model => model.Foto)
+        </div>
+
+        <div class="editor-field">
+           @Html.Label("Rol")
+            @Html.DropDownList("idRol")
+            @Html.ValidationMessageFor(model => model.IdRol)<br />
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Newsletter)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Newsletter)
+            @Html.ValidationMessageFor(model => model.Newsletter)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Linkedin)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Linkedin)
+            @Html.ValidationMessageFor(model => model.Linkedin)
+        </div>
+
+         <br />
+
+            <h3>----------------Datos de Contacto--------------</h3>
+            <br />
+                <div class="editor-label">
+                     @Html.LabelFor(model => model.DatosContacto.email)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.DatosContacto.email)
+                    @Html.ValidationMessageFor(model => model.DatosContacto.email)
+                </div>
+                <div class="editor-label">
+                     @Html.LabelFor(model => model.DatosContacto.telefono)
+                </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.DatosContacto.telefono)
+                @Html.ValidationMessageFor(model => model.DatosContacto.telefono)
+            </div>
+            <div class="editor-label">
+                     @Html.LabelFor(model => model.DatosContacto.direccion)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.DatosContacto.direccion)
+                    @Html.ValidationMessageFor(model => model.DatosContacto.direccion)
+                </div>
+
+        <p>
+            <input type="submit" value="Guardar" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

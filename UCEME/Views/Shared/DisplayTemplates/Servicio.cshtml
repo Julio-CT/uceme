@@ -1,0 +1,26 @@
+﻿@model UCEME.Models.Servicio
+
+@{
+    Layout = null;
+    var idel = Model.idServicio;
+}   
+<div style="border:double;border-color:azure;">
+    <div class="display-label">
+        <h3> @Html.DisplayFor(model => model.nombre) </h3>
+    </div>
+    <br />
+    <div class="display-field">
+        @Html.DisplayFor(model => model.text)
+    </div>
+        @if (Request.IsAuthenticated) {
+        <div>
+            <input type="button" name="editar" id="editar" value="editar" onclick="servicio.editarServicio(@Model.idServicio)"/>
+                <div class="eliminar" style="float:left;margin-left:15px;">
+		        <a id="@idel" onclick="servicio.eliminarServicio(@idel)" class="elimi" href="#"></a>			
+                </div> 
+        </div>
+    }
+</div>
+
+    
+        

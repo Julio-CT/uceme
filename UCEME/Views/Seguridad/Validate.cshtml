@@ -1,0 +1,39 @@
+﻿@model UCEME.Models.ClasesVista.CambioPasswordVista
+
+@{
+    ViewBag.Title = "Cambio Password";
+}
+
+<h2 class="titulo">Cambio Password</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    @Html.HiddenFor(m => m.UsuarioActual)
+
+    <fieldset>
+        <legend>Formulario de cambio de contraseña</legend>
+        <ol>
+
+            <li>
+                @Html.LabelFor(m => m.PasswordNueva)
+                @Html.PasswordFor(m => m.PasswordNueva)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.PasswordRepite)
+                @Html.PasswordFor(m => m.PasswordRepite)
+                @Html.ValidationMessageFor(m => m.PasswordRepite)
+            </li>
+        </ol>
+        <input type="submit" value="Cambiar contraseña" />
+        @*Error en el email enviado, solo se muestra si ha habido error...*@
+        @if (@ViewBag.error == "nocoincide")
+        {
+            <div style="float: left; width: 60%">
+                Ha ocurrido un error, vuelva a intentarlo en unos segundos.
+            </div>
+            <div style="clear:both"></div>
+        }
+    </fieldset>
+}

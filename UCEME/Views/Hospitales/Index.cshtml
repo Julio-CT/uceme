@@ -1,0 +1,67 @@
+﻿@model IEnumerable<UCEME.Models.ClasesVista.HospitalesVista>
+
+@{
+    ViewBag.Title = "Hospitales";
+}
+
+@*<h2 class="titulo">Hospitales</h2><br/>*@
+
+@Html.DisplayFor(model => model)
+<div class="ipadhos">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="botones" style="float: left; margin: 15px;">
+            <input class="nuevo" style="width: 143px; text-align: center; color: #780303;" type="button" id="addHospital" value=" " />
+        </div>
+    }
+</div>
+<div id="dialogoEditar"></div>
+
+<div id="dialogoCrearH" style="display: none; z-index: 999;">
+    @using (Html.BeginForm("CrearHospital", "Hospitales", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.ValidationSummary(true)
+        <label>Nombre</label>
+        <input type="text" name="nombre" id="nombreh" /> <br />
+        <label>Telefono</label>
+        <input type="text" name="telefono" id="telefono" /> <br />
+        <label>Email</label>
+        <input type="text" name="email" id="email" /> <br />
+        <label>Direccion</label>
+        <input type="text" name="direccion" id="direccion" /> <br />
+        <label>Texto de Google Maps (225x220)</label>
+        <input type="text" name="__texto" id="__textoh" /> <br />
+        <label>Seleccione Imagen de Icono</label>
+        <input type="file" name="fichero" id="ficheroh" /> <br />
+        <div class="botones" style="float: left;">
+
+            <input class="aceptar" type="submit" value=" " />
+        </div>
+        <div class="botones" style="float: left;">
+            <input id="cancelCrearHospital"class="cancelar" type="button" value=" " />
+        </div>
+    }
+</div>
+
+<div id="dialogoCrearC" style="display: none; z-index: 999;">
+    @using (Html.BeginForm("CrearCompania", "Hospitales", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.ValidationSummary(true)
+        <label>Nombre</label>
+        <input type="text" name="nombre" id="nombrec" /> <br />
+        <label>Direccion Web</label>
+        <input type="text" name="link" id="link" /> <br />
+        <label>Seleccione Imagen de Icono</label>
+        <input type="file" name="fichero" id="ficheroc" /> <br />
+        <div class="botones" style="float: left;">
+            <input class="aceptar" type="submit" value=" " />
+        </div>
+        <div class="botones" style="float: left;">
+            <input class="cancelar" id="cancelCrearCompania" type="button" value=" " />
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="~/Scripts/Internal/Hospitales/Index.js"async></script>
+}

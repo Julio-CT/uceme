@@ -1,0 +1,25 @@
+﻿@model UCEME.Models.ClasesVista.MedicoMinVista
+
+@{
+    Layout = null;
+    var imagen = "nada";
+    if (Model.Foto != null)
+    {
+        var srt = Model.Foto;
+        imagen = Url.Content(srt);
+    }
+}
+<div class="corVis">
+    <div class="foto">
+        <img src="@imagen" class="img-responsive" alt="imagen" />
+    </div>
+    <div class="display-field">
+        @Html.HiddenFor(model => model.IdUsuario)
+    </div>
+
+    <span class="h4"><a class="topspacer rojito" href="~/Perfiles/?id=@Model.IdUsuario">Dr.&nbsp; @Model.Nombre &nbsp;@Model.Apellidos</a></span>
+    <br />
+    <div class="display-field topspacer">
+       <span class="h5"> @Html.DisplayFor(model => model.Titulo)</span>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+﻿@model UCEME.Models.PaginaAmiga
+
+@{
+    ViewBag.Title = "Nueva Pagina Amiga";
+    Layout = null;
+}
+
+@using (Html.BeginForm("Anadir", "PaginaAmiga", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+        <h3>Título: @Html.TextBoxFor(model => model.nombre)</h3>
+        <h5>Enlace:@Html.TextBoxFor(model => model.link)</h5>
+        <input type="file" id="fichero" name="fichero" title="Cambiar Icono (preferiblemente 80x80)" />
+        <h5>Descripcion:</h5>@Html.EditorFor(model => model.descripcion)
+
+        <div class="botones" style="width:320px;">
+                 <input class="aceptar" style="float:left;margin-left:0px;" type="submit" value=" " />
+                 <input class="cancelar" style="float:left;margin-left:10px;" type="button" onclick="paginaAmiga.cancelarCreacion()" value=" " />
+        </div>
+        }
+<br />
+<br />

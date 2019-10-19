@@ -1,0 +1,47 @@
+﻿@model UCEME.Models.ClasesVista.TurnoVista
+
+@{
+    Layout = null;
+    var idel = Model.IdTurno;
+    var viewcapa = "view" + idel;
+}
+
+<div id="@viewcapa">
+
+    <div class="display-field">
+        @Html.HiddenFor(model => model.IdTurno)
+    </div>
+
+    <div class="display-field" style="float: left; width: 230px; height: 45px;padding-left:20px;">
+        @Html.DisplayFor(model => model.Hospital)
+    </div>
+
+    <div class="display-field" style="float: left; margin-right: 20px; width: 70px; height: 45px;">
+        @Html.DisplayFor(model => model.Dia)
+    </div>
+
+    <div class="display-field" style="float: left; margin-right: 20px; width: 120px; height: 45px;">
+        @Html.DisplayFor(model => model.Strinicio)
+    </div>
+
+    <div class="display-field" style="float: left; margin-right: 20px; width: 120px; height: 45px;">
+        @Html.DisplayFor(model => model.Strfin)
+    </div>
+
+    <div class="display-field" style="float: left; margin-right: 20px; width: 70px; height: 45px;">
+        @Html.DisplayFor(model => model.Paralelas)
+    </div>
+
+    <div class="display-field" style="float: left; width: 18px; height: 45px;">
+        @Html.DisplayFor(model => model.Porhora)
+    </div>
+
+    <div class="iconos" style="float: right; height: 32px; margin-left: 15px; text-align: left; width: 32px;">
+        <input type="button" style="float:left; width:32px; height:32px;"  onclick="turno.editarItem(@idel)" class="editarico" />
+    </div>
+    <div class="iconos" style="float: right; height: 32px; margin-left: 15px; text-align: left; width: 32px;">
+        <input type="button" style="float:left; width:32px; height:32px;"  onclick="turno.borrarItem(@idel)" class="eliminarico" />
+    </div>
+
+    <div style="clear: both;"></div>
+</div>

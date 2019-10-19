@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="41e33878f5544d008991af02786b2482" Name="Diagram1">
+        <EntityTypeShape EntityType="UCEMEDbModel.Blog" Width="1.5" PointX="8.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Cita" Width="1.5" PointX="8.25" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Companias" Width="1.5" PointX="1.5" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Curriculum" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.DatosContacto" Width="1.5" PointX="3.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.DatosProfesionales" Width="1.5" PointX="3.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Documento" Width="1.5" PointX="8.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Faq" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Fotos" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.ItemCurriculum" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Menu" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.PaginaAmiga" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Rol" Width="1.5" PointX="3.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Servicio" Width="1.5" PointX="10.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Tecnica" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Termino" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Turno" Width="1.5" PointX="6" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Usuario" Width="1.5" PointX="6" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="UCEMEDbModel.Video" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="UCEMEDbModel.FK_Blog_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="UCEMEDbModel.FK_Cita_0" ManuallyRouted="false" />
+        <AssociationConnector Association="UCEMEDbModel.FK_ItemCurriculum_Curriculum" ManuallyRouted="false" />
+        <AssociationConnector Association="UCEMEDbModel.FK_Usuario_Curriculum" ManuallyRouted="false" />
+        <AssociationConnector Association="UCEMEDbModel.FK_Usuario_DatosContacto" ManuallyRouted="false" />
+        <AssociationConnector Association="UCEMEDbModel.FK_Turno_0" ManuallyRouted="false" />
+        <AssociationConnector Association="UCEMEDbModel.FK_Documento_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="UCEMEDbModel.FK_Usuario_Rol" ManuallyRouted="false" />
+        <AssociationConnector Association="UCEMEDbModel.ProfesionalesCompanias" ManuallyRouted="false" />
+        <AssociationConnector Association="UCEMEDbModel.ProfesionalUsuario" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
