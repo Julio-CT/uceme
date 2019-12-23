@@ -34,8 +34,8 @@ namespace UCEME.Models
         public string password { get; set; }
         public Nullable<bool> newsletter { get; set; }
         public string linkedin { get; set; }
-        public int? display_order { get; set; }
-
+        public Nullable<int> display_order { get; set; }
+    
         public virtual ICollection<Blog> Blog { get; set; }
         public virtual Curriculum Curriculum { get; set; }
         public virtual DatosContacto DatosContacto { get; set; }

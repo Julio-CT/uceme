@@ -12,14 +12,14 @@
     {
         public ActionResult Index()
         {
-            var hospi = DbContext.DatosProfesionales.Select(o => o);
+            var hospi = DbContext.DatosProfesionales.Where(x => x.activo.HasValue && x.activo.Value).Select(o => o);
 
             var data = new List<HospitalesVista>();
             foreach (var o in hospi)
             {
                 var item = new HospitalesVista
                 {
-                    IdHospital = o.idHospital,
+                    IdHospital = o.idDatosPro.ToString(),
                     Nombre = o.nombre,
                     Telefono = o.telefono,
                     Email = o.email,
@@ -147,8 +147,7 @@
         {
             try
             {
-                var hospitalABorrar = new DatosProfesionales { idHospital = id };
-                hospitalABorrar = DbContext.DatosProfesionales.Find(hospitalABorrar.idDatosPro);
+                var hospitalABorrar = DbContext.DatosProfesionales.Find(id);
 
                 //nos debemos cargar todos los turnos que le cuelgan
                 var listaturnos = hospitalABorrar.Turno.ToList();
@@ -190,7 +189,7 @@
                 }
 
                 //nos cargamos el hospital
-                DbContext.DatosProfesionales.Remove(hospitalABorrar);
+                hospitalABorrar.activo = false;
                 DbContext.SaveChanges();
             }
             catch (Exception e)
@@ -243,7 +242,7 @@
         {
             try
             {
-                var hospitalAEditar = new DatosProfesionales { idHospital = id };
+                var hospitalAEditar = new DatosProfesionales { idDatosPro = Convert.ToInt32(id) };
                 var hospital =
                     (DbContext.DatosProfesionales.Where(o => o.idDatosPro == hospitalAEditar.idDatosPro)
                         .Select(o => new HospitalesVista
@@ -258,7 +257,7 @@
                         })).FirstOrDefault();
 
 
-                var hospitalCompania = new DatosProfesionales { idHospital = id };
+                var hospitalCompania = new DatosProfesionales { idDatosPro = Convert.ToInt32(id) };
                 hospitalCompania = DbContext.DatosProfesionales.Find(hospitalCompania.idDatosPro);
                 var listaCompanias = hospitalCompania.Companias.Select(o => o.idCompanias);
 
@@ -288,7 +287,7 @@
         {
             try
             {
-                var hospitalAEditar = new DatosProfesionales { idHospital = model.IdHospital };
+                var hospitalAEditar = new DatosProfesionales { idDatosPro = Convert.ToInt32(model.IdHospital) };
                 hospitalAEditar = DbContext.DatosProfesionales.Find(hospitalAEditar.idDatosPro);
 
                 hospitalAEditar.nombre = model.Nombre;
@@ -376,7 +375,7 @@
         {
             try
             {
-                var hospital = new DatosProfesionales { idHospital = id };
+                var hospital = new DatosProfesionales { idDatosPro = Convert.ToInt32(id) };
                 hospital = DbContext.DatosProfesionales.Find(hospital.idDatosPro);
                 var listaCompanias = hospital.Companias.Select(o => o.idCompanias);
 

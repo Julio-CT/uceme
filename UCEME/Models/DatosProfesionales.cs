@@ -14,8 +14,6 @@ namespace UCEME.Models
     
     public partial class DatosProfesionales
     {
-        private string _idHospital;
-
         public DatosProfesionales()
         {
             this.Turno = new HashSet<Turno>();
@@ -30,21 +28,8 @@ namespace UCEME.Models
         public string direccion { get; set; }
         public string texto { get; set; }
         public string foto { get; set; }
-
-        public string idHospital
-        {
-            get { return "hosp" + this.idDatosPro; }
-            set
-            {
-                this._idHospital = value;
-                int intValue;
-                if(int.TryParse(value.Substring(4), out intValue))
-                {
-                    this.idDatosPro = intValue;
-                }
-            }
-        }
-
+        public Nullable<bool> activo { get; set; }
+    
         public virtual ICollection<Turno> Turno { get; set; }
         public virtual ICollection<Companias> Companias { get; set; }
         public virtual ICollection<Usuario> Usuario { get; set; }

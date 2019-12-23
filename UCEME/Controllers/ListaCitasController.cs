@@ -12,7 +12,8 @@ namespace UCEME.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            var data = DbContext.Cita.OrderBy(o => o.Turno.idHospital).ThenBy(o => o.dia).ThenBy(o => o.hora).Select(o => new CitaVista { IdCita = o.idCita, Dia = o.dia, Hora = o.hora, Nombre = o.nombre, Email = o.email, Telefono = o.telefono, Hospital = o.Turno.DatosProfesionales.nombre, IdTurno = o.idTurno });
+            var data = DbContext.Cita.OrderBy(o => o.Turno.idHospital).ThenBy(o => o.dia).ThenBy(o => o.hora)
+                .Select(o => new CitaVista { IdCita = o.idCita, Dia = o.dia, Hora = o.hora, Nombre = o.nombre, Email = o.email, Telefono = o.telefono, Hospital = o.Turno.DatosProfesionales.nombre, IdTurno = o.idTurno });
             return View(data);
         }
 

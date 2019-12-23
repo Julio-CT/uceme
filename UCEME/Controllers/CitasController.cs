@@ -115,7 +115,7 @@ namespace UCEME.Controllers
             //añadimos un elemento que sea el selector y que de paso nos permita quitar el filtro
 
             //sacamos las marcas y las añadimos a la lista
-            var listaHospitalVista = DbContext.DatosProfesionales.Select(o => new HospitalMinVista { IdDatosPro = o.idDatosPro, Nombre = o.nombre });
+            var listaHospitalVista = DbContext.DatosProfesionales.Where(x => x.activo.HasValue && x.activo.Value).Select(o => new HospitalMinVista { IdDatosPro = o.idDatosPro, Nombre = o.nombre });
             listaHospitales.AddRange(listaHospitalVista);
 
             ViewBag.listaHospitales = listaHospitalVista;

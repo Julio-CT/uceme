@@ -15,7 +15,8 @@ namespace UCEME.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            var data = DbContext.Turno.OrderBy(o => o.idHospital).ThenBy(o => o.dia).ThenBy(o => o.inicio).Select(o => new TurnoVista { IdTurno = o.idTurno, IdHospital = o.idHospital, Dia = o.dia, Inicio = o.inicio, Fin = o.fin, Paralelas = o.paralelas, Porhora = o.porhora, Hospital = o.DatosProfesionales.nombre });
+            var data = DbContext.Turno.OrderBy(o => o.idHospital).ThenBy(o => o.dia).ThenBy(o => o.inicio)
+                .Select(o => new TurnoVista { IdTurno = o.idTurno, IdHospital = o.idHospital, Dia = o.dia, Inicio = o.inicio, Fin = o.fin, Paralelas = o.paralelas, Porhora = o.porhora, Hospital = o.DatosProfesionales.nombre });
 
             //cargamos el combo de hospitales
             CargarCombos();
@@ -125,7 +126,7 @@ namespace UCEME.Controllers
             //añadimos un elemento que sea el selector y que de paso nos permita quitar el filtro
 
             //sacamos las marcas y las añadimos a la lista
-            var ieHospi = DbContext.DatosProfesionales.Select(o => new HospitalMinVista { IdDatosPro = o.idDatosPro, Nombre = o.nombre });
+            var ieHospi = DbContext.DatosProfesionales.Where(x => x.activo.HasValue && x.activo.Value).Select(o => new HospitalMinVista { IdDatosPro = o.idDatosPro, Nombre = o.nombre });
             listaHospitales.AddRange(ieHospi);
 
             ViewBag.idHospital = new SelectList(listaHospitales, "IdDatosPro", "nombre", "idHospital");

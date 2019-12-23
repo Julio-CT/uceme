@@ -16,6 +16,7 @@ namespace UCEME.Models
     {
         public Companias()
         {
+            this.DatosProfesionales = new HashSet<DatosProfesionales>();
         }
     
         public int idCompanias { get; set; }
@@ -23,6 +24,6 @@ namespace UCEME.Models
         public string foto { get; set; }
         public string link { get; set; }
     
-        public virtual ICollection<DatosProfesionales> DatosProfesionales { get; set; } = new HashSet<DatosProfesionales>();
+        public virtual ICollection<DatosProfesionales> DatosProfesionales { get; set; }
     }
 }
