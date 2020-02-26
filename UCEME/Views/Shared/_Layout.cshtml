@@ -72,33 +72,27 @@
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="navbar-collapsable">
                             <ul class="nav navbar-nav">
-                                <li class="active">@Html.ActionLink("Inicio", "Index", "Home")</li>
-                                <li>@Html.ActionLink("Cartera de Servicios", "Index", "Servicios")</li>
-                                <li>@Html.ActionLink("Hospitales", "Index", "Hospitales")</li>
-                                <li>@Html.ActionLink("Innovaciones Tecnicas", "Index", "Tecnicas")</li>
-                                <li>@Html.ActionLink("Articulos", "Index", "Articulos")</li>
-                                <li>@Html.ActionLink("Preguntas Frecuentes", "Index", "Faq")</li>
-
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Media<b class="caret"></b></a>
+                                <li class="dropdown active">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quienes somos<b class="caret"></b></a>
                                     <ul class="dropdown-menu">
-                                        <li>@Html.ActionLink("Imagenes", "Index", "Fotos")</li>
+                                        <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
                                         <li class="divider"></li>
-                                        <li>@Html.ActionLink("Videos", "Index", "Videos")</li>
-                                        <li class="divider"></li>
-                                        <li>@Html.ActionLink("Documentos", "Index", "Documentos")</li>
+                                        <li>@Html.ActionLink("Conocenos", "Index", "Conocenos")</li>
                                     </ul>
                                 </li>
+                                <li>@Html.ActionLink("Cartera de Servicios", "Index", "Servicios")</li>
+                                <li>@Html.ActionLink("Innovaciones Tecnicas", "Index", "Tecnicas")</li>
+                                <li>@Html.ActionLink("Blog", "Index", "Articulos")</li>
                                 @if (Request.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Turnos", "Index", "Turnos")</li>
-                        <li>@Html.ActionLink("Lista de Citas", "Index", "ListaCitas")</li>
-                        <li>@Html.ActionLink("Gestion de Usuarios", "Index", "GestionUsuarios")</li>
-        }
-        else
-        {
-            <li>@Html.ActionLink("Contacto", "Index", "Contacto")</li>
-}
+                                {
+                                    <li>@Html.ActionLink("Turnos", "Index", "Turnos")</li>
+                                    <li>@Html.ActionLink("Lista de Citas", "Index", "ListaCitas")</li>
+                                    <li>@Html.ActionLink("Gestion de Usuarios", "Index", "GestionUsuarios")</li>
+                                }
+                                else
+                                {
+                                    <li>@Html.ActionLink("Contacto y citas", "Index", "Contacto")</li>
+                                }
                             </ul>
                         </div>
                         <!-- /.navbar-collapse -->

@@ -11,7 +11,7 @@
     [TestClass()]
     public class NotificacionesTests
     {
-        private string emailTo = "julio_cejudo@yahoo.com";
+        private readonly string emailTo = "julio_cejudo@yahoo.com";
 
         [TestMethod()]
         public void SendPasswordRetrievalTest()

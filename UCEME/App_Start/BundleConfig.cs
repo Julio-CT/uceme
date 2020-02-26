@@ -45,7 +45,7 @@ namespace UCEME
                         "~/Scripts/External/es6-sham.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/normalize.css", 
+                "~/Content/normalize.css",
                 "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/bootstrapcss").Include(

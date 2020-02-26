@@ -1,4 +1,4 @@
 $(document).ready(function () {
-    enableNavBar(8);
+    enableNavBar(5);
 });
 //# sourceMappingURL=Index.js.map

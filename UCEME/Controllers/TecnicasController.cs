@@ -14,7 +14,7 @@ namespace UCEME.Controllers
         // GET: /Tecnicas/
 
         private static List<TecnicaVista> _conjuntodata;
-        private static int _elementospp = 5;
+        private static readonly int _elementospp = 5;
 
         public TecnicasController()
         {
@@ -85,12 +85,13 @@ namespace UCEME.Controllers
             {
                 if (fichero != null && fichero.ContentLength > 0)
                 {
-                    var blog = new Tecnica();
-
-                    blog.titulo = model.Titulo;
-                    blog.fecha = DateTime.Now;
-                    blog.texto = model.Texto;
-                    blog.foto = "";
+                    var blog = new Tecnica
+                    {
+                        titulo = model.Titulo,
+                        fecha = DateTime.Now,
+                        texto = model.Texto,
+                        foto = ""
+                    };
 
                     DbContext.Tecnica.Add(blog);
                     DbContext.SaveChanges();

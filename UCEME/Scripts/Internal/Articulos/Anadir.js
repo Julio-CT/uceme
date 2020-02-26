@@ -1,4 +1,4 @@
 $(document).ready(function () {
-    enableNavBar(5);
+    enableNavBar(4);
 });
 //# sourceMappingURL=Anadir.js.map

@@ -13,7 +13,7 @@ namespace UCEME.Controllers
         // GET: /Videos/
         private static List<VideosVista> _conjuntodata;
 
-        private static int _elementospp = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["numerovideos"]);
+        private static readonly int _elementospp = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["numerovideos"]);
 
         public VideosController()
         {
@@ -71,10 +71,12 @@ namespace UCEME.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                var v = new Video();
-                v.link = nuevoLink;
-                v.titulo = nuevoTitulo;
-                v.descripcion = nuevaDescripcion;
+                var v = new Video
+                {
+                    link = nuevoLink,
+                    titulo = nuevoTitulo,
+                    descripcion = nuevaDescripcion
+                };
 
                 var ultPos = (from o in DbContext.Video orderby o.posicion descending select o.posicion).FirstOrDefault();
                 v.posicion = ultPos + 1;
@@ -103,7 +105,7 @@ namespace UCEME.Controllers
                                            select o).ToList();
                         foreach (var f in videosAntes)
                         {
-                            f.posicion = f.posicion + 1;
+                            f.posicion += 1;
                         }
                         video.posicion = pos;
                     }
@@ -117,7 +119,7 @@ namespace UCEME.Controllers
                                                  select o).ToList();
                             foreach (var f in videosDespues)
                             {
-                                f.posicion = f.posicion - 1;
+                                f.posicion -= 1;
                             }
                             video.posicion = pos;
                         }
@@ -149,7 +151,7 @@ namespace UCEME.Controllers
                                 ToList();
                         foreach (var f in videosDespues)
                         {
-                            f.posicion = f.posicion - 1;
+                            f.posicion -= 1;
                         }
                     }
 

@@ -1,3 +1,3 @@
 $(document).ready(() => {
-    enableNavBar(8);
+    enableNavBar(5);
 });

@@ -9,5 +9,5 @@ $(window).scroll(() => {
 });
 
 $(document).ready(() => {
-    enableNavBar(5);
+    enableNavBar(4);
 });

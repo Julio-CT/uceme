@@ -6,6 +6,6 @@ $(window).scroll(function () {
     }
 });
 $(document).ready(function () {
-    enableNavBar(4);
+    enableNavBar(3);
 });
 //# sourceMappingURL=Index.js.map

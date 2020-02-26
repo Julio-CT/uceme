@@ -12,7 +12,7 @@ namespace UCEME.Controllers
     {
         private static List<FotosVista> _conjuntodata;
 
-        private static int _elementospp = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["numerofotos"]);
+        private static readonly int _elementospp = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["numerofotos"]);
 
         public FotosController()
         {
@@ -127,7 +127,7 @@ namespace UCEME.Controllers
                                           select o).ToList();
                         foreach (var f in fotosAntes)
                         {
-                            f.posicion = f.posicion + 1;
+                            f.posicion += 1;
                         }
                         foto.posicion = pos;
                     }
@@ -141,7 +141,7 @@ namespace UCEME.Controllers
                                                 select o).ToList();
                             foreach (var f in fotosDespues)
                             {
-                                f.posicion = f.posicion - 1;
+                                f.posicion -= 1;
                             }
                             foto.posicion = pos;
                         }
@@ -173,7 +173,7 @@ namespace UCEME.Controllers
                                 ToList();
                         foreach (var f in fotosDespues)
                         {
-                            f.posicion = f.posicion - 1;
+                            f.posicion -= 1;
                         }
                     }
 

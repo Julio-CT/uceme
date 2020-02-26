@@ -8,8 +8,7 @@ namespace UCEME.Utilidades
     {
         public static decimal TimeToDecimal(string strhora)
         {
-            decimal dechora = 0;
-            dechora = Convert.ToInt32(strhora.Substring(0, strhora.Length - 3)) + Convert.ToDecimal(strhora.Substring(strhora.Length - 2, 2)) / 60;
+            decimal dechora = Convert.ToInt32(strhora.Substring(0, strhora.Length - 3)) + Convert.ToDecimal(strhora.Substring(strhora.Length - 2, 2)) / 60;
             return dechora;
         }
 

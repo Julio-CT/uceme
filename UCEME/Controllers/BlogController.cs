@@ -241,6 +241,7 @@ namespace UCEME.Controllers
                     streamWriter.Flush();
                     streamWriter.Close();
                 }
+
                 using (var httpResponse = httpWebRequest.GetResponse() as HttpWebResponse)
                 {
                     var jsonSerializer = new DataContractJsonSerializer(typeof(RespuestaGoogle));

@@ -263,10 +263,10 @@
 
                 //sacamos las categorias y las añadimos a la lista
                 List<CompaniasSelectorVista> ieCompanias = (DbContext.Companias.Select(comp => new CompaniasSelectorVista
-                        {
-                            IdCompanias = comp.idCompanias,
-                            Nombre = comp.nombre,
-                            Checked = listaCompanias.Contains(comp.idCompanias)
+                {
+                    IdCompanias = comp.idCompanias,
+                    Nombre = comp.nombre,
+                    Checked = listaCompanias.Contains(comp.idCompanias)
                 })).ToList();
 
                 hospital.ListaCompanias = ieCompanias;
