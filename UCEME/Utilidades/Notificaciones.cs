@@ -31,11 +31,9 @@
 
                 return true;
             }
-#pragma warning disable CS0168 // La variable 'e' se ha declarado pero nunca se usa
             catch (Exception e)
-#pragma warning restore CS0168 // La variable 'e' se ha declarado pero nunca se usa
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}.", emailAddress));
+                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
@@ -61,11 +59,9 @@
 
                 return true;
             }
-#pragma warning disable CS0168 // La variable 'e' se ha declarado pero nunca se usa
             catch (Exception e)
-#pragma warning restore CS0168 // La variable 'e' se ha declarado pero nunca se usa
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}.", emailAddress));
+                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
@@ -98,22 +94,22 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}.", emailAddress));
+                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
 
         public static bool ModificarCitasMedicos(Models.Cita cita)
         {
+            string emailAddress = null;
             try
             {
                 var nombre = cita.nombre;
                 var dia = Utilidades.DiasHoras.EuropeanDay(cita.dia);
                 var hora = Utilidades.DiasHoras.TimeToString(cita.hora);
-                string diremail = null;
                 if (cita.email != null)
                 {
-                    diremail = cita.email;
+                    emailAddress = cita.email;
                 }
 
                 var telefono = cita.telefono;
@@ -129,9 +125,9 @@
                 emailMessage.Append("<br />");
                 emailMessage.Append("Para darle nueva cita puede contactar por telefono: " + telefono);
                 emailMessage.Append("<br />");
-                if (diremail != null)
+                if (emailAddress != null)
                 {
-                    emailMessage.Append("O bien por email: " + diremail);
+                    emailMessage.Append("O bien por email: " + emailAddress);
                 }
 
                 var subject = "Necesidad de reagendar cita";
@@ -139,15 +135,16 @@
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}.", System.Configuration.ConfigurationManager.AppSettings["credential_user"]));
+                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
 
         public static bool NotificarCitasMedicos(Models.Cita cita, string observaciones)
         {
+            var emailAddress = System.Configuration.ConfigurationManager.AppSettings["credential_user"];
             try
             {
                 var nombre = cita.nombre;
@@ -155,8 +152,7 @@
                 var hora = Utilidades.DiasHoras.TimeToString(cita.hora);
                 var hospital = cita.Turno.DatosProfesionales.nombre;
                 var telefono = cita.telefono;
-                var emailto = System.Configuration.ConfigurationManager.AppSettings["credential_user"];
-
+                
                 var emailMessage = new StringBuilder();
 
                 emailMessage.Append("<br />");
@@ -182,19 +178,20 @@
                 }
 
                 var subject = "Nueva cita UCEME";
-                SendEmail(emailto, emailMessage, subject);
+                SendEmail(emailAddress, emailMessage, subject);
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}.", System.Configuration.ConfigurationManager.AppSettings["credential_user"]));
+                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
 
         public static bool NotificarCitasUsuario(Models.Cita cita, string observaciones)
         {
+            var emailAddress = cita.email;
             try
             {
                 var nombre = cita.nombre;
@@ -202,8 +199,7 @@
                 var hora = Utilidades.DiasHoras.TimeToString(cita.hora);
                 var hospital = cita.Turno.DatosProfesionales.nombre;
                 var telefono = cita.telefono;
-                var diremail = cita.email;
-
+                
                 var emailMessage = new StringBuilder();
 
                 emailMessage.Append("<br />");
@@ -213,7 +209,7 @@
                 emailMessage.Append("<br />");
                 emailMessage.Append("Su telefono es : " + telefono);
                 emailMessage.Append("<br />");
-                emailMessage.Append("y su email: " + diremail);
+                emailMessage.Append("y su email: " + emailAddress);
                 if (observaciones != "")
                 {
                     emailMessage.Append("<br />");
@@ -225,13 +221,13 @@
                 emailMessage.Append("Muchas gracias.");
 
                 var subject = "Nueva cita UCEME";
-                SendEmail(diremail, emailMessage, subject);
+                SendEmail(emailAddress, emailMessage, subject);
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}.", System.Configuration.ConfigurationManager.AppSettings["credential_user"]));
+                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
