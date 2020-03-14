@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="col-md-2 text-center" id="citaPrevia" style="padding-top:15px; padding-bottom:15px;">
-                        <button type="submit" onclick="location.href='/Citas/';" class="btn btn-default" style="color:#777;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Cita previa</button>
+                        <button type="submit" onclick="location.href='/Citas/';" class="btn btn-default rojito citaprevia"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Cita previa</button>
                     </div>
                 </div>
                 <div class="clearboth"></div>
@@ -82,7 +82,7 @@
                                 </li>
                                 <li>@Html.ActionLink("Cartera de Servicios", "Index", "Servicios")</li>
                                 <li>@Html.ActionLink("Innovaciones Tecnicas", "Index", "Tecnicas")</li>
-                                <li>@Html.ActionLink("Blog", "Index", "Articulos")</li>
+                                <li>@Html.ActionLink("Blog", "Index", "Blog")</li>
                                 @if (Request.IsAuthenticated)
                                 {
                                     <li>@Html.ActionLink("Turnos", "Index", "Turnos")</li>

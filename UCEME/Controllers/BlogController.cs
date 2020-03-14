@@ -23,7 +23,7 @@ namespace UCEME.Controllers
         public BlogController()
         {
             _conjuntodata = (from o in DbContext.Blog
-                             where o.profesional == null || o.profesional == false
+                             where o.fecha < DateTime.Now
                              orderby o.fecha descending
                              select new BlogVista
                              {
@@ -108,7 +108,7 @@ namespace UCEME.Controllers
 
                     if (usu != null) blog.idUsuario = usu.idUsuario;
                     blog.titulo = model.Titulo;
-                    blog.fecha = DateTime.Now;
+                    blog.fecha = model.Fecha;
                     blog.texto = model.Texto;
                     blog.foto = "";
                     blog.profesional = false;

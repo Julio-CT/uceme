@@ -14,6 +14,7 @@ namespace UCEME.Models.ClasesVista
 
         public string Foto { get; set; }
 
+        [UIHint("tinymce_jquery_full"), AllowHtml]
         public string Cabecera { get; set; }
     }
 }

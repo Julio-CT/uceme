@@ -18,6 +18,7 @@ namespace UCEME.Controllers
         public ArticulosController()
         {
             _conjuntodata = (from o in DbContext.Blog
+                             where o.profesional == null || o.profesional == false
                              orderby o.fecha descending
                              select new BlogVista
                              {
