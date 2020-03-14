@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
 namespace UCEME.Models.ClasesVista
@@ -12,7 +13,10 @@ namespace UCEME.Models.ClasesVista
         [Required(ErrorMessage = "Campo Titulo requerido")]
         public string Titulo { get; set; }
 
-        public System.DateTime Fecha { get; set; }
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Campo Fecha requerido")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime Fecha { get; set; }
 
         public string Foto { get; set; }
 

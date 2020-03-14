@@ -24,10 +24,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>03/04/2020 19:35:05</publishTime>
+      <publishTime>03/15/2020 00:13:59</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>03/04/2020 19:35:05</publishTime>
+      <publishTime>03/15/2020 00:13:59</publishTime>
     </File>
     <File Include="bin/de/Microsoft.Data.Edm.resources.dll">
       <publishTime>08/16/2013 10:43:10</publishTime>
@@ -231,10 +231,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>06/22/2013 15:40:26</publishTime>
     </File>
     <File Include="bin/UCEME.dll">
-      <publishTime>03/04/2020 19:34:50</publishTime>
+      <publishTime>03/15/2020 00:13:46</publishTime>
     </File>
     <File Include="bin/UCEME.pdb">
-      <publishTime>03/04/2020 19:34:50</publishTime>
+      <publishTime>03/15/2020 00:13:46</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/23/2014 13:57:34</publishTime>
@@ -28758,7 +28758,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>10/18/2019 22:23:45</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>03/04/2020 19:34:52</publishTime>
+      <publishTime>03/15/2020 00:13:50</publishTime>
     </File>
     <File Include="robots.txt">
       <publishTime>01/14/2018 18:49:07</publishTime>
@@ -28794,211 +28794,211 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>01/14/2018 18:52:59</publishTime>
     </File>
     <File Include="Scripts/Internal/Articulos/Anadir.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Articulos/Anadir.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Articulos/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Articulos/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Blog/Anadir.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Blog/Anadir.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Blog/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Blog/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Citas/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Citas/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Contacto/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Contacto/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Documentos/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Documentos/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Faq/Editar.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Faq/Editar.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Faq/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Faq/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Fotos/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Fotos/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/GestionUsuarios/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/GestionUsuarios/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Home/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Home/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Home/mostrarFotos.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Home/mostrarFotos.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Hospitales/EditarHospital.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Hospitales/EditarHospital.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Hospitales/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Hospitales/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/ListaCitas/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/ListaCitas/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/PaginaAmiga/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/PaginaAmiga/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Perfiles/Editar.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Perfiles/Editar.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Perfiles/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Perfiles/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Servicios/Index.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Servicios/Index.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/DataLoader.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/DataLoader.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/GoogleAnalytics.js">
       <publishTime>01/14/2018 18:53:00</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/HeaderShrinker.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/HeaderShrinker.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/ItemManager.js">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/ItemManager.js.map">
-      <publishTime>03/04/2020 19:34:47</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/MediaManager.js">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/MediaManager.js.map">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:44</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/NavBar.js">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/NavBar.js.map">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/RefreshPage.js">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/RefreshPage.js.map">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/SharedVars.js">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/SharedVars.js.map">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/slide.js">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Shared/slide.js.map">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Tecnicas/Index.js">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Tecnicas/Index.js.map">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Terminos/Dicciopinta.js">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Terminos/Dicciopinta.js.map">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Terminos/Editar.js">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Terminos/Editar.js.map">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Terminos/Index.js">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Terminos/Index.js.map">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Turnos/Index.js">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Turnos/Index.js.map">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Videos/Index.js">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/Internal/Videos/Index.js.map">
-      <publishTime>03/04/2020 19:34:48</publishTime>
+      <publishTime>03/15/2020 00:13:45</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.1.min.js">
       <publishTime>06/18/2013 18:56:59</publishTime>
@@ -30522,7 +30522,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>10/18/2019 22:23:35</publishTime>
     </File>
     <File Include="sitemap.xml">
-      <publishTime>01/14/2018 18:49:07</publishTime>
+      <publishTime>03/14/2020 23:10:14</publishTime>
     </File>
     <File Include="StyleCop.Cache">
       <publishTime>01/14/2018 18:53:03</publishTime>
@@ -30621,13 +30621,13 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>01/14/2018 18:49:00</publishTime>
     </File>
     <File Include="Views/Blog/Anadir.cshtml">
-      <publishTime>03/02/2020 23:38:08</publishTime>
+      <publishTime>03/14/2020 23:28:57</publishTime>
     </File>
     <File Include="Views/Blog/Editar.cshtml">
       <publishTime>01/14/2018 18:53:03</publishTime>
     </File>
     <File Include="Views/Blog/Index.cshtml">
-      <publishTime>03/02/2020 23:17:29</publishTime>
+      <publishTime>03/14/2020 02:20:19</publishTime>
     </File>
     <File Include="Views/Blog/Subconjunto.cshtml">
       <publishTime>01/14/2018 18:49:00</publishTime>
@@ -30687,7 +30687,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>01/14/2018 18:49:00</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>01/24/2018 22:30:37</publishTime>
+      <publishTime>03/15/2020 00:12:08</publishTime>
     </File>
     <File Include="Views/Home/mostrarFotos.cshtml">
       <publishTime>01/14/2018 18:53:03</publishTime>
@@ -30744,7 +30744,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>01/14/2018 18:53:04</publishTime>
     </File>
     <File Include="Views/Shared/DisplayTemplates/BlogVista.cshtml">
-      <publishTime>01/25/2018 00:18:37</publishTime>
+      <publishTime>03/14/2020 02:17:16</publishTime>
     </File>
     <File Include="Views/Shared/DisplayTemplates/CitaVista.cshtml">
       <publishTime>01/14/2018 18:53:04</publishTime>
@@ -30843,7 +30843,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>10/18/2019 22:23:36</publishTime>
     </File>
     <File Include="Views/Shared/EditorTemplates/TurnoVista.cshtml">
-      <publishTime>01/14/2018 18:53:04</publishTime>
+      <publishTime>03/14/2020 23:20:58</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>01/14/2018 18:53:04</publishTime>
