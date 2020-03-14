@@ -23,7 +23,6 @@ namespace UCEME.Controllers
         public BlogController()
         {
             _conjuntodata = (from o in DbContext.Blog
-                             where o.fecha < DateTime.Now
                              orderby o.fecha descending
                              select new BlogVista
                              {
