@@ -11,42 +11,42 @@
         public void SendPasswordRetrievalTest()
         {
             var sut = Utilidades.Notificaciones.SendPasswordRetrieval(emailTo, "AAA");
-            Assert.IsTrue(sut);
+            Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void SendNewUserCreatedTest()
         {
             var sut = Utilidades.Notificaciones.SendNewUserCreated(emailTo, "AAA");
-            Assert.IsTrue(sut);
+            Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void EnviarCorreoContactoTest()
         {
             var sut = Utilidades.Notificaciones.EnviarCorreoContacto(emailTo, "AAA", "BBB");
-            Assert.IsTrue(sut);
+            Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void ModificarCitasMedicosTest()
         {
             var sut = Utilidades.Notificaciones.ModificarCitasMedicos(new Models.Cita());
-            Assert.IsTrue(sut);
+            Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void NotificarCitasMedicosTest()
         {
             var sut = Utilidades.Notificaciones.NotificarCitasMedicos(new Models.Cita(), "AAA");
-            Assert.IsTrue(sut);
+            Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void NotificarCitasUsuarioTest()
         {
             var sut = Utilidades.Notificaciones.NotificarCitasUsuario(new Models.Cita(), "AAA");
-            Assert.IsTrue(sut);
+            Assert.IsFalse(sut);
         }
     }
 }

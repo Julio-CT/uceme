@@ -32,7 +32,13 @@
         @Html.EditorFor(model => model.Nombre)
         @Html.ValidationMessageFor(model => model.Nombre)
     </div>
+    <br />
 
+    @Html.Label("Cabecera:")
+    @Html.EditorFor(model => model.Cabecera)
+    <br />
+
+    @Html.Label("Leer mas:")
     @Html.EditorFor(model => model.Text)
 
     <div class="botones" style="width: 350px;">

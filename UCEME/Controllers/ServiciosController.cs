@@ -34,8 +34,10 @@ namespace UCEME.Controllers
             var ser = new Servicio
             {
                 nombre = model.Nombre,
-                text = model.Text
+                text = model.Text,
+                cabecera = model.Cabecera,
             };
+
             DbContext.Servicio.Add(ser);
             DbContext.SaveChanges();
 
@@ -92,6 +94,7 @@ namespace UCEME.Controllers
 
             ser.nombre = model.Nombre;
             ser.text = model.Text;
+            ser.cabecera = model.Cabecera;
 
             if (fichero != null && fichero.ContentLength > 0)
             {

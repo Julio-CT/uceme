@@ -1548,9 +1548,19 @@ input[type=checkbox].css-checkbox {
     top: 0;
 }
 
-    .botones input.aceptar, .botones input.cancelar, .botones input.eliminar, .botones input.editar, .botones input.nuevo {
+    .botones input.aceptar, .botones input.cancelar, .botones input.nuevo {
         height: 32px;
         width: 143px;
+        line-height: 32px !important;
+        cursor: pointer;
+        display: block;
+        position: relative;
+        left: 0;
+    }
+
+    .botones input.eliminar, .botones input.editar {
+        height: 32px;
+        width: 32px;
         line-height: 32px !important;
         cursor: pointer;
         display: block;
@@ -1569,12 +1579,12 @@ input[type=checkbox].css-checkbox {
     }
 
     .botones input.editar {
-        background: url(../Images/editar.png) no-repeat left 0;
+        background: url(../Images/editarico.png) no-repeat left 0;
         text-decoration: none;
     }
 
     .botones input.eliminar {
-        background: url(../Images/eliminar.png) no-repeat left 0;
+        background: url(../Images/eliminarico.png) no-repeat left 0;
         text-decoration: none;
     }
 
@@ -1609,12 +1619,12 @@ input[type=checkbox].css-checkbox {
     }
 
     .botones input.editar:hover {
-        background: url(../Images/editar.png) no-repeat left -32px;
+        background: url(../Images/editarico.png) no-repeat left -32px;
         text-decoration: none;
     }
 
     .botones input.eliminar:hover {
-        background: url(../Images/eliminar.png) no-repeat left -32px;
+        background: url(../Images/eliminarico.png) no-repeat left -32px;
         text-decoration: none;
     }
 

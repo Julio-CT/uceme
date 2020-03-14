@@ -13,7 +13,7 @@
             //nos traemos el usuario
             var usrs = (from o in DbContext.Usuario
                         where o.idRol == 2
-                        orderby o.display_order
+                        orderby o.display_order descending
                         select o);
 
             //lo metemos todo

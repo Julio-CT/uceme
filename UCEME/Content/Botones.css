@@ -17,8 +17,8 @@
 
 .botones input.aceptar {background: url(../Images/aceptar.png) no-repeat left 0;text-decoration:none;}
 .botones input.cancelar {background: url(../Images/cancelar.png) no-repeat left 0;text-decoration:none;}
-.botones input.editar {background: url(../Images/editar.png) no-repeat left 0;text-decoration:none;}
-.botones input.eliminar {background: url(../Images/eliminar.png) no-repeat left 0;text-decoration:none;}
+.botones input.editar {background: url(../Images/editarico.png) no-repeat left 0;text-decoration:none;}
+.botones input.eliminar {background: url(../Images/eliminarico.png) no-repeat left 0;text-decoration:none;}
 .botones input.nuevo {background: url(../Images/nuevo.png) no-repeat left 0;text-decoration:none;}
 .botones input.login {background: url(../Images/login.png) no-repeat left 0;text-decoration:none;}
 .botones input.buscar {background: url(../Images/buscar.png) no-repeat left 0;text-decoration:none;}
@@ -26,8 +26,8 @@
 
 .botones input.aceptar:hover {background: url(../Images/aceptar.png) no-repeat left -32px;text-decoration:none;}
 .botones input.cancelar:hover {background: url(../Images/cancelar.png) no-repeat left -32px;text-decoration:none;}
-.botones input.editar:hover {background: url(../Images/editar.png) no-repeat left -32px;text-decoration:none;}
-.botones input.eliminar:hover {background: url(../Images/eliminar.png) no-repeat left -32px;text-decoration:none;}
+.botones input.editar:hover {background: url(../Images/editarico.png) no-repeat left -32px;text-decoration:none;}
+.botones input.eliminar:hover {background: url(../Images/eliminarico.png) no-repeat left -32px;text-decoration:none;}
 .botones input.nuevo:hover {background: url(../Images/nuevo.png) no-repeat left -32px;text-decoration:none;}
 .botones input.login:hover {background: url(../Images/login.png) no-repeat left -32px;text-decoration:none;}
 .botones input.buscar:hover {background: url(../Images/buscar.png) no-repeat left -32px;text-decoration:none;}
