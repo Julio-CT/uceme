@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using UCEME.Models.ClasesVista;
+using Uceme.Model.Models.ClasesVista;
 
 namespace UCEME.Controllers
 {

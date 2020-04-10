@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
-    using UCEME.Models;
-    using UCEME.Models.ClasesVista;
+    using Uceme.Model.Models;
+    using Uceme.Model.Models.ClasesVista;
     using UCEME.Seguridad;
 
     [Authorize]

@@ -1,0 +1,1306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="UCEMEDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Blog">
+          <Key>
+            <PropertyRef Name="idBlog" />
+          </Key>
+          <Property Name="idBlog" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idUsuario" Type="int" Nullable="false" />
+          <Property Name="titulo" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="foto" Type="nvarchar" MaxLength="500" />
+          <Property Name="texto" Type="text" Nullable="false" />
+          <Property Name="profesional" Type="bit" />
+        </EntityType>
+        <EntityType Name="Cita">
+          <Key>
+            <PropertyRef Name="idCita" />
+          </Key>
+          <Property Name="idCita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dia" Type="int" Nullable="false" />
+          <Property Name="hora" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="250" />
+          <Property Name="telefono" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="idTurno" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Companias">
+          <Key>
+            <PropertyRef Name="idCompanias" />
+          </Key>
+          <Property Name="idCompanias" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="foto" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="link" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Curriculum">
+          <Key>
+            <PropertyRef Name="idCurriculum" />
+          </Key>
+          <Property Name="idCurriculum" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Titulo" Type="nvarchar" MaxLength="350" Nullable="false" />
+          <Property Name="Text" Type="text" />
+        </EntityType>
+        <EntityType Name="DatosContacto">
+          <Key>
+            <PropertyRef Name="idDatosContacto" />
+          </Key>
+          <Property Name="idDatosContacto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="telefono" Type="nvarchar" MaxLength="15" />
+          <Property Name="direccion" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="DatosProfesionales">
+          <Key>
+            <PropertyRef Name="idDatosPro" />
+          </Key>
+          <Property Name="idDatosPro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="telefono" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="direccion" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="texto" Type="text" />
+          <Property Name="foto" Type="nvarchar" MaxLength="500" />
+          <Property Name="activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="Documento">
+          <Key>
+            <PropertyRef Name="idDocumento" />
+          </Key>
+          <Property Name="idDocumento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="link" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="idUsuario" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Faq">
+          <Key>
+            <PropertyRef Name="idFaq" />
+          </Key>
+          <Property Name="titulo" Type="nvarchar" MaxLength="350" Nullable="false" />
+          <Property Name="texto" Type="text" Nullable="false" />
+          <Property Name="idFaq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Fotos">
+          <Key>
+            <PropertyRef Name="idFoto" />
+          </Key>
+          <Property Name="idFoto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="texto" Type="ntext" />
+          <Property Name="destacada" Type="bit" />
+          <Property Name="posicion" Type="int" />
+        </EntityType>
+        <EntityType Name="ItemCurriculum">
+          <Key>
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idItem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Titulo" Type="nvarchar" MaxLength="350" Nullable="false" />
+          <Property Name="Fechas" Type="nvarchar" MaxLength="250" />
+          <Property Name="Texto" Type="text" Nullable="false" />
+          <Property Name="idCurriculum" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="idMenu" />
+          </Key>
+          <Property Name="idMenu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="link" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="posicion" Type="int" Nullable="false" />
+          <Property Name="visible" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaginaAmiga">
+          <Key>
+            <PropertyRef Name="idPagina" />
+          </Key>
+          <Property Name="idPagina" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="descripcion" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="link" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="icono" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ProfesionalesCompanias">
+          <Key>
+            <PropertyRef Name="idDatosPro" />
+            <PropertyRef Name="idCompanias" />
+          </Key>
+          <Property Name="idDatosPro" Type="int" Nullable="false" />
+          <Property Name="idCompanias" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProfesionalUsuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+            <PropertyRef Name="idDatosPro" />
+          </Key>
+          <Property Name="idUsuario" Type="int" Nullable="false" />
+          <Property Name="idDatosPro" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="idRol" />
+          </Key>
+          <Property Name="idRol" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Servicio">
+          <Key>
+            <PropertyRef Name="idServicio" />
+          </Key>
+          <Property Name="idServicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+          <Property Name="foto" Type="nvarchar" MaxLength="500" />
+          <Property Name="cabecera" Type="nchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tecnica">
+          <Key>
+            <PropertyRef Name="idTecnica" />
+          </Key>
+          <Property Name="idTecnica" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="titulo" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="foto" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="texto" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Termino">
+          <Key>
+            <PropertyRef Name="idTermino" />
+          </Key>
+          <Property Name="nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="texto" Type="text" Nullable="false" />
+          <Property Name="foto" Type="nvarchar" MaxLength="500" />
+          <Property Name="link" Type="nvarchar" MaxLength="500" />
+          <Property Name="idTermino" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Turno">
+          <Key>
+            <PropertyRef Name="idTurno" />
+          </Key>
+          <Property Name="idTurno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dia" Type="int" Nullable="false" />
+          <Property Name="inicio" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="fin" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="paralelas" Type="int" Nullable="false" />
+          <Property Name="porhora" Type="int" Nullable="false" />
+          <Property Name="idHospital" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellidos" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="nick" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="foto" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ultimoupdate" Type="datetime" />
+          <Property Name="idRol" Type="int" Nullable="false" />
+          <Property Name="idCurriculum" Type="int" Nullable="false" />
+          <Property Name="idDatosContacto" Type="int" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="newsletter" Type="bit" />
+          <Property Name="linkedin" Type="nvarchar(max)" />
+          <Property Name="display_order" Type="int" />
+        </EntityType>
+        <EntityType Name="Video">
+          <Key>
+            <PropertyRef Name="idVideo" />
+          </Key>
+          <Property Name="titulo" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="descripcion" Type="text" />
+          <Property Name="link" Type="text" Nullable="false" />
+          <Property Name="idVideo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="posicion" Type="int" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ConfirmationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsConfirmed" Type="bit" />
+          <Property Name="LastPasswordFailureDate" Type="datetime" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordChangedDate" Type="datetime" />
+          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="webpages_OAuthMembership">
+          <Key>
+            <PropertyRef Name="Provider" />
+            <PropertyRef Name="ProviderUserId" />
+          </Key>
+          <Property Name="Provider" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="ProviderUserId" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_UsersInRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Blog_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Blog" Type="Self.Blog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Blog">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cita_0">
+          <End Role="Turno" Type="Self.Turno" Multiplicity="1" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turno">
+              <PropertyRef Name="idTurno" />
+            </Principal>
+            <Dependent Role="Cita">
+              <PropertyRef Name="idTurno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documento_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Documento" Type="Self.Documento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Documento">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemCurriculum_Curriculum">
+          <End Role="Curriculum" Type="Self.Curriculum" Multiplicity="1" />
+          <End Role="ItemCurriculum" Type="Self.ItemCurriculum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curriculum">
+              <PropertyRef Name="idCurriculum" />
+            </Principal>
+            <Dependent Role="ItemCurriculum">
+              <PropertyRef Name="idCurriculum" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProfesionalesCompanias_Companias">
+          <End Role="Companias" Type="Self.Companias" Multiplicity="1" />
+          <End Role="ProfesionalesCompanias" Type="Self.ProfesionalesCompanias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companias">
+              <PropertyRef Name="idCompanias" />
+            </Principal>
+            <Dependent Role="ProfesionalesCompanias">
+              <PropertyRef Name="idCompanias" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProfesionalesCompanias_DatosProfesionales">
+          <End Role="DatosProfesionales" Type="Self.DatosProfesionales" Multiplicity="1" />
+          <End Role="ProfesionalesCompanias" Type="Self.ProfesionalesCompanias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DatosProfesionales">
+              <PropertyRef Name="idDatosPro" />
+            </Principal>
+            <Dependent Role="ProfesionalesCompanias">
+              <PropertyRef Name="idDatosPro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProfesionalUsuario_DatosProfesionales">
+          <End Role="DatosProfesionales" Type="Self.DatosProfesionales" Multiplicity="1" />
+          <End Role="ProfesionalUsuario" Type="Self.ProfesionalUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DatosProfesionales">
+              <PropertyRef Name="idDatosPro" />
+            </Principal>
+            <Dependent Role="ProfesionalUsuario">
+              <PropertyRef Name="idDatosPro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProfesionalUsuario_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="ProfesionalUsuario" Type="Self.ProfesionalUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="ProfesionalUsuario">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_RoleId">
+          <End Role="webpages_Roles" Type="Self.webpages_Roles" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="webpages_Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_0">
+          <End Role="DatosProfesionales" Type="Self.DatosProfesionales" Multiplicity="1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DatosProfesionales">
+              <PropertyRef Name="idDatosPro" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="idHospital" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserId">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Curriculum">
+          <End Role="Curriculum" Type="Self.Curriculum" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curriculum">
+              <PropertyRef Name="idCurriculum" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idCurriculum" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_DatosContacto">
+          <End Role="DatosContacto" Type="Self.DatosContacto" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DatosContacto">
+              <PropertyRef Name="idDatosContacto" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idDatosContacto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="idRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UCEMEDbModelStoreContainer">
+          <EntitySet Name="Blog" EntityType="Self.Blog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cita" EntityType="Self.Cita" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Companias" EntityType="Self.Companias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Curriculum" EntityType="Self.Curriculum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DatosContacto" EntityType="Self.DatosContacto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DatosProfesionales" EntityType="Self.DatosProfesionales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Documento" EntityType="Self.Documento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Faq" EntityType="Self.Faq" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fotos" EntityType="Self.Fotos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemCurriculum" EntityType="Self.ItemCurriculum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaginaAmiga" EntityType="Self.PaginaAmiga" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProfesionalesCompanias" EntityType="Self.ProfesionalesCompanias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProfesionalUsuario" EntityType="Self.ProfesionalUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Servicio" EntityType="Self.Servicio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tecnica" EntityType="Self.Tecnica" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termino" EntityType="Self.Termino" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Turno" EntityType="Self.Turno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Video" EntityType="Self.Video" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Blog_Usuario" Association="Self.FK_Blog_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Blog" EntitySet="Blog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cita_0" Association="Self.FK_Cita_0">
+            <End Role="Turno" EntitySet="Turno" />
+            <End Role="Cita" EntitySet="Cita" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documento_Usuario" Association="Self.FK_Documento_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Documento" EntitySet="Documento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemCurriculum_Curriculum" Association="Self.FK_ItemCurriculum_Curriculum">
+            <End Role="Curriculum" EntitySet="Curriculum" />
+            <End Role="ItemCurriculum" EntitySet="ItemCurriculum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProfesionalesCompanias_Companias" Association="Self.FK_ProfesionalesCompanias_Companias">
+            <End Role="Companias" EntitySet="Companias" />
+            <End Role="ProfesionalesCompanias" EntitySet="ProfesionalesCompanias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProfesionalesCompanias_DatosProfesionales" Association="Self.FK_ProfesionalesCompanias_DatosProfesionales">
+            <End Role="DatosProfesionales" EntitySet="DatosProfesionales" />
+            <End Role="ProfesionalesCompanias" EntitySet="ProfesionalesCompanias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProfesionalUsuario_DatosProfesionales" Association="Self.FK_ProfesionalUsuario_DatosProfesionales">
+            <End Role="DatosProfesionales" EntitySet="DatosProfesionales" />
+            <End Role="ProfesionalUsuario" EntitySet="ProfesionalUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProfesionalUsuario_Usuario" Association="Self.FK_ProfesionalUsuario_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ProfesionalUsuario" EntitySet="ProfesionalUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="fk_RoleId" Association="Self.fk_RoleId">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_0" Association="Self.FK_Turno_0">
+            <End Role="DatosProfesionales" EntitySet="DatosProfesionales" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Curriculum" Association="Self.FK_Usuario_Curriculum">
+            <End Role="Curriculum" EntitySet="Curriculum" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_DatosContacto" Association="Self.FK_Usuario_DatosContacto">
+            <End Role="DatosContacto" EntitySet="DatosContacto" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UCEMEDbModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="UCEMEDbEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Blog" EntityType="UCEMEDbModel.Blog" />
+          <EntitySet Name="Cita" EntityType="UCEMEDbModel.Cita" />
+          <EntitySet Name="Companias" EntityType="UCEMEDbModel.Companias" />
+          <EntitySet Name="Curriculum" EntityType="UCEMEDbModel.Curriculum" />
+          <EntitySet Name="DatosContacto" EntityType="UCEMEDbModel.DatosContacto" />
+          <EntitySet Name="DatosProfesionales" EntityType="UCEMEDbModel.DatosProfesionales" />
+          <EntitySet Name="Documento" EntityType="UCEMEDbModel.Documento" />
+          <EntitySet Name="Faq" EntityType="UCEMEDbModel.Faq" />
+          <EntitySet Name="Fotos" EntityType="UCEMEDbModel.Fotos" />
+          <EntitySet Name="ItemCurriculum" EntityType="UCEMEDbModel.ItemCurriculum" />
+          <EntitySet Name="Menu" EntityType="UCEMEDbModel.Menu" />
+          <EntitySet Name="PaginaAmiga" EntityType="UCEMEDbModel.PaginaAmiga" />
+          <EntitySet Name="Rol" EntityType="UCEMEDbModel.Rol" />
+          <EntitySet Name="Servicio" EntityType="UCEMEDbModel.Servicio" />
+          <EntitySet Name="Tecnica" EntityType="UCEMEDbModel.Tecnica" />
+          <EntitySet Name="Termino" EntityType="UCEMEDbModel.Termino" />
+          <EntitySet Name="Turno" EntityType="UCEMEDbModel.Turno" />
+          <EntitySet Name="Usuario" EntityType="UCEMEDbModel.Usuario" />
+          <EntitySet Name="Video" EntityType="UCEMEDbModel.Video" />
+          <AssociationSet Name="FK_Blog_Usuario" Association="UCEMEDbModel.FK_Blog_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Blog" EntitySet="Blog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cita_0" Association="UCEMEDbModel.FK_Cita_0">
+            <End Role="Turno" EntitySet="Turno" />
+            <End Role="Cita" EntitySet="Cita" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemCurriculum_Curriculum" Association="UCEMEDbModel.FK_ItemCurriculum_Curriculum">
+            <End Role="Curriculum" EntitySet="Curriculum" />
+            <End Role="ItemCurriculum" EntitySet="ItemCurriculum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Curriculum" Association="UCEMEDbModel.FK_Usuario_Curriculum">
+            <End Role="Curriculum" EntitySet="Curriculum" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_DatosContacto" Association="UCEMEDbModel.FK_Usuario_DatosContacto">
+            <End Role="DatosContacto" EntitySet="DatosContacto" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_0" Association="UCEMEDbModel.FK_Turno_0">
+            <End Role="DatosProfesionales" EntitySet="DatosProfesionales" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documento_Usuario" Association="UCEMEDbModel.FK_Documento_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Documento" EntitySet="Documento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Rol" Association="UCEMEDbModel.FK_Usuario_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="ProfesionalesCompanias" Association="UCEMEDbModel.ProfesionalesCompanias">
+            <End Role="Companias" EntitySet="Companias" />
+            <End Role="DatosProfesionales" EntitySet="DatosProfesionales" />
+          </AssociationSet>
+          <AssociationSet Name="ProfesionalUsuario" Association="UCEMEDbModel.ProfesionalUsuario">
+            <End Role="DatosProfesionales" EntitySet="DatosProfesionales" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="UCEMEDbModel.sysdiagrams" />
+          <EntitySet Name="UserProfile" EntityType="UCEMEDbModel.UserProfile" />
+          <EntitySet Name="webpages_Membership" EntityType="UCEMEDbModel.webpages_Membership" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="UCEMEDbModel.webpages_OAuthMembership" />
+          <EntitySet Name="webpages_Roles" EntityType="UCEMEDbModel.webpages_Roles" />
+          <AssociationSet Name="webpages_UsersInRoles" Association="UCEMEDbModel.webpages_UsersInRoles">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Blog">
+          <Key>
+            <PropertyRef Name="idBlog" />
+          </Key>
+          <Property Name="idBlog" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="idUsuario" Type="Int32" Nullable="false" />
+          <Property Name="titulo" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="foto" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="texto" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="profesional" Type="Boolean" />
+          <NavigationProperty Name="Usuario" Relationship="UCEMEDbModel.FK_Blog_Usuario" FromRole="Blog" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Cita">
+          <Key>
+            <PropertyRef Name="idCita" />
+          </Key>
+          <Property Name="idCita" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="dia" Type="Int32" Nullable="false" />
+          <Property Name="hora" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="email" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="telefono" Type="String" Nullable="false" MaxLength="9" Unicode="true" FixedLength="false" />
+          <Property Name="idTurno" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Turno" Relationship="UCEMEDbModel.FK_Cita_0" FromRole="Cita" ToRole="Turno" />
+        </EntityType>
+        <EntityType Name="Companias">
+          <Key>
+            <PropertyRef Name="idCompanias" />
+          </Key>
+          <Property Name="idCompanias" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="foto" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="link" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="DatosProfesionales" Relationship="UCEMEDbModel.ProfesionalesCompanias" FromRole="Companias" ToRole="DatosProfesionales" />
+        </EntityType>
+        <EntityType Name="Curriculum">
+          <Key>
+            <PropertyRef Name="idCurriculum" />
+          </Key>
+          <Property Name="idCurriculum" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Titulo" Type="String" Nullable="false" MaxLength="350" Unicode="true" FixedLength="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="ItemCurriculum" Relationship="UCEMEDbModel.FK_ItemCurriculum_Curriculum" FromRole="Curriculum" ToRole="ItemCurriculum" />
+          <NavigationProperty Name="Usuario" Relationship="UCEMEDbModel.FK_Usuario_Curriculum" FromRole="Curriculum" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="DatosContacto">
+          <Key>
+            <PropertyRef Name="idDatosContacto" />
+          </Key>
+          <Property Name="idDatosContacto" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="telefono" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="direccion" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Usuario" Relationship="UCEMEDbModel.FK_Usuario_DatosContacto" FromRole="DatosContacto" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="DatosProfesionales">
+          <Key>
+            <PropertyRef Name="idDatosPro" />
+          </Key>
+          <Property Name="idDatosPro" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="telefono" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="direccion" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="texto" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="foto" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Turno" Relationship="UCEMEDbModel.FK_Turno_0" FromRole="DatosProfesionales" ToRole="Turno" />
+          <NavigationProperty Name="Companias" Relationship="UCEMEDbModel.ProfesionalesCompanias" FromRole="DatosProfesionales" ToRole="Companias" />
+          <NavigationProperty Name="Usuario" Relationship="UCEMEDbModel.ProfesionalUsuario" FromRole="DatosProfesionales" ToRole="Usuario" />
+          <Property Name="activo" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Documento">
+          <Key>
+            <PropertyRef Name="idDocumento" />
+          </Key>
+          <Property Name="idDocumento" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="link" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="idUsuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="UCEMEDbModel.FK_Documento_Usuario" FromRole="Documento" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Faq">
+          <Key>
+            <PropertyRef Name="idFaq" />
+          </Key>
+          <Property Name="titulo" Type="String" Nullable="false" MaxLength="350" Unicode="true" FixedLength="false" />
+          <Property Name="texto" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="idFaq" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Fotos">
+          <Key>
+            <PropertyRef Name="idFoto" />
+          </Key>
+          <Property Name="idFoto" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="texto" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="destacada" Type="Boolean" />
+          <Property Name="posicion" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ItemCurriculum">
+          <Key>
+            <PropertyRef Name="idItem" />
+          </Key>
+          <Property Name="idItem" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Titulo" Type="String" Nullable="false" MaxLength="350" Unicode="true" FixedLength="false" />
+          <Property Name="Fechas" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="Texto" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="idCurriculum" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Curriculum" Relationship="UCEMEDbModel.FK_ItemCurriculum_Curriculum" FromRole="ItemCurriculum" ToRole="Curriculum" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="idMenu" />
+          </Key>
+          <Property Name="idMenu" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="link" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="posicion" Type="Int32" Nullable="false" />
+          <Property Name="visible" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaginaAmiga">
+          <Key>
+            <PropertyRef Name="idPagina" />
+          </Key>
+          <Property Name="idPagina" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="link" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="icono" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="idRol" />
+          </Key>
+          <Property Name="idRol" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Usuario" Relationship="UCEMEDbModel.FK_Usuario_Rol" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Servicio">
+          <Key>
+            <PropertyRef Name="idServicio" />
+          </Key>
+          <Property Name="idServicio" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="foto" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="cabecera" Type="String" MaxLength="500" Unicode="true" FixedLength="true" />
+        </EntityType>
+        <EntityType Name="Tecnica">
+          <Key>
+            <PropertyRef Name="idTecnica" />
+          </Key>
+          <Property Name="idTecnica" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="titulo" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="foto" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="texto" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Termino">
+          <Key>
+            <PropertyRef Name="idTermino" />
+          </Key>
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="texto" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="foto" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="link" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="idTermino" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Turno">
+          <Key>
+            <PropertyRef Name="idTurno" />
+          </Key>
+          <Property Name="idTurno" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="dia" Type="Int32" Nullable="false" />
+          <Property Name="inicio" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="fin" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="paralelas" Type="Int32" Nullable="false" />
+          <Property Name="porhora" Type="Int32" Nullable="false" />
+          <Property Name="idHospital" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cita" Relationship="UCEMEDbModel.FK_Cita_0" FromRole="Turno" ToRole="Cita" />
+          <NavigationProperty Name="DatosProfesionales" Relationship="UCEMEDbModel.FK_Turno_0" FromRole="Turno" ToRole="DatosProfesionales" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="apellidos" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="nick" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="login" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="foto" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="ultimoupdate" Type="DateTime" Precision="3" />
+          <Property Name="idRol" Type="Int32" Nullable="false" />
+          <Property Name="idCurriculum" Type="Int32" Nullable="false" />
+          <Property Name="idDatosContacto" Type="Int32" Nullable="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="newsletter" Type="Boolean" />
+          <Property Name="linkedin" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="display_order" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Blog" Relationship="UCEMEDbModel.FK_Blog_Usuario" FromRole="Usuario" ToRole="Blog" />
+          <NavigationProperty Name="Curriculum" Relationship="UCEMEDbModel.FK_Usuario_Curriculum" FromRole="Usuario" ToRole="Curriculum" />
+          <NavigationProperty Name="DatosContacto" Relationship="UCEMEDbModel.FK_Usuario_DatosContacto" FromRole="Usuario" ToRole="DatosContacto" />
+          <NavigationProperty Name="Documento" Relationship="UCEMEDbModel.FK_Documento_Usuario" FromRole="Usuario" ToRole="Documento" />
+          <NavigationProperty Name="Rol" Relationship="UCEMEDbModel.FK_Usuario_Rol" FromRole="Usuario" ToRole="Rol" />
+          <NavigationProperty Name="DatosProfesionales" Relationship="UCEMEDbModel.ProfesionalUsuario" FromRole="Usuario" ToRole="DatosProfesionales" />
+        </EntityType>
+        <EntityType Name="Video">
+          <Key>
+            <PropertyRef Name="idVideo" />
+          </Key>
+          <Property Name="titulo" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="link" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="idVideo" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="posicion" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_Blog_Usuario">
+          <End Role="Usuario" Type="UCEMEDbModel.Usuario" Multiplicity="1" />
+          <End Role="Blog" Type="UCEMEDbModel.Blog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Blog">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cita_0">
+          <End Role="Turno" Type="UCEMEDbModel.Turno" Multiplicity="1" />
+          <End Role="Cita" Type="UCEMEDbModel.Cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turno">
+              <PropertyRef Name="idTurno" />
+            </Principal>
+            <Dependent Role="Cita">
+              <PropertyRef Name="idTurno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemCurriculum_Curriculum">
+          <End Role="Curriculum" Type="UCEMEDbModel.Curriculum" Multiplicity="1" />
+          <End Role="ItemCurriculum" Type="UCEMEDbModel.ItemCurriculum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curriculum">
+              <PropertyRef Name="idCurriculum" />
+            </Principal>
+            <Dependent Role="ItemCurriculum">
+              <PropertyRef Name="idCurriculum" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Curriculum">
+          <End Role="Curriculum" Type="UCEMEDbModel.Curriculum" Multiplicity="1" />
+          <End Role="Usuario" Type="UCEMEDbModel.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curriculum">
+              <PropertyRef Name="idCurriculum" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idCurriculum" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_DatosContacto">
+          <End Role="DatosContacto" Type="UCEMEDbModel.DatosContacto" Multiplicity="1" />
+          <End Role="Usuario" Type="UCEMEDbModel.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DatosContacto">
+              <PropertyRef Name="idDatosContacto" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idDatosContacto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_0">
+          <End Role="DatosProfesionales" Type="UCEMEDbModel.DatosProfesionales" Multiplicity="1" />
+          <End Role="Turno" Type="UCEMEDbModel.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DatosProfesionales">
+              <PropertyRef Name="idDatosPro" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="idHospital" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documento_Usuario">
+          <End Role="Usuario" Type="UCEMEDbModel.Usuario" Multiplicity="1" />
+          <End Role="Documento" Type="UCEMEDbModel.Documento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Documento">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Rol">
+          <End Role="Rol" Type="UCEMEDbModel.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="UCEMEDbModel.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="idRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ProfesionalesCompanias">
+          <End Role="Companias" Type="UCEMEDbModel.Companias" Multiplicity="*" />
+          <End Role="DatosProfesionales" Type="UCEMEDbModel.DatosProfesionales" Multiplicity="*" />
+        </Association>
+        <Association Name="ProfesionalUsuario">
+          <End Role="DatosProfesionales" Type="UCEMEDbModel.DatosProfesionales" Multiplicity="*" />
+          <End Role="Usuario" Type="UCEMEDbModel.Usuario" Multiplicity="*" />
+        </Association>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="webpages_Roles" Relationship="UCEMEDbModel.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsConfirmed" Type="Boolean" />
+          <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
+          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="webpages_OAuthMembership">
+          <Key>
+            <PropertyRef Name="Provider" />
+            <PropertyRef Name="ProviderUserId" />
+          </Key>
+          <Property Name="Provider" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderUserId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserProfile" Relationship="UCEMEDbModel.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="UserProfile" />
+        </EntityType>
+        <Association Name="webpages_UsersInRoles">
+          <End Type="UCEMEDbModel.webpages_Roles" Role="webpages_Roles" Multiplicity="*" />
+          <End Type="UCEMEDbModel.UserProfile" Role="UserProfile" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UCEMEDbModelStoreContainer" CdmEntityContainer="UCEMEDbEntities">
+          <EntitySetMapping Name="Blog">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Blog">
+              <MappingFragment StoreEntitySet="Blog">
+                <ScalarProperty Name="idBlog" ColumnName="idBlog" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="texto" ColumnName="texto" />
+                <ScalarProperty Name="profesional" ColumnName="profesional" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cita">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Cita">
+              <MappingFragment StoreEntitySet="Cita">
+                <ScalarProperty Name="idCita" ColumnName="idCita" />
+                <ScalarProperty Name="dia" ColumnName="dia" />
+                <ScalarProperty Name="hora" ColumnName="hora" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="idTurno" ColumnName="idTurno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companias">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Companias">
+              <MappingFragment StoreEntitySet="Companias">
+                <ScalarProperty Name="idCompanias" ColumnName="idCompanias" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="link" ColumnName="link" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Curriculum">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Curriculum">
+              <MappingFragment StoreEntitySet="Curriculum">
+                <ScalarProperty Name="idCurriculum" ColumnName="idCurriculum" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DatosContacto">
+            <EntityTypeMapping TypeName="UCEMEDbModel.DatosContacto">
+              <MappingFragment StoreEntitySet="DatosContacto">
+                <ScalarProperty Name="idDatosContacto" ColumnName="idDatosContacto" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DatosProfesionales">
+            <EntityTypeMapping TypeName="UCEMEDbModel.DatosProfesionales">
+              <MappingFragment StoreEntitySet="DatosProfesionales">
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="idDatosPro" ColumnName="idDatosPro" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="texto" ColumnName="texto" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documento">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Documento">
+              <MappingFragment StoreEntitySet="Documento">
+                <ScalarProperty Name="idDocumento" ColumnName="idDocumento" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Faq">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Faq">
+              <MappingFragment StoreEntitySet="Faq">
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="texto" ColumnName="texto" />
+                <ScalarProperty Name="idFaq" ColumnName="idFaq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fotos">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Fotos">
+              <MappingFragment StoreEntitySet="Fotos">
+                <ScalarProperty Name="idFoto" ColumnName="idFoto" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="texto" ColumnName="texto" />
+                <ScalarProperty Name="destacada" ColumnName="destacada" />
+                <ScalarProperty Name="posicion" ColumnName="posicion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemCurriculum">
+            <EntityTypeMapping TypeName="UCEMEDbModel.ItemCurriculum">
+              <MappingFragment StoreEntitySet="ItemCurriculum">
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="Fechas" ColumnName="Fechas" />
+                <ScalarProperty Name="Texto" ColumnName="Texto" />
+                <ScalarProperty Name="idCurriculum" ColumnName="idCurriculum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menu">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="idMenu" ColumnName="idMenu" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="posicion" ColumnName="posicion" />
+                <ScalarProperty Name="visible" ColumnName="visible" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaginaAmiga">
+            <EntityTypeMapping TypeName="UCEMEDbModel.PaginaAmiga">
+              <MappingFragment StoreEntitySet="PaginaAmiga">
+                <ScalarProperty Name="idPagina" ColumnName="idPagina" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="icono" ColumnName="icono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Servicio">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Servicio">
+              <MappingFragment StoreEntitySet="Servicio">
+                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="cabecera" ColumnName="cabecera" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tecnica">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Tecnica">
+              <MappingFragment StoreEntitySet="Tecnica">
+                <ScalarProperty Name="idTecnica" ColumnName="idTecnica" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="texto" ColumnName="texto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Termino">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Termino">
+              <MappingFragment StoreEntitySet="Termino">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="texto" ColumnName="texto" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="idTermino" ColumnName="idTermino" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Turno">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Turno">
+              <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="idTurno" ColumnName="idTurno" />
+                <ScalarProperty Name="dia" ColumnName="dia" />
+                <ScalarProperty Name="inicio" ColumnName="inicio" />
+                <ScalarProperty Name="fin" ColumnName="fin" />
+                <ScalarProperty Name="paralelas" ColumnName="paralelas" />
+                <ScalarProperty Name="porhora" ColumnName="porhora" />
+                <ScalarProperty Name="idHospital" ColumnName="idHospital" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="nick" ColumnName="nick" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="ultimoupdate" ColumnName="ultimoupdate" />
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+                <ScalarProperty Name="idCurriculum" ColumnName="idCurriculum" />
+                <ScalarProperty Name="idDatosContacto" ColumnName="idDatosContacto" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="newsletter" ColumnName="newsletter" />
+                <ScalarProperty Name="linkedin" ColumnName="linkedin" />
+                <ScalarProperty Name="display_order" ColumnName="display_order" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Video">
+            <EntityTypeMapping TypeName="UCEMEDbModel.Video">
+              <MappingFragment StoreEntitySet="Video">
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="idVideo" ColumnName="idVideo" />
+                <ScalarProperty Name="posicion" ColumnName="posicion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ProfesionalesCompanias" TypeName="UCEMEDbModel.ProfesionalesCompanias" StoreEntitySet="ProfesionalesCompanias">
+            <EndProperty Name="Companias">
+              <ScalarProperty Name="idCompanias" ColumnName="idCompanias" />
+            </EndProperty>
+            <EndProperty Name="DatosProfesionales">
+              <ScalarProperty Name="idDatosPro" ColumnName="idDatosPro" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ProfesionalUsuario" TypeName="UCEMEDbModel.ProfesionalUsuario" StoreEntitySet="ProfesionalUsuario">
+            <EndProperty Name="DatosProfesionales">
+              <ScalarProperty Name="idDatosPro" ColumnName="idDatosPro" />
+            </EndProperty>
+            <EndProperty Name="Usuario">
+              <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="UCEMEDbModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfile">
+            <EntityTypeMapping TypeName="UCEMEDbModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Membership">
+            <EntityTypeMapping TypeName="UCEMEDbModel.webpages_Membership">
+              <MappingFragment StoreEntitySet="webpages_Membership">
+                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
+                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
+                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_OAuthMembership">
+            <EntityTypeMapping TypeName="UCEMEDbModel.webpages_OAuthMembership">
+              <MappingFragment StoreEntitySet="webpages_OAuthMembership">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderUserId" ColumnName="ProviderUserId" />
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Roles">
+            <EntityTypeMapping TypeName="UCEMEDbModel.webpages_Roles">
+              <MappingFragment StoreEntitySet="webpages_Roles">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="webpages_UsersInRoles" TypeName="UCEMEDbModel.webpages_UsersInRoles" StoreEntitySet="webpages_UsersInRoles">
+            <EndProperty Name="UserProfile">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="webpages_Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

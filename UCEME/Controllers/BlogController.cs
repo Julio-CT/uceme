@@ -9,8 +9,8 @@ using System.Runtime.Serialization.Json;
 using System.Web;
 using System.Web.Mvc;
 using TweetSharp;
-using UCEME.Models;
-using UCEME.Models.ClasesVista;
+using Uceme.Model.Models;
+using Uceme.Model.Models.ClasesVista;
 using UCEME.Seguridad;
 
 namespace UCEME.Controllers
@@ -38,15 +38,6 @@ namespace UCEME.Controllers
                              }).ToList();
         }
 
-        private List<BlogVista> GetSubconjunto(int pagina = 1)
-        {
-            var skipRecords = pagina * Elementospp;
-
-            return _conjuntodata.
-                Skip(skipRecords).
-                Take(Elementospp).ToList();
-        }
-
         public ActionResult Index(int? id)
         {
             //scrolling
@@ -62,7 +53,6 @@ namespace UCEME.Controllers
             return View(data);
         }
 
-        //nuevo!! para traer un solo articulo (para cuando linkemos desde fb o tw)
         public ActionResult Uno(int id)
         {
             var data = (from o in DbContext.Blog
@@ -336,6 +326,15 @@ namespace UCEME.Controllers
             {
                 stream?.Dispose();
             }
+        }
+
+        private List<BlogVista> GetSubconjunto(int pagina = 1)
+        {
+            var skipRecords = pagina * Elementospp;
+
+            return _conjuntodata.
+                Skip(skipRecords).
+                Take(Elementospp).ToList();
         }
     }
 

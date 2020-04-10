@@ -99,7 +99,7 @@
             }
         }
 
-        public static bool ModificarCitasMedicos(Models.Cita cita)
+        public static bool ModificarCitasMedicos(Uceme.Model.Models.Cita cita)
         {
             string emailAddress = null;
             try
@@ -142,7 +142,7 @@
             }
         }
 
-        public static bool NotificarCitasMedicos(Models.Cita cita, string observaciones)
+        public static bool NotificarCitasMedicos(Uceme.Model.Models.Cita cita, string observaciones)
         {
             var emailAddress = System.Configuration.ConfigurationManager.AppSettings["credential_user"];
             try
@@ -189,7 +189,7 @@
             }
         }
 
-        public static bool NotificarCitasUsuario(Models.Cita cita, string observaciones)
+        public static bool NotificarCitasUsuario(Uceme.Model.Models.Cita cita, string observaciones)
         {
             var emailAddress = cita.email;
             try

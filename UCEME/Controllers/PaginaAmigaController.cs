@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using UCEME.Models;
+using Uceme.Model.Models;
 
 namespace UCEME.Controllers
 {

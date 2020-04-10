@@ -13,7 +13,7 @@ namespace UCEME.Seguridad
         public static int GetIdUsuario(String nombre)
         {
             var id = -1;
-            using (var db = new UCEME.Models.UCEMEDbEntities())
+            using (var db = new Uceme.Model.Models.UCEMEDbEntities())
             {
                 var firstOrDefault = db.Usuario.FirstOrDefault(o => o.login == nombre);
                 if (firstOrDefault != null)
@@ -37,7 +37,7 @@ namespace UCEME.Seguridad
         {
             var identity = new CustomIdentity();
 
-            using (var db = new UCEME.Models.UCEMEDbEntities())
+            using (var db = new Uceme.Model.Models.UCEMEDbEntities())
             {
                 //obtenemos el Hash SHA1 de la password para la busqueda en la bbdd
                 var pwSha = Utilidades.Encodificacion.GetSha1(password);

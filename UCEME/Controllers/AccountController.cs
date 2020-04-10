@@ -5,7 +5,7 @@ using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Security;
 using UCEME.Filters;
-using UCEME.Models;
+using Uceme.Model.Models;
 using WebMatrix.WebData;
 
 namespace UCEME.Controllers

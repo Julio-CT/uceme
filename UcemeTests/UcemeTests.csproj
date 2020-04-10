@@ -65,6 +65,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Uceme.Model\Uceme.Model.csproj">
+      <Project>{AB92A4EA-F934-499B-96C4-DDE9D5463FA1}</Project>
+      <Name>Uceme.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UCEME\UCEME.csproj">
       <Project>{2a1e3a8f-485b-46b3-9c7f-1f40e5e2f15a}</Project>
       <Name>UCEME</Name>

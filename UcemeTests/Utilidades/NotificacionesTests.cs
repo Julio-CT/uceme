@@ -31,21 +31,21 @@
         [TestMethod()]
         public void ModificarCitasMedicosTest()
         {
-            var sut = Utilidades.Notificaciones.ModificarCitasMedicos(new Models.Cita());
+            var sut = Utilidades.Notificaciones.ModificarCitasMedicos(new Uceme.Model.Models.Cita());
             Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void NotificarCitasMedicosTest()
         {
-            var sut = Utilidades.Notificaciones.NotificarCitasMedicos(new Models.Cita(), "AAA");
+            var sut = Utilidades.Notificaciones.NotificarCitasMedicos(new Uceme.Model.Models.Cita(), "AAA");
             Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void NotificarCitasUsuarioTest()
         {
-            var sut = Utilidades.Notificaciones.NotificarCitasUsuario(new Models.Cita(), "AAA");
+            var sut = Utilidades.Notificaciones.NotificarCitasUsuario(new Uceme.Model.Models.Cita(), "AAA");
             Assert.IsFalse(sut);
         }
     }
