@@ -9,7 +9,7 @@ namespace Uceme.Model.Models.ClasesVista
         {
             get
             {
-                return UCEME.Utilidades.DiasHoras.TimeToString(Hora);
+                return UCEME.Utilidades.DiasHoras.TimeToString(this.Hora);
             }
         }
 
@@ -18,7 +18,7 @@ namespace Uceme.Model.Models.ClasesVista
         {
             get
             {
-                return UCEME.Utilidades.DiasHoras.EuropeanDay(Dia);
+                return UCEME.Utilidades.DiasHoras.EuropeanDay(this.Dia);
             }
         }
 

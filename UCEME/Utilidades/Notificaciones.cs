@@ -33,7 +33,7 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
@@ -61,7 +61,7 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
@@ -94,7 +94,7 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
@@ -137,7 +137,7 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
@@ -152,7 +152,7 @@
                 var hora = Utilidades.DiasHoras.TimeToString(cita.hora);
                 var hospital = cita.Turno.DatosProfesionales.nombre;
                 var telefono = cita.telefono;
-                
+
                 var emailMessage = new StringBuilder();
 
                 emailMessage.Append("<br />");
@@ -184,7 +184,7 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
@@ -199,7 +199,7 @@
                 var hora = Utilidades.DiasHoras.TimeToString(cita.hora);
                 var hospital = cita.Turno.DatosProfesionales.nombre;
                 var telefono = cita.telefono;
-                
+
                 var emailMessage = new StringBuilder();
 
                 emailMessage.Append("<br />");
@@ -227,7 +227,7 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }

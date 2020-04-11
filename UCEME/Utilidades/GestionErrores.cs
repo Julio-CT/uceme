@@ -8,13 +8,13 @@ namespace UCEME.Utilidades
 {
     public static class GestionErrores
     {
-        public static void RegistroError(String msg, String pagina, String proceso)
+        public static void RegistroError(string msg, string pagina, string proceso)
         {
             var strOutputFileContents = DateTime.Now + " : " + pagina + " - " + proceso + " - " + msg;
             try
             {
                 var fecha = DateTime.Now;
-                var dia = String.Format("{0}-{1}-{2}", fecha.Day, fecha.Month, fecha.Year);
+                var dia = string.Format("{0}-{1}-{2}", fecha.Day, fecha.Month, fecha.Year);
 
                 var strFile = Path.GetFullPath(@"c:\temp\Log\Incidenciasgd-" + dia + ".txt");
 
@@ -32,7 +32,7 @@ namespace UCEME.Utilidades
             }
         }
 
-        public static void RegistroErrorEmail(String msg, String pagina, String proceso)
+        public static void RegistroErrorEmail(string msg, string pagina, string proceso)
         {
             var strOutputFileContents = DateTime.Now + " : " + pagina + " - " + proceso + " - " + msg;
 

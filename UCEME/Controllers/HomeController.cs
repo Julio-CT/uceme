@@ -8,9 +8,9 @@ namespace UCEME.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Unidad de Cirugía Endocrinometabólica Especializada.";
+            this.ViewBag.Message = "Unidad de Cirugía Endocrinometabólica Especializada.";
 
-            var data = (from o in DbContext.Usuario
+            var data = (from o in this.DbContext.Usuario
                         where o.idRol == 2
                         orderby o.display_order
                         select new MedicoMinVista
@@ -28,26 +28,26 @@ namespace UCEME.Controllers
                 data.ElementAt(i).Posicion = i;
             }
 
-            return View(data);
+            return this.View(data);
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "UCEME Web Application.";
+            this.ViewBag.Message = "UCEME Web Application.";
 
-            return View();
+            return this.View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            this.ViewBag.Message = "Your contact page.";
 
-            return View();
+            return this.View();
         }
 
         public ActionResult MostrarFotos()
         {
-            var listaFotos = (from o in DbContext.Fotos
+            var listaFotos = (from o in this.DbContext.Fotos
                               where o.destacada.Value
                               select new FotosVista
                               {
@@ -56,7 +56,7 @@ namespace UCEME.Controllers
                                   Texto = o.texto
                               }).ToList();
 
-            return View(listaFotos);
+            return this.View(listaFotos);
         }
     }
 }

@@ -7,14 +7,14 @@ namespace UCEME.Controllers
         // GET: Error
         public ActionResult NotFound()
         {
-            Response.StatusCode = 404;  //you may want to set this to 200
-            return View("NotFound");
+            this.Response.StatusCode = 404;  //you may want to set this to 200
+            return this.View("NotFound");
         }
 
         public ActionResult GenericError()
         {
-            Response.StatusCode = 500;  //you may want to set this to 200
-            return View("GenericError");
+            this.Response.StatusCode = 500;  //you may want to set this to 200
+            return this.View("GenericError");
         }
     }
 }

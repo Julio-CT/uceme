@@ -16,7 +16,7 @@
     <AssemblyName>UCEME</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -234,8 +234,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguridad\CustomIdentity.cs" />
     <Compile Include="Seguridad\CustomPrincipal.cs" />
-    <Compile Include="Seguridad\ICustomIdentity.cs" />
-    <Compile Include="Seguridad\ICustomPrincipal.cs" />
     <Compile Include="Seguridad\IdentityRepresentation.cs" />
     <Compile Include="Utilidades\ConsultasBbdd.cs" />
     <Compile Include="Utilidades\GestionErrores.cs" />
@@ -836,11 +834,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uceme.Foundation\Uceme.Foundation.csproj">
-      <Project>{1e79ba84-42a0-42bf-a43c-f61289a010c9}</Project>
+      <Project>{ff201c40-d7c1-4938-b870-8c968735f4d6}</Project>
       <Name>Uceme.Foundation</Name>
     </ProjectReference>
     <ProjectReference Include="..\Uceme.Model\Uceme.Model.csproj">
-      <Project>{ab92a4ea-f934-499b-96c4-dde9d5463fa1}</Project>
+      <Project>{613EA385-9BF3-4495-8A6D-B6F4170720CF}</Project>
       <Name>Uceme.Model</Name>
     </ProjectReference>
   </ItemGroup>
@@ -881,7 +879,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://dev.uceme</IISUrl>
+          <IISUrl>http://localhost:50668/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,5 +1,4 @@
 ﻿using System.Web.Http;
-using System.Web.Mvc;
 using Uceme.Model.Models;
 
 namespace UCEME.Controllers
@@ -10,7 +9,7 @@ namespace UCEME.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            DbContext.Dispose();
+            this.DbContext.Dispose();
             base.Dispose(disposing);
         }
     }

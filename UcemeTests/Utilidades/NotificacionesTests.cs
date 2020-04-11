@@ -10,21 +10,21 @@
         [TestMethod()]
         public void SendPasswordRetrievalTest()
         {
-            var sut = Utilidades.Notificaciones.SendPasswordRetrieval(emailTo, "AAA");
+            var sut = Utilidades.Notificaciones.SendPasswordRetrieval(this.emailTo, "AAA");
             Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void SendNewUserCreatedTest()
         {
-            var sut = Utilidades.Notificaciones.SendNewUserCreated(emailTo, "AAA");
+            var sut = Utilidades.Notificaciones.SendNewUserCreated(this.emailTo, "AAA");
             Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void EnviarCorreoContactoTest()
         {
-            var sut = Utilidades.Notificaciones.EnviarCorreoContacto(emailTo, "AAA", "BBB");
+            var sut = Utilidades.Notificaciones.EnviarCorreoContacto(this.emailTo, "AAA", "BBB");
             Assert.IsFalse(sut);
         }
 

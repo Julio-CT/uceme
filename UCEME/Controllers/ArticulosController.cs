@@ -17,7 +17,7 @@ namespace UCEME.Controllers
 
         public ArticulosController()
         {
-            _conjuntodata = (from o in DbContext.Blog
+            _conjuntodata = (from o in this.DbContext.Blog
                              where o.profesional == null || o.profesional == false
                              orderby o.fecha descending
                              select new BlogVista
@@ -45,18 +45,18 @@ namespace UCEME.Controllers
 
             var data = GetSubconjunto(pagina);
 
-            if (Request.IsAjaxRequest())
+            if (this.Request.IsAjaxRequest())
             {
-                return PartialView("Subconjunto", data);
+                return this.PartialView("Subconjunto", data);
             }
 
-            return View(data);
+            return this.View(data);
         }
 
         //nuevo!! para traer un solo articulo (para cuando linkemos desde fb o tw)
         public ActionResult Uno(int id)
         {
-            var data = (from o in DbContext.Blog
+            var data = (from o in this.DbContext.Blog
                         where o.idBlog == id
                         select new BlogVista
                         {
@@ -71,14 +71,14 @@ namespace UCEME.Controllers
                             Dia = o.fecha.Day
                         }).ToList();
 
-            return View("Index", data);
+            return this.View("Index", data);
         }
 
         [Authorize]
         public ActionResult Anadir()
         {
             var blog = new BlogVista();
-            return View(blog);
+            return this.View(blog);
         }
 
         [Authorize]
@@ -87,13 +87,13 @@ namespace UCEME.Controllers
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult Anadir(BlogVista model, HttpPostedFileBase fichero)
         {
-            if (model != null && ModelState.IsValid)
+            if (model != null && this.ModelState.IsValid)
             {
-                if (fichero == null || fichero.ContentLength <= 0) return RedirectToAction("Index", "Articulos");
+                if (fichero == null || fichero.ContentLength <= 0) return this.RedirectToAction("Index", "Articulos");
                 var cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
-                var usu = DbContext.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
+                var usu = this.DbContext.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
 
-                if (usu == null) return RedirectToAction("Index", "Articulos");
+                if (usu == null) return this.RedirectToAction("Index", "Articulos");
                 var blog = new Blog
                 {
                     idUsuario = usu.idUsuario,
@@ -104,36 +104,36 @@ namespace UCEME.Controllers
                     profesional = true
                 };
 
-                DbContext.Blog.Add(blog);
-                DbContext.SaveChanges();
+                this.DbContext.Blog.Add(blog);
+                this.DbContext.SaveChanges();
 
                 try
                 {
                     var nombre = "Articulo" + blog.idBlog;
                     var extension = fichero.FileName.Substring(fichero.FileName.LastIndexOf(".", comparisonType: StringComparison.Ordinal));
-                    var ruta = Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
+                    var ruta = this.Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
                     fichero.SaveAs(ruta);
                     blog.foto = "~/uploads/fotos/" + nombre + extension;
 
-                    DbContext.SaveChanges();
+                    this.DbContext.SaveChanges();
                 }
                 catch (Exception e)
                 {
                     //si falla el anadir la foto, borramos el elemento de la base de datos y devolvemos la vista con un error
-                    DbContext.Blog.Remove(blog);
-                    DbContext.SaveChanges();
+                    this.DbContext.Blog.Remove(blog);
+                    this.DbContext.SaveChanges();
 
-                    ModelState.AddModelError("", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
-                    return View(model);
+                    this.ModelState.AddModelError("", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
+                    return this.View(model);
                 }
             }
-            return RedirectToAction("Index", "Articulos");
+            return this.RedirectToAction("Index", "Articulos");
         }
 
         [Authorize]
         public ActionResult Editar(int id)
         {
-            var blog = (from o in DbContext.Blog
+            var blog = (from o in this.DbContext.Blog
                         where o.idBlog == id
                         select new BlogVista
                         {
@@ -146,7 +146,7 @@ namespace UCEME.Controllers
                             Texto = o.texto
                         }).FirstOrDefault();
 
-            return View(blog);
+            return this.View(blog);
         }
 
         [Authorize]
@@ -155,7 +155,7 @@ namespace UCEME.Controllers
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(BlogVista model, HttpPostedFileBase fichero)
         {
-            if (model != null && ModelState.IsValid)
+            if (model != null && this.ModelState.IsValid)
             {
                 /* Se supone que un usuario solo podrá editar sus blog asi que dejo el usuario sin modificar
                  CustomIdentity cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
@@ -163,7 +163,7 @@ namespace UCEME.Controllers
                  */
 
                 //Buscamos el blog a modificar...
-                var blog = DbContext.Blog.Find(model.IdBlog);
+                var blog = this.DbContext.Blog.Find(model.IdBlog);
 
                 blog.titulo = model.Titulo;
                 blog.texto = model.Texto;
@@ -174,15 +174,15 @@ namespace UCEME.Controllers
                     //guardamos la nueva imagen con la misma ruta que tenía antes, solo cambia el nombre
                     var nombre = "Articulo" + model.IdBlog;
                     var extension = fichero.FileName.Substring(fichero.FileName.LastIndexOf(".", comparisonType: StringComparison.Ordinal));
-                    var ruta = Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
+                    var ruta = this.Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
                     fichero.SaveAs(ruta);
                     blog.foto = "~/uploads/fotos/" + nombre + extension;
                 }
 
-                DbContext.SaveChanges();
+                this.DbContext.SaveChanges();
             }
 
-            return RedirectToAction("Index", "Articulos");
+            return this.RedirectToAction("Index", "Articulos");
         }
 
         // action para eliminar una entrada en el blog
@@ -190,20 +190,20 @@ namespace UCEME.Controllers
         public ActionResult Eliminar(int id)
         {
             //buscamos el bicho y lo eliminamos
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                var blog = DbContext.Blog.Find(id);
+                var blog = this.DbContext.Blog.Find(id);
 
                 //borramos la foto
                 var foto = blog.foto;
-                var rutacompleta = Server.MapPath("~/") + foto.Substring(2);
+                var rutacompleta = this.Server.MapPath("~/") + foto.Substring(2);
                 System.IO.File.Delete(rutacompleta);
 
-                DbContext.Blog.Remove(blog);
-                DbContext.SaveChanges();
+                this.DbContext.Blog.Remove(blog);
+                this.DbContext.SaveChanges();
             }
 
-            return Json("ok", JsonRequestBehavior.AllowGet);
+            return this.Json("ok", JsonRequestBehavior.AllowGet);
         }
 
         private static List<BlogVista> GetSubconjunto(int pagina = 1)

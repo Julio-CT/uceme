@@ -15,7 +15,7 @@ namespace UCEME.Controllers
 
         public ActionResult Index()
         {
-            var data = (from o in DbContext.Documento
+            var data = (from o in this.DbContext.Documento
                         select new DocumentosVista
                         {
                             IdDocumento = o.idDocumento,
@@ -29,20 +29,20 @@ namespace UCEME.Controllers
                 data.ElementAt(i).Posicion = i;
             }
 
-            return View(data);
+            return this.View(data);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult Subir(DocumentosVista model, HttpPostedFileBase fichero, string titulo)
         {
-            if (model != null && ModelState.IsValid)
+            if (model != null && this.ModelState.IsValid)
             {
                 ////sacamos el usuario completo
                 var cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
 
                 //sacamos el usuario completo
-                var usu = DbContext.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
+                var usu = this.DbContext.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
 
                 if (fichero != null && fichero.ContentLength > 0 && usu != null)
                 {
@@ -53,19 +53,19 @@ namespace UCEME.Controllers
                         link = "lo pongo a posteriori"
                     };
 
-                    DbContext.Documento.Add(docu);
-                    DbContext.SaveChanges();
+                    this.DbContext.Documento.Add(docu);
+                    this.DbContext.SaveChanges();
 
                     var nombreFichero = fichero.FileName;
                     var extension = nombreFichero.Substring(nombreFichero.LastIndexOf(".", StringComparison.Ordinal));
-                    var rutacompleta = Server.MapPath("~/uploads/Documentos") + @"\doc" + docu.idDocumento + extension;
+                    var rutacompleta = this.Server.MapPath("~/uploads/Documentos") + @"\doc" + docu.idDocumento + extension;
                     fichero.SaveAs(rutacompleta);
                     docu.link = "../Uploads/Documentos/doc" + docu.idDocumento + extension;
 
-                    DbContext.SaveChanges();
+                    this.DbContext.SaveChanges();
                 }
             }
-            return RedirectToAction("Index", "Documentos");
+            return this.RedirectToAction("Index", "Documentos");
         }
 
         [Authorize]
@@ -73,20 +73,20 @@ namespace UCEME.Controllers
         public ActionResult EliminarDocumento(int idItem)
         {
             //buscamos el bicho y lo eliminamos
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                var docu = DbContext.Documento.Find(idItem);
+                var docu = this.DbContext.Documento.Find(idItem);
 
                 //borramos el archivo
                 var foto = docu.link;
-                var rutacompleta = Server.MapPath("~/") + foto.Substring(2);
+                var rutacompleta = this.Server.MapPath("~/") + foto.Substring(2);
                 System.IO.File.Delete(rutacompleta);
 
                 //borramos en la bbdd
-                DbContext.Documento.Remove(docu);
-                DbContext.SaveChanges();
+                this.DbContext.Documento.Remove(docu);
+                this.DbContext.SaveChanges();
             }
-            return Json("ok", JsonRequestBehavior.AllowGet);
+            return this.Json("ok", JsonRequestBehavior.AllowGet);
         }
     }
 }

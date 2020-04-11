@@ -11,15 +11,15 @@ namespace UCEME.Controllers
 
         public ActionResult Index()
         {
-            var data = DbContext.Faq;
-            return View(data);
+            var data = this.DbContext.Faq;
+            return this.View(data);
         }
 
         [Authorize]
         public ActionResult Editar()
         {
-            var data = DbContext.Faq;
-            return View(data);
+            var data = this.DbContext.Faq;
+            return this.View(data);
         }
 
         [Authorize]
@@ -33,7 +33,7 @@ namespace UCEME.Controllers
                 //asi que unos son update y los otros insert
                 if (t.idFaq != 0)
                 {
-                    var bicho = DbContext.Faq.Find(t.idFaq);
+                    var bicho = this.DbContext.Faq.Find(t.idFaq);
                     bicho.texto = t.texto;
                     bicho.titulo = t.titulo;
                 }
@@ -44,24 +44,24 @@ namespace UCEME.Controllers
                         texto = t.texto,
                         titulo = t.titulo
                     };
-                    DbContext.Faq.Add(bicho);
+                    this.DbContext.Faq.Add(bicho);
                 }
-                DbContext.SaveChanges();
+                this.DbContext.SaveChanges();
             }
 
-            return RedirectToAction("index");
+            return this.RedirectToAction("index");
         }
 
         [Authorize]
         public ActionResult Eliminar(int id)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                var faqItem = DbContext.Faq.Find(id);
-                DbContext.Faq.Remove(faqItem);
-                DbContext.SaveChanges();
+                var faqItem = this.DbContext.Faq.Find(id);
+                this.DbContext.Faq.Remove(faqItem);
+                this.DbContext.SaveChanges();
             }
-            return Json("ok", JsonRequestBehavior.AllowGet);
+            return this.Json("ok", JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace UCEME.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
         public ActionResult Dicciopinta(string busqueda)
@@ -24,17 +24,17 @@ namespace UCEME.Controllers
 
             //si tenemos busqueda, hay que filtrar
 
-            var data = busqueda != null ? DbContext.Termino.Where(o => o.nombre.Contains(busqueda)).OrderBy(o => o.nombre).ToList() : DbContext.Termino.OrderBy(o => o.nombre).ToList();
+            var data = busqueda != null ? this.DbContext.Termino.Where(o => o.nombre.Contains(busqueda)).OrderBy(o => o.nombre).ToList() : this.DbContext.Termino.OrderBy(o => o.nombre).ToList();
 
             //creamos el abecedario
 
             var abecedario = new List<string>(new[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" });
-            ViewBag.abecedario = abecedario;
+            this.ViewBag.abecedario = abecedario;
 
             //sacamos las iniciales, la primera letra del nombre sin repetir
             var iniciales = data.OrderBy(o => o.nombre).Select(o => o.nombre.Substring(0, 1).ToUpper()).Distinct().ToList();
 
-            ViewBag.iniciales = iniciales;
+            this.ViewBag.iniciales = iniciales;
 
             var datacorto = new List<TerminoMinVista>();
             foreach (var ter in data)
@@ -43,13 +43,13 @@ namespace UCEME.Controllers
                 {
                     IdTermino = ter.idTermino,
                     Nombre = ter.nombre,
-                    Textocorto = Limpia(ter.texto.Length > 80 ? ter.texto.Substring(0, 80) : ter.texto)
+                    Textocorto = this.Limpia(ter.texto.Length > 80 ? ter.texto.Substring(0, 80) : ter.texto)
                 };
 
                 datacorto.Add(tercor);
             }
 
-            return View(datacorto);
+            return this.View(datacorto);
         }
 
         private string Limpia(string strTexto)
@@ -77,8 +77,8 @@ namespace UCEME.Controllers
                 texto = model.texto,
                 link = model.link
             };
-            DbContext.Termino.Add(ter);
-            DbContext.SaveChanges();
+            this.DbContext.Termino.Add(ter);
+            this.DbContext.SaveChanges();
 
             if (fichero != null && fichero.ContentLength > 0)
             {
@@ -87,32 +87,32 @@ namespace UCEME.Controllers
                     //guardamos el fichero de la foto con nombre ter + id
                     var nombreFichero = fichero.FileName;
                     var extension = nombreFichero.Substring(nombreFichero.LastIndexOf(".", StringComparison.Ordinal));
-                    var rutacompleta = Server.MapPath("~/uploads/fotos") + @"\ter" + ter.idTermino + extension;
+                    var rutacompleta = this.Server.MapPath("~/uploads/fotos") + @"\ter" + ter.idTermino + extension;
                     fichero.SaveAs(rutacompleta);
                     ter.foto = "~/uploads/fotos/ter" + ter.idTermino + extension;
                 }
                 catch (Exception e)
                 {
                     //si falla el anadir la foto, borramos el elemento de la base de datos y devolvemos la vista con un error
-                    DbContext.Termino.Remove(ter);
-                    DbContext.SaveChanges();
+                    this.DbContext.Termino.Remove(ter);
+                    this.DbContext.SaveChanges();
 
-                    ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
-                    return RedirectToAction("index", "Terminos");
+                    this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
+                    return this.RedirectToAction("index", "Terminos");
                 }
             }
 
-            DbContext.SaveChanges();
+            this.DbContext.SaveChanges();
 
-            return RedirectToAction("index");
+            return this.RedirectToAction("index");
         }
 
         [Authorize]
         public ActionResult Editar(int id)
         {
-            var data = DbContext.Termino.Find(id);
+            var data = this.DbContext.Termino.Find(id);
 
-            return View(data);
+            return this.View(data);
         }
 
         [Authorize]
@@ -120,7 +120,7 @@ namespace UCEME.Controllers
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(Termino model, HttpPostedFileBase fichero)
         {
-            var ter = DbContext.Termino.Find(model.idTermino);
+            var ter = this.DbContext.Termino.Find(model.idTermino);
 
             ter.nombre = model.nombre;
             ter.texto = model.texto;
@@ -131,29 +131,29 @@ namespace UCEME.Controllers
                 //guardamos el fichero de la foto con nombre ter + id
                 var nombreFichero = fichero.FileName;
                 var extension = nombreFichero.Substring(nombreFichero.LastIndexOf(".", StringComparison.Ordinal));
-                var rutacompleta = Server.MapPath("~/uploads/fotos") + @"\ter" + ter.idTermino + extension;
+                var rutacompleta = this.Server.MapPath("~/uploads/fotos") + @"\ter" + ter.idTermino + extension;
                 fichero.SaveAs(rutacompleta);
                 ter.foto = "~/uploads/fotos/comp" + ter.idTermino + extension;
             }
 
-            DbContext.SaveChanges();
+            this.DbContext.SaveChanges();
 
-            return RedirectToAction("index");
+            return this.RedirectToAction("index");
         }
 
         [Authorize]
         public ActionResult Eliminar(int id)
         {
-            var data = DbContext.Termino.Find(id);
-            DbContext.Termino.Remove(data);
-            DbContext.SaveChanges();
-            return RedirectToAction("index");
+            var data = this.DbContext.Termino.Find(id);
+            this.DbContext.Termino.Remove(data);
+            this.DbContext.SaveChanges();
+            return this.RedirectToAction("index");
         }
 
         public ActionResult Detalles(int id)
         {
-            var data = DbContext.Termino.Find(id);
-            return View(data);
+            var data = this.DbContext.Termino.Find(id);
+            return this.View(data);
         }
     }
 }

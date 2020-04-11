@@ -14,7 +14,7 @@ namespace UCEME.Controllers
 
         public ActionResult Index()
         {
-            var data = DbContext.Servicio.Select(o => new ServicioVista
+            var data = this.DbContext.Servicio.Select(o => new ServicioVista
             {
                 IdServicio = o.idServicio,
                 Nombre = o.nombre,
@@ -23,7 +23,7 @@ namespace UCEME.Controllers
                 Cabecera = o.cabecera
             });
 
-            return View(data);
+            return this.View(data);
         }
 
         [Authorize]
@@ -38,8 +38,8 @@ namespace UCEME.Controllers
                 cabecera = model.Cabecera,
             };
 
-            DbContext.Servicio.Add(ser);
-            DbContext.SaveChanges();
+            this.DbContext.Servicio.Add(ser);
+            this.DbContext.SaveChanges();
 
             if (fichero != null && fichero.ContentLength > 0)
             {
@@ -48,30 +48,30 @@ namespace UCEME.Controllers
                     //guardamos el fichero de la foto con nombre ser + id
                     var nombreFichero = fichero.FileName;
                     var extension = nombreFichero.Substring(nombreFichero.LastIndexOf(".", StringComparison.CurrentCulture));
-                    var rutacompleta = Server.MapPath("~/uploads/fotos") + @"\ser" + ser.idServicio + extension;
+                    var rutacompleta = this.Server.MapPath("~/uploads/fotos") + @"\ser" + ser.idServicio + extension;
                     fichero.SaveAs(rutacompleta);
                     ser.foto = "~/uploads/fotos/ser" + ser.idServicio + extension;
                 }
                 catch (Exception e)
                 {
                     //si falla el anadir la foto, borramos el elemento de la base de datos y devolvemos la vista con un error
-                    DbContext.Servicio.Remove(ser);
-                    DbContext.SaveChanges();
+                    this.DbContext.Servicio.Remove(ser);
+                    this.DbContext.SaveChanges();
 
-                    ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
-                    return RedirectToAction("index", "Servicios");
+                    this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
+                    return this.RedirectToAction("index", "Servicios");
                 }
             }
 
-            DbContext.SaveChanges();
+            this.DbContext.SaveChanges();
 
-            return RedirectToAction("index");
+            return this.RedirectToAction("index");
         }
 
         [Authorize]
         public ActionResult EditarServicio(int id)
         {
-            var o = DbContext.Servicio.Find(id);
+            var o = this.DbContext.Servicio.Find(id);
 
             var data = new ServicioVista
             {
@@ -82,7 +82,7 @@ namespace UCEME.Controllers
                 Cabecera = o.cabecera
             };
 
-            return View(data);
+            return this.View(data);
         }
 
         [Authorize]
@@ -90,7 +90,7 @@ namespace UCEME.Controllers
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult EditarServicio(ServicioVista model, HttpPostedFileBase fichero)
         {
-            var ser = DbContext.Servicio.Find(model.IdServicio);
+            var ser = this.DbContext.Servicio.Find(model.IdServicio);
 
             ser.nombre = model.Nombre;
             ser.text = model.Text;
@@ -101,29 +101,29 @@ namespace UCEME.Controllers
                 //guardamos el fichero de la foto con nombre ser + id
                 var nombreFichero = fichero.FileName;
                 var extension = nombreFichero.Substring(nombreFichero.LastIndexOf(".", StringComparison.CurrentCulture));
-                var rutacompleta = Server.MapPath("~/uploads/fotos") + @"\ser" + ser.idServicio + extension;
+                var rutacompleta = this.Server.MapPath("~/uploads/fotos") + @"\ser" + ser.idServicio + extension;
                 fichero.SaveAs(rutacompleta);
                 ser.foto = "~/uploads/fotos/ser" + ser.idServicio + extension;
             }
 
-            DbContext.SaveChanges();
+            this.DbContext.SaveChanges();
 
-            return RedirectToAction("index");
+            return this.RedirectToAction("index");
         }
 
         [Authorize]
         public ActionResult Eliminar(int id)
         {
-            var data = DbContext.Servicio.Find(id);
+            var data = this.DbContext.Servicio.Find(id);
 
             //borramos la foto
             var foto = data.foto;
-            var rutacompleta = Server.MapPath("~/") + foto.Substring(2);
+            var rutacompleta = this.Server.MapPath("~/") + foto.Substring(2);
             System.IO.File.Delete(rutacompleta);
 
-            DbContext.Servicio.Remove(data);
-            DbContext.SaveChanges();
-            return RedirectToAction("index");
+            this.DbContext.Servicio.Remove(data);
+            this.DbContext.SaveChanges();
+            return this.RedirectToAction("index");
         }
     }
 }

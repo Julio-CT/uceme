@@ -1,4 +1,4 @@
-﻿using System.Web.Security;
+﻿using Uceme.Foundation.Utilidades;
 
 namespace UCEME.Utilidades
 {
