@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E1ABD702-768C-4AA5-862B-825256C24A46}"
 	ProjectSection(SolutionItems) = preProject
+		Uceme.Web\Uceme.Web.csproj = Uceme.Web\Uceme.Web.csproj
 		WE-Palette.css = WE-Palette.css
 		WebEssentials-Settings.json = WebEssentials-Settings.json
 		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json
@@ -43,7 +44,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Foundation", "Uceme.F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Model", "Uceme.Model\Uceme.Model.csproj", "{613EA385-9BF3-4495-8A6D-B6F4170720CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.UI", "Uceme.UI\Uceme.UI.csproj", "{78F79E1F-F139-4C0A-B842-1322CDB595AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.UI", "Uceme.UI\Uceme.UI.csproj", "{78F79E1F-F139-4C0A-B842-1322CDB595AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
