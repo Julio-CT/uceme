@@ -1,12 +1,12 @@
-﻿using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Json;
-using System.Text;
-using System.Web;
-using System.Web.Security;
-
-namespace UCEME.Seguridad
+﻿namespace UCEME.Seguridad
 {
+    using System.IO;
+    using System.Linq;
+    using System.Runtime.Serialization.Json;
+    using System.Text;
+    using System.Web;
+    using System.Web.Security;
+
     public class CustomIdentity : ICustomIdentity
     {
         public string AuthenticationType { get; private set; }
@@ -50,13 +50,13 @@ namespace UCEME.Seguridad
             {
                 //obtenemos el Hash SHA1 de la password para la busqueda en la bbdd
                 var pwSha = Utilidades.Encodificacion.GetSha1(password);
-                var us = db.Usuario.FirstOrDefault(o => o.login == usuario && o.password == pwSha);
-                if (us != null)
+                var user = db.Usuario.FirstOrDefault(o => o.login == usuario && o.password == pwSha);
+                if (user != null)
                 {
                     identity.IsAuthenticated = true;
-                    identity.Name = us.nombre;
-                    identity.Email = us.login;
-                    identity.Roles = us.Rol.nombre;
+                    identity.Name = user.nombre;
+                    identity.Email = user.login;
+                    identity.Roles = user.Rol.nombre;
                 }
             }
 
@@ -75,28 +75,28 @@ namespace UCEME.Seguridad
 
         public static ICustomIdentity FromJson(string cookie)
         {
-            IdentityRepresentation ir;
+            IdentityRepresentation identityRepresentation;
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(cookie)))
             {
                 var jsonSerializer = new DataContractJsonSerializer(typeof(IdentityRepresentation));
 
-                ir = jsonSerializer.ReadObject(stream) as IdentityRepresentation;
+                identityRepresentation = jsonSerializer.ReadObject(stream) as IdentityRepresentation;
             }
 
-            CustomIdentity cu = null;
-            if (ir != null)
+            CustomIdentity customIdentity = null;
+            if (identityRepresentation != null)
             {
-                cu = new CustomIdentity
+                customIdentity = new CustomIdentity
                 {
-                    IsAuthenticated = ir.IsAuthenticated,
-                    Name = ir.Name,
-                    Email = ir.Email,
-                    Roles = ir.Roles,
+                    IsAuthenticated = identityRepresentation.IsAuthenticated,
+                    Name = identityRepresentation.Name,
+                    Email = identityRepresentation.Email,
+                    Roles = identityRepresentation.Roles,
                     AuthenticationType = "custom"
                 };
             }
 
-            return cu;
+            return customIdentity;
         }
 
         public string ToJson()
