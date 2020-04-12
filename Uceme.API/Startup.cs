@@ -7,7 +7,6 @@
 namespace Uceme.Api
 {
     using System;
-    using System.Data.Entity;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;

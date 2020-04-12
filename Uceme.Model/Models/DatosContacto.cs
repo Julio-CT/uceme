@@ -11,14 +11,16 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class DatosContacto
     {
         public DatosContacto()
         {
             this.Usuario = new HashSet<Usuario>();
         }
-    
+
+        [Key]
         public int idDatosContacto { get; set; }
         public string email { get; set; }
         public string telefono { get; set; }

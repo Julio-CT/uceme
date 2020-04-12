@@ -11,14 +11,16 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class UserProfile
     {
         public UserProfile()
         {
             this.webpages_Roles = new HashSet<webpages_Roles>();
         }
-    
+
+        [Key]
         public int UserId { get; set; }
         public string UserName { get; set; }
     

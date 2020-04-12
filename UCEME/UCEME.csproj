@@ -29,7 +29,7 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
-    <TypeScriptToolsVersion>3.7</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -231,10 +231,64 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Blog.cs" />
+    <Compile Include="Models\Cita.cs" />
+    <Compile Include="Models\ClasesVista\BlogVista.cs" />
+    <Compile Include="Models\ClasesVista\CambioPasswordVista.cs" />
+    <Compile Include="Models\ClasesVista\CitaVista.cs" />
+    <Compile Include="Models\ClasesVista\CompaniasSelectorVista.cs" />
+    <Compile Include="Models\ClasesVista\CompaniasVista.cs" />
+    <Compile Include="Models\ClasesVista\Contacto.cs" />
+    <Compile Include="Models\ClasesVista\DocumentosVista.cs" />
+    <Compile Include="Models\ClasesVista\FotosVista.cs" />
+    <Compile Include="Models\ClasesVista\HospitalesVista.cs" />
+    <Compile Include="Models\ClasesVista\HospitalMinVista.cs" />
+    <Compile Include="Models\ClasesVista\MedicoMinVista.cs" />
+    <Compile Include="Models\ClasesVista\MedicoVista.cs" />
+    <Compile Include="Models\ClasesVista\ServicioVista.cs" />
+    <Compile Include="Models\ClasesVista\TecnicaVista.cs" />
+    <Compile Include="Models\ClasesVista\TerminoMinVista.cs" />
+    <Compile Include="Models\ClasesVista\TurnoVista.cs" />
+    <Compile Include="Models\ClasesVista\UsuarioVista.cs" />
+    <Compile Include="Models\ClasesVista\VideosVista.cs" />
+    <Compile Include="Models\Companias.cs" />
+    <Compile Include="Models\Curriculum.cs" />
+    <Compile Include="Models\DatosContacto.cs" />
+    <Compile Include="Models\DatosProfesionales.cs" />
+    <Compile Include="Models\Documento.cs" />
+    <Compile Include="Models\Faq.cs" />
+    <Compile Include="Models\Fotos.cs" />
+    <Compile Include="Models\IdentityRepresentation.cs" />
+    <Compile Include="Models\ItemCurriculum.cs" />
+    <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\Model1.Context.cs" />
+    <Compile Include="Models\Model1.cs" />
+    <Compile Include="Models\Model1.Designer.cs">
+      <DependentUpon>Model1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model11.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PaginaAmiga.cs" />
+    <Compile Include="Models\Rol.cs" />
+    <Compile Include="Models\Servicio.cs" />
+    <Compile Include="Models\sysdiagrams.cs" />
+    <Compile Include="Models\Tecnica.cs" />
+    <Compile Include="Models\Termino.cs" />
+    <Compile Include="Models\Turno.cs" />
+    <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\UsuarioPartial.cs" />
+    <Compile Include="Models\Video.cs" />
+    <Compile Include="Models\webpages_Membership.cs" />
+    <Compile Include="Models\webpages_OAuthMembership.cs" />
+    <Compile Include="Models\webpages_Roles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguridad\CustomIdentity.cs" />
     <Compile Include="Seguridad\CustomPrincipal.cs" />
-    <Compile Include="Seguridad\IdentityRepresentation.cs" />
     <Compile Include="Utilidades\ConsultasBbdd.cs" />
     <Compile Include="Utilidades\GestionErrores.cs" />
     <Compile Include="Utilidades\Notificaciones.cs" />
@@ -427,12 +481,21 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Models\Model1.Context.tt" />
+    <Content Include="Models\Model1.tt" />
     <Content Include="package.json" />
     <None Include=".jscsrc" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model11.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\directorio.pubxml" />
     <None Include="Properties\PublishProfiles\pruebauceme - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\pruebauceme - Web Deploy.pubxml" />
@@ -837,10 +900,6 @@
       <Project>{ff201c40-d7c1-4938-b870-8c968735f4d6}</Project>
       <Name>Uceme.Foundation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Uceme.Model\Uceme.Model.csproj">
-      <Project>{613EA385-9BF3-4495-8A6D-B6F4170720CF}</Project>
-      <Name>Uceme.Model</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -879,7 +938,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50668/</IISUrl>
+          <IISUrl>http://localhost:50839/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

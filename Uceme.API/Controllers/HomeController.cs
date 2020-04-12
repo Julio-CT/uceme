@@ -4,7 +4,7 @@
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using Uceme.API.Services;
-    using Uceme.Model.Models.ClasesVista;
+    using Uceme.Model.Models;
 
     public class HomeController : SuperController
     {
@@ -18,9 +18,9 @@
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<MedicoMinVista>> GetMedicoMinVista()
+        public ActionResult<IEnumerable<Usuario>> GetMedicoMinVista()
         {
-            IEnumerable<MedicoMinVista> result;
+            IEnumerable<Usuario> result;
             try
             {
                 result = this.medicoService.GetMedicoMinVista(true);
@@ -34,9 +34,9 @@
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<FotosVista>> MostrarFotos()
+        public ActionResult<IEnumerable<Fotos>> MostrarFotos()
         {
-            IEnumerable<FotosVista> listaFotos;
+            IEnumerable<Fotos> listaFotos;
             try
             {
                 listaFotos = this.fotosService.GetFotos();

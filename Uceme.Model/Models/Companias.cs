@@ -11,14 +11,16 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Companias
     {
         public Companias()
         {
             this.DatosProfesionales = new HashSet<DatosProfesionales>();
         }
-    
+
+        [Key]
         public int idCompanias { get; set; }
         public string nombre { get; set; }
         public string foto { get; set; }

@@ -11,9 +11,11 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class ItemCurriculum
     {
+        [Key]
         public int idItem { get; set; }
         public string Titulo { get; set; }
         public string Fechas { get; set; }

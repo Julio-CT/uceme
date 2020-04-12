@@ -11,9 +11,11 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Cita
     {
+        [Key]
         public int idCita { get; set; }
         public int dia { get; set; }
         public decimal hora { get; set; }

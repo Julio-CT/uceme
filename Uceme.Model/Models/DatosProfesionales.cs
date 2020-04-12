@@ -11,7 +11,8 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class DatosProfesionales
     {
         public DatosProfesionales()
@@ -20,7 +21,8 @@ namespace Uceme.Model.Models
             this.Companias = new HashSet<Companias>();
             this.Usuario = new HashSet<Usuario>();
         }
-    
+
+        [Key]
         public int idDatosPro { get; set; }
         public string nombre { get; set; }
         public string telefono { get; set; }

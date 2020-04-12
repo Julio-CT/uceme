@@ -11,7 +11,8 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Usuario
     {
         public Usuario()
@@ -20,7 +21,8 @@ namespace Uceme.Model.Models
             this.Documento = new HashSet<Documento>();
             this.DatosProfesionales = new HashSet<DatosProfesionales>();
         }
-    
+
+        [Key]
         public int idUsuario { get; set; }
         public string nombre { get; set; }
         public string apellidos { get; set; }

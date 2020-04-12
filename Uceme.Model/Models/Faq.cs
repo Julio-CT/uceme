@@ -11,11 +11,13 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Faq
     {
         public string titulo { get; set; }
         public string texto { get; set; }
+        [Key]
         public int idFaq { get; set; }
     }
 }

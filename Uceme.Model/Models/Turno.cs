@@ -11,14 +11,16 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Turno
     {
         public Turno()
         {
             this.Cita = new HashSet<Cita>();
         }
-    
+
+        [Key]
         public int idTurno { get; set; }
         public int dia { get; set; }
         public decimal inicio { get; set; }

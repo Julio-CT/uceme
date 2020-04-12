@@ -11,9 +11,11 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Tecnica
     {
+        [Key]
         public int idTecnica { get; set; }
         public string titulo { get; set; }
         public System.DateTime fecha { get; set; }

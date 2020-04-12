@@ -11,9 +11,11 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Menu
     {
+        [Key]
         public int idMenu { get; set; }
         public string nombre { get; set; }
         public string link { get; set; }

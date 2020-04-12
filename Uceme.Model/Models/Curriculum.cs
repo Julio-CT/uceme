@@ -11,7 +11,8 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Curriculum
     {
         public Curriculum()
@@ -19,7 +20,8 @@ namespace Uceme.Model.Models
             this.ItemCurriculum = new HashSet<ItemCurriculum>();
             this.Usuario = new HashSet<Usuario>();
         }
-    
+
+        [Key]
         public int idCurriculum { get; set; }
         public string Titulo { get; set; }
         public string Text { get; set; }

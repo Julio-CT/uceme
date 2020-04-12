@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Uceme.Model.Models.ClasesVista;
+using Uceme.Model.Models;
 
 namespace Uceme.API.Services
 {
     public interface IMedicoService
     {
-        IEnumerable<MedicoMinVista> GetMedicoMinVista(bool hackOrder);
+        IEnumerable<Usuario> GetMedicoMinVista(bool hackOrder);
     }
 }
