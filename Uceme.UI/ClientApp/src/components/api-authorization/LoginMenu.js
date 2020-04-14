@@ -24,7 +24,7 @@ export class LoginMenu extends Component {
     }
 
     async populateState() {
-        const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()])
+        const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()]);
         this.setState({
             isAuthenticated,
             userName: user && user.name
@@ -53,7 +53,6 @@ export class LoginMenu extends Component {
                 <NavLink tag={Link} className="text-dark" to={logoutPath}>Logout</NavLink>
             </NavItem>
         </Fragment>);
-
     }
 
     anonymousView(registerPath, loginPath) {

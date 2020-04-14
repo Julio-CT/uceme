@@ -17,7 +17,6 @@ namespace Uceme.Model.Models
     {
         public Companias()
         {
-            this.DatosProfesionales = new HashSet<DatosProfesionales>();
         }
 
         [Key]
@@ -25,7 +24,5 @@ namespace Uceme.Model.Models
         public string nombre { get; set; }
         public string foto { get; set; }
         public string link { get; set; }
-    
-        public virtual ICollection<DatosProfesionales> DatosProfesionales { get; set; }
     }
 }

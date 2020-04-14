@@ -11,16 +11,14 @@ namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class webpages_Roles
+    
+    public partial class webpages_UsersInRoles
     {
-        public webpages_Roles()
-        {   
+        public webpages_UsersInRoles()
+        {
         }
-
-        [Key]
+    
         public int RoleId { get; set; }
-        public string RoleName { get; set; }
+        public int UserId { get; set; }
     }
 }

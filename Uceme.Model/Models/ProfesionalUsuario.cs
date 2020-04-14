@@ -13,14 +13,13 @@ namespace Uceme.Model.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public partial class webpages_Roles
+    public partial class ProfesionalUsuario
     {
-        public webpages_Roles()
-        {   
+        public ProfesionalUsuario()
+        {
         }
 
-        [Key]
-        public int RoleId { get; set; }
-        public string RoleName { get; set; }
+        public int idUsuario { get; set; }
+        public int idDatosPro { get; set; }
     }
 }

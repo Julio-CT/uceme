@@ -11,6 +11,7 @@ using Uceme.UI.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Uceme.Model.Models;
 
 namespace Uceme.UI
 {
@@ -28,7 +29,7 @@ namespace Uceme.UI
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("UcemeConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -41,6 +42,9 @@ namespace Uceme.UI
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            ////services.AddDbContext<UCEMEDbEntities>(options =>
+            ////        options.UseSqlServer(Configuration.GetConnectionString("UcemeConnection")));    
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Uceme.UI.Data;
 
 namespace Uceme.UI.Controllers
 {
@@ -20,20 +21,25 @@ namespace Uceme.UI.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public ApplicationDbContext DbContext { get; }
+
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            this.DbContext = context;
         }
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
+            var data = this.DbContext.Usuario.Select(x => x.apellidos).ToList();
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                TemperatureC = rng.Next(-20, 55), 
+                Summary = data.First()
             })
             .ToArray();
         }

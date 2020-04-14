@@ -19,7 +19,6 @@ namespace Uceme.Model.Models
         {
             this.Blog = new HashSet<Blog>();
             this.Documento = new HashSet<Documento>();
-            this.DatosProfesionales = new HashSet<DatosProfesionales>();
         }
 
         [Key]
@@ -43,6 +42,5 @@ namespace Uceme.Model.Models
         public virtual DatosContacto DatosContacto { get; set; }
         public virtual ICollection<Documento> Documento { get; set; }
         public virtual Rol Rol { get; set; }
-        public virtual ICollection<DatosProfesionales> DatosProfesionales { get; set; }
     }
 }
