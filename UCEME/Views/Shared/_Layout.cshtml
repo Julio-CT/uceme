@@ -85,15 +85,21 @@
                                 <li>@Html.ActionLink("Blog", "Index", "Blog")</li>
                                 @if (Request.IsAuthenticated)
                                 {
-                                    <li>@Html.ActionLink("Turnos", "Index", "Turnos")</li>
-                                    <li>@Html.ActionLink("Lista de Citas", "Index", "ListaCitas")</li>
-                                    <li>@Html.ActionLink("Gestion de Usuarios", "Index", "GestionUsuarios")</li>
+                                    <li class="dropdown active">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Opciones Admin<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Turnos", "Index", "Turnos")</li>
+                                            <li>@Html.ActionLink("Imagenes", "Index", "Fotos")</li>
+                                            <li>@Html.ActionLink("Lista de Citas", "Index", "ListaCitas")</li>
+                                            <li>@Html.ActionLink("Gestion de Usuarios", "Index", "GestionUsuarios")</li>
+                                        </ul>
+                                    </li>
                                 }
                                 else
                                 {
                                     <li>@Html.ActionLink("Contacto y citas", "Index", "Contacto")</li>
                                 }
-                            </ul>
+                                </ul>
                         </div>
                         <!-- /.navbar-collapse -->
                     </div>
