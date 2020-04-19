@@ -1,9 +1,9 @@
-﻿namespace Uceme.Model.Models.ClasesVista
-{
-    using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.Web.Mvc;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
+namespace UCEME.Models.ClasesVista
+{
     public class BlogVista
     {
         public int IdBlog { get; set; }
@@ -15,7 +15,7 @@
 
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Campo Fecha requerido")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Fecha { get; set; }
 
         public string Foto { get; set; }
@@ -37,7 +37,7 @@
         {
             get
             {
-                return UCEME.Utilidades.DiasHoras.MonthName(this.Mes);
+                return Utilidades.DiasHoras.MonthName(Mes);
             }
         }
     }

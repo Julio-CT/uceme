@@ -1,20 +1,20 @@
-﻿namespace UCEME.Controllers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.IO;
-    using System.Linq;
-    using System.Net;
-    using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Json;
-    using System.Web;
-    using System.Web.Mvc;
-    using TweetSharp;
-    using Uceme.Model.Models;
-    using Uceme.Model.Models.ClasesVista;
-    using UCEME.Seguridad;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Web;
+using System.Web.Mvc;
+using TweetSharp;
+using UCEME.Models;
+using UCEME.Models.ClasesVista;
+using UCEME.Seguridad;
 
+namespace UCEME.Controllers
+{
     public class BlogController : SuperController
     {
         private static List<BlogVista> _conjuntodata;
@@ -22,7 +22,7 @@
 
         public BlogController()
         {
-            _conjuntodata = (from o in this.DbContext.Blog
+            _conjuntodata = (from o in DbContext.Blog
                              orderby o.fecha descending
                              select new BlogVista
                              {
@@ -38,6 +38,15 @@
                              }).ToList();
         }
 
+        private List<BlogVista> GetSubconjunto(int pagina = 1)
+        {
+            var skipRecords = pagina * Elementospp;
+
+            return _conjuntodata.
+                Skip(skipRecords).
+                Take(Elementospp).ToList();
+        }
+
         public ActionResult Index(int? id)
         {
             //scrolling
@@ -45,17 +54,18 @@
 
             var pagina = id ?? 0;
 
-            var data = this.GetSubconjunto(pagina);
+            var data = GetSubconjunto(pagina);
 
-            if (this.Request.IsAjaxRequest())
-                return this.PartialView("Subconjunto", data);
+            if (Request.IsAjaxRequest())
+                return PartialView("Subconjunto", data);
 
-            return this.View(data);
+            return View(data);
         }
 
+        //nuevo!! para traer un solo articulo (para cuando linkemos desde fb o tw)
         public ActionResult Uno(int id)
         {
-            var data = (from o in this.DbContext.Blog
+            var data = (from o in DbContext.Blog
                         where o.idBlog == id
                         select new BlogVista
                         {
@@ -70,14 +80,14 @@
                             Dia = o.fecha.Day
                         }).ToList();
 
-            return this.View("Index", data);
+            return View("Index", data);
         }
 
         [Authorize]
         public ActionResult Anadir()
         {
             var blog = new BlogVista();
-            return this.View(blog);
+            return View(blog);
         }
 
         [Authorize]
@@ -86,55 +96,59 @@
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult Anadir(BlogVista model, HttpPostedFileBase fichero)
         {
-            if (model != null && this.ModelState.IsValid)
+            if (model != null && ModelState.IsValid)
             {
                 if (fichero != null && fichero.ContentLength > 0)
                 {
                     var cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
-                    var usu = this.DbContext.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
+                    var usu = DbContext.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
 
                     var blog = new Blog();
 
-                    if (usu != null) blog.idUsuario = usu.idUsuario;
+                    if (usu != null)
+                    {
+                        blog.idUsuario = usu.idUsuario;
+                    }
+
                     blog.titulo = model.Titulo;
                     blog.fecha = model.Fecha;
                     blog.texto = model.Texto;
                     blog.foto = "";
                     blog.profesional = false;
-                    this.DbContext.Blog.Add(blog);
-                    this.DbContext.SaveChanges();
+                    DbContext.Blog.Add(blog);
+                    DbContext.SaveChanges();
 
                     try
                     {
                         var nombre = "Blog" + blog.idBlog;
                         var extension = fichero.FileName.Substring(fichero.FileName.LastIndexOf(".", StringComparison.Ordinal));
-                        var ruta = this.Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
+                        var ruta = Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
                         fichero.SaveAs(ruta);
                         blog.foto = "~/uploads/fotos/" + nombre + extension;
 
-                        this.DbContext.SaveChanges();
+                        DbContext.SaveChanges();
 
-                        this.PublicarEnRedesSociales(blog, nombre, extension);
+                        PublicarEnRedesSociales(blog, nombre, extension);
                     }
                     catch (Exception e)
                     {
                         //si falla el anadir la foto, borramos el elemento de la base de datos y devolvemos la vista con un error
-                        this.DbContext.Blog.Remove(blog);
-                        this.DbContext.SaveChanges();
+                        DbContext.Blog.Remove(blog);
+                        DbContext.SaveChanges();
 
-                        this.ModelState.AddModelError("", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
-                        return this.View(model);
+                        ModelState.AddModelError("", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
+                        return View(model);
                     }
                 }
             }
 
-            return this.RedirectToAction("Index", "Blog");
+            return RedirectToAction("Index", "Blog");
         }
 
         [Authorize]
         public ActionResult Editar(int id)
         {
-            var blog = (from o in this.DbContext.Blog
+            var blog = (from o in DbContext.Blog
                         where o.idBlog == id
                         select new BlogVista
                         {
@@ -146,7 +160,8 @@
                             Profesional = false,
                             Texto = o.texto
                         }).FirstOrDefault();
-            return this.View(blog);
+
+            return View(blog);
         }
 
         [Authorize]
@@ -155,33 +170,30 @@
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(BlogVista model, HttpPostedFileBase fichero)
         {
-            if (model != null && this.ModelState.IsValid)
+            if (model != null && ModelState.IsValid)
             {
-                /* Se supone que un usuario solo podrá editar sus blog asi que dejo el usuario sin modificar
-                 CustomIdentity cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
-                 Usuario usu = db.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
-                 */
-
                 //Buscamos el blog a modificar...
-                var blog = this.DbContext.Blog.Find(model.IdBlog);
+                var blog = DbContext.Blog.Find(model.IdBlog);
 
                 blog.titulo = model.Titulo;
                 blog.texto = model.Texto;
                 blog.profesional = false;
+                blog.fecha = model.Fecha;
 
                 if (fichero != null && fichero.ContentLength > 0)
                 {
                     //guardamos la nueva imagen con la misma ruta que tenía antes, solo cambia el nombre
                     var nombre = string.Format("Blog{0}", model.IdBlog);
                     var extension = fichero.FileName.Substring(fichero.FileName.LastIndexOf(".", comparisonType: StringComparison.Ordinal));
-                    var ruta = this.Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
+                    var ruta = Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
                     fichero.SaveAs(ruta);
                     blog.foto = "~/uploads/fotos/" + nombre + extension;
                 }
 
-                this.DbContext.SaveChanges();
+                DbContext.SaveChanges();
             }
-            return this.RedirectToAction("Index", "Blog");
+
+            return RedirectToAction("Index", "Blog");
         }
 
         // action para eliminar una entrada en el blog
@@ -189,19 +201,19 @@
         public ActionResult Eliminar(int id)
         {
             //buscamos el bicho y lo eliminamos
-            if (this.ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var blog = this.DbContext.Blog.Find(id);
+                var blog = DbContext.Blog.Find(id);
 
                 //borramos la foto
                 var foto = blog.foto;
-                var rutacompleta = this.Server.MapPath("~/") + foto.Substring(2);
+                var rutacompleta = Server.MapPath("~/") + foto.Substring(2);
                 System.IO.File.Delete(rutacompleta);
 
-                this.DbContext.Blog.Remove(blog);
-                this.DbContext.SaveChanges();
+                DbContext.Blog.Remove(blog);
+                DbContext.SaveChanges();
             }
-            return this.Json("ok", JsonRequestBehavior.AllowGet);
+            return Json("ok", JsonRequestBehavior.AllowGet);
         }
 
         private void PublicarEnRedesSociales(Blog blog, string nombre, string extension)
@@ -317,7 +329,7 @@
                     {
                         errorMessage = errorStream.ReadToEnd();
                     }
-                    this.ModelState.AddModelError("",
+                    ModelState.AddModelError("",
                         Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorPublishingToSocialNetwork) +
                         " " + ex.Message + "" + errorMessage);
                 }
@@ -326,15 +338,6 @@
             {
                 stream?.Dispose();
             }
-        }
-
-        private List<BlogVista> GetSubconjunto(int pagina = 1)
-        {
-            var skipRecords = pagina * Elementospp;
-
-            return _conjuntodata.
-                Skip(skipRecords).
-                Take(Elementospp).ToList();
         }
     }
 
