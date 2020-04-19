@@ -11,6 +11,8 @@
 
     editarFoto(id: string): void { }
 
+    eliminarFoto(id: number): void { }
+
     constructor(path: string) {
         super(path);
 
@@ -44,6 +46,24 @@
                     location.reload();
                 }
             });
+        }
+
+        this.eliminarFoto = (id: number) => {
+            var statusConfirm = confirm('¿Realmente desea eliminar la foto?');
+            if (statusConfirm) {
+                var urlb = '/' + this.defaultPath + '/Eliminar';
+                var idIt = id;
+                $.ajax({
+                    url: urlb,
+                    data: { id: idIt },
+                    dataType: 'json',
+                    traditional: true,
+                    success: () => {
+                        alert('Foto eliminada');
+                        location.reload();
+                    }
+                });
+            }
         }
 
         this.cancelar = (id: string) => {

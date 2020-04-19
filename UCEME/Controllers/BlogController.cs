@@ -105,7 +105,11 @@ namespace UCEME.Controllers
 
                     var blog = new Blog();
 
-                    if (usu != null) blog.idUsuario = usu.idUsuario;
+                    if (usu != null)
+                    {
+                        blog.idUsuario = usu.idUsuario;
+                    }
+
                     blog.titulo = model.Titulo;
                     blog.fecha = model.Fecha;
                     blog.texto = model.Texto;
@@ -156,6 +160,7 @@ namespace UCEME.Controllers
                             Profesional = false,
                             Texto = o.texto
                         }).FirstOrDefault();
+
             return View(blog);
         }
 
@@ -167,17 +172,13 @@ namespace UCEME.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                /* Se supone que un usuario solo podrá editar sus blog asi que dejo el usuario sin modificar
-                 CustomIdentity cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
-                 Usuario usu = db.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
-                 */
-
                 //Buscamos el blog a modificar...
                 var blog = DbContext.Blog.Find(model.IdBlog);
 
                 blog.titulo = model.Titulo;
                 blog.texto = model.Texto;
                 blog.profesional = false;
+                blog.fecha = model.Fecha;
 
                 if (fichero != null && fichero.ContentLength > 0)
                 {
@@ -191,6 +192,7 @@ namespace UCEME.Controllers
 
                 DbContext.SaveChanges();
             }
+
             return RedirectToAction("Index", "Blog");
         }
 
