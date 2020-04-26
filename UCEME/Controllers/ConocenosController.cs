@@ -3,15 +3,15 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
-    using Uceme.Model.Models;
-    using Uceme.Model.Models.ClasesVista;
+    using UCEME.Models;
+    using UCEME.Models.ClasesVista;
 
     public class ConocenosController : SuperController
     {
         public ActionResult Index()
         {
             //nos traemos el usuario
-            var usrs = (from o in this.DbContext.Usuario
+            var usrs = (from o in DbContext.Usuario
                         where o.idRol == 2
                         orderby o.display_order descending
                         select o);
@@ -48,11 +48,12 @@
                     data.Add(dataItem);
                 }
 
-                return this.View(data);
+                ViewBag.ShowEditButton = false;
+                return View(data);
             }
 
             //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-            return this.Json("error buscando usuario", JsonRequestBehavior.AllowGet);
+            return Json("error buscando usuario", JsonRequestBehavior.AllowGet);
         }
     }
 }
