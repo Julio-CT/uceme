@@ -2,6 +2,7 @@
 
 @{
     Layout = null;
+    var showEditButton = ViewBag.ShowEditButton;
     var imagen = "nada";
     if (Model.Foto != null)
     {
@@ -10,7 +11,7 @@
     }
 }
 
-@if (Request.IsAuthenticated)
+@if (Request.IsAuthenticated && showEditButton)
 {
     <div class="botones" style="float: right;padding:10px;">
         <input type="button" class="editar" name="editar" id="editar" value=" " />

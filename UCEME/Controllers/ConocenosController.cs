@@ -48,6 +48,7 @@
                     data.Add(dataItem);
                 }
 
+                ViewBag.ShowEditButton = false;
                 return View(data);
             }
 

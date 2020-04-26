@@ -42,6 +42,7 @@
                     data.Curriculum.ItemCurriculum.Add(item);
                 }
 
+                ViewBag.ShowEditButton = true;
                 return View(data);
             }
 
