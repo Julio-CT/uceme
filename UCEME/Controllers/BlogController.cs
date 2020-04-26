@@ -50,7 +50,7 @@ namespace UCEME.Controllers
         public ActionResult Index(int? id)
         {
             //scrolling
-            System.Threading.Thread.Sleep(2000);
+            //System.Threading.Thread.Sleep(2000);
 
             var pagina = id ?? 0;
 
