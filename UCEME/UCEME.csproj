@@ -16,7 +16,7 @@
     <AssemblyName>UCEME</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -29,7 +29,7 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
-    <TypeScriptToolsVersion>3.7</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.8</TypeScriptToolsVersion>
     <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -78,8 +78,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.1.13153\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
     </Reference>
-    <Reference Include="Hammock.ClientProfile">
-      <HintPath>..\packages\TweetSharp.2.3.1\lib\4.0\Hammock.ClientProfile.dll</HintPath>
+    <Reference Include="Hammock.ClientProfile, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c148cfba29ed1a4d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hammock.ClientProfile.1.0.0\lib\Hammock.ClientProfile.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -200,7 +200,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ArticulosController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\CitasController.cs" />
     <Compile Include="Controllers\ConocenosController.cs" />
@@ -909,10 +908,6 @@
     <Content Include="Views\ListaCitas\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CitaVista.cshtml" />
     <Content Include="Views\Citas\Index.cshtml" />
-    <Content Include="Views\Articulos\Index.cshtml" />
-    <Content Include="Views\Articulos\Anadir.cshtml" />
-    <Content Include="Views\Articulos\Editar.cshtml" />
-    <Content Include="Views\Articulos\Subconjunto.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ArticuloVista.cshtml" />
     <Content Include="Views\Videos\Index.cshtml" />
     <Content Include="Views\Tecnicas\Index.cshtml" />
@@ -996,7 +991,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://dev.uceme</IISUrl>
+          <IISUrl>http://localhost:55262/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -2,12 +2,14 @@
 
 @{
     ViewBag.Title = "Perfil de " + Model.Nombre + " " + Model.Apellidos;
+
+    var showEditButton = ViewBag.ShowEditButton;
     var imagen = "nada";
     if (Model.Foto != null)
     {
         var srt = Model.Foto;
         imagen = Url.Content(srt);
-    }
+    };
 }
 
 <h2 class="titulo">Perfil Profesional</h2>
@@ -66,7 +68,7 @@
     <br />
     @Html.DisplayFor(model => model.Curriculum.ItemCurriculum)
 </div>
-<br/>
+<br />
 <br />
 @section scripts {
     <script src="~/Scripts/Internal/Perfiles/Index.js"async></script>

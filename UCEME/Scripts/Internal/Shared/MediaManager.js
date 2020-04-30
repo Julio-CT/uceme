@@ -44,6 +44,23 @@ var MediaManager = /** @class */ (function (_super) {
                 }
             });
         };
+        _this.eliminarFoto = function (id) {
+            var statusConfirm = confirm('¿Realmente desea eliminar la foto?');
+            if (statusConfirm) {
+                var urlb = '/' + _this.defaultPath + '/Eliminar';
+                var idIt = id;
+                $.ajax({
+                    url: urlb,
+                    data: { id: idIt },
+                    dataType: 'json',
+                    traditional: true,
+                    success: function () {
+                        alert('Foto eliminada');
+                        location.reload();
+                    }
+                });
+            }
+        };
         _this.cancelar = function (id) {
             $('#divA' + id).show();
             $('#divB' + id).hide();
@@ -66,6 +83,7 @@ var MediaManager = /** @class */ (function (_super) {
     MediaManager.prototype.cancelar = function (id) { };
     MediaManager.prototype.cancelarDialogo = function () { };
     MediaManager.prototype.editarFoto = function (id) { };
+    MediaManager.prototype.eliminarFoto = function (id) { };
     return MediaManager;
 }(ItemManager));
 //# sourceMappingURL=MediaManager.js.map

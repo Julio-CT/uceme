@@ -11,40 +11,41 @@
     var idDivM = "divM" + Model.IdFoto;
     var idDivE = "divE" + Model.IdFoto;
 
+    var idDivT = "divT" + Model.IdFoto;
+
     var pos = "p" +  Model.IdFoto;
     var idTexto = "t" + Model.IdFoto;
 
 }
 
-<div class="cont" style="float: left; width: 280px; height: 280px; margin: 15px;">
+<div class="cont" style="float: left; width: 330px; height: 330px; margin: 15px;">
 
-    <div style="width: 280px; height: 280px;" class="sombra">
+    <div style="width: 330px; height: 330px;" class="sombra">
 
-        <div style="border:none; width: 250px; height: 250px;">
+        <div style="border:none; width: 300px; height: 300px;">
 
             @if (Request.IsAuthenticated)
             {
-
-               <div id="@idDivA" class="iconos" style="margin:0;padding: 0; height: 32px; width: 250px">
-                     @if (Model.Destacada == true)
+                <div id="@idDivA" class="iconos" style="margin:0;padding: 0; height: 32px; width: 250px">
+                    @if (Model.Destacada == true)
                     {
-                         <div style="float:left; margin: 0; padding: 0; height: 32px; width: 32px;">
-                             <a href="#" onclick="mediaManager.cambiarEstrella(@idFoto)"> <img id="@idFoto" src="~/Images/destacadaSi.png" title="Destacada" /></a>
-                         </div>
+                        <div style="float:left; margin: 0; padding: 0; height: 32px; width: 32px;">
+                            <a href="#" onclick="mediaManager.cambiarEstrella(@idFoto)"> <img id="@idFoto" src="~/Images/destacadaSi.png" title="Destacada" /></a>
+                        </div>
                     }
                     else
                     {
-                       <div style="float:left; margin: 0; padding: 0; height: 32px; width: 32px">
-                        <a href="#" onclick="cambiarEstrella(@idFoto)"> <img id="@idFoto" src="~/Images/destacadaNo.png" title="Destacada" /></a>
-                       </div>
+                        <div style="float:left; margin: 0; padding: 0; height: 32px; width: 32px">
+                            <a href="#" onclick="cambiarEstrella(@idFoto)"> <img id="@idFoto" src="~/Images/destacadaNo.png" title="Destacada" /></a>
+                        </div>
                     }
-                   <div style="float:left; margin: 0; padding: 0; height: 32px; width: 32px;">
-                       <input class="editarico" type="button" onclick="mediaManager.editarFoto(@idFoto)" title="Editar" style="margin: 0; padding: 0; width: 32px; height: 32px" />
-                   </div>
-                   <div style="float:left; margin: 0; padding: 0; height: 32px; width: 32px;">
-                       <input class="eliminarico" type="button" onclick="mediaManager.eliminarFoto(@idFoto)" title="Eliminar" style="margin: 0; padding: 0; width: 32px; height: 32px" />
-                   </div>
-              </div>
+                    <div style="float:left; margin: 0; padding: 0; height: 32px; width: 32px;">
+                        <input class="editarico" type="button" onclick="mediaManager.editarFoto(@idFoto)" title="Editar" style="margin: 0; padding: 0; width: 32px; height: 32px" />
+                    </div>
+                    <div style="float:left; margin: 0; padding: 0; height: 32px; width: 32px;">
+                        <input class="eliminarico" type="button" onclick="mediaManager.eliminarFoto(@idFoto)" title="Eliminar" style="margin: 0; padding: 0; width: 32px; height: 32px" />
+                    </div>
+                </div>
 
                 <div id="@idDivB" class="iconos" style="display: none; float: right; margin:0;padding: 0; height: 32px; width: 250px">
                     <div style="float:right; margin: 0; padding: 0; height: 32px; width: 250px;">
@@ -52,7 +53,7 @@
                         <select name="@pos" id="@pos">
                             @foreach (var p in ViewBag.posiciones)
                             {
-                                if(p==@posicion)
+                                if (p == @posicion)
                                 {
                                     <OPTION selected VALUE="@p">@p</OPTION>
                                 }
@@ -63,27 +64,23 @@
                             }
                         </select>
 
-                    <div style="float:right; margin: 0; padding: 0; height: 32px; width: 32px;">
-                        <input class="cancelarico" type="button" onclick="mediaManager.cancelar(@idFoto)" title="Cancelar" style="margin: 0; padding: 0; width: 32px; height: 32px" />
-                    </div>
-                    <div style="float:right; margin: 0; padding: 0; height: 32px; width: 32px;">
-                        <input class="aceptarico" type="button" onclick="mediaManager.aceptar(@idFoto)" title="Aceptar" style="margin: 0; padding: 0; width: 32px; height: 32px" />
-                    </div>
+                        <div style="float:right; margin: 0; padding: 0; height: 32px; width: 32px;">
+                            <input class="cancelarico" type="button" onclick="mediaManager.cancelar(@idFoto)" title="Cancelar" style="margin: 0; padding: 0; width: 32px; height: 32px" />
+                        </div>
+                        <div style="float:right; margin: 0; padding: 0; height: 32px; width: 32px;">
+                            <input class="aceptarico" type="button" onclick="mediaManager.aceptar(@idFoto)" title="Aceptar" style="margin: 0; padding: 0; width: 32px; height: 32px" />
+                        </div>
                     </div>
                 </div>
             }
 
             <a href="@nombre" rel="lightbox[fotos]" title="@texto">
-                <img src="@nombre" style="border:solid; width:250px; height: 200px" /></a>
+                <img src="@nombre" style="border:solid; width:250px; height: 200px" />
+            </a>
 
-             <div id="@idDivM" style="margin: 3px;">
-                @Html.Raw(HttpUtility.HtmlDecode(@texto))<br />
+            <div id="@idDivT" style="margin: 3px;margin-top:10px;">
+                @Html.Raw(HttpUtility.HtmlDecode("http://www.endocrinologia-madrid.com" + @nombre))<br />
             </div>
-
-            <div id="@idDivE" style="display: none; margin: 3px;">
-                <input type="text" id="@idTexto" name="@idTexto" value="@texto" />
-                <br />
-            </div>
-          </div>
+        </div>
     </div>
 </div>
