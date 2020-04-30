@@ -22,48 +22,61 @@ namespace UCEME.Controllers
 
         public BlogController()
         {
-            _conjuntodata = (from o in DbContext.Blog
-                             orderby o.fecha descending
-                             select new BlogVista
-                             {
-                                 IdBlog = o.idBlog,
-                                 Usuario = o.Usuario.nombre + " " + o.Usuario.apellidos,
-                                 Titulo = o.titulo,
-                                 Fecha = o.fecha,
-                                 Foto = o.foto,
-                                 Texto = o.texto,
-                                 Ano = o.fecha.Year,
-                                 Mes = o.fecha.Month,
-                                 Dia = o.fecha.Day
-                             }).ToList();
-        }
+            if (User != null && User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                _conjuntodata = (from o in DbContext.Blog
+                                 orderby o.fecha descending
+                                 select new BlogVista
+                                 {
+                                     IdBlog = o.idBlog,
+                                     Usuario = o.Usuario.nombre + " " + o.Usuario.apellidos,
+                                     Titulo = o.titulo,
+                                     Fecha = o.fecha,
+                                     Foto = o.foto,
+                                     Texto = o.texto,
+                                     Ano = o.fecha.Year,
+                                     Mes = o.fecha.Month,
+                                     Dia = o.fecha.Day
+                                 }).ToList();
+            }
+            else
+            {
+                _conjuntodata = (from o in DbContext.Blog
+                                 where o.fecha <= DateTime.Today
+                                 orderby o.fecha descending
+                                 select new BlogVista
+                                 {
+                                     IdBlog = o.idBlog,
+                                     Usuario = o.Usuario.nombre + " " + o.Usuario.apellidos,
+                                     Titulo = o.titulo,
+                                     Fecha = o.fecha,
+                                     Foto = o.foto,
+                                     Texto = o.texto,
+                                     Ano = o.fecha.Year,
+                                     Mes = o.fecha.Month,
+                                     Dia = o.fecha.Day
+                                 }).ToList();
 
-        private List<BlogVista> GetSubconjunto(int pagina = 1)
-        {
-            var skipRecords = pagina * Elementospp;
-
-            return _conjuntodata.
-                Skip(skipRecords).
-                Take(Elementospp).ToList();
+            }
         }
 
         public ActionResult Index(int? id)
         {
-            //scrolling
-            //System.Threading.Thread.Sleep(2000);
-
             var pagina = id ?? 0;
 
             var data = GetSubconjunto(pagina);
 
             if (Request.IsAjaxRequest())
+            {
                 return PartialView("Subconjunto", data);
+            }
 
             return View(data);
         }
 
         //nuevo!! para traer un solo articulo (para cuando linkemos desde fb o tw)
-        public ActionResult Uno(int id)
+        [ActionName("singlepost")]
+        public ActionResult SinglePost(int id)
         {
             var data = (from o in DbContext.Blog
                         where o.idBlog == id
@@ -79,6 +92,8 @@ namespace UCEME.Controllers
                             Mes = o.fecha.Month,
                             Dia = o.fecha.Day
                         }).ToList();
+
+            TempData["DisableScroll"] = true;
 
             return View("Index", data);
         }
@@ -216,10 +231,25 @@ namespace UCEME.Controllers
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
 
+        private List<BlogVista> GetSubconjunto(int pagina = 1)
+        {
+            if (TempData["DisableScroll"] != null && (bool)TempData["DisableScroll"])
+            {
+                TempData["DisableScroll"] = true;
+                return null;
+            }
+
+            var skipRecords = pagina * Elementospp;
+
+            return _conjuntodata.
+                Skip(skipRecords).
+                Take(Elementospp).ToList();
+        }
+
         private void PublicarEnRedesSociales(Blog blog, string nombre, string extension)
         {
             //la direccion del nuevo post es:
-            var direccionnueva = System.Configuration.ConfigurationManager.AppSettings["url_actual"] + "/blog/uno/?id=" + blog.idBlog;
+            var direccionnueva = System.Configuration.ConfigurationManager.AppSettings["url_actual"] + "/blog/singlepost/?id=" + blog.idBlog;
             string direccioncorta = null;
             Stream stream = null;
             Stream responseStream;
