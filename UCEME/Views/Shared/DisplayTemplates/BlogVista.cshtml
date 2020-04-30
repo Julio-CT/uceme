@@ -11,7 +11,7 @@
         imagen = Url.Content(srt);
     }
 
-    var singlePost = System.Configuration.ConfigurationManager.AppSettings["url_actual"] + "/blog/uno/?id=" + id;
+    var singlePost = System.Configuration.ConfigurationManager.AppSettings["url_actual"] + "/blog/singlepost/?id=" + id;
 }
 
 @if (Request.IsAuthenticated || Model.Fecha < DateTime.Now)

@@ -14,6 +14,17 @@
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "SEO", // Route name
+                url: "{controller}/{action}/{id}/{ignoreThisBit}",
+                defaults: new
+                {
+                       controller = "Blog",
+                       action = "SinglePost",
+                       id = "",
+                       ignoreThisBit = ""
+                });
         }
     }
 }
