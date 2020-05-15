@@ -23,7 +23,9 @@
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AuthConfig.RegisterAuth();
+            AuthConfig.RegisterAuth(); 
+            
+            MvcHandler.DisableMvcResponseHeader = true; //this line is to hide mvc header
         }
 
         protected void Application_Error(object sender, EventArgs e)
@@ -48,6 +50,15 @@
                                 HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName].Value).UserData);
                 var principal = new CustomPrincipal(usp1);
                 HttpContext.Current.User = principal;
+            }
+        }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            var app = sender as HttpApplication;
+            if (app != null && app.Context != null)
+            {
+                app.Context.Response.Headers.Remove("Server");
             }
         }
     }
