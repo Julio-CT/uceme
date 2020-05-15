@@ -15,7 +15,7 @@ namespace UCEME.Models.ClasesVista
 
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Campo Fecha requerido")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Fecha { get; set; }
 
         public string Foto { get; set; }
