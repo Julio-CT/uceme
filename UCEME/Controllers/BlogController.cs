@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Json;
 using System.Web;
 using System.Web.Mvc;
 using TweetSharp;
-using UCEME.Models;
+using Uceme.Model.Models;
 using UCEME.Models.ClasesVista;
 using UCEME.Seguridad;
 

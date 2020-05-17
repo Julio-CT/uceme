@@ -103,6 +103,15 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NWebsec, Version=6.0.0.0, Culture=neutral, PublicKeyToken=3613da5f958908a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NWebsec.6.0.0\lib\net45\NWebsec.dll</HintPath>
+    </Reference>
+    <Reference Include="NWebsec.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3613da5f958908a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NWebsec.Core.3.0.0\lib\net45\NWebsec.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NWebsec.Mvc, Version=6.0.0.0, Culture=neutral, PublicKeyToken=3613da5f958908a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NWebsec.Mvc.6.0.0\lib\net45\NWebsec.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -202,7 +211,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ArticulosController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\CitasController.cs" />
     <Compile Include="Controllers\ConocenosController.cs" />
@@ -496,6 +504,9 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <None Include="NWebsecConfig\HttpHeaderSecurityModuleConfig.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\PublishProfiles\directorio.pubxml" />
     <None Include="Properties\PublishProfiles\pruebauceme - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\pruebauceme - Web Deploy.pubxml" />
@@ -845,10 +856,6 @@
     <Content Include="Views\ListaCitas\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CitaVista.cshtml" />
     <Content Include="Views\Citas\Index.cshtml" />
-    <Content Include="Views\Articulos\Index.cshtml" />
-    <Content Include="Views\Articulos\Anadir.cshtml" />
-    <Content Include="Views\Articulos\Editar.cshtml" />
-    <Content Include="Views\Articulos\Subconjunto.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ArticuloVista.cshtml" />
     <Content Include="Views\Videos\Index.cshtml" />
     <Content Include="Views\Tecnicas\Index.cshtml" />
