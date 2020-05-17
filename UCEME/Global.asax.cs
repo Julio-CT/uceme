@@ -1,15 +1,15 @@
-﻿using System;
-using System.Web;
-using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
-using System.Web.Security;
-using UCEME.Seguridad;
-using UCEME.Utilidades;
-
-namespace UCEME
+﻿namespace UCEME
 {
+    using System;
+    using System.Web;
+    using System.Web.Http;
+    using System.Web.Mvc;
+    using System.Web.Optimization;
+    using System.Web.Routing;
+    using System.Web.Security;
+    using UCEME.Seguridad;
+    using UCEME.Utilidades;
+
     // Nota: para obtener instrucciones sobre cómo habilitar el modo clásico de IIS6 o IIS7,
     // visite http://go.microsoft.com/?LinkId=9394801
 

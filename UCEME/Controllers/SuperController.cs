@@ -1,8 +1,8 @@
-﻿using System.Web.Mvc;
-using Uceme.Model.Models;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System.Web.Mvc;
+    using Uceme.Model.Models;
+
     public class SuperController : Controller
     {
         //

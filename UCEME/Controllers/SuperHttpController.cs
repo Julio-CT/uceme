@@ -1,8 +1,8 @@
-﻿using System.Web.Http;
-using Uceme.Model.Models;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System.Web.Http;
+    using Uceme.Model.Models;
+
     public class SuperHttpController : ApiController
     {
         protected UCEMEDbEntities DbContext = new UCEMEDbEntities();

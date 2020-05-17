@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace UCEME.Utilidades
+﻿namespace UCEME.Utilidades
 {
+    using System;
+    using System.IO;
+    using System.Security.Cryptography;
+    using System.Text;
+
     public static class Encodificacion
     {/// <summary>
      /// Takes a string and generates a hash value of 16 bytes.

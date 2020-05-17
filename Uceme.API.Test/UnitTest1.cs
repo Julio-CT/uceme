@@ -1,7 +1,7 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Uceme.API.Test
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class UnitTest1
     {

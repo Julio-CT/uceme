@@ -2,37 +2,36 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.Extensions.Logging;
+    using Uceme.API.Data;
     using Uceme.Model.Models;
 
     public class MedicoService : IMedicoService
     {
-        ////protected UCEMEDbEntities DbContext = new UCEMEDbEntities();
+        private readonly ILogger<FotosService> _logger;
+
+        public ApplicationDbContext DbContext { get; }
+
+        public MedicoService(ILogger<FotosService> logger, ApplicationDbContext context)
+        {
+            this._logger = logger;
+            this.DbContext = context;
+        }
 
         public IEnumerable<Usuario> GetMedicoMinVista(bool hackOrder)
         {
-            ////var data = (from o in this.DbContext.Usuario
-            ////            where o.idRol == 2
-            ////            orderby o.display_order
-            ////            select new MedicoMinVista
-            ////            {
-            ////                IdUsuario = o.idUsuario,
-            ////                Nombre = o.nombre,
-            ////                Apellidos = o.apellidos,
-            ////                Foto = o.foto,
-            ////                Titulo = o.Curriculum.Titulo,
-            ////                Posicion = o.display_order
-            ////            }).ToList();
+            var data = (from o in this.DbContext.Usuario
+                        where o.idRol == 2
+                        orderby o.display_order
+                        select new Usuario
+                        {
+                            idUsuario = o.idUsuario,
+                            nombre = o.nombre,
+                            apellidos = o.apellidos,
+                            foto = o.foto,
+                        }).ToList();
 
-            ////if (hackOrder)
-            ////{
-            ////    for (var i = 0; i < data.Count; i++)
-            ////    {
-            ////        data.ElementAt(i).Posicion = i;
-            ////    }
-            ////}
-
-            ////return data;
-            return null;
+            return data;
         }
     }
 }

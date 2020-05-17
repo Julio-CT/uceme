@@ -1,7 +1,7 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Uceme.Foundation.Utilidades
+﻿namespace Uceme.Foundation.Utilidades
 {
+    using System.Runtime.CompilerServices;
+
     //
     // Summary:
     //     Describes the result of a System.Web.Security.Membership.CreateUser(System.String,System.String)

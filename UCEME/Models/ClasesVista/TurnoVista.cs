@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Uceme.Model.Models.ClasesVista
+﻿namespace Uceme.Model.Models.ClasesVista
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class TurnoVista
     {
         [Display(Name = "Hora de inicio")]

@@ -2,11 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Uceme.API.Services;
     using Uceme.Model.Models;
 
-    public class HomeController : SuperController
+    public class HomeController : Controller
     {
         private readonly IMedicoService medicoService;
         private readonly IFotosService fotosService;
@@ -18,6 +19,7 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<Usuario>> GetMedicoMinVista()
         {
             IEnumerable<Usuario> result;
@@ -34,6 +36,7 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<Fotos>> MostrarFotos()
         {
             IEnumerable<Fotos> listaFotos;

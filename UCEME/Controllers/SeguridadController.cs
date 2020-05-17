@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
-using Uceme.Model.Models;
-using Uceme.Model.Models.ClasesVista;
-using UCEME.Seguridad;
-using UCEME.Utilidades;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Web.Mvc;
+    using Uceme.Model.Models;
+    using Uceme.Model.Models.ClasesVista;
+    using UCEME.Seguridad;
+    using UCEME.Utilidades;
+
     public class SeguridadController : Controller
     {
         //

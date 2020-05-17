@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
-
-namespace Uceme.Model.Models.ClasesVista
+﻿namespace Uceme.Model.Models.ClasesVista
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
+
     public class ServicioVista
     {
         public int IdServicio { get; set; }

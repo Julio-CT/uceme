@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
-
-namespace Uceme.Model.Models
+﻿namespace Uceme.Model.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Data.Entity;
+
     public class UsersContext : DbContext
     {
         public UsersContext()

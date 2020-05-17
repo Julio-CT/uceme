@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Uceme.Model.Models
+﻿namespace Uceme.Model.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Usuario
     {
         [Display(Name = "Recuerdame")]

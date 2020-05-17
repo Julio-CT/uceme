@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System.Web.Mvc;
+
     public class ErrorController : Controller
     {
         // GET: Error

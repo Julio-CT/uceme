@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Web;
-using System.Web.Mvc;
-using TweetSharp;
-using Uceme.Model.Models;
-using Uceme.Model.Models.ClasesVista;
-using UCEME.Seguridad;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Runtime.Serialization;
+    using System.Runtime.Serialization.Json;
+    using System.Web;
+    using System.Web.Mvc;
+    using TweetSharp;
+    using Uceme.Model.Models;
+    using Uceme.Model.Models.ClasesVista;
+    using UCEME.Seguridad;
+
     public class BlogController : SuperController
     {
         private static List<BlogVista> _conjuntodata;

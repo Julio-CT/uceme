@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using Uceme.Model.Models;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System.Collections.Generic;
+    using System.Web.Mvc;
+    using Uceme.Model.Models;
+
     public class FaqController : SuperController
     {
         //

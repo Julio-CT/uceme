@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Uceme.UI.Data;
-
-namespace Uceme.UI.Controllers
+﻿namespace Uceme.UI.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using Uceme.UI.Data;
+
     [Authorize]
     [ApiController]
     [Route("[controller]")]
@@ -25,7 +24,7 @@ namespace Uceme.UI.Controllers
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger, ApplicationDbContext context)
         {
-            _logger = logger;
+            this._logger = logger;
             this.DbContext = context;
         }
 

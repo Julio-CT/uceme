@@ -1,7 +1,7 @@
-﻿using Uceme.Foundation.Utilidades;
-
-namespace UCEME.Utilidades
+﻿namespace UCEME.Utilidades
 {
+    using Uceme.Foundation.Utilidades;
+
     public class ErrorManager
     {
         public static string ErrorCodeToString(MembershipCreateStatus createStatus)

@@ -1,8 +1,8 @@
-﻿using System.Web.Mvc;
-using Uceme.Model.Models.ClasesVista;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System.Web.Mvc;
+    using Uceme.Model.Models.ClasesVista;
+
     public class ContactoController : SuperController
     {
         //

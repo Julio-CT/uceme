@@ -1,8 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Uceme.Model.Models.ClasesVista
+﻿namespace Uceme.Model.Models.ClasesVista
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class UsuarioVista
     {
         public int IdUsuario { get; set; }

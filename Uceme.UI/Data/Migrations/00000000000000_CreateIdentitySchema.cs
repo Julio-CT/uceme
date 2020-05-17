@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace Uceme.UI.Data.Migrations
+﻿namespace Uceme.UI.Data.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class CreateIdentitySchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

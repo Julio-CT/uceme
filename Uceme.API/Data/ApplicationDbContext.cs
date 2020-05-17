@@ -1,10 +1,10 @@
-﻿namespace Uceme.UI.Data
+﻿namespace Uceme.API.Data
 {
-    using Uceme.UI.Models;
     using IdentityServer4.EntityFramework.Options;
     using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
+    using Uceme.API.Data.Models;
     using Uceme.Model.Models;
 
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>

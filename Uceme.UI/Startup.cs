@@ -1,25 +1,21 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.EntityFrameworkCore;
-using Uceme.UI.Data;
-using Uceme.UI.Models;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Uceme.Model.Models;
-
 namespace Uceme.UI
 {
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+    using Microsoft.EntityFrameworkCore;
+    using Uceme.UI.Data;
+    using Uceme.UI.Models;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -29,7 +25,7 @@ namespace Uceme.UI
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("UcemeConnection")));
+                    this.Configuration.GetConnectionString("UcemeConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -40,11 +36,15 @@ namespace Uceme.UI
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             services.AddControllersWithViews();
             services.AddRazorPages();
-
-            ////services.AddDbContext<UCEMEDbEntities>(options =>
-            ////        options.UseSqlServer(Configuration.GetConnectionString("UcemeConnection")));    
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -66,6 +66,11 @@ namespace Uceme.UI
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+            }
+
+            if (env.IsDevelopment() || env.IsStaging())
+            {
+                app.UseCors("CorsPolicy");
             }
 
             app.UseHttpsRedirection();

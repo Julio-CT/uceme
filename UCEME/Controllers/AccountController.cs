@@ -1,15 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Transactions;
-using System.Web.Mvc;
-using System.Web.Security;
-using Microsoft.Web.WebPages.OAuth;
-using Uceme.Model.Models;
-using UCEME.Filters;
-using WebMatrix.WebData;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Transactions;
+    using System.Web.Mvc;
+    using System.Web.Security;
+    using Microsoft.Web.WebPages.OAuth;
+    using Uceme.Model.Models;
+    using UCEME.Filters;
+    using WebMatrix.WebData;
+
     [Authorize]
     [InitializeSimpleMembership]
     public class AccountController : Controller

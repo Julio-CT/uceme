@@ -1,10 +1,10 @@
-﻿using System;
-using System.Security.Principal;
-using System.Web;
-using System.Web.Security;
-
-namespace UCEME.Seguridad
+﻿namespace UCEME.Seguridad
 {
+    using System;
+    using System.Security.Principal;
+    using System.Web;
+    using System.Web.Security;
+
     public class CustomPrincipal : ICustomPrincipal
     {
         public CustomPrincipal()

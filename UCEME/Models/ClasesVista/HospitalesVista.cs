@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-
-namespace Uceme.Model.Models.ClasesVista
+﻿namespace Uceme.Model.Models.ClasesVista
 {
+    using System.Collections.Generic;
+    using System.Web.Mvc;
+
     public class HospitalesVista
     {
         public string IdHospital { get; set; }

@@ -242,19 +242,21 @@
             email.Body = emailMessage.ToString();
             email.IsBodyHtml = true;
 
-            var smtpServer = new SmtpClient();
-            var host = System.Configuration.ConfigurationManager.AppSettings["host_SMTP"];
-            smtpServer.Host = host;
+            using (var smtpServer = new SmtpClient())
+            {
+                var host = System.Configuration.ConfigurationManager.AppSettings["host_SMTP"];
+                smtpServer.Host = host;
 
-            var port = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["port_SMTP"]);
-            smtpServer.Port = port;
+                var port = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["port_SMTP"]);
+                smtpServer.Port = port;
 
-            //hasta configurar la cuanta de envio, supongo que con las credenciales de esta, será valida
-            var credUser = System.Configuration.ConfigurationManager.AppSettings["credential_user"];
-            var credPassw = System.Configuration.ConfigurationManager.AppSettings["credential_password"];
-            smtpServer.Credentials = new NetworkCredential(credUser, credPassw);
-            smtpServer.EnableSsl = true;
-            smtpServer.Send(email);
+                //hasta configurar la cuanta de envio, supongo que con las credenciales de esta, será valida
+                var credUser = System.Configuration.ConfigurationManager.AppSettings["credential_user"];
+                var credPassw = System.Configuration.ConfigurationManager.AppSettings["credential_password"];
+                smtpServer.Credentials = new NetworkCredential(credUser, credPassw);
+                smtpServer.EnableSsl = true;
+                smtpServer.Send(email);
+            }
         }
     }
 }

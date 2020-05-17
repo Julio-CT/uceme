@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Program.cs" company="Calrom Limited">
-// Copyright (c) Calrom Limited. All rights reserved.
+// <copyright file="Program.cs" company="JCT Software">
+// Copyright (c) JCT Software. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
