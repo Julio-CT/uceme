@@ -8,8 +8,8 @@ namespace Uceme.UI
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Uceme.UI.Data;
-    using Uceme.UI.Models;
+    using Uceme.API.Data;
+    using Uceme.API.Data.Models;
 
     public class Startup
     {
