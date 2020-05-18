@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using UCEME.Models.ClasesVista;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System.Linq;
+    using System.Web.Mvc;
+    using Uceme.Model.Models.ClasesVista;
+
     public class ListaCitasController : SuperController
     {
         //
@@ -12,21 +12,21 @@ namespace UCEME.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            var data = DbContext.Cita.OrderBy(o => o.Turno.idHospital).ThenBy(o => o.dia).ThenBy(o => o.hora)
+            var data = this.DbContext.Cita.OrderBy(o => o.Turno.idHospital).ThenBy(o => o.dia).ThenBy(o => o.hora)
                 .Select(o => new CitaVista { IdCita = o.idCita, Dia = o.dia, Hora = o.hora, Nombre = o.nombre, Email = o.email, Telefono = o.telefono, Hospital = o.Turno.DatosProfesionales.nombre, IdTurno = o.idTurno });
-            return View(data);
+            return this.View(data);
         }
 
         [Authorize]
         public ActionResult Eliminar(int id)
         {
-            var cita = DbContext.Cita.Find(id);
+            var cita = this.DbContext.Cita.Find(id);
 
-            DbContext.Cita.Remove(cita);
+            this.DbContext.Cita.Remove(cita);
 
-            DbContext.SaveChanges();
+            this.DbContext.SaveChanges();
 
-            return Json("ok", JsonRequestBehavior.AllowGet);
+            return this.Json("ok", JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -5,14 +5,14 @@
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
-    using UCEME.Models;
-    using UCEME.Models.ClasesVista;
+    using Uceme.Model.Models;
+    using Uceme.Model.Models.ClasesVista;
 
     public class HospitalesController : SuperController
     {
         public ActionResult Index()
         {
-            var hospi = DbContext.DatosProfesionales.Where(x => x.activo.HasValue && x.activo.Value).Select(o => o);
+            var hospi = this.DbContext.DatosProfesionales.Where(x => x.activo.HasValue && x.activo.Value).Select(o => o);
 
             var data = new List<HospitalesVista>();
             foreach (var o in hospi)
@@ -53,7 +53,7 @@
                 data.Add(item);
             }
 
-            return View(data);
+            return this.View(data);
         }
 
         [Authorize]
@@ -70,8 +70,8 @@
                 texto = texto
             };
 
-            DbContext.DatosProfesionales.Add(hop);
-            DbContext.SaveChanges();
+            this.DbContext.DatosProfesionales.Add(hop);
+            this.DbContext.SaveChanges();
 
             if (fichero != null && fichero.ContentLength > 0)
             {
@@ -80,24 +80,24 @@
                     //guardamos el fichero de la foto con nombre hosp + id
                     var nombreFichero = fichero.FileName;
                     var extension = nombreFichero.Substring(nombreFichero.LastIndexOf(".", StringComparison.Ordinal));
-                    var rutacompleta = Server.MapPath("~/uploads/fotos") + @"\hosp" + hop.idDatosPro + extension;
+                    var rutacompleta = this.Server.MapPath("~/uploads/fotos") + @"\hosp" + hop.idDatosPro + extension;
                     fichero.SaveAs(rutacompleta);
                     hop.foto = "~/uploads/fotos/hosp" + hop.idDatosPro + extension;
                 }
                 catch (Exception e)
                 {
                     //si falla el anadir la foto, borramos el elemento de la base de datos y devolvemos la vista con un error
-                    DbContext.DatosProfesionales.Remove(hop);
-                    DbContext.SaveChanges();
+                    this.DbContext.DatosProfesionales.Remove(hop);
+                    this.DbContext.SaveChanges();
 
-                    ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
-                    return RedirectToAction("index", "Hospitales");
+                    this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
+                    return this.RedirectToAction("index", "Hospitales");
                 }
             }
 
-            DbContext.SaveChanges();
+            this.DbContext.SaveChanges();
 
-            return RedirectToAction("index");
+            return this.RedirectToAction("index");
         }
 
         [Authorize]
@@ -112,8 +112,8 @@
                 foto = ""
             };
 
-            DbContext.Companias.Add(comp);
-            DbContext.SaveChanges();
+            this.DbContext.Companias.Add(comp);
+            this.DbContext.SaveChanges();
 
             if (fichero != null && fichero.ContentLength > 0)
             {
@@ -122,24 +122,24 @@
                     //guardamos el fichero de la foto con nombre comp + id
                     var nombreFichero = fichero.FileName;
                     var extension = nombreFichero.Substring(nombreFichero.LastIndexOf(".", StringComparison.CurrentCulture));
-                    var rutacompleta = Server.MapPath("~/uploads/fotos") + @"\comp" + comp.idCompanias + extension;
+                    var rutacompleta = this.Server.MapPath("~/uploads/fotos") + @"\comp" + comp.idCompanias + extension;
                     fichero.SaveAs(rutacompleta);
                     comp.foto = "~/uploads/fotos/comp" + comp.idCompanias + extension;
                 }
                 catch (Exception e)
                 {
                     //si falla el anadir la foto, borramos el elemento de la base de datos y devolvemos la vista con un error
-                    DbContext.Companias.Remove(comp);
-                    DbContext.SaveChanges();
+                    this.DbContext.Companias.Remove(comp);
+                    this.DbContext.SaveChanges();
 
-                    ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
-                    return RedirectToAction("index", "Hospitales");
+                    this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
+                    return this.RedirectToAction("index", "Hospitales");
                 }
             }
 
-            DbContext.SaveChanges();
+            this.DbContext.SaveChanges();
 
-            return RedirectToAction("index");
+            return this.RedirectToAction("index");
         }
 
         [Authorize]
@@ -147,7 +147,7 @@
         {
             try
             {
-                var hospitalABorrar = DbContext.DatosProfesionales.Find(id);
+                var hospitalABorrar = this.DbContext.DatosProfesionales.Find(id);
 
                 //nos debemos cargar todos los turnos que le cuelgan
                 var listaturnos = hospitalABorrar.Turno.ToList();
@@ -155,27 +155,27 @@
                 {
                     var idTurno = turno.idTurno;
                     //nos cargamos las citas que tenia ese turno
-                    var listacitas = DbContext.Cita.Where(o => o.idTurno == idTurno).ToList();
+                    var listacitas = this.DbContext.Cita.Where(o => o.idTurno == idTurno).ToList();
 
                     foreach (var cita in listacitas)
                     {
                         if (UCEME.Utilidades.Notificaciones.ModificarCitasMedicos(cita))
                         {
-                            DbContext.Cita.Remove(cita);
+                            this.DbContext.Cita.Remove(cita);
                         }
                         else
                         {
                             //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-                            return Json("error eliminando citas", JsonRequestBehavior.AllowGet);
+                            return this.Json("error eliminando citas", JsonRequestBehavior.AllowGet);
                         }
                     }
                     //nos cargamos el turno
-                    DbContext.Turno.Remove(turno);
+                    this.DbContext.Turno.Remove(turno);
                 }
 
                 //borramos la foto
                 var foto = hospitalABorrar.foto;
-                var rutacompleta = Server.MapPath("~/") + foto.Substring(2);
+                var rutacompleta = this.Server.MapPath("~/") + foto.Substring(2);
                 try
                 {
                     System.IO.File.Delete(rutacompleta);
@@ -190,15 +190,15 @@
 
                 //nos cargamos el hospital
                 hospitalABorrar.activo = false;
-                DbContext.SaveChanges();
+                this.DbContext.SaveChanges();
             }
             catch (Exception e)
             {
                 //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-                return Json(string.Format("error eliminando hospital {0}", e.Message), JsonRequestBehavior.AllowGet);
+                return this.Json(string.Format("error eliminando hospital {0}", e.Message), JsonRequestBehavior.AllowGet);
             }
 
-            return RedirectToAction("index");
+            return this.RedirectToAction("index");
         }
 
         [Authorize]
@@ -206,7 +206,7 @@
         {
             try
             {
-                var companiaABorrar = DbContext.Companias.Find(id);
+                var companiaABorrar = this.DbContext.Companias.Find(id);
 
                 //nos debemos cargar todos los hospitales que le cuelgan
                 var listahospitales = companiaABorrar.DatosProfesionales.ToList();
@@ -218,7 +218,7 @@
 
                 //borramos la foto
                 var foto = companiaABorrar.foto;
-                var rutacompleta = Server.MapPath("~/") + foto.Substring(2);
+                var rutacompleta = this.Server.MapPath("~/") + foto.Substring(2);
                 try
                 {
                     System.IO.File.Delete(rutacompleta);
@@ -226,15 +226,15 @@
                 catch { }
 
                 //nos cargamos el hospital
-                DbContext.Companias.Remove(companiaABorrar);
-                DbContext.SaveChanges();
+                this.DbContext.Companias.Remove(companiaABorrar);
+                this.DbContext.SaveChanges();
             }
             catch (Exception e)
             {
                 //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-                return Json(string.Format("error eliminando compañia {0}", e.Message), JsonRequestBehavior.AllowGet);
+                return this.Json(string.Format("error eliminando compañia {0}", e.Message), JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("index");
+            return this.RedirectToAction("index");
         }
 
         [Authorize]
@@ -244,7 +244,7 @@
             {
                 var hospitalAEditar = new DatosProfesionales { idDatosPro = Convert.ToInt32(id) };
                 var hospital =
-                    (DbContext.DatosProfesionales.Where(o => o.idDatosPro == hospitalAEditar.idDatosPro)
+                    (this.DbContext.DatosProfesionales.Where(o => o.idDatosPro == hospitalAEditar.idDatosPro)
                         .Select(o => new HospitalesVista
                         {
                             IdHospital = id,
@@ -258,11 +258,11 @@
 
 
                 var hospitalCompania = new DatosProfesionales { idDatosPro = Convert.ToInt32(id) };
-                hospitalCompania = DbContext.DatosProfesionales.Find(hospitalCompania.idDatosPro);
+                hospitalCompania = this.DbContext.DatosProfesionales.Find(hospitalCompania.idDatosPro);
                 var listaCompanias = hospitalCompania.Companias.Select(o => o.idCompanias);
 
                 //sacamos las categorias y las añadimos a la lista
-                List<CompaniasSelectorVista> ieCompanias = (DbContext.Companias.Select(comp => new CompaniasSelectorVista
+                List<CompaniasSelectorVista> ieCompanias = (this.DbContext.Companias.Select(comp => new CompaniasSelectorVista
                 {
                     IdCompanias = comp.idCompanias,
                     Nombre = comp.nombre,
@@ -271,12 +271,12 @@
 
                 hospital.ListaCompanias = ieCompanias;
 
-                return View(hospital);
+                return this.View(hospital);
             }
             catch (Exception e)
             {
                 //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-                return Json(string.Format("error editando hospital {0}", e.Message), JsonRequestBehavior.AllowGet);
+                return this.Json(string.Format("error editando hospital {0}", e.Message), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -288,7 +288,7 @@
             try
             {
                 var hospitalAEditar = new DatosProfesionales { idDatosPro = Convert.ToInt32(model.IdHospital) };
-                hospitalAEditar = DbContext.DatosProfesionales.Find(hospitalAEditar.idDatosPro);
+                hospitalAEditar = this.DbContext.DatosProfesionales.Find(hospitalAEditar.idDatosPro);
 
                 hospitalAEditar.nombre = model.Nombre;
                 hospitalAEditar.telefono = model.Telefono;
@@ -301,7 +301,7 @@
                     //guardamos el fichero de la foto con nombre hosp + id
                     var nombreFichero = fichero.FileName;
                     var extension = nombreFichero.Substring(nombreFichero.LastIndexOf(".", StringComparison.CurrentCulture));
-                    var rutacompleta = Server.MapPath("~/uploads/fotos") + @"\" + model.IdHospital + extension;
+                    var rutacompleta = this.Server.MapPath("~/uploads/fotos") + @"\" + model.IdHospital + extension;
                     fichero.SaveAs(rutacompleta);
                     hospitalAEditar.foto = "~/uploads/fotos/" + model.IdHospital + extension;
                 }
@@ -315,27 +315,27 @@
                 for (var i = 6; i < coleccion.Count; i++)
                 {
                     var id = Convert.ToInt32(coleccion.GetKey(i));
-                    var co = DbContext.Companias.Find(id);
+                    var co = this.DbContext.Companias.Find(id);
                     hospitalAEditar.Companias.Add(co);
                 }
 
-                DbContext.SaveChanges();
+                this.DbContext.SaveChanges();
 
-                return RedirectToAction("index");
+                return this.RedirectToAction("index");
             }
             catch (Exception e)
             {
                 //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-                return Json(string.Format("error editando hospital {0}", e.Message), JsonRequestBehavior.AllowGet);
+                return this.Json(string.Format("error editando hospital {0}", e.Message), JsonRequestBehavior.AllowGet);
             }
         }
 
         [Authorize]
         public ActionResult EditarCompania(int id)
         {
-            var data = DbContext.Companias.Find(id);
+            var data = this.DbContext.Companias.Find(id);
 
-            return View(data);
+            return this.View(data);
         }
 
         [Authorize]
@@ -345,7 +345,7 @@
         {
             try
             {
-                var comp = DbContext.Companias.Find(model.idCompanias);
+                var comp = this.DbContext.Companias.Find(model.idCompanias);
 
                 comp.nombre = model.nombre;
                 comp.link = model.link;
@@ -355,19 +355,19 @@
                     //guardamos el fichero de la foto con nombre comp + id
                     var nombreFichero = fichero.FileName;
                     var extension = nombreFichero.Substring(nombreFichero.LastIndexOf(".", StringComparison.CurrentCulture));
-                    var rutacompleta = Server.MapPath("~/uploads/fotos") + @"\comp" + comp.idCompanias + extension;
+                    var rutacompleta = this.Server.MapPath("~/uploads/fotos") + @"\comp" + comp.idCompanias + extension;
                     fichero.SaveAs(rutacompleta);
                     comp.foto = "~/uploads/fotos/comp" + comp.idCompanias + extension;
                 }
 
-                DbContext.SaveChanges();
+                this.DbContext.SaveChanges();
 
-                return RedirectToAction("index");
+                return this.RedirectToAction("index");
             }
             catch (Exception e)
             {
                 //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-                return Json(string.Format("error editando compañia {0}", e.Message), JsonRequestBehavior.AllowGet);
+                return this.Json(string.Format("error editando compañia {0}", e.Message), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -376,17 +376,17 @@
             try
             {
                 var hospital = new DatosProfesionales { idDatosPro = Convert.ToInt32(id) };
-                hospital = DbContext.DatosProfesionales.Find(hospital.idDatosPro);
+                hospital = this.DbContext.DatosProfesionales.Find(hospital.idDatosPro);
                 var listaCompanias = hospital.Companias.Select(o => o.idCompanias);
 
-                return Json(listaCompanias, JsonRequestBehavior.AllowGet);
+                return this.Json(listaCompanias, JsonRequestBehavior.AllowGet);
             }
 #pragma warning disable CS0168 // La variable 'e' se ha declarado pero nunca se usa
             catch (Exception e)
 #pragma warning restore CS0168 // La variable 'e' se ha declarado pero nunca se usa
             {
                 //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-                return Json("error listando compañias", JsonRequestBehavior.AllowGet);
+                return this.Json("error listando compañias", JsonRequestBehavior.AllowGet);
             }
         }
     }

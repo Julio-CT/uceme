@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
-using UCEME.Models;
-using UCEME.Models.ClasesVista;
-using UCEME.Seguridad;
-using UCEME.Utilidades;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Web.Mvc;
+    using Uceme.Model.Models;
+    using Uceme.Model.Models.ClasesVista;
+    using UCEME.Seguridad;
+    using UCEME.Utilidades;
+
     public class SeguridadController : Controller
     {
         //
@@ -16,7 +16,7 @@ namespace UCEME.Controllers
         public ActionResult Login()
         {
             var usu = new Usuario();
-            return View(usu);
+            return this.View(usu);
         }
 
         [HttpPost]
@@ -28,9 +28,9 @@ namespace UCEME.Controllers
                 if (CustomPrincipal.Login(model.login, model.password, model.Recordar))
                 {
                     //si son validos, retornamos a la pagina de la que viniesemos
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/", StringComparison.CurrentCulture) && !returnUrl.StartsWith("//", StringComparison.CurrentCulture) && !returnUrl.StartsWith("/\\", StringComparison.CurrentCulture))
+                    if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/", StringComparison.CurrentCulture) && !returnUrl.StartsWith("//", StringComparison.CurrentCulture) && !returnUrl.StartsWith("/\\", StringComparison.CurrentCulture))
                     {
-                        return Redirect(returnUrl);
+                        return this.Redirect(returnUrl);
                     }
 
                     ////var cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
@@ -38,46 +38,46 @@ namespace UCEME.Controllers
                     //distinguimos entre un tipo de usuario y otro y redirigimos
                     if (System.Web.HttpContext.Current.User.IsInRole("SuperAdmin"))
                     {
-                        return RedirectToAction("Index", "GestionUsuarios");
+                        return this.RedirectToAction("Index", "GestionUsuarios");
                     }
 
-                    return RedirectToAction("Index", "home");
+                    return this.RedirectToAction("Index", "home");
                 }
                 //si no son validos, datos incorrectos
-                ModelState.AddModelError("", "Datos incorrectos");
+                this.ModelState.AddModelError("", "Datos incorrectos");
             }
-            return View(model);
+            return this.View(model);
         }
 
         public ActionResult Logout()
         {
             CustomPrincipal.LogOut();
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public ActionResult EmailEnviado()
         {
-            return View();
+            return this.View();
         }
 
         [HttpGet]
         public ActionResult ErrorRecovery()
         {
-            return View();
+            return this.View();
         }
 
         [HttpGet]
         public ActionResult PasswordRecovery()
         {
-            ViewBag.error = "";
-            return View();
+            this.ViewBag.error = "";
+            return this.View();
         }
 
         [HttpPost]
         public ActionResult PasswordRecovery(Usuario model)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 var username = CustomIdentity.GetIdUsuario(model.login);
 
@@ -91,19 +91,19 @@ namespace UCEME.Controllers
                     var retorno = Notificaciones.SendPasswordRetrieval(model.login, token);
                     if (!retorno)
                     {
-                        ViewBag.error = "ErrorEnviandoNotification";
-                        return View();
+                        this.ViewBag.error = "ErrorEnviandoNotification";
+                        return this.View();
                     }
 
-                    return RedirectToAction("EmailEnviado", "Seguridad");
+                    return this.RedirectToAction("EmailEnviado", "Seguridad");
                 }
 
-                System.Diagnostics.Trace.WriteLine(String.Format("*** WARNING:  A user tried to retrieve their password but the email address used '{0}' does not exist in the database.", model.login));
-                ViewBag.error = "error";
-                return View();
+                System.Diagnostics.Trace.WriteLine(string.Format("*** WARNING:  A user tried to retrieve their password but the email address used '{0}' does not exist in the database.", model.login));
+                this.ViewBag.error = "error";
+                return this.View();
             }
 
-            return View(model);
+            return this.View(model);
         }
 
         [HttpGet]
@@ -124,19 +124,19 @@ namespace UCEME.Controllers
                     //redirigimos a la vista de recuperar password
                     var pass = new CambioPasswordVista { UsuarioActual = usu.login };
 
-                    return View(pass);
+                    return this.View(pass);
                 }
                 //las passwords no coinciden
-                return RedirectToAction("ErrorRecovery", "Seguridad");
+                return this.RedirectToAction("ErrorRecovery", "Seguridad");
             }
             //esta mal el email
-            return RedirectToAction("ErrorRecovery", "Seguridad");
+            return this.RedirectToAction("ErrorRecovery", "Seguridad");
         }
 
         [HttpPost]
         public ActionResult Validate(CambioPasswordVista model)
         {
-            if (model != null && ModelState.IsValid)
+            if (model != null && this.ModelState.IsValid)
             {
                 //recuperamos el usuario y guardamos la password nueva
                 var username = CustomIdentity.GetIdUsuario(model.UsuarioActual);
@@ -151,8 +151,8 @@ namespace UCEME.Controllers
                     else
                     {
                         //las passwords no coindiden
-                        ViewBag.error = "UsuarioNoEncontrado";
-                        return View(model);
+                        this.ViewBag.error = "UsuarioNoEncontrado";
+                        return this.View(model);
                     }
                     //usu.password = model.PasswordNueva;
                     db.SaveChanges();
@@ -161,11 +161,11 @@ namespace UCEME.Controllers
             else
             {
                 //las passwords no coindiden
-                ViewBag.error = "PasswordsNoCoinciden";
-                return View(model);
+                this.ViewBag.error = "PasswordsNoCoinciden";
+                return this.View(model);
             }
 
-            return RedirectToAction("Login", "Seguridad");
+            return this.RedirectToAction("Login", "Seguridad");
         }
     }
 }

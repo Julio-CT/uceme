@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using UCEME.Models;
-using UCEME.Models.ClasesVista;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
+    using Uceme.Model.Models;
+    using Uceme.Model.Models.ClasesVista;
+
     public class TecnicasController : SuperController
     {
         //
@@ -18,7 +18,7 @@ namespace UCEME.Controllers
 
         public TecnicasController()
         {
-            _conjuntodata = (from o in DbContext.Tecnica
+            _conjuntodata = (from o in this.DbContext.Tecnica
                              orderby o.fecha descending
                              select new TecnicaVista
                              {
@@ -45,18 +45,18 @@ namespace UCEME.Controllers
 
             var pagina = id ?? 0;
 
-            var data = GetSubconjunto(pagina);
+            var data = this.GetSubconjunto(pagina);
 
-            if (Request.IsAjaxRequest())
-                return PartialView("Subconjunto", data);
+            if (this.Request.IsAjaxRequest())
+                return this.PartialView("Subconjunto", data);
 
-            return View(data);
+            return this.View(data);
         }
 
         //nuevo!! para traer un solo articulo (para cuando linkemos desde fb o tw)
         public ActionResult Uno(int id)
         {
-            var data = (from o in DbContext.Tecnica
+            var data = (from o in this.DbContext.Tecnica
                         where o.idTecnica == id
                         select new TecnicaVista
                         {
@@ -66,14 +66,14 @@ namespace UCEME.Controllers
                             Texto = o.texto
                         }).ToList();
 
-            return View("Index", data);
+            return this.View("Index", data);
         }
 
         [Authorize]
         public ActionResult Anadir()
         {
             var blog = new TecnicaVista();
-            return View(blog);
+            return this.View(blog);
         }
 
         [Authorize]
@@ -81,7 +81,7 @@ namespace UCEME.Controllers
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult Anadir(TecnicaVista model, HttpPostedFileBase fichero)
         {
-            if (model != null && ModelState.IsValid)
+            if (model != null && this.ModelState.IsValid)
             {
                 if (fichero != null && fichero.ContentLength > 0)
                 {
@@ -93,37 +93,37 @@ namespace UCEME.Controllers
                         foto = ""
                     };
 
-                    DbContext.Tecnica.Add(blog);
-                    DbContext.SaveChanges();
+                    this.DbContext.Tecnica.Add(blog);
+                    this.DbContext.SaveChanges();
 
                     try
                     {
                         var nombre = "Tecnica" + blog.idTecnica;
                         var extension = fichero.FileName.Substring(fichero.FileName.LastIndexOf(".", StringComparison.CurrentCulture));
-                        var ruta = Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
+                        var ruta = this.Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
                         fichero.SaveAs(ruta);
                         blog.foto = "~/uploads/fotos/" + nombre + extension;
 
-                        DbContext.SaveChanges();
+                        this.DbContext.SaveChanges();
                     }
                     catch (Exception e)
                     {
                         //si falla el anadir la foto, borramos el elemento de la base de datos y devolvemos la vista con un error
-                        DbContext.Tecnica.Remove(blog);
-                        DbContext.SaveChanges();
+                        this.DbContext.Tecnica.Remove(blog);
+                        this.DbContext.SaveChanges();
 
-                        ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
-                        return RedirectToAction("index", "Tecnicas");
+                        this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
+                        return this.RedirectToAction("index", "Tecnicas");
                     }
                 }
             }
-            return RedirectToAction("Index", "Tecnicas");
+            return this.RedirectToAction("Index", "Tecnicas");
         }
 
         [Authorize]
         public ActionResult Editar(int id)
         {
-            var blog = (from o in DbContext.Tecnica
+            var blog = (from o in this.DbContext.Tecnica
                         where o.idTecnica == id
                         select new TecnicaVista
                         {
@@ -133,7 +133,7 @@ namespace UCEME.Controllers
                             Texto = o.texto
                         }).FirstOrDefault();
 
-            return View(blog);
+            return this.View(blog);
         }
 
         [Authorize]
@@ -141,7 +141,7 @@ namespace UCEME.Controllers
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(TecnicaVista model, HttpPostedFileBase fichero)
         {
-            if (model != null && ModelState.IsValid)
+            if (model != null && this.ModelState.IsValid)
             {
                 /* Se supone que un usuario solo podrá editar sus blog asi que dejo el usuario sin modificar
                  CustomIdentity cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
@@ -149,7 +149,7 @@ namespace UCEME.Controllers
                  */
 
                 //Buscamos el blog a modificar...
-                var blog = DbContext.Tecnica.Find(model.IdTecnica);
+                var blog = this.DbContext.Tecnica.Find(model.IdTecnica);
 
                 blog.titulo = model.Titulo;
                 blog.fecha = DateTime.Now;
@@ -160,15 +160,15 @@ namespace UCEME.Controllers
                     //guardamos la nueva imagen con la misma ruta que tenía antes, solo cambia el nombre
                     var nombre = "Tecnica" + model.IdTecnica;
                     var extension = fichero.FileName.Substring(fichero.FileName.LastIndexOf(".", StringComparison.Ordinal));
-                    var ruta = Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
+                    var ruta = this.Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
                     fichero.SaveAs(ruta);
                     blog.foto = "~/uploads/fotos/" + nombre + extension;
                 }
 
-                DbContext.SaveChanges();
+                this.DbContext.SaveChanges();
             }
 
-            return RedirectToAction("Index", "Tecnicas");
+            return this.RedirectToAction("Index", "Tecnicas");
         }
 
         // action para eliminar una entrada en el blog
@@ -176,20 +176,20 @@ namespace UCEME.Controllers
         public ActionResult Eliminar(int id)
         {
             //buscamos el bicho y lo eliminamos
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                var blog = DbContext.Tecnica.Find(id);
+                var blog = this.DbContext.Tecnica.Find(id);
 
                 //borramos la foto
                 var foto = blog.foto;
-                var rutacompleta = Server.MapPath("~/") + foto.Substring(2);
+                var rutacompleta = this.Server.MapPath("~/") + foto.Substring(2);
                 System.IO.File.Delete(rutacompleta);
 
-                DbContext.Tecnica.Remove(blog);
-                DbContext.SaveChanges();
+                this.DbContext.Tecnica.Remove(blog);
+                this.DbContext.SaveChanges();
             }
 
-            return Json("ok", JsonRequestBehavior.AllowGet);
+            return this.Json("ok", JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Security.Principal;
-using System.Web;
-using System.Web.Security;
-
-namespace UCEME.Seguridad
+﻿namespace UCEME.Seguridad
 {
+    using System;
+    using System.Security.Principal;
+    using System.Web;
+    using System.Web.Security;
+
     public class CustomPrincipal : ICustomPrincipal
     {
         public CustomPrincipal()
@@ -25,7 +25,7 @@ namespace UCEME.Seguridad
                 throw new ArgumentException("El rol es nulo");
             }
 
-            return ((ICustomIdentity)Identity).IsInRole(role);
+            return ((ICustomIdentity)this.Identity).IsInRole(role);
         }
 
         public static void LogOut()
@@ -43,7 +43,7 @@ namespace UCEME.Seguridad
         }
 
         //para logearse a traves de usuario y password
-        public static bool Login(String usuario, String password, bool recordar)
+        public static bool Login(string usuario, string password, bool recordar)
         {
             var identity = CustomIdentity.GetCustomIdentity(usuario, password);
 
@@ -65,7 +65,7 @@ namespace UCEME.Seguridad
         }
 
         //para logearse a traves de cookie
-        public static bool Login(String cookie)
+        public static bool Login(string cookie)
         {
             var identity = CustomIdentity.FromJson(cookie);
 

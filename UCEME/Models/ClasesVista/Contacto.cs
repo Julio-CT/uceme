@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace UCEME.Models.ClasesVista
+﻿namespace Uceme.Model.Models.ClasesVista
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Contacto
     {
         [Required(ErrorMessage = "Campo Nombre requerido")]

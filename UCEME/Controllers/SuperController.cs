@@ -1,8 +1,8 @@
-﻿using System.Web.Mvc;
-using UCEME.Models;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System.Web.Mvc;
+    using Uceme.Model.Models;
+
     public class SuperController : Controller
     {
         //
@@ -10,15 +10,9 @@ namespace UCEME.Controllers
 
         protected UCEMEDbEntities DbContext = new UCEMEDbEntities();
 
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            //introducir la logica de seguridad (comprobacion de usuario, rol o lo que sea)
-            base.OnActionExecuting(filterContext);
-        }
-
         protected override void Dispose(bool disposing)
         {
-            DbContext.Dispose();
+            this.DbContext.Dispose();
             base.Dispose(disposing);
         }
     }

@@ -1,19 +1,28 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Json;
-using System.Text;
-using System.Web;
-using System.Web.Security;
-
-namespace UCEME.Seguridad
+﻿namespace UCEME.Seguridad
 {
+    using System.IO;
+    using System.Linq;
+    using System.Runtime.Serialization.Json;
+    using System.Text;
+    using System.Web;
+    using System.Web.Security;
+
     public class CustomIdentity : ICustomIdentity
     {
-        public static int GetIdUsuario(String nombre)
+        public string AuthenticationType { get; private set; }
+
+        public bool IsAuthenticated { get; set; }
+
+        public string Name { get; set; }
+
+        public string Email { get; set; }
+
+        public string Roles { get; set; }
+
+        public static int GetIdUsuario(string nombre)
         {
             var id = -1;
-            using (var db = new UCEME.Models.UCEMEDbEntities())
+            using (var db = new Uceme.Model.Models.UCEMEDbEntities())
             {
                 var firstOrDefault = db.Usuario.FirstOrDefault(o => o.login == nombre);
                 if (firstOrDefault != null)
@@ -25,7 +34,7 @@ namespace UCEME.Seguridad
             return id;
         }
 
-        public static Boolean TieneRol(String rol)
+        public static bool TieneRol(string rol)
         {
             var usp1 = (CustomIdentity)CustomIdentity.FromJson(FormsAuthentication.Decrypt(HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName].Value).UserData);
 
@@ -33,43 +42,30 @@ namespace UCEME.Seguridad
             return res;
         }
 
-        public static ICustomIdentity GetCustomIdentity(String usuario, string password)
+        public static ICustomIdentity GetCustomIdentity(string usuario, string password)
         {
             var identity = new CustomIdentity();
 
-            using (var db = new UCEME.Models.UCEMEDbEntities())
+            using (var db = new Uceme.Model.Models.UCEMEDbEntities())
             {
                 //obtenemos el Hash SHA1 de la password para la busqueda en la bbdd
                 var pwSha = Utilidades.Encodificacion.GetSha1(password);
-                var us = db.Usuario.FirstOrDefault(o => o.login == usuario && o.password == pwSha);
-                //var us = db.Usuario.FirstOrDefault(o => o.login == usuario && o.password == password);
-                if (us != null)
+                var user = db.Usuario.FirstOrDefault(o => o.login == usuario && o.password == pwSha);
+                if (user != null)
                 {
                     identity.IsAuthenticated = true;
-                    //voy a probar a cambiar el Login.email por el nombre...a ver si todo va bien :)
-                    //identity.Name = us.Login.email;
-                    identity.Name = us.nombre;
-                    identity.Email = us.login;
-                    identity.Roles = us.Rol.nombre;
+                    identity.Name = user.nombre;
+                    identity.Email = user.login;
+                    identity.Roles = user.Rol.nombre;
                 }
             }
 
             return identity;
         }
 
-        public string AuthenticationType { get; private set; }
-
-        public bool IsAuthenticated { get; set; }
-
-        public string Name { get; set; }
-
-        public string Email { get; set; }
-
-        public string Roles { get; set; }
-
         public bool IsInRole(string rol)
         {
-            if (rol != Roles)
+            if (rol != this.Roles)
             {
                 return false;
             }
@@ -77,30 +73,30 @@ namespace UCEME.Seguridad
             return true;
         }
 
-        public static ICustomIdentity FromJson(String cookie)
+        public static ICustomIdentity FromJson(string cookie)
         {
-            IdentityRepresentation ir;
+            IdentityRepresentation identityRepresentation;
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(cookie)))
             {
                 var jsonSerializer = new DataContractJsonSerializer(typeof(IdentityRepresentation));
 
-                ir = jsonSerializer.ReadObject(stream) as IdentityRepresentation;
+                identityRepresentation = jsonSerializer.ReadObject(stream) as IdentityRepresentation;
             }
 
-            CustomIdentity cu = null;
-            if (ir != null)
+            CustomIdentity customIdentity = null;
+            if (identityRepresentation != null)
             {
-                cu = new CustomIdentity
+                customIdentity = new CustomIdentity
                 {
-                    IsAuthenticated = ir.IsAuthenticated,
-                    Name = ir.Name,
-                    Email = ir.Email,
-                    Roles = ir.Roles,
+                    IsAuthenticated = identityRepresentation.IsAuthenticated,
+                    Name = identityRepresentation.Name,
+                    Email = identityRepresentation.Email,
+                    Roles = identityRepresentation.Roles,
                     AuthenticationType = "custom"
                 };
             }
 
-            return cu;
+            return customIdentity;
         }
 
         public string ToJson()

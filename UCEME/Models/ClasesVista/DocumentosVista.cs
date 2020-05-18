@@ -1,4 +1,4 @@
-﻿namespace UCEME.Models.ClasesVista
+﻿namespace Uceme.Model.Models.ClasesVista
 {
     public class DocumentosVista
     {

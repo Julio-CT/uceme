@@ -1,4 +1,4 @@
-﻿@model UCEME.Models.ClasesVista.HospitalesVista
+﻿@model Uceme.Model.Models.ClasesVista.HospitalesVista
 
 @{
     Layout = null;
@@ -62,7 +62,7 @@
     </div>
 
     <div class="editor-label" id="checks">
-        @foreach (UCEME.Models.ClasesVista.CompaniasSelectorVista option in Model.ListaCompanias)
+        @foreach (Uceme.Model.Models.ClasesVista.CompaniasSelectorVista option in Model.ListaCompanias)
     {
         <input type="checkbox" name="@option.IdCompanias" id="@option.IdCompanias" checked="@option.Checked"/>
         @Html.Label(option.Nombre);

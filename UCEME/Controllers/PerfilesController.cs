@@ -4,8 +4,8 @@
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
-    using UCEME.Models;
-    using UCEME.Models.ClasesVista;
+    using Uceme.Model.Models;
+    using Uceme.Model.Models.ClasesVista;
     using UCEME.Seguridad;
 
     public class PerfilesController : SuperController
@@ -13,7 +13,7 @@
         public ActionResult Index(int id)
         {
             //nos traemos el usuario
-            var usr = (from o in DbContext.Usuario
+            var usr = (from o in this.DbContext.Usuario
                        where o.idUsuario == id
                        select o).FirstOrDefault();
 
@@ -42,12 +42,12 @@
                     data.Curriculum.ItemCurriculum.Add(item);
                 }
 
-                ViewBag.ShowEditButton = true;
-                return View(data);
+                this.ViewBag.ShowEditButton = true;
+                return this.View(data);
             }
 
             //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-            return Json("error buscando usuario", JsonRequestBehavior.AllowGet);
+            return this.Json("error buscando usuario", JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
@@ -56,14 +56,14 @@
             //vamos a redirigir a editar el usuario logueado
             //sacamos el usuario completo
             var cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
-            var usu = DbContext.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
+            var usu = this.DbContext.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
             if (usu != null)
             {
-                return RedirectToAction("Editar", new { id = usu.idUsuario });
+                return this.RedirectToAction("Editar", new { id = usu.idUsuario });
             }
 
             //no tiene los datos adecuados
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
 
         [Authorize]
@@ -73,7 +73,7 @@
             //sacamos el usuario completo
             ////var cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
             ////var usr = Db.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
-            var usr = DbContext.Usuario.FirstOrDefault(oo => oo.idUsuario == id);
+            var usr = this.DbContext.Usuario.FirstOrDefault(oo => oo.idUsuario == id);
             if (usr != null && (usr.idUsuario == id || usr.idRol == 1))
             {
                 //lo metemos todo
@@ -102,11 +102,11 @@
                     }
                 }
 
-                return View(data);
+                return this.View(data);
             }
 
             //no tiene permisos
-            return RedirectToAction("Index", new { id = id });
+            return this.RedirectToAction("Index", new { id = id });
         }
 
         //action para actualizar el perfil
@@ -115,10 +115,10 @@
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(MedicoVista model, HttpPostedFileBase fichero)
         {
-            if (model != null && ModelState.IsValid)
+            if (model != null && this.ModelState.IsValid)
             {
                 //modificamos el curriculum nice & easy
-                var usu = DbContext.Usuario.Find(model.IdUsuario);
+                var usu = this.DbContext.Usuario.Find(model.IdUsuario);
                 usu.Curriculum.Titulo = model.Curriculum.Titulo;
                 usu.login = model.Login;
                 usu.linkedin = model.Linkedin;
@@ -139,28 +139,28 @@
                     //guardamos el fichero de la foto con nombre usu + id
                     var nombreFichero = fichero.FileName;
                     var extension = nombreFichero.Substring(nombreFichero.LastIndexOf(".", StringComparison.Ordinal));
-                    var rutacompleta = Server.MapPath("~/uploads/fotos") + @"\usu" + model.IdUsuario + extension;
+                    var rutacompleta = this.Server.MapPath("~/uploads/fotos") + @"\usu" + model.IdUsuario + extension;
                     fichero.SaveAs(rutacompleta);
                     usu.foto = "~/uploads/fotos/usu" + model.IdUsuario + extension;
                 }
 
-                DbContext.SaveChanges();
+                this.DbContext.SaveChanges();
 
                 var url = "~/Perfiles/Index/?id=" + model.IdUsuario;
-                return Redirect(url);
+                return this.Redirect(url);
             }
 
             //no iene los datos adecuados
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
 
         //action para agregar un itemcurriculum
         [Authorize]
         public ActionResult Agregar(int idCurriculum, string titulo, string fechas, string texto)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                var curr = DbContext.Curriculum.Find(idCurriculum);
+                var curr = this.DbContext.Curriculum.Find(idCurriculum);
                 if (curr != null)
                 {
                     var item = new ItemCurriculum
@@ -170,12 +170,12 @@
                         Texto = texto,
                         Fechas = fechas
                     };
-                    DbContext.ItemCurriculum.Add(item);
-                    DbContext.SaveChanges();
+                    this.DbContext.ItemCurriculum.Add(item);
+                    this.DbContext.SaveChanges();
                 }
             }
 
-            return Json("ok", JsonRequestBehavior.AllowGet);
+            return this.Json("ok", JsonRequestBehavior.AllowGet);
         }
 
         // action para eliminar un itemcurriculum
@@ -183,13 +183,13 @@
         public ActionResult Eliminar(int idItem)
         {
             //buscamos el bicho y lo eliminamos
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                var item = DbContext.ItemCurriculum.Find(idItem);
-                DbContext.ItemCurriculum.Remove(item);
-                DbContext.SaveChanges();
+                var item = this.DbContext.ItemCurriculum.Find(idItem);
+                this.DbContext.ItemCurriculum.Remove(item);
+                this.DbContext.SaveChanges();
             }
-            return Json("ok", JsonRequestBehavior.AllowGet);
+            return this.Json("ok", JsonRequestBehavior.AllowGet);
         }
     }
 }

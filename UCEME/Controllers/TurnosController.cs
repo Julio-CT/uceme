@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using UCEME.Models;
-using UCEME.Models.ClasesVista;
-using UCEME.Utilidades;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Mvc;
+    using Uceme.Model.Models;
+    using Uceme.Model.Models.ClasesVista;
+    using UCEME.Utilidades;
+
     public class TurnosController : SuperController
     {
         //
@@ -15,18 +15,18 @@ namespace UCEME.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            var data = DbContext.Turno.OrderBy(o => o.idHospital).ThenBy(o => o.dia).ThenBy(o => o.inicio)
+            var data = this.DbContext.Turno.OrderBy(o => o.idHospital).ThenBy(o => o.dia).ThenBy(o => o.inicio)
                 .Select(o => new TurnoVista { IdTurno = o.idTurno, IdHospital = o.idHospital, Dia = o.dia, Inicio = o.inicio, Fin = o.fin, Paralelas = o.paralelas, Porhora = o.porhora, Hospital = o.DatosProfesionales.nombre });
 
             //cargamos el combo de hospitales
-            CargarCombos();
-            return View(data);
+            this.CargarCombos();
+            return this.View(data);
         }
 
         [Authorize]
         public ActionResult EditItem(int idTurno, string dia, string paralelas, string porhora, string strinicio, string strfin)
         {
-            var turno = DbContext.Turno.Find(idTurno);
+            var turno = this.DbContext.Turno.Find(idTurno);
 
             turno.dia = Convert.ToInt32(dia);
             turno.inicio = DiasHoras.TimeToDecimal(strinicio);
@@ -35,52 +35,52 @@ namespace UCEME.Controllers
             turno.porhora = Convert.ToInt32(porhora);
 
             //si dejamos alguna cita fuera...debemos avisar
-            var listacitas = DbContext.Cita.Where(o => o.idTurno == idTurno).ToList();
+            var listacitas = this.DbContext.Cita.Where(o => o.idTurno == idTurno).ToList();
             listacitas = listacitas.Where(o => o.hora > turno.fin || o.hora < turno.inicio).ToList();
 
             foreach (var cita in listacitas)
             {
                 if (Notificaciones.ModificarCitasMedicos(cita))
                 {
-                    DbContext.Cita.Remove(cita);
+                    this.DbContext.Cita.Remove(cita);
                 }
                 else
                 {
                     //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-                    return Json("ok", JsonRequestBehavior.AllowGet);
+                    return this.Json("ok", JsonRequestBehavior.AllowGet);
                 }
             }
 
-            DbContext.SaveChanges();
+            this.DbContext.SaveChanges();
 
-            return Json("ok", JsonRequestBehavior.AllowGet);
+            return this.Json("ok", JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
         public ActionResult DeleteItem(int idTurno)
         {
-            var turno = DbContext.Turno.Find(idTurno);
+            var turno = this.DbContext.Turno.Find(idTurno);
 
             //nos cargamos las citas que tenia ese turno
-            var listacitas = DbContext.Cita.Where(o => o.idTurno == idTurno).ToList();
+            var listacitas = this.DbContext.Cita.Where(o => o.idTurno == idTurno).ToList();
 
             foreach (var cita in listacitas)
             {
                 if (Notificaciones.ModificarCitasMedicos(cita))
                 {
-                    DbContext.Cita.Remove(cita);
+                    this.DbContext.Cita.Remove(cita);
                 }
                 else
                 {
                     //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-                    return Json("ok", JsonRequestBehavior.AllowGet);
+                    return this.Json("ok", JsonRequestBehavior.AllowGet);
                 }
             }
-            DbContext.Turno.Remove(turno);
+            this.DbContext.Turno.Remove(turno);
 
-            DbContext.SaveChanges();
+            this.DbContext.SaveChanges();
 
-            return Json("ok", JsonRequestBehavior.AllowGet);
+            return this.Json("ok", JsonRequestBehavior.AllowGet);
         }
 
         //action para actualizar el perfil
@@ -108,11 +108,11 @@ namespace UCEME.Controllers
                     porhora = porhora
                 };
 
-                DbContext.Turno.Add(turno);
+                this.DbContext.Turno.Add(turno);
             }
-            DbContext.SaveChanges();
+            this.DbContext.SaveChanges();
 
-            return RedirectToAction("index");
+            return this.RedirectToAction("index");
         }
 
         private void CargarCombos()
@@ -126,10 +126,10 @@ namespace UCEME.Controllers
             //añadimos un elemento que sea el selector y que de paso nos permita quitar el filtro
 
             //sacamos las marcas y las añadimos a la lista
-            var ieHospi = DbContext.DatosProfesionales.Where(x => x.activo.HasValue && x.activo.Value).Select(o => new HospitalMinVista { IdDatosPro = o.idDatosPro, Nombre = o.nombre });
+            var ieHospi = this.DbContext.DatosProfesionales.Where(x => x.activo.HasValue && x.activo.Value).Select(o => new HospitalMinVista { IdDatosPro = o.idDatosPro, Nombre = o.nombre });
             listaHospitales.AddRange(ieHospi);
 
-            ViewBag.idHospital = new SelectList(listaHospitales, "IdDatosPro", "nombre", "idHospital");
+            this.ViewBag.idHospital = new SelectList(listaHospitales, "IdDatosPro", "nombre", "idHospital");
         }
     }
 }

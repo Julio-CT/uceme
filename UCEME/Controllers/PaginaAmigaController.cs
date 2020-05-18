@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using UCEME.Models;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
+    using Uceme.Model.Models;
+
     public class PaginaAmigaController : SuperController
     {
         //
@@ -13,14 +13,14 @@ namespace UCEME.Controllers
 
         public ActionResult Index()
         {
-            var data = DbContext.PaginaAmiga;
-            return View(data);
+            var data = this.DbContext.PaginaAmiga;
+            return this.View(data);
         }
 
         //nuevo!! para traer un solo articulo (para cuando linkemos desde fb o tw)
         public ActionResult Uno(int id)
         {
-            var data = (from o in DbContext.PaginaAmiga
+            var data = (from o in this.DbContext.PaginaAmiga
                         where o.idPagina == id
                         select new PaginaAmiga
                         {
@@ -31,14 +31,14 @@ namespace UCEME.Controllers
                             link = o.link
                         }).ToList();
 
-            return View("Index", data);
+            return this.View("Index", data);
         }
 
         [Authorize]
         public ActionResult Anadir()
         {
             var newPaginaAmiga = new PaginaAmiga();
-            return View(newPaginaAmiga);
+            return this.View(newPaginaAmiga);
         }
 
         [Authorize]
@@ -46,7 +46,7 @@ namespace UCEME.Controllers
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult Anadir(PaginaAmiga model, HttpPostedFileBase fichero)
         {
-            if (model != null && ModelState.IsValid)
+            if (model != null && this.ModelState.IsValid)
             {
                 if (fichero != null && fichero.ContentLength > 0)
                 {
@@ -58,39 +58,39 @@ namespace UCEME.Controllers
                         icono = ""
                     };
 
-                    DbContext.PaginaAmiga.Add(newPaginaAmiga);
-                    DbContext.SaveChanges();
+                    this.DbContext.PaginaAmiga.Add(newPaginaAmiga);
+                    this.DbContext.SaveChanges();
 
                     try
                     {
                         var nombre = "PagAm" + newPaginaAmiga.idPagina;
                         var extension = fichero.FileName.Substring(fichero.FileName.LastIndexOf(".", StringComparison.CurrentCulture));
-                        var ruta = Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
+                        var ruta = this.Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
                         fichero.SaveAs(ruta);
                         newPaginaAmiga.icono = "~/uploads/fotos/" + nombre + extension;
 
-                        DbContext.SaveChanges();
+                        this.DbContext.SaveChanges();
                     }
                     catch (Exception e)
                     {
                         //si falla el anadir la foto, borramos el elemento de la base de datos y devolvemos la vista con un error
-                        DbContext.PaginaAmiga.Remove(newPaginaAmiga);
-                        DbContext.SaveChanges();
+                        this.DbContext.PaginaAmiga.Remove(newPaginaAmiga);
+                        this.DbContext.SaveChanges();
 
-                        ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
-                        return RedirectToAction("index", "PaginaAmiga");
+                        this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
+                        return this.RedirectToAction("index", "PaginaAmiga");
                     }
                 }
             }
-            return RedirectToAction("Index", "PaginaAmiga");
+            return this.RedirectToAction("Index", "PaginaAmiga");
         }
 
         [Authorize]
         public ActionResult Editar(int id)
         {
-            var selectedPaginaAmiga = DbContext.PaginaAmiga.Find(id);
+            var selectedPaginaAmiga = this.DbContext.PaginaAmiga.Find(id);
 
-            return View(selectedPaginaAmiga);
+            return this.View(selectedPaginaAmiga);
         }
 
         [Authorize]
@@ -98,7 +98,7 @@ namespace UCEME.Controllers
         [OutputCache(Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(PaginaAmiga model, HttpPostedFileBase fichero)
         {
-            if (model != null && ModelState.IsValid)
+            if (model != null && this.ModelState.IsValid)
             {
                 /* Se supone que un usuario solo podrá editar sus PaginaAmiga asi que dejo el usuario sin modificar
                  CustomIdentity cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
@@ -106,7 +106,7 @@ namespace UCEME.Controllers
                  */
 
                 //Buscamos el PaginaAmiga a modificar...
-                var selectedPaginaAmiga = DbContext.PaginaAmiga.Find(model.idPagina);
+                var selectedPaginaAmiga = this.DbContext.PaginaAmiga.Find(model.idPagina);
 
                 selectedPaginaAmiga.nombre = model.nombre;
                 selectedPaginaAmiga.descripcion = model.descripcion;
@@ -117,14 +117,14 @@ namespace UCEME.Controllers
                     //guardamos la nueva imagen con la misma ruta que tenía antes, solo cambia el nombre
                     var nombre = "PagAm" + model.idPagina;
                     var extension = fichero.FileName.Substring(fichero.FileName.LastIndexOf(".", StringComparison.CurrentCulture));
-                    var ruta = Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
+                    var ruta = this.Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
                     fichero.SaveAs(ruta);
                     selectedPaginaAmiga.icono = "~/uploads/fotos/" + nombre + extension;
                 }
 
-                DbContext.SaveChanges();
+                this.DbContext.SaveChanges();
             }
-            return RedirectToAction("Index", "PaginaAmiga");
+            return this.RedirectToAction("Index", "PaginaAmiga");
         }
 
         // action para eliminar una entrada en el PaginaAmiga
@@ -132,13 +132,13 @@ namespace UCEME.Controllers
         public ActionResult Eliminar(int id)
         {
             //buscamos el bicho y lo eliminamos
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                var selectedPaginaAmiga = DbContext.PaginaAmiga.Find(id);
-                DbContext.PaginaAmiga.Remove(selectedPaginaAmiga);
-                DbContext.SaveChanges();
+                var selectedPaginaAmiga = this.DbContext.PaginaAmiga.Find(id);
+                this.DbContext.PaginaAmiga.Remove(selectedPaginaAmiga);
+                this.DbContext.SaveChanges();
             }
-            return Json("ok", JsonRequestBehavior.AllowGet);
+            return this.Json("ok", JsonRequestBehavior.AllowGet);
         }
     }
 }

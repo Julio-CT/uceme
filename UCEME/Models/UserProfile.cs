@@ -7,23 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UCEME.Models
+namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    [Table("UserProfile")]
+    
     public partial class UserProfile
     {
         public UserProfile()
         {
             this.webpages_Roles = new HashSet<webpages_Roles>();
         }
-
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+    
         public int UserId { get; set; }
         public string UserName { get; set; }
     

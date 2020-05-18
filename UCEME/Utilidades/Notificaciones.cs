@@ -33,7 +33,7 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
@@ -61,7 +61,7 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
@@ -94,12 +94,12 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
 
-        public static bool ModificarCitasMedicos(Models.Cita cita)
+        public static bool ModificarCitasMedicos(Uceme.Model.Models.Cita cita)
         {
             string emailAddress = null;
             try
@@ -137,12 +137,12 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
 
-        public static bool NotificarCitasMedicos(Models.Cita cita, string observaciones)
+        public static bool NotificarCitasMedicos(Uceme.Model.Models.Cita cita, string observaciones)
         {
             var emailAddress = System.Configuration.ConfigurationManager.AppSettings["credential_user"];
             try
@@ -152,7 +152,7 @@
                 var hora = Utilidades.DiasHoras.TimeToString(cita.hora);
                 var hospital = cita.Turno.DatosProfesionales.nombre;
                 var telefono = cita.telefono;
-                
+
                 var emailMessage = new StringBuilder();
 
                 emailMessage.Append("<br />");
@@ -184,12 +184,12 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
 
-        public static bool NotificarCitasUsuario(Models.Cita cita, string observaciones)
+        public static bool NotificarCitasUsuario(Uceme.Model.Models.Cita cita, string observaciones)
         {
             var emailAddress = cita.email;
             try
@@ -199,7 +199,7 @@
                 var hora = Utilidades.DiasHoras.TimeToString(cita.hora);
                 var hospital = cita.Turno.DatosProfesionales.nombre;
                 var telefono = cita.telefono;
-                
+
                 var emailMessage = new StringBuilder();
 
                 emailMessage.Append("<br />");
@@ -227,7 +227,7 @@
             }
             catch (Exception e)
             {
-                Trace.WriteLine(String.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
+                Trace.WriteLine(string.Format("Failure to send email to {0}. Error {1}.", emailAddress, e.Message));
                 return false;
             }
         }
@@ -242,19 +242,21 @@
             email.Body = emailMessage.ToString();
             email.IsBodyHtml = true;
 
-            var smtpServer = new SmtpClient();
-            var host = System.Configuration.ConfigurationManager.AppSettings["host_SMTP"];
-            smtpServer.Host = host;
+            using (var smtpServer = new SmtpClient())
+            {
+                var host = System.Configuration.ConfigurationManager.AppSettings["host_SMTP"];
+                smtpServer.Host = host;
 
-            var port = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["port_SMTP"]);
-            smtpServer.Port = port;
+                var port = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["port_SMTP"]);
+                smtpServer.Port = port;
 
-            //hasta configurar la cuanta de envio, supongo que con las credenciales de esta, será valida
-            var credUser = System.Configuration.ConfigurationManager.AppSettings["credential_user"];
-            var credPassw = System.Configuration.ConfigurationManager.AppSettings["credential_password"];
-            smtpServer.Credentials = new NetworkCredential(credUser, credPassw);
-            smtpServer.EnableSsl = true;
-            smtpServer.Send(email);
+                //hasta configurar la cuanta de envio, supongo que con las credenciales de esta, será valida
+                var credUser = System.Configuration.ConfigurationManager.AppSettings["credential_user"];
+                var credPassw = System.Configuration.ConfigurationManager.AppSettings["credential_password"];
+                smtpServer.Credentials = new NetworkCredential(credUser, credPassw);
+                smtpServer.EnableSsl = true;
+                smtpServer.Send(email);
+            }
         }
     }
 }

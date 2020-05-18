@@ -1,7 +1,7 @@
-﻿using System.Web.Optimization;
-
-namespace UCEME
+﻿namespace UCEME
 {
+    using System.Web.Optimization;
+
     public class BundleConfig
     {
         // Para obtener más información acerca de Bundling, consulte http://go.microsoft.com/fwlink/?LinkId=254725

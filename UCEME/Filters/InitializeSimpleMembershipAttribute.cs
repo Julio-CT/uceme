@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Web.Mvc;
-
-namespace UCEME.Filters
+﻿namespace UCEME.Filters
 {
+    using System;
+    using System.Threading;
+    using System.Web.Mvc;
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public sealed class InitializeSimpleMembershipAttribute : ActionFilterAttribute
     {

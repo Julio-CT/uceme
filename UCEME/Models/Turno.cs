@@ -7,11 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UCEME.Models
+namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Turno
     {
         public Turno()
@@ -21,7 +22,9 @@ namespace UCEME.Models
     
         public int idTurno { get; set; }
         public int dia { get; set; }
+        [Column(TypeName = "decimal(5,2)")]
         public decimal inicio { get; set; }
+        [Column(TypeName = "decimal(5,2)")]
         public decimal fin { get; set; }
         public int paralelas { get; set; }
         public int porhora { get; set; }

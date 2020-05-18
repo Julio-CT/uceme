@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace UCEME.Models.ClasesVista
+﻿namespace Uceme.Model.Models.ClasesVista
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class CitaVista
     {
         [Display(Name = "Hora")]
@@ -9,7 +9,7 @@ namespace UCEME.Models.ClasesVista
         {
             get
             {
-                return Utilidades.DiasHoras.TimeToString(Hora);
+                return UCEME.Utilidades.DiasHoras.TimeToString(this.Hora);
             }
         }
 
@@ -18,7 +18,7 @@ namespace UCEME.Models.ClasesVista
         {
             get
             {
-                return Utilidades.DiasHoras.EuropeanDay(Dia);
+                return UCEME.Utilidades.DiasHoras.EuropeanDay(this.Dia);
             }
         }
 

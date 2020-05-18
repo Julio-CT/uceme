@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UCEME.Models
+namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;

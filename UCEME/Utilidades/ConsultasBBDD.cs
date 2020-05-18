@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using UCEME.Models;
-
-namespace UCEME.Utilidades
+﻿namespace UCEME.Utilidades
 {
+    using System.Linq;
+    using Uceme.Model.Models;
+
     public static class ConsultasBbdd
     {
         public static Usuario GetUsuariobyId(int id)

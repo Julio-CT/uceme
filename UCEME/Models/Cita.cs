@@ -7,15 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UCEME.Models
+namespace Uceme.Model.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Cita
     {
         public int idCita { get; set; }
         public int dia { get; set; }
+        [Column(TypeName = "decimal(5,2)")]
         public decimal hora { get; set; }
         public string nombre { get; set; }
         public string email { get; set; }

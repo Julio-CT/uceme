@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace UCEME.Models.ClasesVista
+﻿namespace Uceme.Model.Models.ClasesVista
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class TurnoVista
     {
         [Display(Name = "Hora de inicio")]
@@ -9,7 +9,7 @@ namespace UCEME.Models.ClasesVista
         {
             get
             {
-                return Utilidades.DiasHoras.TimeToString(Inicio);
+                return UCEME.Utilidades.DiasHoras.TimeToString(this.Inicio);
             }
         }
 
@@ -18,7 +18,7 @@ namespace UCEME.Models.ClasesVista
         {
             get
             {
-                return Utilidades.DiasHoras.TimeToString(Fin);
+                return UCEME.Utilidades.DiasHoras.TimeToString(this.Fin);
             }
         }
 

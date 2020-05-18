@@ -10,42 +10,42 @@
         [TestMethod()]
         public void SendPasswordRetrievalTest()
         {
-            var sut = Utilidades.Notificaciones.SendPasswordRetrieval(emailTo, "AAA");
+            var sut = Utilidades.Notificaciones.SendPasswordRetrieval(this.emailTo, "AAA");
             Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void SendNewUserCreatedTest()
         {
-            var sut = Utilidades.Notificaciones.SendNewUserCreated(emailTo, "AAA");
+            var sut = Utilidades.Notificaciones.SendNewUserCreated(this.emailTo, "AAA");
             Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void EnviarCorreoContactoTest()
         {
-            var sut = Utilidades.Notificaciones.EnviarCorreoContacto(emailTo, "AAA", "BBB");
+            var sut = Utilidades.Notificaciones.EnviarCorreoContacto(this.emailTo, "AAA", "BBB");
             Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void ModificarCitasMedicosTest()
         {
-            var sut = Utilidades.Notificaciones.ModificarCitasMedicos(new Models.Cita());
+            var sut = Utilidades.Notificaciones.ModificarCitasMedicos(new Uceme.Model.Models.Cita());
             Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void NotificarCitasMedicosTest()
         {
-            var sut = Utilidades.Notificaciones.NotificarCitasMedicos(new Models.Cita(), "AAA");
+            var sut = Utilidades.Notificaciones.NotificarCitasMedicos(new Uceme.Model.Models.Cita(), "AAA");
             Assert.IsFalse(sut);
         }
 
         [TestMethod()]
         public void NotificarCitasUsuarioTest()
         {
-            var sut = Utilidades.Notificaciones.NotificarCitasUsuario(new Models.Cita(), "AAA");
+            var sut = Utilidades.Notificaciones.NotificarCitasUsuario(new Uceme.Model.Models.Cita(), "AAA");
             Assert.IsFalse(sut);
         }
     }

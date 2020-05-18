@@ -1,11 +1,11 @@
-﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using UCEME.Models;
-using WebMatrix.WebData;
-
-namespace UCEME.Filters
+﻿namespace UCEME.Filters
 {
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    using Uceme.Model.Models;
+    using WebMatrix.WebData;
+
     public class SimpleMembershipInitializer
     {
         public SimpleMembershipInitializer()

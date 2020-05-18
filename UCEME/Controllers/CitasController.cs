@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using UCEME.Models;
-using UCEME.Models.ClasesVista;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Mvc;
+    using Uceme.Model.Models;
+    using Uceme.Model.Models.ClasesVista;
+
     public class CitasController : SuperController
     {
         //
@@ -16,8 +16,8 @@ namespace UCEME.Controllers
         {
             var cita = new CitaVista();
             //cargamos el combo de hospitales
-            CargarCombos();
-            return View(cita);
+            this.CargarCombos();
+            return this.View(cita);
         }
 
         //action para actualizar el perfil
@@ -37,34 +37,34 @@ namespace UCEME.Controllers
                 var weekday = Convert.ToInt32(diasemana);
                 var idHospi = Convert.ToInt32(hospi);
                 //nos traemos los turnos que coinciden con la busqueda
-                var turno = DbContext.Turno.FirstOrDefault(o => o.idHospital == idHospi && o.dia == weekday);
+                var turno = this.DbContext.Turno.FirstOrDefault(o => o.idHospital == idHospi && o.dia == weekday);
                 cita.Turno = turno;
                 if (email != null)
                 {
                     //fijamos el email y avisamos al fulano
                     cita.email = email;
                 }
-                DbContext.Cita.Add(cita);
+                this.DbContext.Cita.Add(cita);
                 Utilidades.Notificaciones.NotificarCitasMedicos(cita, observaciones);
                 if (email != null)
                 {
                     Utilidades.Notificaciones.NotificarCitasUsuario(cita, observaciones);
                 }
-                DbContext.SaveChanges();
+                this.DbContext.SaveChanges();
 
-                return Json("ok", JsonRequestBehavior.AllowGet);
+                return this.Json("ok", JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
-                return Json("error", JsonRequestBehavior.AllowGet);
+                return this.Json("error", JsonRequestBehavior.AllowGet);
             }
         }
 
         public ActionResult ListaDias(int id)
         {
-            var listaDias = DbContext.Turno.Where(o => o.idHospital == id).Select(o => o.dia).ToList();
+            var listaDias = this.DbContext.Turno.Where(o => o.idHospital == id).Select(o => o.dia).ToList();
 
-            return Json(listaDias, JsonRequestBehavior.AllowGet);
+            return this.Json(listaDias, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ListaHoras(string diasem, string hospi, string dia, string mes, string ano)
@@ -76,11 +76,11 @@ namespace UCEME.Controllers
             var listaHoras = new List<string>();
 
             //nos traemos los turnos que coinciden con la busqueda
-            var listaTurnos = DbContext.Turno.Where(o => o.idHospital == idHospi && o.dia == weekday).ToList();
+            var listaTurnos = this.DbContext.Turno.Where(o => o.idHospital == idHospi && o.dia == weekday).ToList();
             foreach (var turno in listaTurnos)
             {
                 //nos traemos las citas ya asignadas ese dia
-                var listacitas = DbContext.Cita.Where(o => o.dia == fechalarga && o.idTurno == turno.idTurno).ToList();
+                var listacitas = this.DbContext.Cita.Where(o => o.dia == fechalarga && o.idTurno == turno.idTurno).ToList();
                 var salto = 1 / Convert.ToDecimal(turno.porhora);
                 //añadimos todas las horas correspondientes
                 //hacemos el bucle de las citas paralelas..la lista saldra duplicada, triplicada o lo que sea
@@ -100,7 +100,7 @@ namespace UCEME.Controllers
 
             listaHoras = listaHoras.OrderBy(o => o).Distinct().ToList();
 
-            return Json(listaHoras, JsonRequestBehavior.AllowGet);
+            return this.Json(listaHoras, JsonRequestBehavior.AllowGet);
         }
 
         private void CargarCombos()
@@ -115,11 +115,11 @@ namespace UCEME.Controllers
             //añadimos un elemento que sea el selector y que de paso nos permita quitar el filtro
 
             //sacamos las marcas y las añadimos a la lista
-            var listaHospitalVista = DbContext.DatosProfesionales.Where(x => x.activo.HasValue && x.activo.Value).Select(o => new HospitalMinVista { IdDatosPro = o.idDatosPro, Nombre = o.nombre });
+            var listaHospitalVista = this.DbContext.DatosProfesionales.Where(x => x.activo.HasValue && x.activo.Value).Select(o => new HospitalMinVista { IdDatosPro = o.idDatosPro, Nombre = o.nombre });
             listaHospitales.AddRange(listaHospitalVista);
 
-            ViewBag.listaHospitales = listaHospitalVista;
-            ViewBag.selectListHospitales = new SelectList(listaHospitales, "IdDatosPro", "nombre", "idHospital");
+            this.ViewBag.listaHospitales = listaHospitalVista;
+            this.ViewBag.selectListHospitales = new SelectList(listaHospitales, "IdDatosPro", "nombre", "idHospital");
         }
     }
 }

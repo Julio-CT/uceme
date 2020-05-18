@@ -1,15 +1,15 @@
-﻿using Microsoft.Web.WebPages.OAuth;
-using System;
-using System.Linq;
-using System.Transactions;
-using System.Web.Mvc;
-using System.Web.Security;
-using UCEME.Filters;
-using UCEME.Models;
-using WebMatrix.WebData;
-
-namespace UCEME.Controllers
+﻿namespace UCEME.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Transactions;
+    using System.Web.Mvc;
+    using System.Web.Security;
+    using Microsoft.Web.WebPages.OAuth;
+    using Uceme.Model.Models;
+    using UCEME.Filters;
+    using WebMatrix.WebData;
+
     [Authorize]
     [InitializeSimpleMembership]
     public class AccountController : Controller
@@ -20,8 +20,8 @@ namespace UCEME.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
+            this.ViewBag.ReturnUrl = returnUrl;
+            return this.View();
         }
 
         //
@@ -32,14 +32,14 @@ namespace UCEME.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && UCEME.Seguridad.CustomPrincipal.Login(model.UserName, model.Password, model.RememberMe))
+            if (this.ModelState.IsValid && UCEME.Seguridad.CustomPrincipal.Login(model.UserName, model.Password, model.RememberMe))
             {
-                return RedirectToLocal(returnUrl);
+                return this.RedirectToLocal(returnUrl);
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
-            ModelState.AddModelError("", "El nombre de usuario o la contraseña especificados son incorrectos.");
-            return View(model);
+            this.ModelState.AddModelError("", "El nombre de usuario o la contraseña especificados son incorrectos.");
+            return this.View(model);
         }
 
         //
@@ -51,7 +51,7 @@ namespace UCEME.Controllers
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
 
         //
@@ -60,7 +60,7 @@ namespace UCEME.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            return this.View();
         }
 
         //
@@ -71,23 +71,25 @@ namespace UCEME.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 // Intento de registrar al usuario
                 try
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    return this.RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
                 {
-                    ModelState.AddModelError("", Utilidades.ErrorManager.ErrorCodeToString(e.StatusCode));
+                    Uceme.Foundation.Utilidades.MembershipCreateStatus result;
+                    Enum.TryParse<Uceme.Foundation.Utilidades.MembershipCreateStatus>(e.StatusCode.ToString(), out result);
+                    this.ModelState.AddModelError("", Utilidades.ErrorManager.ErrorCodeToString(result));
                 }
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
-            return View(model);
+            return this.View(model);
         }
 
         //
@@ -101,13 +103,13 @@ namespace UCEME.Controllers
             ManageMessageId? message = null;
 
             // Desasociar la cuenta solo si el usuario que ha iniciado sesión es el propietario
-            if (ownerAccount == User.Identity.Name)
+            if (ownerAccount == this.User.Identity.Name)
             {
                 // Usar una transacción para evitar que el usuario elimine su última credencial de inicio de sesión
                 using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
                 {
-                    var hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-                    if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
+                    var hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(this.User.Identity.Name));
+                    if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(this.User.Identity.Name).Count > 1)
                     {
                         OAuthWebSecurity.DeleteAccount(provider, providerUserId);
                         scope.Complete();
@@ -116,7 +118,7 @@ namespace UCEME.Controllers
                 }
             }
 
-            return RedirectToAction("Manage", new { Message = message });
+            return this.RedirectToAction("Manage", new { Message = message });
         }
 
         //
@@ -124,14 +126,14 @@ namespace UCEME.Controllers
 
         public ActionResult Manage(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
+            this.ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "La contraseña se ha cambiado."
                 : message == ManageMessageId.SetPasswordSuccess ? "Su contraseña se ha establecido."
                 : message == ManageMessageId.RemoveLoginSuccess ? "El inicio de sesión externo se ha quitado."
                 : "";
-            ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            return View();
+            this.ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(this.User.Identity.Name));
+            this.ViewBag.ReturnUrl = this.Url.Action("Manage");
+            return this.View();
         }
 
         //
@@ -141,18 +143,18 @@ namespace UCEME.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Manage(LocalPasswordModel model)
         {
-            var hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.HasLocalPassword = hasLocalAccount;
-            ViewBag.ReturnUrl = Url.Action("Manage");
+            var hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(this.User.Identity.Name));
+            this.ViewBag.HasLocalPassword = hasLocalAccount;
+            this.ViewBag.ReturnUrl = this.Url.Action("Manage");
             if (hasLocalAccount)
             {
-                if (ModelState.IsValid)
+                if (this.ModelState.IsValid)
                 {
                     // ChangePassword iniciará una excepción en lugar de devolver false en determinados escenarios de error.
                     bool changePasswordSucceeded;
                     try
                     {
-                        changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
+                        changePasswordSucceeded = WebSecurity.ChangePassword(this.User.Identity.Name, model.OldPassword, model.NewPassword);
                     }
                     catch (Exception)
                     {
@@ -161,11 +163,11 @@ namespace UCEME.Controllers
 
                     if (changePasswordSucceeded)
                     {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                        return this.RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
                     }
                     else
                     {
-                        ModelState.AddModelError("", "La contraseña actual es incorrecta o la nueva contraseña no es válida.");
+                        this.ModelState.AddModelError("", "La contraseña actual es incorrecta o la nueva contraseña no es válida.");
                     }
                 }
             }
@@ -173,28 +175,28 @@ namespace UCEME.Controllers
             {
                 // El usuario no dispone de contraseña local, por lo que debe quitar todos los errores de validación generados por un
                 // campo OldPassword
-                var state = ModelState["OldPassword"];
+                var state = this.ModelState["OldPassword"];
                 if (state != null)
                 {
                     state.Errors.Clear();
                 }
 
-                if (ModelState.IsValid)
+                if (this.ModelState.IsValid)
                 {
                     try
                     {
-                        WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
+                        WebSecurity.CreateAccount(this.User.Identity.Name, model.NewPassword);
+                        return this.RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
                     }
                     catch (Exception)
                     {
-                        ModelState.AddModelError("", String.Format("No se puede crear una cuenta local. Es posible que ya exista una cuenta con el nombre \"{0}\".", User.Identity.Name));
+                        this.ModelState.AddModelError("", string.Format("No se puede crear una cuenta local. Es posible que ya exista una cuenta con el nombre \"{0}\".", this.User.Identity.Name));
                     }
                 }
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
-            return View(model);
+            return this.View(model);
         }
 
         //
@@ -205,7 +207,7 @@ namespace UCEME.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+            return new ExternalLoginResult(provider, this.Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
         }
 
         //
@@ -214,30 +216,30 @@ namespace UCEME.Controllers
         [AllowAnonymous]
         public ActionResult ExternalLoginCallback(string returnUrl)
         {
-            var result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+            var result = OAuthWebSecurity.VerifyAuthentication(this.Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
             if (!result.IsSuccessful)
             {
-                return RedirectToAction("ExternalLoginFailure");
+                return this.RedirectToAction("ExternalLoginFailure");
             }
 
             if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
             {
-                return RedirectToLocal(returnUrl);
+                return this.RedirectToLocal(returnUrl);
             }
 
-            if (User.Identity.IsAuthenticated)
+            if (this.User.Identity.IsAuthenticated)
             {
                 // Si el usuario actual ha iniciado sesión, agregue la cuenta nueva
-                OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
-                return RedirectToLocal(returnUrl);
+                OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, this.User.Identity.Name);
+                return this.RedirectToLocal(returnUrl);
             }
             else
             {
                 // El usuario es nuevo, solicitar nombres de pertenencia deseados
                 var loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
-                ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
-                ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
+                this.ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
+                this.ViewBag.ReturnUrl = returnUrl;
+                return this.View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
             }
         }
 
@@ -252,12 +254,12 @@ namespace UCEME.Controllers
             string provider;
             string providerUserId;
 
-            if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
+            if (this.User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
             {
-                return RedirectToAction("Manage");
+                return this.RedirectToAction("Manage");
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 // Insertar un nuevo usuario en la base de datos
                 using (var db = new UsersContext())
@@ -273,18 +275,18 @@ namespace UCEME.Controllers
                         OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
                         OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
 
-                        return RedirectToLocal(returnUrl);
+                        return this.RedirectToLocal(returnUrl);
                     }
                     else
                     {
-                        ModelState.AddModelError("UserName", "El nombre de usuario ya existe. Escriba un nombre de usuario diferente.");
+                        this.ModelState.AddModelError("UserName", "El nombre de usuario ya existe. Escriba un nombre de usuario diferente.");
                     }
                 }
             }
 
-            ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
-            ViewBag.ReturnUrl = returnUrl;
-            return View(model);
+            this.ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
+            this.ViewBag.ReturnUrl = returnUrl;
+            return this.View(model);
         }
 
         //
@@ -293,21 +295,21 @@ namespace UCEME.Controllers
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
-            return View();
+            return this.View();
         }
 
         [AllowAnonymous]
         [ChildActionOnly]
         public ActionResult ExternalLoginsList(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return PartialView("_ExternalLoginsListPartial", OAuthWebSecurity.RegisteredClientData);
+            this.ViewBag.ReturnUrl = returnUrl;
+            return this.PartialView("_ExternalLoginsListPartial", OAuthWebSecurity.RegisteredClientData);
         }
 
         [ChildActionOnly]
         public ActionResult RemoveExternalLogins()
         {
-            var accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
+            var accounts = OAuthWebSecurity.GetAccountsFromUserName(this.User.Identity.Name);
             var externalLogins = (from account in accounts
                                   let clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider)
                                   select new ExternalLogin
@@ -317,21 +319,21 @@ namespace UCEME.Controllers
                                       ProviderUserId = account.ProviderUserId
                                   }).ToList();
 
-            ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            return PartialView("_RemoveExternalLoginsPartial", externalLogins);
+            this.ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(this.User.Identity.Name));
+            return this.PartialView("_RemoveExternalLoginsPartial", externalLogins);
         }
 
         #region Aplicaciones auxiliares
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
+            if (this.Url.IsLocalUrl(returnUrl))
             {
-                return Redirect(returnUrl);
+                return this.Redirect(returnUrl);
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return this.RedirectToAction("Index", "Home");
             }
         }
 
@@ -346,8 +348,8 @@ namespace UCEME.Controllers
         {
             public ExternalLoginResult(string provider, string returnUrl)
             {
-                Provider = provider;
-                ReturnUrl = returnUrl;
+                this.Provider = provider;
+                this.ReturnUrl = returnUrl;
             }
 
             private string Provider { get; set; }
@@ -356,7 +358,7 @@ namespace UCEME.Controllers
 
             public override void ExecuteResult(ControllerContext context)
             {
-                OAuthWebSecurity.RequestAuthentication(Provider, ReturnUrl);
+                OAuthWebSecurity.RequestAuthentication(this.Provider, this.ReturnUrl);
             }
         }
 
