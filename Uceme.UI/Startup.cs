@@ -5,11 +5,11 @@ namespace Uceme.UI
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
     using Microsoft.EntityFrameworkCore;
-    using Uceme.UI.Data;
-    using Uceme.UI.Models;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Uceme.UI.Data;
+    using Uceme.UI.Models;
 
     public class Startup
     {

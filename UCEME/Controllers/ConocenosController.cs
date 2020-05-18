@@ -11,7 +11,7 @@
         public ActionResult Index()
         {
             //nos traemos el usuario
-            var usrs = (from o in DbContext.Usuario
+            var usrs = (from o in this.DbContext.Usuario
                         where o.idRol == 2
                         orderby o.display_order descending
                         select o);
@@ -48,12 +48,12 @@
                     data.Add(dataItem);
                 }
 
-                ViewBag.ShowEditButton = false;
-                return View(data);
+                this.ViewBag.ShowEditButton = false;
+                return this.View(data);
             }
 
             //algo deberiamos hacer si falla..pero si no podemos enviar un email...chungo..
-            return Json("error buscando usuario", JsonRequestBehavior.AllowGet);
+            return this.Json("error buscando usuario", JsonRequestBehavior.AllowGet);
         }
     }
 }

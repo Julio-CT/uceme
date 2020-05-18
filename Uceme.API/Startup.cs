@@ -121,7 +121,7 @@ namespace Uceme.Api
             services.AddTransient<IMedicoService, MedicoService>();
             services.AddTransient<IFotosService, FotosService>();
             services.AddTransient<IEmailSender, EmailSender>();
-            services.Configure<AuthMessageSenderSettings>(Configuration);
+            services.Configure<AuthMessageSenderSettings>(this.Configuration);
 
             var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
             services.AddSwaggerGen(options =>

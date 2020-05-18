@@ -1,9 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
-
-namespace UCEME.Models.ClasesVista
+﻿namespace Uceme.Model.Models.ClasesVista
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
+
     public class BlogVista
     {
         public int IdBlog { get; set; }
@@ -37,7 +37,7 @@ namespace UCEME.Models.ClasesVista
         {
             get
             {
-                return Utilidades.DiasHoras.MonthName(Mes);
+                return UCEME.Utilidades.DiasHoras.MonthName(this.Mes);
             }
         }
     }

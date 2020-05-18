@@ -18,7 +18,7 @@
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            return Execute(this.Options, subject, message, email);
+            return this.Execute(this.Options, subject, message, email);
         }
 
         public Task Execute(AuthMessageSenderSettings apiKey, string subject, string message, string email)
