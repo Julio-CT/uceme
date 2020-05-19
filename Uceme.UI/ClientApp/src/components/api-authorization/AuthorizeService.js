@@ -12,13 +12,11 @@ export class AuthorizeService {
     _popUpDisabled = true;
 
     async isAuthenticated() {
-        debugger;
         const user = await this.getUser();
         return !!user;
     }
 
     async getUser() {
-        debugger;
         if (this._user && this._user.profile) {
             return this._user.profile;
         }
