@@ -25,9 +25,19 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Data\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="Data\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\App.tsx" />
+    <None Remove="ClientApp\src\index.tsx" />
+    <None Remove="ClientApp\src\setupTests.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,7 +47,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <TypeScriptCompile Include="ClientApp\src\App.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\index.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\setupTests.ts" />
+    <TypeScriptCompile Include="ClientApp\src\serviceWorker.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
