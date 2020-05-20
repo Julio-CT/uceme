@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Uceme.Model.Models.Faq>
+
+@{
+    ViewBag.Title = "Editar FAQs";
+}
+
+<h2 class="titulo">Editar Preguntas Frecuentes</h2>
+@using (Html.BeginForm("Editar", "Faq", FormMethod.Post))
+{
+    <div id="contenedor">
+        <div id="newitem"></div>
+        <div class="botones" style="float: right;">
+            <input type="button" class="nuevo" id="addElem" name="addSer" value=" " />
+        </div>
+        @Html.EditorFor(model => model)
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="botones" style="width: 350px;">
+        <input class="aceptar" style="float: left; margin-left: 0;" type="submit" value=" " />
+        <input class="cancelar" style="float: left; margin-left: 10px;" type="button" id="back" value=" " />
+    </div>
+
+}
+@section scripts {
+<script src="~/Scripts/Internal/Faq/Editar.js"async></script>
+}

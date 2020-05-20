@@ -1,0 +1,65 @@
+﻿/* botones */
+
+.botones {
+  	height: 32px;
+    position: relative;
+    top: 0;
+}
+.botones input.aceptar, .botones input.cancelar , .botones input.eliminar , .botones input.editar ,.botones input.nuevo{
+	height: 32px;
+    width: 143px;
+	line-height: 32px !important;
+	cursor: pointer;
+	display: block;
+	position:relative;
+    left:0;
+}
+
+.botones input.aceptar {background: url(../Images/aceptar.png) no-repeat left 0;text-decoration:none;}
+.botones input.cancelar {background: url(../Images/cancelar.png) no-repeat left 0;text-decoration:none;}
+.botones input.editar {background: url(../Images/editarico.png) no-repeat left 0;text-decoration:none;}
+.botones input.eliminar {background: url(../Images/eliminarico.png) no-repeat left 0;text-decoration:none;}
+.botones input.nuevo {background: url(../Images/nuevo.png) no-repeat left 0;text-decoration:none;}
+.botones input.login {background: url(../Images/login.png) no-repeat left 0;text-decoration:none;}
+.botones input.buscar {background: url(../Images/buscar.png) no-repeat left 0;text-decoration:none;}
+.botones input.enviar {background: url(../Images/enviar.png) no-repeat left 0;text-decoration:none;}
+
+.botones input.aceptar:hover {background: url(../Images/aceptar.png) no-repeat left -32px;text-decoration:none;}
+.botones input.cancelar:hover {background: url(../Images/cancelar.png) no-repeat left -32px;text-decoration:none;}
+.botones input.editar:hover {background: url(../Images/editarico.png) no-repeat left -32px;text-decoration:none;}
+.botones input.eliminar:hover {background: url(../Images/eliminarico.png) no-repeat left -32px;text-decoration:none;}
+.botones input.nuevo:hover {background: url(../Images/nuevo.png) no-repeat left -32px;text-decoration:none;}
+.botones input.login:hover {background: url(../Images/login.png) no-repeat left -32px;text-decoration:none;}
+.botones input.buscar:hover {background: url(../Images/buscar.png) no-repeat left -32px;text-decoration:none;}
+.botones input.enviar:hover {background: url(../Images/enviar.png) no-repeat left -32px;text-decoration:none;}
+
+.iconos {
+  	height: 32px;
+    width: 32px;
+    position: relative;
+    top: 0;
+}
+.iconos input.aceptarico, .botones input.cancelarico, .botones input.eliminarico , .botones input.editarico ,.botones input.nuevoico{
+	height: 32px;
+    width: 32px;
+	line-height: 32px !important;
+	cursor: pointer;
+	display: block;
+	position:relative;
+    left:0;
+    padding-left: 30px !important;
+}
+
+.iconos input.aceptarico {background: url(../Images/aceptarico.png) no-repeat left 0;text-decoration:none;border:none;}
+.iconos input.cancelarico {background: url(../Images/cancelarico.png) no-repeat left 0;text-decoration:none;border:none;}
+.iconos input.editarico {background: url(../Images/editarico.png) no-repeat left 0;text-decoration:none;border:none;}
+.iconos input.eliminarico {background: url(../Images/eliminarico.png) no-repeat left 0;text-decoration:none;border:none;}
+.iconos input.nuevoico {background: url(../Images/nuevoico.png) no-repeat left 0;text-decoration:none;border:none;}
+.iconos input.estrellaico {background: url(../Images/estrella.png) no-repeat left 0;text-decoration:none;border:none;}
+
+.iconos input.aceptarico:hover {background: url(../Images/aceptarico.png) no-repeat left -32px;text-decoration:none;border:none;}
+.iconos input.cancelarico:hover {background: url(../Images/cancelarico.png) no-repeat left -32px;text-decoration:none;border:none;}
+.iconos input.editarico:hover {background: url(../Images/editarico.png) no-repeat left -32px;text-decoration:none;border:none;}
+.iconos input.eliminarico:hover {background: url(../Images/eliminarico.png) no-repeat left -32px;text-decoration:none;border:none;}
+.iconos input.nuevoico:hover {background: url(../Images/nuevoico.png) no-repeat left -32px;text-decoration:none;border:none;}
+.iconos input.estrellaico:hover {background: url(../Images/estrella.png) no-repeat left -32px;text-decoration:none;border:none;}

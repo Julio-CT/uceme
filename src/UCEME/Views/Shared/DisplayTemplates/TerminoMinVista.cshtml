@@ -1,0 +1,21 @@
+﻿@model Uceme.Model.Models.ClasesVista.TerminoMinVista
+
+@{
+    Layout = null;
+    var inicial = @Model.Nombre.Substring(0, 1);
+    var enlace = "#" + @Model.Nombre.Substring(0, 1);
+    var cont = "contenedor" + @Model.IdTermino;
+}
+@Html.HiddenFor(model => model.IdTermino)
+
+<div id="@inicial">
+    <div id="@cont"></div>
+    <div class="label-field" style="float:left;font-weight:bold;" id="@Model.Nombre">
+        @Html.DisplayFor(model => model.Nombre)&nbsp;:&nbsp;&nbsp;
+    </div>
+    <div class="display-field" style="float:left;">
+        @Html.DisplayFor(model => model.Textocorto)
+        <a href="@enlace" onclick="verDetalle(@Model.IdTermino)">...</a>
+    </div>
+    <div style="clear:both;"><br /><br /></div>
+</div>

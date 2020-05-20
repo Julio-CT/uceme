@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Uceme.Model.Models.ClasesVista.CitaVista>
+
+@{
+    ViewBag.Title = "Lista de Citas";
+    var n = 0;
+}
+
+<h2 class="titulo">Lista de Citas</h2>
+<br />
+
+<br />
+<br />
+<div id="cabecera">
+    <div class="display-label" style="float: left; width: 100px; height: 45px; font-weight: bold; padding-left:5px;">
+        @Html.DisplayNameFor(model => model.Strdia)
+    </div>
+    <div class="display-label" style="float: left; margin-right: 20px; width: 50px; height: 45px; font-weight: bold;">
+        @Html.DisplayNameFor(model => model.Strhora)
+    </div>
+    <div class="display-label" style="float: left; margin-right: 20px; width: 170px; height: 45px; font-weight: bold;">
+        @Html.DisplayNameFor(model => model.Hospital)
+    </div>
+    <div class="display-label" style="float: left; margin-right: 20px; width: 150px; height: 45px; font-weight: bold;">
+        @Html.DisplayNameFor(model => model.Nombre)
+    </div>
+    <div class="display-label" style="float: left; margin-right: 20px; width: 250px; height: 45px; font-weight: bold;">
+        @Html.DisplayNameFor(model => model.Email)
+    </div>
+    <div class="display-label" style="float: left; width: 80px; height: 45px; font-weight: bold;">
+        @Html.DisplayNameFor(model => model.Telefono)
+    </div>
+
+    <div class="clearboth"></div>
+</div>
+
+@foreach (var item in Model)
+{
+    if (n > 0 && n % 2 != 0)
+    {
+        <div style="background-color: #cfcfcf;">
+            @Html.DisplayFor(modelItem => item)
+        </div>
+    }
+    else
+    {
+        <div style="background-color: azure;">
+            @Html.DisplayFor(modelItem => item)
+        </div>
+    }
+    n++;
+}
+@section scripts {
+<script src="~/Scripts/Internal/ListaCitas/Index.js"async></script>
+}

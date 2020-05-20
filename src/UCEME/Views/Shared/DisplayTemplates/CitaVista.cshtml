@@ -1,0 +1,36 @@
+﻿@model Uceme.Model.Models.ClasesVista.CitaVista
+
+@{
+    Layout = null;
+    var idel = Model.IdCita;
+}
+
+<div class="display-field" style="float: left; width: 100px; height: 45px;padding-left:5px;">
+    @Html.DisplayFor(model => model.Strdia)
+</div>
+
+<div class="display-field" style="float: left; margin-right: 20px; width: 50px; height: 45px;">
+    @Html.DisplayFor(model => model.Strhora)
+</div>
+
+<div class="display-field" style="float: left; margin-right: 20px; width: 170px; height: 45px;">
+    @Html.DisplayFor(model => model.Hospital)
+</div>
+
+<div class="display-field" style="float: left; margin-right: 20px; width: 150px; height: 45px;">
+    @Html.DisplayFor(model => model.Nombre)
+</div>
+
+<div class="display-field" style="float: left; margin-right: 20px; width: 250px; height: 45px;">
+    @Html.DisplayFor(model => model.Email)
+</div>
+
+<div class="display-field"  style="float: left; width: 20px; height: 45px;">
+    @Html.DisplayFor(model => model.Telefono)
+</div>
+
+ <div class="iconos" style="float: right; height: 32px; margin-left: 15px; text-align: left; width: 32px;">
+        <input type="button" style="float:left; width:32px; height:32px;"  onclick="manager.borrarItem(@idel)" class="eliminarico" />
+    </div>
+
+<div style="clear: both;"></div>

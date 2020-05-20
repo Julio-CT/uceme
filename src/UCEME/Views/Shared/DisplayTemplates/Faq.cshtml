@@ -1,0 +1,19 @@
+﻿@model Uceme.Model.Models.Faq
+
+@{
+    Layout = null;
+}
+
+<div class="display-label faqlabel">
+    <div style="padding: 3px; margin: 3px">
+        &nbsp;@Html.DisplayFor(model => model.titulo)
+    </div>
+</div>
+
+<div class="display-field faqfield">
+    <div style="padding: 5px; margin: 5px">
+        @Html.DisplayFor(model => model.texto)
+    </div>
+</div>
+
+<br />

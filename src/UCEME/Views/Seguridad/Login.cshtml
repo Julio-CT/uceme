@@ -1,0 +1,26 @@
+﻿@model Uceme.Model.Models.Usuario
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div style="z-index: 4; width:255px; margin:0 auto;">
+<h2  class="titulo">Login</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(model=>model.login)<br />
+    @Html.EditorFor(model=>model.login,"StringPass")<br />
+    <br />
+    @Html.LabelFor(model=>model.password)<br />
+    @Html.PasswordFor(model=>model.password)<br />
+    <br />
+    @Html.HiddenFor(model=>model.Recordar)
+
+    <div class="botones">
+        <input type="submit" value="" class="login" style="width:143px;" />
+    </div>
+    <br /><br />
+}
+@Html.ActionLink("Olvidaste tu password?","PasswordRecovery")
+</div>

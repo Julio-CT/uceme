@@ -1,0 +1,23 @@
+﻿@model Uceme.Model.Models.ItemCurriculum
+
+@{
+    ViewBag.Title = "ItemCurriculum";
+}
+
+     <div class="display-label">
+         @Html.HiddenFor(model => model.idItem)
+    </div>
+
+    <div class="display-field" style="float:left;width:100%;font-weight:bolder;">
+        @Html.DisplayFor(model => model.Titulo)
+    </div>
+
+    <div class="display-field" style="float:left;margin-right:50px;width:100%;color:#989595;">
+        @Html.DisplayFor(model => model.Fechas)
+    </div>
+
+    <div class="display-field" style="float:left;margin-right:50px;width:100%;">
+        @Html.DisplayFor(model => model.Texto)
+    </div>
+
+    <div class="clearboth"><br /></div>

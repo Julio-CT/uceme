@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div id="divContenedor">
+    <div id="divCabecera">
+        <div id="divTitulo">
+            <h2 class="titulo">Diccionario de Terminos Medicos</h2>
+        </div>
+        <br />
+    </div>
+    <div style="text-align: center;">
+        <div id="divBuscadorPrincipal" style="float: left; margin-right: 20px; margin-top: 0px; padding: 0px;">
+            <input type="text" style="height: 25px; color: #666666; font-size: 16px; width: 450px" id="cajaBuscar" name="palabraBuscada" x-webkit-speech />
+        </div>
+        <div class="botones" style="float: left; margin: 0px; padding: 0px;">
+            <input type="button" id="button_search" onclick="formBuscar()" onkeypress="if(event.keyCode === 13){formBuscar();}" class="buscar" style="margin-top: 5px; padding: 0px; width: 143px; height: 32px;">
+        </div>
+    </div>
+
+    @if (Request.IsAuthenticated)
+    {
+        <div class="botones" style="float: right; padding: 0px;">
+            <input type="button" name="addTer" class="nuevo" onclick="anadirTermino()" style="padding-top: -10px;" />
+            <br />
+        </div>
+    }
+    <div style="clear: both;"></div>
+    <div id="dialogoCrearT" style="display: none; z-index: 999;">
+        @using (Html.BeginForm("CrearTermino", "Terminos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary(true)
+            @Html.Label("Nombre")
+            <input type="text" name="nombre" id="nombrec" /> <br />
+            @Html.Label("Texto")
+            <input type="text" name="texto" id="texto" /> <br />
+            @Html.Label("Enlace")
+            <input type="text" name="link" id="link" /> <br />
+            @Html.Label("Seleccione Imagen de Icono:")
+            <input type="file" name="fichero" id="ficheroc" /> <br />
+            <div class="botones">
+                <p>
+                    <input class="aceptar" type="submit" value=" " style="float: left;" />
+                    <input class="cancelar" type="button" value=" " style="float: left;" onclick="cerrarDialogoCrearT()" />
+                <p>
+            </div>
+        }
+    </div>
+    <div id="diccionario">
+        @Html.Action("Dicciopinta")
+    </div>
+</div>
+@section scripts {
+<script src="~/Scripts/Internal/Terminos/Index.js"async></script>
+}

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Uceme.Model.Models.ClasesVista.ServicioVista>
+
+@{
+    ViewBag.Title = "Cartera de Servicios";
+}
+
+@*<h2 class="titulo">Cartera de Servicios</h2>*@
+
+@if (Request.IsAuthenticated)
+{
+    <div class="botones" style="float: right;">
+        <input type="button" class="nuevo" name="addSer" onclick="servicio.anadirServicio()" value=" " />
+    </div>
+}
+
+<div id="dialogoCrearServicio" style="display: none; z-index: 999;">
+    @using (Html.BeginForm("CrearServicio", "Servicios", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <label>Nombre:</label>
+        <input type="text" name="nombre" id="nombre" /> <br />
+        <label>Texto:</label>
+        <input type="text" name="text" id="text" /> <br />
+        <label>Seleccione Imagen:</label>
+        <input type="file" name="fichero" id="fichero" /> <br />
+        <div class="botones" style="width: 350px;">
+            <input class="aceptar" style="float: left; margin-left: 0;" type="submit" value=" " />
+            <input class="cancelar" style="float: left; margin-left: 10px;" type="button" onclick="servicio.cerrarDialogoCrearServicio()" value=" " />
+        </div>
+    }
+</div>
+<div id="dialogoEditar"></div>
+
+@Html.DisplayFor(model => model)
+
+@section scripts {
+<script src="~/Scripts/Internal/Servicios/Index.js"async></script>
+}

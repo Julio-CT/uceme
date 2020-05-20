@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /bin/
+Disallow: /Content/
+Disallow: /Models/
+Disallow: /Scripts/
+Disallow: /Uploads/
+
+
