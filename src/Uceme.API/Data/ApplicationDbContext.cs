@@ -15,10 +15,10 @@
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<webpages_OAuthMembership>()
+            base.OnModelCreating(builder);
+            builder.Entity<webpages_OAuthMembership>()
                 .HasKey(c => new { c.Provider, c.ProviderUserId });
         }
 

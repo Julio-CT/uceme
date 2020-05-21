@@ -2,7 +2,7 @@
 {
     using Uceme.Foundation.Utilidades;
 
-    public class ErrorManager
+    public static class ErrorManager
     {
         public static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {

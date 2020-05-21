@@ -16,9 +16,9 @@
 
         public AuthMessageSenderSettings Options { get; } //set only via Secret Manager
 
-        public Task SendEmailAsync(string email, string subject, string message)
+        public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            return this.Execute(this.Options, subject, message, email);
+            return this.Execute(this.Options, subject, htmlMessage, email);
         }
 
         public Task Execute(AuthMessageSenderSettings apiKey, string subject, string message, string email)

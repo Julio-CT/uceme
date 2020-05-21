@@ -6,7 +6,7 @@
     using System.Net.Mail;
     using System.Text;
 
-    public class Notificaciones
+    public static class Notificaciones
     {
         public static bool SendPasswordRetrieval(string emailAddress, string token)
         {
