@@ -22,6 +22,7 @@
                 {
                     using (var fs = File.Create(strFile)) { }
                 }
+
                 var w = File.AppendText(strFile);
                 Log(strOutputFileContents, w);
                 w.Close();
