@@ -1,38 +1,36 @@
-export const ApplicationName = 'Uceme.UI';
-
-export const QueryParameterNames = {
-  ReturnUrl: 'returnUrl',
-  Message: 'message'
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ApplicationName = 'Uceme.UI';
+exports.QueryParameterNames = {
+    ReturnUrl: 'returnUrl',
+    Message: 'message'
 };
-
-export const LogoutActions = {
-  LogoutCallback: 'logout-callback',
-  Logout: 'logout',
-  LoggedOut: 'logged-out'
+exports.LogoutActions = {
+    LogoutCallback: 'logout-callback',
+    Logout: 'logout',
+    LoggedOut: 'logged-out'
 };
-
-export const LoginActions = {
-  Login: 'login',
-  LoginCallback: 'login-callback',
-  LoginFailed: 'login-failed',
-  Profile: 'profile',
-  Register: 'register'
+exports.LoginActions = {
+    Login: 'login',
+    LoginCallback: 'login-callback',
+    LoginFailed: 'login-failed',
+    Profile: 'profile',
+    Register: 'register'
 };
-
 const prefix = '/authentication';
-
-export const ApplicationPaths = {
-  DefaultLoginRedirectPath: '/',
-  ApiAuthorizationClientConfigurationUrl: `/_configuration/${ApplicationName}`,
-  ApiAuthorizationPrefix: prefix,
-  Login: `${prefix}/${LoginActions.Login}`,
-  LoginFailed: `${prefix}/${LoginActions.LoginFailed}`,
-  LoginCallback: `${prefix}/${LoginActions.LoginCallback}`,
-  Register: `${prefix}/${LoginActions.Register}`,
-  Profile: `${prefix}/${LoginActions.Profile}`,
-  LogOut: `${prefix}/${LogoutActions.Logout}`,
-  LoggedOut: `${prefix}/${LogoutActions.LoggedOut}`,
-  LogOutCallback: `${prefix}/${LogoutActions.LogoutCallback}`,
-  IdentityRegisterPath: '/Identity/Account/Register',
-  IdentityManagePath: '/Identity/Account/Manage'
+exports.ApplicationPaths = {
+    DefaultLoginRedirectPath: '/',
+    ApiAuthorizationClientConfigurationUrl: `/_configuration/${exports.ApplicationName}`,
+    ApiAuthorizationPrefix: prefix,
+    Login: `${prefix}/${exports.LoginActions.Login}`,
+    LoginFailed: `${prefix}/${exports.LoginActions.LoginFailed}`,
+    LoginCallback: `${prefix}/${exports.LoginActions.LoginCallback}`,
+    Register: `${prefix}/${exports.LoginActions.Register}`,
+    Profile: `${prefix}/${exports.LoginActions.Profile}`,
+    LogOut: `${prefix}/${exports.LogoutActions.Logout}`,
+    LoggedOut: `${prefix}/${exports.LogoutActions.LoggedOut}`,
+    LogOutCallback: `${prefix}/${exports.LogoutActions.LogoutCallback}`,
+    IdentityRegisterPath: '/Identity/Account/Register',
+    IdentityManagePath: '/Identity/Account/Manage'
 };
+//# sourceMappingURL=ApiAuthorizationConstants.js.map

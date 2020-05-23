@@ -36,6 +36,18 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\App.tsx" />
+    <None Remove="ClientApp\src\components\api-authorization\ApiAuthorizationConstants.ts" />
+    <None Remove="ClientApp\src\components\api-authorization\ApiAuthorizationRoutes.tsx" />
+    <None Remove="ClientApp\src\components\api-authorization\AuthorizeRoute.tsx" />
+    <None Remove="ClientApp\src\components\api-authorization\AuthorizeService.ts" />
+    <None Remove="ClientApp\src\components\api-authorization\Login.tsx" />
+    <None Remove="ClientApp\src\components\api-authorization\LoginMenu.tsx" />
+    <None Remove="ClientApp\src\components\api-authorization\Logout.tsx" />
+    <None Remove="ClientApp\src\components\Counter.tsx" />
+    <None Remove="ClientApp\src\components\FetchData.tsx" />
+    <None Remove="ClientApp\src\components\Home.tsx" />
+    <None Remove="ClientApp\src\components\Layout.tsx" />
+    <None Remove="ClientApp\src\components\NavMenu.tsx" />
     <None Remove="ClientApp\src\index.tsx" />
     <None Remove="ClientApp\src\setupTests.ts" />
   </ItemGroup>
@@ -48,6 +60,18 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\App.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\ApiAuthorizationConstants.ts" />
+    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\ApiAuthorizationRoutes.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\AuthorizeRoute.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\AuthorizeService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\Login.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\LoginMenu.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\Logout.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Counter.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\FetchData.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Home.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Layout.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\NavMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\src\index.tsx" />
     <TypeScriptCompile Include="ClientApp\src\setupTests.ts" />
     <TypeScriptCompile Include="ClientApp\src\serviceWorker.ts" />
@@ -82,7 +106,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES2016</TypeScriptTarget>
     <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
-    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptModuleKind>None</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>

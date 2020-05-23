@@ -10,7 +10,6 @@ import { ApplicationPaths } from './components/api-authorization/ApiAuthorizatio
 import './App.css';
 import './custom.css';
 
-const displayName = App.name;
 function App() {
     return (
         <Layout>

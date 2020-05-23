@@ -1,30 +1,29 @@
-import React, { Component, Fragment } from 'react';
-import { Route } from 'react-router';
-import { Login } from './Login'
-import { Logout } from './Logout'
-import { ApplicationPaths, LoginActions, LogoutActions } from './ApiAuthorizationConstants';
-
-export default class ApiAuthorizationRoutes extends Component {
-
-  render () {
-    return(
-      <Fragment>
-          <Route path={ApplicationPaths.Login} render={() => loginAction(LoginActions.Login)} />
-          <Route path={ApplicationPaths.LoginFailed} render={() => loginAction(LoginActions.LoginFailed)} />
-          <Route path={ApplicationPaths.LoginCallback} render={() => loginAction(LoginActions.LoginCallback)} />
-          <Route path={ApplicationPaths.Profile} render={() => loginAction(LoginActions.Profile)} />
-          <Route path={ApplicationPaths.Register} render={() => loginAction(LoginActions.Register)} />
-          <Route path={ApplicationPaths.LogOut} render={() => logoutAction(LogoutActions.Logout)} />
-          <Route path={ApplicationPaths.LogOutCallback} render={() => logoutAction(LogoutActions.LogoutCallback)} />
-          <Route path={ApplicationPaths.LoggedOut} render={() => logoutAction(LogoutActions.LoggedOut)} />
-      </Fragment>);
-  }
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = require("react");
+const react_1 = require("react");
+const react_router_1 = require("react-router");
+const Login_1 = require("./Login");
+const Logout_1 = require("./Logout");
+const ApiAuthorizationConstants_1 = require("./ApiAuthorizationConstants");
+class ApiAuthorizationRoutes extends react_1.Component {
+    render() {
+        return (React.createElement(react_1.Fragment, null,
+            React.createElement(react_router_1.Route, { path: ApiAuthorizationConstants_1.ApplicationPaths.Login, render: () => loginAction(ApiAuthorizationConstants_1.LoginActions.Login) }),
+            React.createElement(react_router_1.Route, { path: ApiAuthorizationConstants_1.ApplicationPaths.LoginFailed, render: () => loginAction(ApiAuthorizationConstants_1.LoginActions.LoginFailed) }),
+            React.createElement(react_router_1.Route, { path: ApiAuthorizationConstants_1.ApplicationPaths.LoginCallback, render: () => loginAction(ApiAuthorizationConstants_1.LoginActions.LoginCallback) }),
+            React.createElement(react_router_1.Route, { path: ApiAuthorizationConstants_1.ApplicationPaths.Profile, render: () => loginAction(ApiAuthorizationConstants_1.LoginActions.Profile) }),
+            React.createElement(react_router_1.Route, { path: ApiAuthorizationConstants_1.ApplicationPaths.Register, render: () => loginAction(ApiAuthorizationConstants_1.LoginActions.Register) }),
+            React.createElement(react_router_1.Route, { path: ApiAuthorizationConstants_1.ApplicationPaths.LogOut, render: () => logoutAction(ApiAuthorizationConstants_1.LogoutActions.Logout) }),
+            React.createElement(react_router_1.Route, { path: ApiAuthorizationConstants_1.ApplicationPaths.LogOutCallback, render: () => logoutAction(ApiAuthorizationConstants_1.LogoutActions.LogoutCallback) }),
+            React.createElement(react_router_1.Route, { path: ApiAuthorizationConstants_1.ApplicationPaths.LoggedOut, render: () => logoutAction(ApiAuthorizationConstants_1.LogoutActions.LoggedOut) })));
+    }
 }
-
-function loginAction(name){
-    return (<Login action={name}></Login>);
+exports.default = ApiAuthorizationRoutes;
+function loginAction(name) {
+    return (React.createElement(Login_1.Login, { action: name }));
 }
-
 function logoutAction(name) {
-    return (<Logout action={name}></Logout>);
+    return (React.createElement(Logout_1.Logout, { action: name }));
 }
+//# sourceMappingURL=ApiAuthorizationRoutes.js.map
