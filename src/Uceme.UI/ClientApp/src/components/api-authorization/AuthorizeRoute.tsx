@@ -5,12 +5,12 @@ import authService from './AuthorizeService';
 
 type AuthorizeRouteState = {
     ready: boolean,
-    authenticated: boolean,
+    authenticated: boolean
 }
 
 type AuthorizeRouteProps = {
     path: any,
-    component: any,
+    component: any
 }
 
 export default class AuthorizeRoute extends React.Component<AuthorizeRouteProps, AuthorizeRouteState> {
@@ -38,16 +38,20 @@ export default class AuthorizeRoute extends React.Component<AuthorizeRouteProps,
         var link = document.createElement("a");
         link.href = this.props.path;
         const returnUrl = `${link.protocol}//${link.host}${link.pathname}${link.search}${link.hash}`;
-        const redirectUrl = `${ApplicationPaths.Login}?${QueryParameterNames.ReturnUrl}=${encodeURI(returnUrl)}`
+        const redirectUrl = `${ApplicationPaths.Login}?${QueryParameterNames.ReturnUrl}=${encodeURI(returnUrl)}`;
+
         if (!ready) {
             return <div></div>;
         } else {
+            console.log("it was ready");
             const { component: Component, ...rest } = this.props;
             return <Route {...rest}
                 render={(props) => {
                     if (authenticated) {
+                        console.log("it was authenticated");
                         return <React.Component {...props} />
                     } else {
+                        console.log("it was not authenticated");
                         return <Redirect to={redirectUrl} />
                     }
                 }} />

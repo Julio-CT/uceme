@@ -7,6 +7,7 @@
 namespace Uceme.Api
 {
     using System;
+    using System.Globalization;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
@@ -71,7 +72,8 @@ namespace Uceme.Api
                 .AddCookie(options =>
                 {
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(Convert.ToDouble(
-                        this.Configuration.GetSection("LoginExpirationTimeout").Value));
+                        this.Configuration.GetSection("LoginExpirationTimeout").Value,
+                        CultureInfo.CurrentCulture));
                     ////options.Cookie.Expiration = TimeSpan.FromMinutes(Convert.ToDouble(
                     ////    this.Configuration.GetSection("LoginExpirationTimeout").Value));
                     options.SlidingExpiration = true;
@@ -82,10 +84,10 @@ namespace Uceme.Api
                     };
                     options.Events.OnSignedIn = context =>
                     {
-                        if ((this.Configuration.GetSection("ModifyCookieDomain").Value.ToLower() == "true") &&
+                        if ((this.Configuration.GetSection("ModifyCookieDomain").Value.ToLower(CultureInfo.CurrentCulture) == "true") &&
                             (context.Request.Headers["Referer"].Count != 0))
                         {
-                            options.Cookie.Domain = this.Configuration.GetSection("UseRefererForCookie").Value.ToLower() == "true" ?
+                            options.Cookie.Domain = this.Configuration.GetSection("UseRefererForCookie").Value.ToLower(CultureInfo.CurrentCulture) == "true" ?
                                 context.Request.Headers["Referer"][0].Substring(
                                     context.Request.Headers["Referer"][0].IndexOf("//", StringComparison.CurrentCulture) + 2,
                                     context.Request.Headers["Referer"][0].Length - context.Request.Headers["Referer"][0].IndexOf("//", StringComparison.CurrentCulture) - 3).Split(':')[0]

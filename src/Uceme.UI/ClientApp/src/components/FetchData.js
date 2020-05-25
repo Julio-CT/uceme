@@ -46,7 +46,6 @@ class FetchData extends React.Component {
     populateWeatherData() {
         return __awaiter(this, void 0, void 0, function* () {
             const token = yield AuthorizeService_1.default.getAccessToken();
-            debugger;
             const response2 = yield fetch('http://localhost:5000/home/getmedicominvista', {
                 headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
             });

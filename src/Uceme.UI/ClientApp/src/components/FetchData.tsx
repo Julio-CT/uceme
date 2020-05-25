@@ -59,7 +59,6 @@ export class FetchData extends React.Component<{}, FetchDataState> {
 
     async populateWeatherData() {
         const token = await authService.getAccessToken();
-        debugger;
         const response2 = await fetch('http://localhost:5000/home/getmedicominvista', {
             headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
         });

@@ -42,19 +42,19 @@
             }
         }
 
-        public static string ErrorCodeToString(ErrorCodes errorCode)
+        public static string ErrorCodeToString(ErrorCode errorCode)
         {
             // Vaya a http://go.microsoft.com/fwlink/?LinkID=177550 para
             // obtener una lista completa de códigos de estado.
             switch (errorCode)
             {
-                case ErrorCodes.ErrorAddingItem:
+                case ErrorCode.ErrorAddingItem:
                     return "Error agregando un elemento a la base de datos";
 
-                case ErrorCodes.ErrorDeletingItem:
+                case ErrorCode.ErrorDeletingItem:
                     return "Error eliminando un elemento de la base de datos";
 
-                case ErrorCodes.ErrorPublishingToSocialNetwork:
+                case ErrorCode.ErrorPublishingToSocialNetwork:
                     return "Error publicando en redes sociales.";
 
                 default:

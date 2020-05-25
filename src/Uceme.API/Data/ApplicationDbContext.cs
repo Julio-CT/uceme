@@ -1,5 +1,6 @@
 ﻿namespace Uceme.API.Data
 {
+    using System;
     using IdentityServer4.EntityFramework.Options;
     using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
     using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,11 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
             base.OnModelCreating(builder);
             builder.Entity<webpages_OAuthMembership>()
                 .HasKey(c => new { c.Provider, c.ProviderUserId });
@@ -41,10 +47,10 @@
         public DbSet<Turno> Turno { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Video> Video { get; set; }
-        public DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public DbSet<sysdiagrams> Sysdiagrams { get; set; }
         public DbSet<UserProfile> UserProfile { get; set; }
-        public DbSet<webpages_Membership> webpages_Membership { get; set; }
-        public DbSet<webpages_OAuthMembership> webpages_OAuthMembership { get; set; }
-        public DbSet<webpages_Roles> webpages_Roles { get; set; }
+        public DbSet<webpages_Membership> WebpagesMembership { get; set; }
+        public DbSet<webpages_OAuthMembership> WebpagesOAuthMembership { get; set; }
+        public DbSet<webpages_Roles> WebpagesRoles { get; set; }
     }
 }

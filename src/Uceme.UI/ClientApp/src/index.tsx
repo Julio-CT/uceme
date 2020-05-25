@@ -7,7 +7,6 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 //import registerServiceWorker from './registerServiceWorker';
 
-debugger;
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href')!;
 
 //// react stuff

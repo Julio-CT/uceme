@@ -1,6 +1,8 @@
 ﻿namespace Uceme.API.Services
 {
+    using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using Microsoft.Extensions.Logging;
     using Uceme.API.Data;
@@ -8,20 +10,28 @@
 
     public class FotosService : IFotosService
     {
-        private readonly ILogger<FotosService> _logger;
+        private readonly ILogger<FotosService> logger;
 
         public ApplicationDbContext DbContext { get; }
 
         public FotosService(ILogger<FotosService> logger, ApplicationDbContext context)
         {
-            this._logger = logger;
+            this.logger = logger;
             this.DbContext = context;
         }
         public IEnumerable<Fotos> GetFotos()
         {
-            var listaFotos = this.DbContext.Fotos.Where(o => o.destacada.Value);
+            try
+            {
+                var listaFotos = this.DbContext.Fotos.Where(o => o.destacada.Value);
+                this.logger.LogInformation($"retrieved {listaFotos.Count()} items");
 
-            return listaFotos;
+                return listaFotos;
+            }
+            catch (Exception e)
+            {
+                throw new DataException("Error retrieving fotos", e);
+            }
         }
     }
 }

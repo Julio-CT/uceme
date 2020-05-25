@@ -3,15 +3,16 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
+import "jest-dom/extend-expect";
 
-const localStorageMock = {
-    getItem: jest.fn(),
-    setItem: jest.fn(),
-    removeItem: jest.fn(),
-    clear: jest.fn(),
-};
+////const localStorageMock = {
+////    getItem: jest.fn(),
+////    setItem: jest.fn(),
+////    removeItem: jest.fn(),
+////    clear: jest.fn(),
+////};
 
-(global as any).localStorage = localStorageMock;
+////(global as any).localStorage = localStorageMock;
 
 // Mock the request issued by the react app to get the client configuration parameters.
 ////window.fetch = () => {

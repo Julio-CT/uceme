@@ -151,7 +151,7 @@
                         this.DbContext.Blog.Remove(blog);
                         this.DbContext.SaveChanges();
 
-                        this.ModelState.AddModelError("", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
+                        this.ModelState.AddModelError("", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCode.ErrorAddingItem) + " " + e.Message);
                         return this.View(model);
                     }
                 }
@@ -360,7 +360,7 @@
                         errorMessage = errorStream.ReadToEnd();
                     }
                     this.ModelState.AddModelError("",
-                        Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorPublishingToSocialNetwork) +
+                        Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCode.ErrorPublishingToSocialNetwork) +
                         " " + ex.Message + "" + errorMessage);
                 }
             }

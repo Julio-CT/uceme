@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E1ABD702-768C-4AA5-862B-825256C24A46}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		Uceme.Web\Uceme.Web.csproj = Uceme.Web\Uceme.Web.csproj
 		WE-Palette.css = WE-Palette.css
 		WebEssentials-Settings.json = WebEssentials-Settings.json
@@ -60,7 +61,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		SolutionGuid = {1EFEFCA7-59F4-4F5C-A092-B7ABE99A76EE}
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

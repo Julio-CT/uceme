@@ -13,18 +13,13 @@
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<WeatherForecastController> logger;
 
         public ApplicationDbContext DbContext { get; }
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger, ApplicationDbContext context)
         {
-            this._logger = logger;
+            this.logger = logger;
             this.DbContext = context;
         }
 
@@ -33,6 +28,7 @@
         {
             var rng = new Random();
             var data = this.DbContext.Usuario.Select(x => x.apellidos).ToList();
+            this.logger.LogInformation($"retrieved {data.Count} items");
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

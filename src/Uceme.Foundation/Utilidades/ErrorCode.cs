@@ -1,6 +1,6 @@
 ﻿namespace UCEME.Utilidades
 {
-    public enum ErrorCodes
+    public enum ErrorCode
     {
         ErrorAddingItem = 0,
 

@@ -49,12 +49,15 @@ class AuthorizeRoute extends React.Component {
             return React.createElement("div", null);
         }
         else {
+            console.log("it was ready");
             const _a = this.props, { component: Component } = _a, rest = __rest(_a, ["component"]);
             return React.createElement(react_router_dom_1.Route, Object.assign({}, rest, { render: (props) => {
                     if (authenticated) {
+                        console.log("it was authenticated");
                         return React.createElement(React.Component, Object.assign({}, props));
                     }
                     else {
+                        console.log("it was not authenticated");
                         return React.createElement(react_router_dom_1.Redirect, { to: redirectUrl });
                     }
                 } }));

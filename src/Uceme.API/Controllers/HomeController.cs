@@ -1,6 +1,7 @@
 ﻿namespace Uceme.API.Controllers
 {
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@
 
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> logger;
         private readonly IMedicoService medicoService;
         private readonly IFotosService fotosService;
 
@@ -18,10 +19,10 @@
         {
             this.medicoService = medicoService;
             this.fotosService = fotosService;
-            this._logger = logger;
+            this.logger = logger;
         }
 
-        [HttpGet("getmedicominvista")]
+        [HttpGet("[controller]/getmedicominvista")]
         [AllowAnonymous]
         public ActionResult<IEnumerable<Usuario>> GetMedicoMinVista()
         {
@@ -30,7 +31,7 @@
             {
                 result = this.medicoService.GetMedicoMinVista(true);
             }
-            catch
+            catch (DataException)
             {
                 return this.BadRequest();
             }
@@ -38,7 +39,7 @@
             return result.ToList();
         }
 
-        [HttpGet("mostrarfotos")]
+        [HttpGet("[controller]/mostrarfotos")]
         [AllowAnonymous]
         public ActionResult<IEnumerable<Fotos>> MostrarFotos()
         {
@@ -47,7 +48,7 @@
             {
                 listaFotos = this.fotosService.GetFotos();
             }
-            catch
+            catch (DataException)
             {
                 return this.BadRequest();
             }

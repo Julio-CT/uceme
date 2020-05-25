@@ -112,7 +112,7 @@
                         this.DbContext.Tecnica.Remove(blog);
                         this.DbContext.SaveChanges();
 
-                        this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
+                        this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCode.ErrorAddingItem) + " " + e.Message);
                         return this.RedirectToAction("index", "Tecnicas");
                     }
                 }

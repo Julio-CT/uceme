@@ -134,7 +134,7 @@
                 }
                 catch (Exception e)
                 {
-                    this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorAddingItem) + " " + e.Message);
+                    this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCode.ErrorAddingItem) + " " + e.Message);
                     return this.RedirectToAction("NuevoUsuario", "GestionUsuarios", model);
                 }
             }
@@ -260,7 +260,7 @@
             }
             catch (Exception e)
             {
-                this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCodes.ErrorDeletingItem) + " " + e.Message);
+                this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCode.ErrorDeletingItem) + " " + e.Message);
                 return this.RedirectToAction("Index", "GestionUsuarios");
             }
 
