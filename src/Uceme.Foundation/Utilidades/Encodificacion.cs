@@ -1,6 +1,7 @@
 ﻿namespace UCEME.Utilidades
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Security.Cryptography;
     using System.Text;
@@ -22,13 +23,15 @@
             switch (passwordFormat)
             {
                 case "sha1":
-                    SHA1 sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+                    SHA1 sha1 = new SHA1CryptoServiceProvider();
                     result = sha1.ComputeHash(ae.GetBytes(str));
+                    sha1.Dispose();
                     break;
 
                 case "md5":
-                    MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+                    MD5 md5 = new MD5CryptoServiceProvider();
                     result = md5.ComputeHash(ae.GetBytes(str));
+                    md5.Dispose();
                     break;
 
                 default:
@@ -40,7 +43,7 @@
             var sb = new StringBuilder(16);
             foreach (byte t in result)
             {
-                sb.Append(t.ToString("x2"));
+                _ = sb.Append(t.ToString("x2", CultureInfo.CurrentCulture));
             }
 
             return sb.ToString();
@@ -71,13 +74,15 @@
             switch (passwordFormat)
             {
                 case "sha1":
-                    SHA1 sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+                    SHA1 sha1 = new SHA1CryptoServiceProvider();
                     result = sha1.ComputeHash(buffer);
+                    sha1.Dispose();
                     break;
 
                 case "md5":
-                    MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+                    MD5 md5 = new MD5CryptoServiceProvider();
                     result = md5.ComputeHash(buffer);
+                    md5.Dispose();
                     break;
 
                 default:
@@ -89,7 +94,7 @@
             var sb = new StringBuilder(16);
             foreach (byte t in result)
             {
-                sb.Append(t.ToString("x2"));
+                _ = sb.Append(t.ToString("x2",CultureInfo.CurrentCulture));
             }
 
             return sb.ToString();
@@ -141,7 +146,7 @@
             };
 
             //Creates the key based on the password and stores it in a byte array.
-            var pdb = new PasswordDeriveBytes(password, new byte[0]);
+            var pdb = new PasswordDeriveBytes(password, Array.Empty<byte>());
             des.Key = pdb.CryptDeriveKey("RC2", "MD5", 128, new byte[8]);
 
             var ms = new MemoryStream(plainMessage.Length * 2);
@@ -151,8 +156,11 @@
             encStream.FlushFinalBlock();
             var encryptedBytes = new byte[ms.Length];
             ms.Position = 0;
-            ms.Read(encryptedBytes, 0, (int)ms.Length);
+            _ = ms.Read(encryptedBytes, 0, (int)ms.Length);
             encStream.Close();
+
+            des.Dispose();
+            pdb.Dispose();
 
             return Convert.ToBase64String(encryptedBytes);
         }
@@ -175,23 +183,25 @@
             };
 
             //Creates the key based on the password and stores it in a byte array.
-            var pdb = new PasswordDeriveBytes(password, new byte[0]);
+            var pdb = new PasswordDeriveBytes(password, Array.Empty<byte>());
             des.Key = pdb.CryptDeriveKey("RC2", "MD5", 128, new byte[8]);
-
+            
             //This line protects the + signs that get replaced by spaces when the parameter is not urlencoded when sent.
             encryptedMessage = encryptedMessage.Replace(" ", "+");
             var ms = new MemoryStream(encryptedMessage.Length * 2);
             var decStream = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write);
+            des.Dispose();
+            pdb.Dispose();
 
             byte[] plainBytes;
             try
             {
-                var encBytes = Convert.FromBase64String(Convert.ToString(encryptedMessage));
+                var encBytes = Convert.FromBase64String(Convert.ToString(encryptedMessage, CultureInfo.InvariantCulture));
                 decStream.Write(encBytes, 0, encBytes.Length);
                 decStream.FlushFinalBlock();
                 plainBytes = new byte[ms.Length];
                 ms.Position = 0;
-                ms.Read(plainBytes, 0, (int)ms.Length);
+                _ = ms.Read(plainBytes, 0, (int)ms.Length);
                 decStream.Close();
             }
             catch (CryptographicException e)
@@ -216,9 +226,11 @@
             var cadena = new StringBuilder();
             foreach (var i in hash)
             {
-                cadena.AppendFormat("{0:x2}", i);
+                _ = cadena.AppendFormat(CultureInfo.CurrentCulture, "{0:x2}", i);
             }
+
+            sha1.Dispose();
             return cadena.ToString();
-        } //fin del 'GetSha1'
+        }
     }
 }

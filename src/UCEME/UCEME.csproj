@@ -492,6 +492,9 @@
     <Content Include="Models\Model1.Context.tt" />
     <Content Include="Models\Model1.tt" />
     <Content Include="package.json" />
+    <Content Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </Content>
     <None Include=".jscsrc" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

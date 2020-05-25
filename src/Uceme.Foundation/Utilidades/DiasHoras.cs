@@ -3,12 +3,20 @@ namespace UCEME.Utilidades
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     public static class DiasHoras
     {
         public static decimal TimeToDecimal(string strhora)
         {
-            decimal dechora = Convert.ToInt32(strhora.Substring(0, strhora.Length - 3)) + Convert.ToDecimal(strhora.Substring(strhora.Length - 2, 2)) / 60;
+            if (strhora == null)
+            {
+                throw new ArgumentNullException(nameof(strhora));
+            }
+
+            decimal dechora = Convert.ToInt32(strhora.Substring(0, strhora.Length - 3), CultureInfo.CurrentCulture)
+                + Convert.ToDecimal(strhora.Substring(strhora.Length - 2, 2), CultureInfo.CurrentCulture) / 60;
+
             return dechora;
         }
 
@@ -16,7 +24,7 @@ namespace UCEME.Utilidades
         {
             var horas = Convert.ToInt32(Math.Floor(inicio));
             var minutos = Convert.ToInt32((inicio - horas) * 60);
-            return horas.ToString("00") + ":" + minutos.ToString("00");
+            return horas.ToString("00", CultureInfo.CurrentCulture) + ":" + minutos.ToString("00", CultureInfo.CurrentCulture);
         }
 
         public static string WeekDay(int dia)
@@ -28,7 +36,7 @@ namespace UCEME.Utilidades
 
         public static string EuropeanDay(int dia)
         {
-            var fecha = dia.ToString();
+            var fecha = dia.ToString(CultureInfo.CurrentCulture);
             if (fecha.Length == 8)
             {
                 fecha = fecha.Substring(6, 2) + "-" + fecha.Substring(4, 2) + "-" + fecha.Substring(0, 4);

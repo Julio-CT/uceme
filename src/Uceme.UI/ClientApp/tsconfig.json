@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
@@ -18,9 +18,19 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
+    "types": [ "node" ],
     "typeRoots": [ "node_modules/@types" ]
   },
   "include": [
-    "src"
+    "src",
+    "src/components",
+    "src/components/api-authorization"
+  ],
+  "exclude": [
+    "node_modules",
+    "images.d.ts",
+    "custom.d.ts",
+    "declarations.d.ts",
+    "jest.config.js"
   ]
 }
