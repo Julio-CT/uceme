@@ -53,7 +53,7 @@
                     smtpServer.EnableSsl = true;
                     return smtpServer.SendMailAsync(mailMessage);
                 }
-            }                
+            }
         }
     }
 }

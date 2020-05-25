@@ -23,25 +23,25 @@ namespace UCEME
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AuthConfig.RegisterAuth(); 
-            
+            AuthConfig.RegisterAuth();
+
             MvcHandler.DisableMvcResponseHeader = true; //this line is to hide mvc header
         }
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            Response.ClearContent();
-            var ex = Server.GetLastError().GetBaseException();
+            this.Response.ClearContent();
+            var ex = this.Server.GetLastError().GetBaseException();
             GestionErrores.RegistroErrorEmail(ex.ToString(), ex.Source, "");
             HttpContext.Current.ClearError();
-            Server.ClearError();
-            Response.Clear();
-            Response.Redirect("/Error/GenericError");
+            this.Server.ClearError();
+            this.Response.Clear();
+            this.Response.Redirect("/Error/GenericError");
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
-            if (Request.IsAuthenticated)
+            if (this.Request.IsAuthenticated)
             {
                 var usp1 =
                     (CustomIdentity)

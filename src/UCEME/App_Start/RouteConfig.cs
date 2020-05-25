@@ -20,10 +20,10 @@ namespace UCEME
                 url: "{controller}/{action}/{id}/{ignoreThisBit}",
                 defaults: new
                 {
-                       controller = "Blog",
-                       action = "SinglePost",
-                       id = "",
-                       ignoreThisBit = ""
+                    controller = "Blog",
+                    action = "SinglePost",
+                    id = "",
+                    ignoreThisBit = ""
                 });
         }
     }
