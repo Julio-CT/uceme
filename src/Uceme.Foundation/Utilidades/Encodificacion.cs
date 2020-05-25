@@ -94,7 +94,7 @@
             var sb = new StringBuilder(16);
             foreach (byte t in result)
             {
-                _ = sb.Append(t.ToString("x2",CultureInfo.CurrentCulture));
+                _ = sb.Append(t.ToString("x2", CultureInfo.CurrentCulture));
             }
 
             return sb.ToString();
@@ -185,7 +185,7 @@
             //Creates the key based on the password and stores it in a byte array.
             var pdb = new PasswordDeriveBytes(password, Array.Empty<byte>());
             des.Key = pdb.CryptDeriveKey("RC2", "MD5", 128, new byte[8]);
-            
+
             //This line protects the + signs that get replaced by spaces when the parameter is not urlencoded when sent.
             encryptedMessage = encryptedMessage.Replace(" ", "+");
             var ms = new MemoryStream(encryptedMessage.Length * 2);
