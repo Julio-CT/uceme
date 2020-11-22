@@ -30,7 +30,7 @@ export class FetchData extends React.Component<{}, FetchDataState> {
                     </tr>
                 </thead>
                 <tbody>
-                    { forecasts.map(forecast =>
+                    {forecasts.map(forecast =>
                         <tr key={forecast.date}>
                             <td>{forecast.date}</td>
                             <td>{forecast.temperatureC}</td>
@@ -59,10 +59,11 @@ export class FetchData extends React.Component<{}, FetchDataState> {
 
     async populateWeatherData() {
         const token = await authService.getAccessToken();
-        const response2 = await fetch('http://localhost:5000/home/getmedicominvista', {
+        const response2 = await fetch('home/getmedicominvista', {
             headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
         });
         const data2 = await response2.json();
+        console.log(data2);
 
         const response = await fetch('weatherforecast', {
             headers: !token ? {} : { 'Authorization': `Bearer ${token}` }

@@ -29,6 +29,9 @@ namespace Uceme.Api
 
     public class Startup
     {
+        private readonly string relaxedPolicy = "RelaxedCorsPolicy";
+        private readonly string strictPolicy = "StrictCorsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
@@ -108,12 +111,19 @@ namespace Uceme.Api
 
             services.AddControllersWithViews();
 
-            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-            }));
+            services.AddCors(o => {
+                o.AddPolicy(relaxedPolicy, builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+                o.AddPolicy(strictPolicy, builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                            .WithMethods("PUT", "DELETE", "GET");
+                });
+            });
 
             services.AddMvc(config =>
             {
@@ -145,7 +155,7 @@ namespace Uceme.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint(settings.SwaggerUri, settings.SwaggerApp);
+                    options.SwaggerEndpoint(settings.SwaggerUri.ToString(), settings.SwaggerApp);
                 });
             }
             else
@@ -157,10 +167,10 @@ namespace Uceme.Api
 
             if (env.IsDevelopment() || env.IsStaging())
             {
-                app.UseCors("CorsPolicy");
+                app.UseCors(this.relaxedPolicy);
             }
 
-            ////app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

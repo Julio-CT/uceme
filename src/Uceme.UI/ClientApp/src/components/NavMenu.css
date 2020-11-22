@@ -1,12 +1,8 @@
-﻿a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
+﻿
 html {
   font-size: 14px;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -16,3 +12,115 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+.uceme-header {
+  color: white;
+  position: fixed;
+  background-color: #72BEB1;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  border-bottom: 1px solid #eee;
+  -webkit-transition: height 0.3s;
+  -moz-transition: height 0.3s;
+  -ms-transition: height 0.3s;
+  -o-transition: height 0.3s;
+  transition: height 0.3s;
+}
+
+a.big-logo {
+  display: block;
+  height: 84px;
+  width: 280px;
+  float: left;
+  -ms-background-size: contain;
+  background-size: contain;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+a.small-logo {
+  display: block;
+  height: 50px !important;
+  width: 180px !important;
+  float: left;
+  -ms-background-size: contain;
+  background-size: contain;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.site-title-div {
+  display: table-cell;
+  vertical-align: middle;
+  color: white;
+  height: 100px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.site-title-div-small {
+  vertical-align: middle;
+  color: white;
+  height: 50px !important;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.site-title {
+  font-size: 1.3em;
+  margin: 0;
+  margin-left: 10px;
+  background: none;
+  color: #fff;
+  font-weight: bold;
+  float: right;
+}
+
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+}
+.clearboth {
+  clear: both;
+}
+
+.logo-container {
+  padding-left:30px;
+}
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* @media (min-width: 768px) {
+    .navbar-nav {
+        margin: 0 auto;
+        display: table;
+        table-layout: auto;
+        float: none;
+        width: 100%;
+    }
+
+        .navbar-nav > li {
+            display: table-cell;
+            float: none;
+            text-align: center;
+        }
+}  */

@@ -34,7 +34,7 @@
                                 apellidos = o.apellidos,
                                 foto = o.foto,
                             }).ToList();
-                this.logger.LogInformation($"retrieved {data.Count()} items");
+                this.logger.LogInformation($"retrieved {data.Count} items");
 
                 return data;
             }

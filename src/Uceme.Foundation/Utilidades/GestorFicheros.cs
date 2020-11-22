@@ -4,7 +4,7 @@
 
     internal class GestorFicheros
     {
-        public void CreateDirectory(string directory)
+        public static void CreateDirectory(string directory)
         {
             if (!Directory.Exists(directory))
             {

@@ -8,11 +8,15 @@ namespace Uceme.UI
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Uceme.API.Data;
-    using Uceme.API.Data.Models;
+    using Uceme.Model.Data;
+    using Uceme.Model.Models;
 
     public class Startup
     {
+        private readonly string relaxedPolicy = "RelaxedCorsPolicy";
+
+        private readonly string strictPolicy = "StrictCorsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
@@ -36,12 +40,19 @@ namespace Uceme.UI
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
-            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-            }));
+            services.AddCors(o => {
+                o.AddPolicy(relaxedPolicy, builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+                o.AddPolicy(strictPolicy, builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                            .WithMethods("PUT", "DELETE", "GET");
+                });
+             });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -54,7 +65,7 @@ namespace Uceme.UI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -70,7 +81,7 @@ namespace Uceme.UI
 
             if (env.IsDevelopment() || env.IsStaging())
             {
-                app.UseCors("CorsPolicy");
+                _ = app.UseCors(this.relaxedPolicy);
             }
 
             app.UseHttpsRedirection();

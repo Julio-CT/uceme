@@ -24,10 +24,10 @@
 
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            return this.Execute(this.Options, subject, htmlMessage, email);
+            return Execute(this.Options, subject, htmlMessage, email);
         }
 
-        public Task Execute(AuthMessageSenderSettings apiKey, string subject, string message, string email)
+        private static Task Execute(AuthMessageSenderSettings apiKey, string subject, string message, string email)
         {
             if (apiKey == null)
             {

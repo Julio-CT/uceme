@@ -1,8 +1,10 @@
 ﻿namespace Uceme.API.Settings
 {
+    using System;
+
     public class SwaggerSettings
     {
-        public string SwaggerUri { get; set; }
+        public Uri SwaggerUri { get; set; }
 
         public string SwaggerName { get; set; }
 

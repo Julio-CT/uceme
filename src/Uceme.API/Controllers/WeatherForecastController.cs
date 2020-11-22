@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using Uceme.API.Data;
+    using Uceme.Model.Data;
 
     [Authorize]
     [ApiController]

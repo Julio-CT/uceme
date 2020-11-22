@@ -31,12 +31,7 @@ export class Logout extends React.Component<LogoutProps, LogoutState> {
         const action = this.props.action;
         switch (action) {
             case LogoutActions.Logout:
-                if (!!window.history.state.state.local) {
-                    this.logout(this.getReturnUrl(null));
-                } else {
-                    // This prevents regular links to <app>/authentication/logout from triggering a logout
-                    this.setState({ isReady: true, message: "The logout was not initiated from within the page." });
-                }
+                this.logout(this.getReturnUrl(null));
                 break;
             case LogoutActions.LogoutCallback:
                 this.processLogoutCallback();

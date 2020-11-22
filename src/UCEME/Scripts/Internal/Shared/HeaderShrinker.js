@@ -13,5 +13,6 @@ function headerShrinker() {
         }
     });
 }
+
 $(document).ready(function () { return headerShrinker(); });
 //# sourceMappingURL=HeaderShrinker.js.map

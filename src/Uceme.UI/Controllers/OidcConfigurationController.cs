@@ -1,6 +1,7 @@
-﻿namespace Uceme.API.Controllers
+﻿namespace Uceme.UI.Controllers
 {
     using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 

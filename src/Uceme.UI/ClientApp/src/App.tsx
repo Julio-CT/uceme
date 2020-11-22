@@ -14,6 +14,10 @@ function App() {
     return (
         <Layout>
             <Route exact path='/' component={Home} />
+            <Route path='/especialidades' component={Counter} />
+            <Route path='/innovaciones' component={Counter} />
+            <Route path='/blog' component={Counter} />
+            <Route path='/contacto' component={Counter} />
             <Route path='/counter' component={Counter} />
             <AuthorizeRoute path='/fetch-data' component={FetchData} />
             <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
