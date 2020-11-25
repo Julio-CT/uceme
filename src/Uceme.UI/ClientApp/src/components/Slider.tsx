@@ -8,25 +8,31 @@ import {
     CarouselCaption
 } from 'reactstrap';
 import './Slider.css';
-import logo1 from '../resources/images/logo.svg';
-import logo2 from '../resources/images/logo2.svg';
-import logo3 from '../resources/images/logo3.svg';
+import slide1 from '../resources/images/slider1.jpg';
+import slide2 from '../resources/images/slider2.jpg';
+import slide3 from '../resources/images/slider3.png';
+import slide4 from '../resources/images/slider4.png';
 
 const items = [
     {
-        src: logo1,
-        altText: 'Slide 1',
-        caption: 'Slide 1'
+        src: slide1,
+        altText: 'Unidad de Cirugia Endocrinometabolica Especializada',
+        caption: 'UCEME'
     },
     {
-        src: logo2,
-        altText: 'Slide 2',
-        caption: 'Slide 2'
+        src: slide2,
+        altText: 'Pioneros en España en Tiroidectomía por Abordaje Extracervical',
+        caption: 'INNOVACIONES TECNICAS'
     },
     {
-        src: logo3,
-        altText: 'Slide 3',
-        caption: 'Slide 3'
+        src: slide3,
+        altText: 'Ofrecemos un trato personalizado en enfermedades de tiroides, paratiroides, glándula suprarrenal y obesidad mórbida.',
+        caption: 'CONOCENOS'
+    },
+    {
+        src: slide4,
+        altText: 'Sistema de cita previa online',
+        caption: 'CITA PREVIA'
     }
 ];
 
@@ -69,7 +75,7 @@ const Slider = (props: any) => {
                 key={item.src}
             >
                 <img src={item.src} alt={item.altText} />
-                <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
+                <CarouselCaption captionText={item.altText} captionHeader={item.caption} />
             </CarouselItem>
         );
     });
