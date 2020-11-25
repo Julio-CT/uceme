@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Component } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav'
-import { Container, } from 'reactstrap';
+import { Container } from 'reactstrap';
 import { LoginMenu } from './api-authorization/LoginMenu';
 import './NavMenu.css';
 import logo from '../resources/images/ucemelogobl.png';

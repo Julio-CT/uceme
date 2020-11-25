@@ -36,6 +36,7 @@
     <EmbeddedResource Remove="Data\**" />
     <None Remove="Data\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Remove="ClientApp\src\components\Counter %28copy%29.tsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +78,7 @@
     <TypeScriptCompile Include="ClientApp\src\index.tsx" />
     <TypeScriptCompile Include="ClientApp\src\setupTests.ts" />
     <TypeScriptCompile Include="ClientApp\src\serviceWorker.ts" />
+    <TypeScriptCompile Include="ClientApp\src\components\Slider.tsx" />
   </ItemGroup>
 
   <ItemGroup>
