@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav'
 import { Container } from 'reactstrap';
 import { LoginMenu } from './api-authorization/LoginMenu';
-import './NavMenu.css';
+import './NavMenu.scss';
 import logo from '../resources/images/ucemelogobl.png';
 
 type NavMenuState = {
@@ -57,9 +57,9 @@ export class NavMenu extends Component<NavMenuProps, NavMenuState>  {
                     </div>
                     <div className="clearboth"></div>
 
-                    <Navbar className="bg-light">
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
+                    <Navbar collapseOnSelect expand="lg" className="bg-light">
+                        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                        <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="mr-auto">
                                 <Navbar.Brand href="#home">Somos Uceme</Navbar.Brand>
                                 <Nav.Link href="/especialidades">Especialidades</Nav.Link>
@@ -68,6 +68,8 @@ export class NavMenu extends Component<NavMenuProps, NavMenuState>  {
                                 <Nav.Link href="/contacto">Contacto</Nav.Link>
                                 <Nav.Link href="/counter">Counter</Nav.Link>
                                 <Nav.Link href="/fetch-data">Fetch data</Nav.Link>
+                            </Nav>
+                            <Nav>
                                 <LoginMenu>
                                 </LoginMenu>
                             </Nav>

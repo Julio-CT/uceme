@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Component } from 'react';
 import logo from '../resources/images/logo.svg';
 import { ReactComponent as Logo } from '../resources/images/logo.svg';
-import './Home.css';
+import './Home.scss';
 import Slider from './Slider';
 import Specialities from './Specialities';
 

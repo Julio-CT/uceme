@@ -7,7 +7,7 @@ import {
     CarouselIndicators,
     CarouselCaption
 } from 'reactstrap';
-import './Slider.css';
+import './Slider.scss';
 import slide1 from '../resources/images/slider1.jpg';
 import slide2 from '../resources/images/slider2.jpg';
 import slide3 from '../resources/images/slider3.png';

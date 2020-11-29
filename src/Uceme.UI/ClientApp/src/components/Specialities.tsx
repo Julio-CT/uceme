@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './Specialities.css';
+import './Specialities.scss';
 import slide1 from '../resources/images/icon-spe1.png';
 import slide2 from '../resources/images/icon-spe1.png';
 import slide3 from '../resources/images/icon-spe1.png';
@@ -46,7 +46,7 @@ const specials = [
 
 const items = specials.map((item) => {
     return (
-        <div className='col-4'>
+        <div className='col-12 col-md-4'>
             <a href={item.link} title={item.title}>
                 <img
                     src={item.src}
