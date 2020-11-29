@@ -4,6 +4,7 @@ import logo from '../resources/images/logo.svg';
 import { ReactComponent as Logo } from '../resources/images/logo.svg';
 import './Home.css';
 import Slider from './Slider';
+import Specialities from './Specialities';
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -12,6 +13,7 @@ export class Home extends Component {
         return (
             <div className="App App-home header-distance">
                 <Slider></Slider>
+                <Specialities></Specialities>
                 <Logo className="App-logo" />
                 <img src={require('../resources/images/logo.svg')} className="App-logo" alt="logo" />
                 <img src={logo} className="App-logo" alt="logo" />
@@ -24,7 +26,7 @@ export class Home extends Component {
                     target="_blank"
                     rel="noopener noreferrer">
                     Learn React
-            </a>
+                    </a>
             </div>
         );
     }

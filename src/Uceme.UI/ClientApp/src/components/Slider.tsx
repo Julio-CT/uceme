@@ -36,7 +36,7 @@ const items = [
     }
 ];
 
-const populateWeatherData = async () => {
+const populateSliderData = async () => {
     const response3 = await fetch('home/getmedicominvista');
     const data3 = await response3.json();
     console.log(data3);
@@ -64,7 +64,7 @@ const Slider = (props: any) => {
     }
 
     React.useEffect(() => {
-        populateWeatherData();
+        populateSliderData();
     });
 
     const slides = items.map((item) => {
@@ -81,16 +81,18 @@ const Slider = (props: any) => {
     });
 
     return (
-        <Carousel
-            activeIndex={activeIndex}
-            next={next}
-            previous={previous}
-        >
-            <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={goToIndex} />
-            {slides}
-            <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
-            <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
-        </Carousel>
+        <section id="section-slide" className="clearfix">
+            <Carousel
+                activeIndex={activeIndex}
+                next={next}
+                previous={previous}
+            >
+                <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={goToIndex} />
+                {slides}
+                <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
+                <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
+            </Carousel>
+        </section>
     );
 }
 

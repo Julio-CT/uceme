@@ -1,0 +1,37 @@
+.line{
+    width: 120px;
+    height: 3px;
+    background-color: #bdbdbd;
+    margin: auto auto 16px;
+}
+.line-small{
+    width: 50px;
+    height: 3px;
+    background-color: #bdbdbd;
+    margin: 10px auto 10px;
+}
+
+.line-white{
+    width: 120px;
+    height: 3px;
+    background-color: #ffffff;
+    margin: 10px auto 10px;
+}
+
+.specialities h4 a{
+    text-decoration: none;
+    color: #292929;
+    line-height: 30px;
+    transition: all 0.5s ease-in-out;
+    letter-spacing: 1px;
+}
+
+.specialities h4 a:hover{
+    color: #61dafb;
+}
+
+.specialities p a{
+    color: #666666;
+    text-align: center;
+    text-decoration: none;
+}
