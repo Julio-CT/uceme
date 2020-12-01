@@ -4,7 +4,7 @@ import authService from './AuthorizeService';
 import { ApplicationPaths } from './ApiAuthorizationConstants';
 import Nav from 'react-bootstrap/Nav';
 
-type LoginMenueState = {
+type LoginMenuState = {
     userName: any,
     isAuthenticated: boolean,
 }
@@ -12,7 +12,7 @@ type LoginMenueState = {
 type LoginMenuProps = {
 }
 
-export class LoginMenu extends React.Component<LoginMenuProps, LoginMenueState> {
+export class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
     _subscription: number;
     constructor(props: LoginMenuProps) {
         super(props);
@@ -25,16 +25,16 @@ export class LoginMenu extends React.Component<LoginMenuProps, LoginMenueState> 
         this._subscription = 0;
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this._subscription = authService.subscribe(() => this.populateState());
         this.populateState();
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         authService.unsubscribe(this._subscription);
     }
 
-    async populateState() {
+    async populateState(): Promise<void> {
         const [isAuthenticated, user] = await Promise.all([authService.isAuthenticated(), authService.getUser()]);
         this.setState({
             isAuthenticated,
@@ -42,20 +42,7 @@ export class LoginMenu extends React.Component<LoginMenuProps, LoginMenueState> 
         });
     }
 
-    render() {
-        const { isAuthenticated, userName } = this.state;
-        if (!isAuthenticated) {
-            const registerPath = `${ApplicationPaths.Register}`;
-            const loginPath = `${ApplicationPaths.Login}`;
-            return this.anonymousView(registerPath, loginPath);
-        } else {
-            const profilePath = `${ApplicationPaths.Profile}`;
-            const logoutPath = { pathname: `${ApplicationPaths.LogOut}`, state: { local: true } };
-            return this.authenticatedView(userName, profilePath, logoutPath);
-        }
-    }
-
-    authenticatedView(userName: any, profilePath: any, logoutPath: any) {
+    authenticatedView(userName: any, profilePath: any, logoutPath: any): JSX.Element {
         console.log("userName");
         console.log(userName);
         console.log("profilePath");
@@ -68,7 +55,7 @@ export class LoginMenu extends React.Component<LoginMenuProps, LoginMenueState> 
         </Fragment>);
     }
 
-    anonymousView(registerPath: any, loginPath: any) {
+    anonymousView(registerPath: any, loginPath: any): JSX.Element {
         console.log("registerPath");
         console.log(registerPath);
         console.log("loginPath");
@@ -77,5 +64,18 @@ export class LoginMenu extends React.Component<LoginMenuProps, LoginMenueState> 
             <Nav.Link className="text-dark" href={registerPath}>Registro</Nav.Link>
             <Nav.Link className="text-dark" href={loginPath}>Login</Nav.Link>
         </Fragment>);
+    }
+
+    render(): JSX.Element {
+        const { isAuthenticated, userName } = this.state;
+        if (!isAuthenticated) {
+            const registerPath = `${ApplicationPaths.Register}`;
+            const loginPath = `${ApplicationPaths.Login}`;
+            return this.anonymousView(registerPath, loginPath);
+        } else {
+            const profilePath = `${ApplicationPaths.Profile}`;
+            const logoutPath = { pathname: `${ApplicationPaths.LogOut}`, state: { local: true } };
+            return this.authenticatedView(userName, profilePath, logoutPath);
+        }
     }
 }

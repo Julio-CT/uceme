@@ -27,7 +27,7 @@ export class Logout extends React.Component<LogoutProps, LogoutState> {
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const action = this.props.action;
         switch (action) {
             case LogoutActions.Logout:
@@ -46,7 +46,7 @@ export class Logout extends React.Component<LogoutProps, LogoutState> {
         this.populateAuthenticationState();
     }
 
-    render() {
+    render(): JSX.Element {
         const { isReady, message } = this.state;
         if (!isReady) {
             return <div></div>
@@ -68,7 +68,7 @@ export class Logout extends React.Component<LogoutProps, LogoutState> {
         }
     }
 
-    async logout(returnUrl: any) {
+    async logout(returnUrl: any): Promise<void> {
         const state = { returnUrl };
         const isauthenticated = await authService.isAuthenticated();
         if (isauthenticated) {
@@ -90,7 +90,7 @@ export class Logout extends React.Component<LogoutProps, LogoutState> {
         }
     }
 
-    async processLogoutCallback() {
+    async processLogoutCallback(): Promise<void> {
         const url = window.location.href;
         const result = await authService.completeSignOut(url);
         switch (result.status) {
@@ -109,12 +109,12 @@ export class Logout extends React.Component<LogoutProps, LogoutState> {
         }
     }
 
-    async populateAuthenticationState() {
+    async populateAuthenticationState(): Promise<void> {
         const authenticated = await authService.isAuthenticated();
         this.setState({ isReady: true, authenticated });
     }
 
-    getReturnUrl(state: any) {
+    getReturnUrl(state: any): any {
         const params = new URLSearchParams(window.location.search);
         const fromQuery = params.get(QueryParameterNames.ReturnUrl);
         if (fromQuery && !fromQuery.startsWith(`${window.location.origin}/`)) {
@@ -126,7 +126,7 @@ export class Logout extends React.Component<LogoutProps, LogoutState> {
             `${window.location.origin}${ApplicationPaths.LoggedOut}`;
     }
 
-    navigateToReturnUrl(returnUrl: any) {
+    navigateToReturnUrl(returnUrl: any): void {
         return window.location.replace(returnUrl);
     }
 }

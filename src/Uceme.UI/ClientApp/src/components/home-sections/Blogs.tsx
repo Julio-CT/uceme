@@ -1,10 +1,10 @@
 import * as React from 'react';
-import './Specialities.scss';
-import slide1 from '../resources/images/icon-spe1.png';
-import slide2 from '../resources/images/icon-spe1.png';
-import slide3 from '../resources/images/icon-spe1.png';
-import slide4 from '../resources/images/icon-spe1.png';
-import slide5 from '../resources/images/icon-spe1.png';
+import './Blogs.scss';
+import slide1 from '../../resources/images/icon-spe1.png';
+import slide2 from '../../resources/images/icon-spe1.png';
+import slide3 from '../../resources/images/icon-spe1.png';
+import slide4 from '../../resources/images/icon-spe1.png';
+import slide5 from '../../resources/images/icon-spe1.png';
 
 const specials = [
     {
@@ -46,7 +46,7 @@ const specials = [
 
 const items = specials.map((item) => {
     return (
-        <div className='col-12 col-md-4'>
+        <div className='col-12 col-md-4' key={item.title}>
             <a href={item.link} title={item.title}>
                 <img
                     src={item.src}
@@ -69,9 +69,9 @@ const items = specials.map((item) => {
     );
 });
 
-const Specialities = (props: any) => {
+const Blogs = (props: any) => {
     return (
-        <section id="section-specialities" className="clearfix">
+        <section id="section-specialities" className="clearfix"> 
             <div className="specialities container clearfix extra-margin">
                 <h3 className="uppercase">Especialidades</h3>
                 <h4 className="padding-y-medium spacing uppercase">La última tecnología unida a un excelente trato personal
@@ -85,4 +85,4 @@ const Specialities = (props: any) => {
     );
 }
 
-export default Specialities;
+export default Blogs;

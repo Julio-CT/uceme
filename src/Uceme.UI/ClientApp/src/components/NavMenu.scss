@@ -1,4 +1,4 @@
-﻿
+
 html {
   font-size: 14px;
 }
@@ -10,13 +10,13 @@ html {
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
 }
 
 .uceme-header {
   color: white;
   position: fixed;
-  background-color: #72BEB1;
+  background-color: #72beb1;
   width: 100%;
   top: 0;
   left: 0;
@@ -101,7 +101,7 @@ a.small-logo {
 }
 
 .logo-container {
-  padding-left:30px;
+  padding-left: 30px;
 }
 
 a.navbar-brand {

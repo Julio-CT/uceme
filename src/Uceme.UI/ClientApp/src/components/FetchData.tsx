@@ -2,73 +2,80 @@ import * as React from 'react';
 import authService from './api-authorization/AuthorizeService';
 
 type FetchDataState = {
-    forecasts: any[],
-    loading: boolean,
-}
+  forecasts: any[];
+  loading: boolean;
+};
 
-export class FetchData extends React.Component<{}, FetchDataState> {
-    static displayName = FetchData.name;
+export default class FetchData extends React.Component<
+  Record<string, unknown>,
+  FetchDataState
+> {
+  static displayName = FetchData.name;
 
-    constructor(props: any) {
-        super(props);
-        this.state = { forecasts: [], loading: true };
-    }
+  constructor(props: Record<string, unknown>) {
+    super(props);
+    this.state = { forecasts: [], loading: true };
+  }
 
-    componentDidMount() {
-        this.populateWeatherData();
-    }
+  componentDidMount(): void {
+    this.populateWeatherData();
+  }
 
-    static renderForecastsTable(forecasts: Array<any>) {
-        return (
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Temp. (C)</th>
-                        <th>Temp. (F)</th>
-                        <th>Summary</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {forecasts.map(forecast =>
-                        <tr key={forecast.date}>
-                            <td>{forecast.date}</td>
-                            <td>{forecast.temperatureC}</td>
-                            <td>{forecast.temperatureF}</td>
-                            <td>{forecast.summary}</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        );
-    }
+  static renderForecastsTable(forecasts: Array<any>): JSX.Element {
+    return (
+      <table className="table table-striped" aria-labelledby="tabelLabel">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Temp. (C)</th>
+            <th>Temp. (F)</th>
+            <th>Summary</th>
+          </tr>
+        </thead>
+        <tbody>
+          {forecasts.map((forecast) => (
+            <tr key={forecast.date}>
+              <td>{forecast.date}</td>
+              <td>{forecast.temperatureC}</td>
+              <td>{forecast.temperatureF}</td>
+              <td>{forecast.summary}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
 
-    render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : FetchData.renderForecastsTable(this.state.forecasts);
+  async populateWeatherData(): Promise<void> {
+    const token = await authService.getAccessToken();
+    const response2 = await fetch('home/getmedicominvista', {
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+    });
+    const data2 = await response2.json();
+    console.log(data2);
 
-        return (
-            <div>
-                <h1 id="tabelLabel">Weather forecast</h1>
-                <p>This component demonstrates fetching data from the server.</p>
-                {contents}
-            </div>
-        );
-    }
+    const response = await fetch('weatherforecast', {
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+    });
+    const data = await response.json();
+    this.setState({ forecasts: data, loading: false });
+  }
 
-    async populateWeatherData() {
-        const token = await authService.getAccessToken();
-        const response2 = await fetch('home/getmedicominvista', {
-            headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
-        });
-        const data2 = await response2.json();
-        console.log(data2);
+  render(): JSX.Element {
+    const contents = this.state.loading ? (
+      <p>
+        <em>Loading...</em>
+      </p>
+    ) : (
+      FetchData.renderForecastsTable(this.state.forecasts)
+    );
 
-        const response = await fetch('weatherforecast', {
-            headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await response.json();
-        this.setState({ forecasts: data, loading: false });
-    }
+    return (
+      <div>
+        <h1 id="tabelLabel">Weather forecast</h1>
+        <p>This component demonstrates fetching data from the server.</p>
+        {contents}
+      </div>
+    );
+  }
 }

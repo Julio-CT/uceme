@@ -16,7 +16,7 @@ type LoginProps = {
 }
 
 export class Login extends React.Component<LoginProps, LoginState> {
-    constructor(props: any) {
+    constructor(props: Readonly<LoginProps>) {
         super(props);
 
         this.state = {
@@ -24,7 +24,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const action = this.props.action;
         switch (action) {
             case LoginActions.Login:
@@ -49,7 +49,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         }
     }
 
-    render() {
+    render(): JSX.Element {
         const action = this.props.action;
         const { message } = this.state;
 

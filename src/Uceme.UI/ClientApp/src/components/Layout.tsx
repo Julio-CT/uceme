@@ -1,37 +1,69 @@
-import * as React from 'react'
+import * as React from 'react';
 import { Container } from 'reactstrap';
 import './Layout.scss';
-import { NavMenu } from './NavMenu';
+import NavMenu from './NavMenu';
 
-export class Layout extends React.Component {
+type LayoutState = {
+  children: any;
+};
+
+type LayoutProps = {
+  children: any;
+};
+
+export default class Layout extends React.Component<LayoutProps, LayoutState> {
   static displayName = Layout.name;
 
-  componentDidMount() {
+  constructor(props: Readonly<LayoutProps>) {
+    super(props);
+
+    this.state = {
+      children: props.children,
+    };
+  }
+
+  componentDidMount(): void {
     this.headerShrinker();
   }
 
-  render() {
+  headerShrinker(): void {
+    window.addEventListener('scroll', function scrollListener(): void {
+      const distanceY =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const shrinkOn = 50;
+      if (distanceY > shrinkOn) {
+        Array.from(document.getElementsByClassName('big-logo')).forEach(
+          function makeLogoSmall(item: any): void {
+            item && item.classList.add('small-logo');
+          }
+        );
+        Array.from(document.getElementsByClassName('site-title-div')).forEach(
+          function makeTitleSmall(item: any): void {
+            item && item.classList.add('site-title-div-small');
+          }
+        );
+      } else {
+        Array.from(document.getElementsByClassName('small-logo')).forEach(
+          function makeLogoBig(item: any): void {
+            item && item.classList.remove('small-logo');
+          }
+        );
+        Array.from(
+          document.getElementsByClassName('site-title-div-small')
+        ).forEach(function makeTitleBig(item: any): void {
+          item && item.classList.remove('site-title-div-small');
+        });
+      }
+    });
+  }
+
+  render(): JSX.Element {
+    const { children } = this.state;
     return (
       <div>
         <NavMenu />
-        <Container>
-          {this.props.children}
-        </Container>
+        <Container>{children}</Container>
       </div>
     );
-  }
-
-  private headerShrinker(): void {
-    window.addEventListener('scroll', function () {
-      var distanceY = window.pageYOffset || document.documentElement.scrollTop, shrinkOn = 50;
-      if (distanceY > shrinkOn) {
-        Array.from(document.getElementsByClassName('big-logo')).forEach(function (item: any) { item && item.classList.add('small-logo'); });
-        Array.from(document.getElementsByClassName('site-title-div')).forEach(function (item: any) { item && item.classList.add('site-title-div-small'); });
-      }
-      else {
-        Array.from(document.getElementsByClassName('small-logo')).forEach(function (item: any) { item && item.classList.remove('small-logo'); });
-        Array.from(document.getElementsByClassName('site-title-div-small')).forEach(function (item: any) { item && item.classList.remove('site-title-div-small'); });
-      }
-    });
   }
 }

@@ -30,15 +30,17 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 /* @clearing */
+
 /* ---------------------------------------------------------------------------------------- */
 
-.clearfix:after {
+.clearfix::after {
   visibility: hidden;
   display: block;
   content: " ";
@@ -49,57 +51,60 @@
   clear: both;
 }
 
-h1.main-logo span{
-	display: block;
-	text-indent:-999999999px;
+h1.main-logo span {
+  display: block;
+  text-indent: -999999999px;
 }
 
-h2, h3, h4, h5 {
-    line-height: 100%;
-    text-align: center;
-    font-weight: 100;
+h2,
+h3,
+h4,
+h5 {
+  line-height: 100%;
+  text-align: center;
+  font-weight: 100;
 }
 
 h3 {
-    font-family: 'PFEncoreSansPro-Light';
-    font-size: 35px;
-    color: #61dafb;
+  font-family: 'PFEncoreSansPro-Light';
+  font-size: 35px;
+  color: #61dafb;
 }
 
 h4 {
-    font-family: 'PFEncoreSansPro-Bold';
-    font-size: 16px;
-    color: #3e4851;
-    line-height: 22px;
+  font-family: 'PFEncoreSansPro-Bold';
+  font-size: 16px;
+  color: #3e4851;
+  line-height: 22px;
 }
 
-h4 a{
-    color: #292929;
+h4 a {
+  color: #292929;
 }
 
-p{
-    font-family: 'PFEncoreSansPro-Light';
-    font-size: 14px;
-    line-height: 20px;
-    color: #666666;
-    font-weight: 100;
+p {
+  font-family: 'PFEncoreSansPro-Light';
+  font-size: 14px;
+  line-height: 20px;
+  color: #666;
+  font-weight: 100;
 }
 
 strong {
-	font-weight: bold;
-	font-weight: 900;
-	font-size: 110%;
+  font-weight: bold;
+  font-weight: 900;
+  font-size: 110%;
 }
 
 .extra-margin {
   margin-top: 30px;
 }
 
-.uppercase{
+.uppercase {
   text-transform: uppercase;
 }
 
-.opacity{
+.opacity {
   opacity: 0.6;
 }
 
