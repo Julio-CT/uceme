@@ -10,7 +10,7 @@ import Blogs from './home-sections/Blogs';
 export default class Home extends Component {
   static displayName = Home.name;
 
-  static logo = require('../resources/images/logo.svg');
+  logo2 = require('../resources/images/logo.svg').default;
 
   render(): JSX.Element {
     return (
@@ -20,7 +20,8 @@ export default class Home extends Component {
         <Blogs />
         <Logo className="App-logo" />
         <img src={logo} className="App-logo" alt="logo" />
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={require('../resources/images/logo.svg').default} className="App-logo" alt="logo" />
+        <img src={this.logo2} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>

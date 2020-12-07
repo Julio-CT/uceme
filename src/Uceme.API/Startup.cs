@@ -60,7 +60,7 @@ namespace Uceme.Api
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    this.Configuration.GetConnectionString("UcemeConnection")));
+                    this.Configuration.GetConnectionString("UcemeConnection")).EnableSensitiveDataLogging());
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -132,6 +132,7 @@ namespace Uceme.Api
 
             services.AddTransient<IMedicoService, MedicoService>();
             services.AddTransient<IFotosService, FotosService>();
+            services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderSettings>(this.Configuration);
 

@@ -10,20 +10,19 @@
 namespace Uceme.Model.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Blog
     {
         [Key]
         public int idBlog { get; set; }
-        public int idUsuario { get; set; }
         public string titulo { get; set; }
         public System.DateTime fecha { get; set; }
         public string foto { get; set; }
         public string texto { get; set; }
         public Nullable<bool> profesional { get; set; }
-    
-        public virtual Usuario Usuario { get; set; }
+
+        public int idUsuario { get; set; }
+        public Usuario Usuario { get; set; }
     }
 }

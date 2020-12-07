@@ -15,12 +15,6 @@ namespace Uceme.Model.Models
 
     public partial class Usuario
     {
-        public Usuario()
-        {
-            this.Blog = new HashSet<Blog>();
-            this.Documento = new HashSet<Documento>();
-        }
-
         [Key]
         public int idUsuario { get; set; }
         public string nombre { get; set; }
@@ -29,18 +23,19 @@ namespace Uceme.Model.Models
         public string login { get; set; }
         public string foto { get; set; }
         public Nullable<System.DateTime> ultimoupdate { get; set; }
-        public int idRol { get; set; }
-        public int idCurriculum { get; set; }
-        public int idDatosContacto { get; set; }
         public string password { get; set; }
         public Nullable<bool> newsletter { get; set; }
         public string linkedin { get; set; }
         public Nullable<int> display_order { get; set; }
     
-        public virtual ICollection<Blog> Blog { get; set; }
-        public virtual Curriculum Curriculum { get; set; }
-        public virtual DatosContacto DatosContacto { get; set; }
-        public virtual ICollection<Documento> Documento { get; set; }
-        public virtual Rol Rol { get; set; }
+        public ICollection<Blog> Blog { get; set; }
+        public ICollection<Documento> Documento { get; set; }
+
+        public int idCurriculum { get; set; }
+        public Curriculum Curriculum { get; set; }
+        public int idDatosContacto { get; set; }
+        public DatosContacto DatosContacto { get; set; }
+        public int idRol { get; set; }
+        public Rol Rol { get; set; }
     }
 }

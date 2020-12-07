@@ -64,7 +64,7 @@ const Slider = (props: any) => {
     }
 
     React.useEffect(() => {
-        populateSliderData();
+        //populateSliderData();
     });
 
     const slides = items.map((item) => {
