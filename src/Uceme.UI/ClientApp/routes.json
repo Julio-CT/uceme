@@ -1,0 +1,5 @@
+{
+  "/home/*": "/$1",
+  "/blog/*": "/$1",
+  "/_configuration/UCEME.UI": "/configuration"
+}

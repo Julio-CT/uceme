@@ -1,0 +1,88 @@
+{
+    "getblogsubset":[
+        {
+          "idBlog": 4057,
+          "titulo": "Cirugía de Glándulas Suprarrenales",
+          "fecha": "2020-06-10T00:00:00",
+          "foto": "~/uploads/fotos/Blog4057.png",
+          "texto": "<p>Las gl&aacute;ndulas suprarrenales son dos hormonas localizadas encima de sendos ri&ntilde;ones cuya funci&oacute;n es la de regular las respuestas al estr&eacute;s a trav&eacute;s de la s&iacute;ntesis de corticoesteroides y catecolaminas.</p>\r\n<p>Algunas enfermedades de las gl&aacute;ndulas suprarrenales precisan de un tratamiento quir&uacute;rgico</p>\r\n<p>- Adenoma. Tumor benigno unilateral&nbsp;</p>\r\n<p>- Feocromocitoma.&nbsp;</p>\r\n<p>- Incidentaloma</p>\r\n<p>- Carcinoma</p>\r\n<p>- Met&aacute;stasis</p>\r\n<p>En todos los casos proponemos como T&Eacute;CNICA DE ELECCI&Oacute;N la<strong>&nbsp;EXERESIS DE LA GL&Aacute;NDULA POR V&Iacute;A LAPAROSC&Oacute;PICA.&nbsp;</strong>T&eacute;cnnica de elecci&oacute;n en la actualidad con excelente tolerancia postoperatoria</p>\r\n<p>Le recomendamos que visite nuestra secci&oacute;n de v&iacute;deos en la que mostramos varios casos de suprarrenalectom&iacute;a laparosc&oacute;pica</p>",
+          "profesional": null,
+          "idUsuario": 0,
+          "usuario": null
+        },
+        {
+          "idBlog": 4055,
+          "titulo": "UCEME, único grupo en España en realizar tiroidectomía sin cicatriz",
+          "fecha": "2020-06-02T00:00:00",
+          "foto": "~/uploads/fotos/Blog4055.png",
+          "texto": "<p>&iquest;Sabes que en UCEME somos pioneros en Espa&ntilde;a en tiroidectom&iacute;a por abordaje extracervical?&nbsp;<strong>Somos el &uacute;nico grupo en Espa&ntilde;a en realizar &eacute;sta t&eacute;cnica y uno de los de mayor experiencia en Europa</strong></p>\r\n<p>En la &uacute;ltima d&eacute;cada, liderados por los cirujanos endocrinos asi&aacute;ticos, se han desarrollado varias t&eacute;cnicas con el fin de poder extraer la gl&aacute;ndula tiroides evitando dejar cicatrices en el cuello. Una cirug&iacute;a tan segura como la tiroidea, presenta, como secuela m&aacute;s importante, una herida en un lugar tan visible como es el centro del cuello. En nuestro grupo quir&uacute;rgico nos planteamos el aprender las t&eacute;cnicas m&aacute;s reproducibles y vers&aacute;tiles de las muchas que se han descrito, y dise&ntilde;amos un programa de aprendizaje hace m&aacute;s de un a&ntilde;o. La primera parte del mismo consist&iacute;a en formaci&oacute;n te&oacute;rica, y posterior asistencia&nbsp;<strong>durante tres semanas al Hospital Mount Sina&iacute; de Nueva York, con los profesores Inabnet y Suh</strong>, pioneros en estas t&eacute;cnicas en EEUU. Esta primera parte culmin&oacute; en junio de 2017 con la realizaci&oacute;n de los primeros casos de abordaje biaxilo-bimamario por nuestro grupo habiendo realizado un total de quince casos.</p>\r\n<p>Los resultados de los primeros casos que intervinimos fueron excelentes y totalmente equiparables a los de la cirug&iacute;a abierta (sin lesi&oacute;n nerviosa ni de paratiroides) pero sin cicatriz visible en el cuello.</p>",
+          "profesional": null,
+          "idUsuario": 0,
+          "usuario": null
+        },
+        {
+          "idBlog": 4054,
+          "titulo": "Obesidad mórbida/ Síndrome metabólico",
+          "fecha": "2020-05-21T00:00:00",
+          "foto": "~/uploads/fotos/Blog4054.png",
+          "texto": "<p></p>\r\n<p>En UCEME ofrecemos nuestra experiencia en cirug&iacute;a laparosc&oacute;pica de obesidad m&oacute;rbida, realizando diferentes t&eacute;cnicas individualizando su indicaci&oacute;n seg&uacute;n las caracter&iacute;sticas de cada paciente. En concreto, realizamos Bypass g&aacute;strico, Gastrectom&iacute;a tubular, Derivaci&oacute;n biliopancre&aacute;tica.</p>\r\n<p>El sobrepeso y la obesidad es una enfermedad cada vez m&aacute;s frecuente en los pa&iacute;ses desarrollados, llegando a cifras epid&eacute;micas en pa&iacute;ses como Estados Unidos.</p>\r\n<p>Aunque es una enfermedad en s&iacute; misma, favorece adem&aacute;s la aparici&oacute;n de muchas otras como la hipertensi&oacute;n arterial, la diabetes mellitus, la hipertrigliceridemia.</p>\r\n<p>El s&iacute;ndrome metab&oacute;lico consiste en diabetes mellitus asociada a hipertensi&oacute;n arterial, dislipemia, u obesidad.</p>\r\n<p>En los &uacute;ltimos a&ntilde;os se ha observado que el s&iacute;ndrome metab&oacute;lico se corrige total o casi totalmente en pacientes obesos sometidos a cirug&iacute;a bari&aacute;trica (o cirug&iacute;a de la obesidad). Por esta raz&oacute;n se han comenzado a aplicar estas t&eacute;cnicas en pacientes diab&eacute;ticos no obesos. Los resultados a corto y medio plazo han sido muy optimistas, con altos porcentajes de curaci&oacute;n de la diabetes.</p>\r\n<p>Ofrecemos en nuestro grupo la realizaci&oacute;n de cirug&iacute;a metab&oacute;lica laparosc&oacute;pica destinada al tratamiento de diabetes mellitus tipo II de mal control m&eacute;dico.</p>",
+          "profesional": null,
+          "idUsuario": 0,
+          "usuario": null
+        }
+      ],
+  "getmedicominvista": [
+    {
+      "idUsuario": 4,
+      "nombre": "Iñaki",
+      "apellidos": "Amunategui Prats",
+      "nick": null,
+      "login": null,
+      "foto": "~/uploads/fotos/usu4.png",
+      "ultimoupdate": null,
+      "password": null,
+      "newsletter": null,
+      "linkedin": null,
+      "display_order": null,
+      "blog": null,
+      "documento": null,
+      "idCurriculum": 0,
+      "curriculum": null,
+      "idDatosContacto": 0,
+      "datosContacto": null,
+      "idRol": 0,
+      "rol": null
+    },
+    {
+      "idUsuario": 5,
+      "nombre": "Enrique",
+      "apellidos": "Mercader Cidoncha",
+      "nick": null,
+      "login": null,
+      "foto": "~/uploads/fotos/usu5.jpg",
+      "ultimoupdate": null,
+      "password": null,
+      "newsletter": null,
+      "linkedin": null,
+      "display_order": null,
+      "blog": null,
+      "documento": null,
+      "idCurriculum": 0,
+      "curriculum": null,
+      "idDatosContacto": 0,
+      "datosContacto": null,
+      "idRol": 0,
+      "rol": null
+    }
+  ],
+  "configuration": [
+    {
+      "authority": "http://localhost:3000",
+      "client_id": "Uceme.UI",
+      "redirect_uri": "http://localhost:3000/authentication/login-callback",
+      "post_logout_redirect_uri": "http://localhost:3000/authentication/logout-callback",
+      "response_type": "code",
+      "scope": "Uceme.UIAPI openid profile"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import tinyDate from '../../resources/images/tinydate.png';
 import photoIcon from '../../resources/images/photoicon.png';
 
 interface blog {
+    id: string,
     title: string;
     src: string;
     altText: JSX.Element | JSX.Element[];
@@ -20,46 +21,39 @@ type blogState = {
 
 const Blogs = (props: any) => {
     const [data, setData] = React.useState<blogState>({ items: [] as Array<blog>, isFetching: false });
-    const [loading, setLoading] = React.useState(true);
-
-    const fetchData = () => {
-        if (loading) {
-            fetch('blog/getblogsubset?amount=3')
-                .then((response) => response.json())
-                .then((data) => {
-                    const retrievedBlogs: blog[] = [];
-                    data.forEach((obj: any) => {
-                        retrievedBlogs.push({
-                            title: obj.titulo,
-                            src: require('../../resources/images/icon-spe1.png').default,
-                            altText: parse(obj.texto),
-                            caption: obj.titulo,
-                            link: 'Cirugía de Glándulas Suprarrenales',
-                            date: new Intl.DateTimeFormat("en-GB", {
-                                year: "numeric",
-                                month: "long",
-                                day: "2-digit"
-                              }).format(obj.date),
-                        });
-                    });
-
-                    setData({ items: retrievedBlogs, isFetching: false });
-                    setLoading(false);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    setLoading(false);
-                });
-        };
-    };
 
     React.useEffect(() => {
-        fetchData();
-    });
+        fetch('blog/getblogsubset?amount=3')
+            .then((response: { json: () => any; }) => response.json())
+            .then((data: any[]) => {
+                const retrievedBlogs: blog[] = [];
+                data.forEach((obj: any) => {
+                    retrievedBlogs.push({
+                        id: obj.idBlog,
+                        title: obj.titulo,
+                        src: require('../../resources/images/icon-spe1.png').default,
+                        altText: parse(obj.texto),
+                        caption: obj.titulo,
+                        link: 'Cirugía de Glándulas Suprarrenales',
+                        date: new Intl.DateTimeFormat("en-GB", {
+                            year: "numeric",
+                            month: "long",
+                            day: "2-digit"
+                        }).format(new Date(obj.fecha)),
+                    });
+                });
+
+                setData({ items: retrievedBlogs, isFetching: false });
+            })
+            .catch((error: any) => {
+                console.log(error);
+                setData({ items: [] as Array<blog>, isFetching: false });
+            })
+    }, []);
 
     const posts = data.items.map((item) => {
         return (
-            <div className='blogs col-12 col-md-4'>
+            <div className='blogs col-12 col-md-4' key={item.id}>
                 <div className='box-noticias' key={item.title}>
                     <a href={item.link}>
                         <img
@@ -78,7 +72,7 @@ const Blogs = (props: any) => {
                     </h5>
                     <div className='line-small'></div>
                     <p></p>
-                    <p className="post-ellipsis">{item.altText}</p>
+                    <span className="post-ellipsis">{item.altText}</span>
                     <p></p>
                 </div>
                 <div className='box-admin'>
@@ -92,7 +86,7 @@ const Blogs = (props: any) => {
 
     return (
         <section id='section-blog' className='clearfix'>
-            {loading ? (
+            {data.isFetching ? (
                 <div>...Data Loading.....</div>
             ) : (
                     <div className='blog container clearfix extra-margin'>

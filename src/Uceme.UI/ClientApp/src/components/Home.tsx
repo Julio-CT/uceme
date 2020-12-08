@@ -20,7 +20,11 @@ export default class Home extends Component {
         <Blogs />
         <Logo className="App-logo" />
         <img src={logo} className="App-logo" alt="logo" />
-        <img src={require('../resources/images/logo.svg').default} className="App-logo" alt="logo" />
+        <img
+          src={require('../resources/images/logo.svg').default}
+          className="App-logo"
+          alt="logo"
+        />
         <img src={this.logo2} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.

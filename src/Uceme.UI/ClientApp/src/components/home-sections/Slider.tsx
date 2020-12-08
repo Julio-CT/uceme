@@ -36,12 +36,6 @@ const items = [
     }
 ];
 
-const populateSliderData = async () => {
-    const response3 = await fetch('home/getmedicominvista');
-    const data3 = await response3.json();
-    console.log(data3);
-}
-
 const Slider = (props: any) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [animating, setAnimating] = useState(false);
@@ -62,10 +56,6 @@ const Slider = (props: any) => {
         if (animating) return;
         setActiveIndex(newIndex);
     }
-
-    React.useEffect(() => {
-        //populateSliderData();
-    });
 
     const slides = items.map((item) => {
         return (

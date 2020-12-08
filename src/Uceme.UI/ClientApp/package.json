@@ -47,6 +47,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.21.5",
     "jest": "^26.6.0",
+    "json-server": "^0.16.3",
     "parse5": "^5.1.1",
     "prettier": "^2.2.1",
     "stylelint": "^13.8.0",
@@ -71,7 +72,8 @@
     "start-r": "react-scripts start",
     "build-r": "react-scripts build",
     "test-r": "react-scripts test",
-    "eject-r": "react-scripts eject"
+    "eject-r": "react-scripts eject",
+    "stubapi": "json-server  --watch --port 4155 --routes routes.json db.json"
   },
   "browserslist": {
     "production": [

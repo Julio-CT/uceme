@@ -1,65 +1,70 @@
-.box-noticias { 
-    .img-post{
-        width: 100%;
-        height: auto;
-    }
-    .post-ellipsis{
-        max-height: 250px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-}
+.box-noticias {
+  .img-post {
+    width: 100%;
+    height: auto;
+  }
 
-.blogs .box-noticias{
-    border: 1px solid #bdbdbd;
-    min-height: 450px;
-    border-bottom: none;
-    max-height: 625px;
+  .post-ellipsis {
+    max-height: 250px;
     overflow: hidden;
     text-overflow: ellipsis;
-    .icono-img{
-        position: relative;
-        display: block;
-        margin: -42px auto 0;
-    }
-    p{
-        font-family: 'PFEncoreSansPro-Light';
-        font-size: 14px;
-        text-align: center;
-        padding: 0 10px 0;
-    }
+  }
 }
 
-.blogs .box-noticias h5{
+.blogs .box-noticias {
+  border: 1px solid #bdbdbd;
+  min-height: 450px;
+  border-bottom: none;
+  max-height: 625px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .icono-img {
+    position: relative;
+    display: block;
+    margin: -42px auto 0;
+  }
+
+  p {
+    font-family: 'PFEncoreSansPro-Light';
+    font-size: 14px;
+    text-align: center;
+    padding: 0 10px 0;
+  }
+
+  h5 {
     font-family: 'PFEncoreSansPro-Regular';
     font-size: 18px;
     margin-top: 20px;
     padding: 0 10px 0;
     letter-spacing: 1px;
     line-height: 24px;
+    
+    a {
+      text-decoration: none;
+      color: #3e4851;
+      transition: all 0.5s ease-in-out;
+    }
+    
+    a:hover {
+      color: #fa6900;
+    }
+  }
 }
 
-.blogs .box-noticias h5 a{
-    text-decoration: none;
-    color: #3e4851;
-    transition: all 0.5s ease-in-out;
+.blogs .admin,
+.blogs .date {
+  font-size: 40%;
+  border: 1px solid #bdbdbd;
+  float: left;
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  padding: 11px 0;
 }
 
-.blogs .box-noticias h5 a:hover{
-    color: #fa6900;
-}
-
-.blogs .admin, .blogs .date{
-    font-size: 40%;
-    border: 1px solid #bdbdbd;
-    float: left;
-    height: 40px;
-    width: 100%;
-    text-align: center;
-    padding:11px 0;
-}
-
-.box-noticias a:hover>img, .box-especialistas a:hover>img{
-    opacity: 0.7;
-     transition: all 0.5s ease-in-out;
+.box-noticias a:hover > img,
+.box-especialistas a:hover > img {
+  opacity: 0.7;
+  transition: all 0.5s ease-in-out;
 }
