@@ -9,10 +9,14 @@
     using Uceme.API.Services;
     using Uceme.Model.Models;
 
+    [ApiController]
+    [Route("[controller]")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> logger;
+    
         private readonly IMedicoService medicoService;
+    
         private readonly IFotosService fotosService;
 
         public HomeController(IMedicoService medicoService, IFotosService fotosService, ILogger<HomeController> logger)

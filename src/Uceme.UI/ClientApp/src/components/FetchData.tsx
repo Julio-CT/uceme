@@ -48,11 +48,11 @@ export default class FetchData extends React.Component<
 
   async populateWeatherData(): Promise<void> {
     const token = await authService.getAccessToken();
-    const response2 = await fetch('home/getmedicominvista', {
-      headers: !token ? {} : { Authorization: `Bearer ${token}` },
-    });
-    const data2 = await response2.json();
-    console.log(data2);
+    // const response2 = await fetch('home/getmedicominvista', {
+    //   headers: !token ? {} : { Authorization: `Bearer ${token}` },
+    // });
+    // const data2 = await response2.json();
+    // console.log(data2);
 
     const response = await fetch('weatherforecast', {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },

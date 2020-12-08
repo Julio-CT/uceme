@@ -47,6 +47,7 @@ namespace Uceme.UI
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                 });
+
                 o.AddPolicy(strictPolicy, builder =>
                 {
                     builder.WithOrigins("http://localhost:3000")

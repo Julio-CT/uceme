@@ -1,4 +1,4 @@
-﻿namespace Uceme.API.Controllers
+﻿namespace Uceme.UI.Controllers
 {
     using System;
     using System.Collections.Generic;

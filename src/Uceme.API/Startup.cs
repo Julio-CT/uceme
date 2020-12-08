@@ -30,6 +30,7 @@ namespace Uceme.Api
     public class Startup
     {
         private readonly string relaxedPolicy = "RelaxedCorsPolicy";
+    
         private readonly string strictPolicy = "StrictCorsPolicy";
 
         public Startup(IConfiguration configuration)
@@ -118,6 +119,7 @@ namespace Uceme.Api
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                 });
+
                 o.AddPolicy(strictPolicy, builder =>
                 {
                     builder.WithOrigins("http://localhost:3000")
@@ -172,11 +174,10 @@ namespace Uceme.Api
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
 
             app.UseAuthentication();
+            app.UseRouting();
+            app.UseIdentityServer();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
@@ -185,8 +186,6 @@ namespace Uceme.Api
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-
-            app.UseAuthentication();
 
             var appSettings = new AppSettings();
             this.Configuration.GetSection("AppSettings").Bind(appSettings);

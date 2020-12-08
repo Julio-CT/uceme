@@ -1,4 +1,4 @@
-namespace Uceme.UI
+namespace Uceme.Model.Models
 {
     using System;
 
