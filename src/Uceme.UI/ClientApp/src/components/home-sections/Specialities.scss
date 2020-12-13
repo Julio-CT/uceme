@@ -19,20 +19,22 @@
   margin: 10px auto 10px;
 }
 
-.specialities p a {
-  color: #666;
-  text-align: center;
-  text-decoration: none;
-}
+.specialities { 
+  p a {
+    color: #666;
+    text-align: center;
+    text-decoration: none;
+  }
 
-.specialities h4 a {
-  text-decoration: none;
-  color: #292929;
-  line-height: 30px;
-  transition: all 0.5s ease-in-out;
-  letter-spacing: 1px;
-}
+  h4 a {
+    text-decoration: none;
+    color: #292929;
+    line-height: 30px;
+    transition: all 0.5s ease-in-out;
+    letter-spacing: 1px;
+  }
 
-.specialities h4 a:hover {
-  color: #61dafb;
-}
+  h4 a:hover {
+    color: #61dafb;
+  }
+} 

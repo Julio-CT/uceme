@@ -6,6 +6,7 @@ import './Home.scss';
 import Slider from './home-sections/Slider';
 import Specialities from './home-sections/Specialities';
 import Blogs from './home-sections/Blogs';
+import ContactUs from './home-sections/ContactUs';
 
 export default class Home extends Component {
   static displayName = Home.name;
@@ -18,6 +19,7 @@ export default class Home extends Component {
         <Slider />
         <Specialities />
         <Blogs />
+        <ContactUs />
         <Logo className="App-logo" />
         <img src={logo} className="App-logo" alt="logo" />
         <img

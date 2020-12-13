@@ -20,9 +20,8 @@ namespace Uceme.Api
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
-    using Uceme.API.Options;
     using Uceme.API.Services;
-    using Uceme.API.Settings;
+    using Uceme.Model.Settings;
     using Uceme.API.Utilities;
     using Uceme.Model.Data;
     using Uceme.Model.Models;
@@ -86,6 +85,7 @@ namespace Uceme.Api
                         context.Response.StatusCode = 401;
                         return Task.CompletedTask;
                     };
+
                     options.Events.OnSignedIn = context =>
                     {
                         if ((this.Configuration.GetSection("ModifyCookieDomain").Value.ToLower(CultureInfo.CurrentCulture) == "true") &&
@@ -109,8 +109,7 @@ namespace Uceme.Api
                 });
 
             services.AddAuthorization();
-
-            services.AddControllersWithViews();
+            services.AddControllers();
 
             services.AddCors(o => {
                 o.AddPolicy(relaxedPolicy, builder =>
@@ -136,6 +135,7 @@ namespace Uceme.Api
             services.AddTransient<IFotosService, FotosService>();
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<AuthMessageSenderSettings>(this.Configuration);
 
             var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
@@ -175,16 +175,13 @@ namespace Uceme.Api
 
             app.UseHttpsRedirection();
 
-            app.UseAuthentication();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
 
             var appSettings = new AppSettings();

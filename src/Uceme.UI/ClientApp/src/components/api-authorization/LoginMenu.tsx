@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Fragment } from 'react';
 import authService from './AuthorizeService';
-import { ApplicationPaths } from './ApiAuthorizationConstants';
+import ApplicationPaths from './ApiAuthorizationConstants';
 import Nav from 'react-bootstrap/Nav';
 
 type LoginMenuState = {

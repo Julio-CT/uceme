@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.Extensions.Options;
-    using Uceme.API.Options;
+    using Uceme.Model.Settings;
 
     public class EmailSender : IEmailSender
     {

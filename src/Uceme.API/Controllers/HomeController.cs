@@ -9,8 +9,8 @@
     using Uceme.API.Services;
     using Uceme.Model.Models;
 
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> logger;
@@ -26,7 +26,7 @@
             this.logger = logger;
         }
 
-        [HttpGet("[controller]/getmedicominvista")]
+        [HttpGet("getmedicominvista")]
         [AllowAnonymous]
         public ActionResult<IEnumerable<Usuario>> GetMedicoMinVista()
         {
@@ -43,7 +43,7 @@
             return result.ToList();
         }
 
-        [HttpGet("[controller]/mostrarfotos")]
+        [HttpGet("mostrarfotos")]
         [AllowAnonymous]
         public ActionResult<IEnumerable<Fotos>> MostrarFotos()
         {

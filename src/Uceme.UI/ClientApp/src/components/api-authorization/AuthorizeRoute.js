@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import {
+import
   ApplicationPaths,
-  QueryParameterNames,
+  { QueryParameterNames,
 } from './ApiAuthorizationConstants';
 import authService from './AuthorizeService';
 

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import parse from 'html-react-parser';
+import { Container } from 'reactstrap';
 import './Blogs.scss';
 import tinyDate from '../../resources/images/tinydate.png';
 import photoIcon from '../../resources/images/photoicon.png';
@@ -23,15 +24,17 @@ const Blogs = (props: any) => {
     const [data, setData] = React.useState<blogState>({ items: [] as Array<blog>, isFetching: false });
 
     React.useEffect(() => {
-        fetch('blog/getblogsubset?amount=3')
+        fetch('api/blog/getblogsubset?amount=3')
             .then((response: { json: () => any; }) => response.json())
-            .then((data: any[]) => {
+            .then(async (data: any[]) => {
                 const retrievedBlogs: blog[] = [];
-                data.forEach((obj: any) => {
+
+                await Promise.all(data.map(async (obj: any) => {
+                    const image = await import('../../resources/images/' + obj.foto.slice(obj.foto.lastIndexOf('/') + 1));
                     retrievedBlogs.push({
                         id: obj.idBlog,
                         title: obj.titulo,
-                        src: require('../../resources/images/icon-spe1.png').default,
+                        src: image.default,
                         altText: parse(obj.texto),
                         caption: obj.titulo,
                         link: 'Cirugía de Glándulas Suprarrenales',
@@ -41,7 +44,7 @@ const Blogs = (props: any) => {
                             day: "2-digit"
                         }).format(new Date(obj.fecha)),
                     });
-                });
+                }));
 
                 setData({ items: retrievedBlogs, isFetching: false });
             })
@@ -86,20 +89,22 @@ const Blogs = (props: any) => {
 
     return (
         <section id='section-blog' className='clearfix'>
+            <Container>
             {data.isFetching ? (
                 <div>...Data Loading.....</div>
-            ) : (
+                        ) : (
                     <div className='blog container clearfix extra-margin'>
                         <h3 className='uppercase'>BLOG</h3>
                         <h4 className='padding-y-medium spacing uppercase'>
                             Actualidad, agenda y noticias.
-            </h4>
+                        </h4>
                         <div className='line'></div>
                         <div className='row justify-content-md-center'>
                             {posts}
                         </div>
                     </div>
-                )}
+                    )}
+            </Container>
         </section>
     );
 }

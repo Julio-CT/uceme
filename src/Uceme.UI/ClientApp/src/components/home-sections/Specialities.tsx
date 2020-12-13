@@ -1,10 +1,10 @@
 import * as React from 'react';
 import './Specialities.scss';
-import slide1 from '../../resources/images/icon-spe1.png';
-import slide2 from '../../resources/images/icon-spe1.png';
-import slide3 from '../../resources/images/icon-spe1.png';
-import slide4 from '../../resources/images/icon-spe1.png';
-import slide5 from '../../resources/images/icon-spe1.png';
+import slide1 from '../../resources/images/cirugia-tiroidea.png';
+import slide2 from '../../resources/images/cirugia-paratiroidea.png';
+import slide3 from '../../resources/images/obesidad-morbida.png';
+import slide4 from '../../resources/images/cirugia-glandulas-suprarrenales.png';
+import slide5 from '../../resources/images/tiroidectomia-sin-cicatriz.png';
 
 const specials = [
     {

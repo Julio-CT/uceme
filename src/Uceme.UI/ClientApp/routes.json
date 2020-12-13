@@ -1,5 +1,6 @@
 {
-  "/home/*": "/$1",
-  "/blog/*": "/$1",
+  "/api/home/*": "/$1",
+  "/api/blog/*": "/$1",
+  "/api/settings/": "/$1",
   "/_configuration/UCEME.UI": "/configuration"
 }

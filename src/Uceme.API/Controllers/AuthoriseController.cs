@@ -8,8 +8,8 @@
     using Uceme.Model.Data;
     using Uceme.Model.Models;
 
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class AuthoriseController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -18,7 +18,7 @@
 
         private readonly ILogger<AuthoriseController> logger;
 
-        public ApplicationDbContext DbContext { get; }
+        private readonly ApplicationDbContext dbContext;
 
         public AuthoriseController(
             ILogger<AuthoriseController> logger,
@@ -27,19 +27,19 @@
             UserManager<ApplicationUser> userManager)
         {
             this.logger = logger;
-            this.DbContext = context;
+            this.dbContext = context;
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
 
-        [HttpGet]
+        [HttpGet("Login")]
         [AllowAnonymous]
         public async Task<Microsoft.AspNetCore.Identity.SignInResult> Login(string email, string password, bool rememberMe)
         {
             return await this.signInManager.PasswordSignInAsync(email, password, rememberMe, lockoutOnFailure: false).ConfigureAwait(false);
         }
 
-        [HttpGet]
+        [HttpGet("Logout")]
         [AllowAnonymous]
         public async Task Logout()
         {
@@ -47,7 +47,7 @@
             this.logger.LogInformation("User logged out.");
         }
 
-        [HttpGet]
+        [HttpGet("Register")]
         [AllowAnonymous]
         public async Task<IdentityResult> Register(string email, string password)
         {

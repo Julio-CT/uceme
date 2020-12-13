@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Container } from 'reactstrap';
 import './Layout.scss';
 import NavMenu from './NavMenu';
 
@@ -60,10 +59,10 @@ export default class Layout extends React.Component<LayoutProps, LayoutState> {
   render(): JSX.Element {
     const { children } = this.state;
     return (
-      <div>
+      <React.Fragment>
         <NavMenu />
-        <Container>{children}</Container>
-      </div>
+        <React.Fragment>{children}</React.Fragment>
+      </React.Fragment>
     );
   }
 }

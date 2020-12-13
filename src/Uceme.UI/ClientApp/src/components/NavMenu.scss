@@ -1,3 +1,4 @@
+@import '../variables.scss';
 
 html {
   font-size: 14px;
@@ -16,7 +17,7 @@ html {
 .uceme-header {
   color: white;
   position: fixed;
-  background-color: #72beb1;
+  background-color: $uceme-green;
   width: 100%;
   top: 0;
   left: 0;

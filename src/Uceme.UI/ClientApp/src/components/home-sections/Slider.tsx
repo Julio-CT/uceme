@@ -8,10 +8,10 @@ import {
     CarouselCaption
 } from 'reactstrap';
 import './Slider.scss';
-import slide1 from '../../resources/images/slider1.jpg';
-import slide2 from '../../resources/images/slider2.jpg';
-import slide3 from '../../resources/images/slider3.png';
-import slide4 from '../../resources/images/slider4.png';
+import slide1 from '../../resources/images/uceme.jpg';
+import slide2 from '../../resources/images/innovaciones-tecnicas.jpg';
+import slide3 from '../../resources/images/conocenos-uceme.jpg';
+import slide4 from '../../resources/images/cita-medica-uceme.jpg';
 
 const items = [
     {

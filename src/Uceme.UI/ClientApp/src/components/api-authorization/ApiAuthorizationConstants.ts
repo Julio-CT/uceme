@@ -21,7 +21,7 @@ export const LoginActions = {
 
 const prefix = '/authentication';
 
-export const ApplicationPaths = {
+const ApplicationPaths = {
   DefaultLoginRedirectPath: '/',
   ApiAuthorizationClientConfigurationUrl: `/_configuration/${ApplicationName}`,
   ApiAuthorizationPrefix: prefix,
@@ -36,3 +36,5 @@ export const ApplicationPaths = {
   IdentityRegisterPath: '/Identity/Account/Register',
   IdentityManagePath: '/Identity/Account/Manage',
 };
+
+export default ApplicationPaths;

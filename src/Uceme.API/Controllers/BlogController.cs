@@ -9,21 +9,21 @@
     using Uceme.API.Services;
     using Uceme.Model.Models;
 
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class BlogController : Controller
     {
-        private readonly ILogger<HomeController> logger;
+        private readonly ILogger<BlogController> logger;
     
         private readonly IBlogService blogService;
 
-        public BlogController(IBlogService blogService, ILogger<HomeController> logger)
+        public BlogController(IBlogService blogService, ILogger<BlogController> logger)
         {
             this.blogService = blogService;
             this.logger = logger;
         }
 
-        [HttpGet("[controller]/getblogsubset")]
+        [HttpGet("getblogsubset")]
         [AllowAnonymous]
         public ActionResult<IEnumerable<Blog>> GetBlogSubset(int amount)
         {

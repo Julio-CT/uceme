@@ -5,7 +5,7 @@ import Home from './components/Home';
 import FetchData from './components/FetchData';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
-import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
+import ApplicationPaths from './components/api-authorization/ApiAuthorizationConstants';
 import './App.scss';
 import './custom.scss';
 

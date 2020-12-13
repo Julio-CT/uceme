@@ -1,5 +1,5 @@
 import { UserManager, WebStorageStateStore } from 'oidc-client';
-import { ApplicationPaths, ApplicationName } from './ApiAuthorizationConstants';
+import ApplicationPaths, { ApplicationName } from './ApiAuthorizationConstants';
 
 type ResultModel = {
   message: any;
@@ -19,8 +19,6 @@ export class AuthorizeService {
   private nextSubscriptionId = 0;
 
   private user: any = null;
-
-  private isUserAuthenticated = false;
 
   // By default pop ups are disabled because they don't work properly on Edge.
   // If you want to enable pop up authentication simply set this flag to false.
@@ -157,7 +155,6 @@ export class AuthorizeService {
 
   updateState(user: any): void {
     this.user = user;
-    this.isUserAuthenticated = !!this.user;
     this.notifySubscribers();
   }
 
