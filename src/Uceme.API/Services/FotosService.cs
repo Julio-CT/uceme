@@ -5,7 +5,7 @@
     using System.Data;
     using System.Linq;
     using Microsoft.Extensions.Logging;
-    using Uceme.API.Data;
+    using Uceme.Model.Data;
     using Uceme.Model.Models;
 
     public class FotosService : IFotosService

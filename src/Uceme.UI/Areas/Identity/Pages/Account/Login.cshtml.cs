@@ -24,9 +24,9 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
+            this._userManager = userManager;
+            this._signInManager = signInManager;
+            this._logger = logger;
         }
 
         [BindProperty]
@@ -47,6 +47,7 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
             }
 
             returnUrl ??= Url.Content("~/");
+            this.ReturnUrl = returnUrl;
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme).ConfigureAwait(false);
@@ -55,8 +56,6 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
             {
                 this.ExternalLogins.Add(login);
             }
-
-            this.ReturnUrl = returnUrl;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -67,19 +66,21 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false).ConfigureAwait(false);
+                var result = await this._signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false).ConfigureAwait(false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    this._logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
+
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
+
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    this._logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
                 else

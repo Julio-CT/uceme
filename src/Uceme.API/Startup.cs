@@ -20,12 +20,12 @@ namespace Uceme.Api
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
-    using Uceme.API.Data;
-    using Uceme.API.Data.Models;
     using Uceme.API.Options;
     using Uceme.API.Services;
     using Uceme.API.Settings;
     using Uceme.API.Utilities;
+    using Uceme.Model.Data;
+    using Uceme.Model.Models;
 
     public class Startup
     {
