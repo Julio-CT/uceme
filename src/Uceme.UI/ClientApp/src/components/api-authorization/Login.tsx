@@ -1,18 +1,18 @@
 import * as React from 'react'
 import authService from './AuthorizeService';
 import { AuthenticationResultStatus } from './AuthorizeService';
-import ApplicationPaths, { LoginActions, QueryParameterNames } from './ApiAuthorizationConstants';
+import ApplicationPaths, { LoginActions, QueryParameterNames, ResultModel, ResultState } from './ApiAuthorizationConstants';
 
 // The main responsibility of this component is to handle the user's login process.
 // This is the starting point for the login process. Any component that needs to authenticate
 // a user can simply perform a redirect to this component with a returnUrl query parameter and
 // let the component perform the login and return back to the return url.
 type LoginState = {
-    message: any,
+    message: string | null | undefined,
 }
 
 type LoginProps = {
-    action: any,
+    action: string,
 }
 
 export class Login extends React.Component<LoginProps, LoginState> {
@@ -35,7 +35,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                 break;
             case LoginActions.LoginFailed:
                 const params = new URLSearchParams(window.location.search);
-                const error = params.get(QueryParameterNames.Message);
+                const error: string | null = params.get(QueryParameterNames.Message);
                 this.setState({ message: error });
                 break;
             case LoginActions.Profile:
@@ -70,7 +70,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         }
     }
 
-    async login(returnUrl: any) {
+    async login(returnUrl: string) {
         const state = { returnUrl };
         const result = await authService.signIn(state);
         switch (result.status) {
@@ -89,7 +89,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
 
     async processLoginCallback() {
         const url = window.location.href;
-        const result = await authService.completeSignIn(url);
+        const result : ResultModel = await authService.completeSignIn(url);
         switch (result.status) {
             case AuthenticationResultStatus.Redirect:
                 // There should not be any redirects as the only time completeSignIn finishes
@@ -106,7 +106,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         }
     }
 
-    getReturnUrl(state: any) {
+    getReturnUrl(state: ResultState | null) {
         const params = new URLSearchParams(window.location.search);
         const fromQuery = params.get(QueryParameterNames.ReturnUrl);
         if (fromQuery && !fromQuery.startsWith(`${window.location.origin}/`)) {
@@ -125,7 +125,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         this.redirectToApiAuthorizationPath(ApplicationPaths.IdentityManagePath);
     }
 
-    redirectToApiAuthorizationPath(apiAuthorizationPath: any) {
+    redirectToApiAuthorizationPath(apiAuthorizationPath: string) {
         const redirectUrl = `${window.location.origin}${apiAuthorizationPath}`;
         // It's important that we do a replace here so that when the user hits the back arrow on the
         // browser he gets sent back to where it was on the app instead of to an endpoint on this
@@ -133,7 +133,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         window.location.replace(redirectUrl);
     }
 
-    navigateToReturnUrl(returnUrl: any) {
+    navigateToReturnUrl(returnUrl: string) {
         // It's important that we do a replace here so that we remove the callback uri with the
         // fragment containing the tokens from the browser history.
         window.location.replace(returnUrl);

@@ -5,7 +5,7 @@ import ApplicationPaths from './ApiAuthorizationConstants';
 import Nav from 'react-bootstrap/Nav';
 
 type LoginMenuState = {
-    userName: any,
+    userName: string | null | undefined,
     isAuthenticated: boolean,
 }
 
@@ -13,7 +13,7 @@ type LoginMenuProps = {
 }
 
 export class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
-    _subscription: number;
+    subscription: number;
     constructor(props: LoginMenuProps) {
         super(props);
 
@@ -22,16 +22,16 @@ export class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
             userName: null
         };
 
-        this._subscription = 0;
+        this.subscription = 0;
     }
 
     componentDidMount(): void {
-        this._subscription = authService.subscribe(() => this.populateState());
+        this.subscription = authService.subscribe(() => this.populateState());
         this.populateState();
     }
 
     componentWillUnmount(): void {
-        authService.unsubscribe(this._subscription);
+        authService.unsubscribe(this.subscription);
     }
 
     async populateState(): Promise<void> {

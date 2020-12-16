@@ -19,6 +19,26 @@ export const LoginActions = {
   Register: 'register',
 };
 
+export type ResultState = {
+  returnUrl: string;
+};
+
+export type ResultModel = {
+  message: string | undefined | null;
+  state: ResultState | null;
+  status: string;
+};
+
+export type Arguments = {
+  useReplaceToNavigate: boolean;
+  data: ResultState | null;
+};
+
+export type Callback = {
+  callback: Function;
+  subscription: number;
+};
+
 const prefix = '/authentication';
 
 const ApplicationPaths = {

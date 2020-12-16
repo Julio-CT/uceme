@@ -1,52 +1,59 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import
-  ApplicationPaths,
-  { QueryParameterNames,
+import ApplicationPaths, {
+  QueryParameterNames,
 } from './ApiAuthorizationConstants';
 import authService from './AuthorizeService';
 
-export default class AuthorizeRoute extends Component {
-  constructor(props) {
+type AuthRouteState = {
+  isReady: boolean,
+  authenticated: boolean,
+}
+
+export default class AuthorizeRoute extends Component<any, AuthRouteState> {
+  subscription: number;
+  constructor(props: any) {
     super(props);
 
     this.state = {
-      ready: false,
+      isReady: false,
       authenticated: false,
     };
+
+    this.subscription = 0;
   }
 
-  componentDidMount() {
-    this._subscription = authService.subscribe(() =>
+  componentDidMount(): void {
+    this.subscription = authService.subscribe(() =>
       this.authenticationChanged()
     );
+
     this.populateAuthenticationState();
   }
 
-  componentWillUnmount() {
-    authService.unsubscribe(this._subscription);
+  componentWillUnmount(): void {
+    authService.unsubscribe(this.subscription);
   }
 
-  async populateAuthenticationState() {
+  async populateAuthenticationState(): Promise<void> {
     const authenticated = await authService.isAuthenticated();
-    this.setState({ ready: true, authenticated });
+    this.setState({ isReady: true, authenticated });
   }
 
-  async authenticationChanged() {
-    this.setState({ ready: false, authenticated: false });
+  async authenticationChanged(): Promise<void>  {
+    this.setState({ isReady: false, authenticated: false });
     await this.populateAuthenticationState();
   }
 
-  render() {
-    const { ready, authenticated } = this.state;
+  render(): JSX.Element {
+    const { isReady, authenticated } = this.state;
     const link = document.createElement('a');
     link.href = this.props.path;
     const returnUrl = `${link.protocol}//${link.host}${link.pathname}${link.search}${link.hash}`;
-    const redirectUrl = `${ApplicationPaths.Login}?${
-      QueryParameterNames.ReturnUrl
-    }=${encodeURI(returnUrl)}`;
+    const redirectUrl = `${ApplicationPaths.Login}?${QueryParameterNames.ReturnUrl
+      }=${encodeURI(returnUrl)}`;
 
-    if (!ready) {
+    if (!isReady) {
       return <div />;
     }
 

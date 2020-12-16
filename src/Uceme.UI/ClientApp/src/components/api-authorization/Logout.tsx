@@ -1,32 +1,22 @@
 import * as React from 'react'
 import authService from './AuthorizeService';
 import { AuthenticationResultStatus } from './AuthorizeService';
-import ApplicationPaths, { QueryParameterNames, LogoutActions } from './ApiAuthorizationConstants';
+import ApplicationPaths, { QueryParameterNames, LogoutActions, ResultState } from './ApiAuthorizationConstants';
 
 // The main responsibility of this component is to handle the user's logout process.
 // This is the starting point for the logout process, which is usually initiated when a
 // user clicks on the logout button on the LoginMenu component.
 type LogoutState = {
-    message: any,
-    isReady: any,
-    authenticated: any
+    message: string | undefined | null,
+    isReady: boolean,
+    authenticated: boolean,
 }
 
 type LogoutProps = {
-    action: any,
+    action: string,
 }
 
 export class Logout extends React.Component<LogoutProps, LogoutState> {
-    constructor(props: LogoutProps) {
-        super(props);
-
-        this.state = {
-            message: undefined,
-            isReady: false,
-            authenticated: false
-        };
-    }
-
     componentDidMount(): void {
         const action = this.props.action;
         switch (action) {
@@ -38,6 +28,7 @@ export class Logout extends React.Component<LogoutProps, LogoutState> {
                 break;
             case LogoutActions.LoggedOut:
                 this.setState({ isReady: true, message: "You successfully logged out!" });
+                this.navigateToReturnUrl('/');
                 break;
             default:
                 throw new Error(`Invalid action '${action}'`);
@@ -47,28 +38,33 @@ export class Logout extends React.Component<LogoutProps, LogoutState> {
     }
 
     render(): JSX.Element {
-        const { isReady, message } = this.state;
-        if (!isReady) {
-            return <div></div>
-        }
-        if (!!message) {
-            return (<div>{message}</div>);
-        } else {
-            const action = this.props.action;
-            switch (action) {
-                case LogoutActions.Logout:
-                    return (<div>Processing logout</div>);
-                case LogoutActions.LogoutCallback:
-                    return (<div>Processing logout callback</div>);
-                case LogoutActions.LoggedOut:
-                    return (<div>{message}</div>);
-                default:
-                    throw new Error(`Invalid action '${action}'`);
+        if (this.state) {
+            const { isReady, message } = this.state;
+            if (!isReady) {
+                return <div>Signing out..</div>
             }
+            if (!!message) {
+                return (<div>{message}</div>);
+            } else {
+                const action = this.props.action;
+                switch (action) {
+                    case LogoutActions.Logout:
+                        return (<div>Processing logout</div>);
+                    case LogoutActions.LogoutCallback:
+                        return (<div>Processing logout callback</div>);
+                    case LogoutActions.LoggedOut:
+                        return (<div>{message}</div>);
+                    default:
+                        throw new Error(`Invalid action '${action}'`);
+                }
+            }
+        }
+        else {
+            return <div>Signing out...</div>
         }
     }
 
-    async logout(returnUrl: any): Promise<void> {
+    async logout(returnUrl: string): Promise<void> {
         const state = { returnUrl };
         const isauthenticated = await authService.isAuthenticated();
         if (isauthenticated) {
@@ -114,7 +110,7 @@ export class Logout extends React.Component<LogoutProps, LogoutState> {
         this.setState({ isReady: true, authenticated });
     }
 
-    getReturnUrl(state: any): any {
+    getReturnUrl(state: ResultState | null): string {
         const params = new URLSearchParams(window.location.search);
         const fromQuery = params.get(QueryParameterNames.ReturnUrl);
         if (fromQuery && !fromQuery.startsWith(`${window.location.origin}/`)) {
@@ -126,7 +122,7 @@ export class Logout extends React.Component<LogoutProps, LogoutState> {
             `${window.location.origin}${ApplicationPaths.LoggedOut}`;
     }
 
-    navigateToReturnUrl(returnUrl: any): void {
+    navigateToReturnUrl(returnUrl: string): void {
         return window.location.replace(returnUrl);
     }
 }

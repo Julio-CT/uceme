@@ -3,11 +3,11 @@ import './Layout.scss';
 import NavMenu from './NavMenu';
 
 type LayoutState = {
-  children: any;
+  children: React.ReactElement[];
 };
 
 type LayoutProps = {
-  children: any;
+  children: React.ReactElement[];
 };
 
 export default class Layout extends React.Component<LayoutProps, LayoutState> {
@@ -32,24 +32,24 @@ export default class Layout extends React.Component<LayoutProps, LayoutState> {
       const shrinkOn = 50;
       if (distanceY > shrinkOn) {
         Array.from(document.getElementsByClassName('big-logo')).forEach(
-          function makeLogoSmall(item: any): void {
+          function makeLogoSmall(item: Element): void {
             item && item.classList.add('small-logo');
           }
         );
         Array.from(document.getElementsByClassName('site-title-div')).forEach(
-          function makeTitleSmall(item: any): void {
+          function makeTitleSmall(item: Element): void {
             item && item.classList.add('site-title-div-small');
           }
         );
       } else {
         Array.from(document.getElementsByClassName('small-logo')).forEach(
-          function makeLogoBig(item: any): void {
+          function makeLogoBig(item: Element): void {
             item && item.classList.remove('small-logo');
           }
         );
         Array.from(
           document.getElementsByClassName('site-title-div-small')
-        ).forEach(function makeTitleBig(item: any): void {
+        ).forEach(function makeTitleBig(item: Element): void {
           item && item.classList.remove('site-title-div-small');
         });
       }
@@ -59,10 +59,10 @@ export default class Layout extends React.Component<LayoutProps, LayoutState> {
   render(): JSX.Element {
     const { children } = this.state;
     return (
-      <React.Fragment>
+      <>
         <NavMenu />
-        <React.Fragment>{children}</React.Fragment>
-      </React.Fragment>
+        <>{children}</>
+      </>
     );
   }
 }
