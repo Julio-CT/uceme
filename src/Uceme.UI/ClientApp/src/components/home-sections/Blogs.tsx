@@ -20,7 +20,7 @@ type blogState = {
     isFetching: boolean;
 };
 
-const Blogs = (props: any) => {
+const Blogs = () => {
     const [data, setData] = React.useState<blogState>({ items: [] as Array<blog>, isFetching: false });
 
     React.useEffect(() => {
@@ -75,7 +75,7 @@ const Blogs = (props: any) => {
                     </h5>
                     <div className='line-small'></div>
                     <p></p>
-                    <span className="post-ellipsis">{item.altText}</span>
+                    <div className="post-ellipsis">{item.altText}</div>
                     <p></p>
                 </div>
                 <div className='box-admin'>
@@ -94,7 +94,7 @@ const Blogs = (props: any) => {
                 <div>...Data Loading.....</div>
                         ) : (
                     <div className='blog container clearfix extra-margin'>
-                        <h3 className='uppercase'>BLOG</h3>
+                        <h3 className='uppercase'>Blog</h3>
                         <h4 className='padding-y-medium spacing uppercase'>
                             Actualidad, agenda y noticias.
                         </h4>

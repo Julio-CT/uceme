@@ -54,7 +54,6 @@
     <None Remove="ClientApp\src\components\api-authorization\Login.tsx" />
     <None Remove="ClientApp\src\components\api-authorization\LoginMenu.tsx" />
     <None Remove="ClientApp\src\components\api-authorization\Logout.tsx" />
-    <None Remove="ClientApp\src\components\FetchData.tsx" />
     <None Remove="ClientApp\src\components\Home.tsx" />
     <None Remove="ClientApp\src\components\Layout.tsx" />
     <None Remove="ClientApp\src\components\NavMenu.tsx" />
@@ -76,7 +75,6 @@
     <TypeScriptCompile Include="ClientApp\src\components\api-authorization\Login.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\api-authorization\LoginMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\api-authorization\Logout.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\FetchData.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Home.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Layout.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\NavMenu.tsx" />

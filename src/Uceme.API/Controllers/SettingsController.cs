@@ -2,13 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Data;
-    using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Options;
-    using Uceme.Model.Models;
     using Uceme.Model.Settings;
 
     [Route("api/[controller]")]
@@ -31,12 +28,12 @@
         [AllowAnonymous]
         public ActionResult<Dictionary<string, object>> GetSettings()
         {
-            Dictionary<string, object> result = new Dictionary<string, object>();
+            var result = new Dictionary<string, object>();
             try
             {
-                result["Telephone"] = this.configuration.Value.Telephone;
-                result["ContactEmail"] = this.configuration.Value.ContactEmail;
-                result["Address"] = this.configuration.Value.Address;
+                result["telephone"] = this.configuration.Value.Telephone;
+                result["contactEmail"] = this.configuration.Value.ContactEmail;
+                result["address"] = this.configuration.Value.Address;
             }
             catch (DataException)
             {

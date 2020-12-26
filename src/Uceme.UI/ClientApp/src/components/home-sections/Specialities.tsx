@@ -44,7 +44,7 @@ const specials = [
     }
 ];
 
-const items = specials.map((item) => {
+const items: JSX.Element[] = specials.map((item) => {
     return (
         <div className='col-12 col-md-4' key={item.title}>
             <a href={item.link} title={item.title}>
@@ -69,7 +69,7 @@ const items = specials.map((item) => {
     );
 });
 
-const Specialities = (props: any) => {
+const Specialities = () => {
     return (
         <section id="section-specialities" className="clearfix">
             <div className="specialities container clearfix extra-margin">

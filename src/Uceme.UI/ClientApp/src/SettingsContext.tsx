@@ -1,31 +1,27 @@
 import React from 'react';
 
-export class SettingsContext {
-    context: React.Context<any> = React.createContext(null);
+export type Settings = {
+    telephone: string;
+    address: string;
+    contactEmail: string;
+  } | null;
 
-    initialised: boolean | undefined = false;
+const SettingsContextAlt = (): React.Context<Settings> => {
+    const defaultSettings: React.Context<any> = React.createContext(null);
+    const [context, setContext] = React.useState<React.Context<Settings>>(defaultSettings);
 
-    async fetchSettings(): Promise<void> {
+    React.useEffect(() => {
         fetch('api/settings/getsettings')
             .then((response: { json: () => any; }) => response.json())
-            .then(async (data: any[]) => {
-                this.context = React.createContext(data);
-                this.initialised = true;
+            .then(async (data: Settings) => {
+                setContext(React.createContext(data));
             })
             .catch((error: any) => {
                 console.log(error);
-            })
-    }
+            })    
+        }, []);
 
-    static instance(): SettingsContext {
-        if (!settingsContext.initialised) {
-            settingsContext.fetchSettings();
-        }
-
-        return settingsContext;
-    }
+    return context;
 }
 
-const settingsContext = new SettingsContext();
-
-export default settingsContext;
+export default SettingsContextAlt;

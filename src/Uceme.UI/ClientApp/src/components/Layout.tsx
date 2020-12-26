@@ -11,21 +11,7 @@ type LayoutProps = {
 };
 
 export default class Layout extends React.Component<LayoutProps, LayoutState> {
-  static displayName = Layout.name;
-
-  constructor(props: Readonly<LayoutProps>) {
-    super(props);
-
-    this.state = {
-      children: props.children,
-    };
-  }
-
-  componentDidMount(): void {
-    this.headerShrinker();
-  }
-
-  headerShrinker(): void {
+  static headerShrinker(): void {
     window.addEventListener('scroll', function scrollListener(): void {
       const distanceY =
         window.pageYOffset || document.documentElement.scrollTop;
@@ -54,6 +40,18 @@ export default class Layout extends React.Component<LayoutProps, LayoutState> {
         });
       }
     });
+  }
+
+  constructor(props: Readonly<LayoutProps>) {
+    super(props);
+
+    this.state = {
+      children: props.children,
+    };
+  }
+
+  componentDidMount(): void {
+    Layout.headerShrinker();
   }
 
   render(): JSX.Element {

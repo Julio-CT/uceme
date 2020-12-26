@@ -36,7 +36,7 @@ const items = [
     }
 ];
 
-const Slider = (props: any) => {
+const Slider = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [animating, setAnimating] = useState(false);
 
@@ -57,7 +57,7 @@ const Slider = (props: any) => {
         setActiveIndex(newIndex);
     }
 
-    const slides = items.map((item) => {
+    const slides: JSX.Element[] = items.map((item) => {
         return (
             <CarouselItem
                 onExiting={() => setAnimating(true)}
@@ -75,8 +75,7 @@ const Slider = (props: any) => {
             <Carousel
                 activeIndex={activeIndex}
                 next={next}
-                previous={previous}
-            >
+                previous={previous}>
                 <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={goToIndex} />
                 {slides}
                 <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />

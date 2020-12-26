@@ -14,8 +14,6 @@ type NavMenuState = {
 type NavMenuProps = Record<string, unknown>;
 
 export default class NavMenu extends Component<NavMenuProps, NavMenuState> {
-  static displayName = NavMenu.name;
-
   constructor(props: NavMenuProps) {
     super(props);
 
@@ -66,7 +64,6 @@ export default class NavMenu extends Component<NavMenuProps, NavMenuState> {
                 <Nav.Link href="/innovaciones">Innovaciones Técnicas</Nav.Link>
                 <Nav.Link href="/blog">Blog</Nav.Link>
                 <Nav.Link href="/contacto">Contacto</Nav.Link>
-                <Nav.Link href="/fetch-data">Fetch data</Nav.Link>
               </Nav>
               <Nav>
                 <LoginMenu />

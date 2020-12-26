@@ -85,11 +85,9 @@
       "scope": "Uceme.UIAPI openid profile"
     }
   ],
-  "getsettings": [
-    {
-      "Telephone": "916666666",
-      "ContactEmail": "info@uceme.es",
-      "Address": "Calle Doctor Esquerdo 25, Madrid"
-    }
-  ]
+  "getsettings": {
+    "telephone": "916666666",
+    "contactEmail": "info@uceme.es",
+    "address": "Calle Doctor Esquerdo 25, Madrid"
+  }
 }

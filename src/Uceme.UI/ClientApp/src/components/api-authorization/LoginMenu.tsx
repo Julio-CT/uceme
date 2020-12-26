@@ -9,6 +9,15 @@ type LoginMenuState = {
     isAuthenticated: boolean,
 }
 
+type PathState = {
+    local: boolean,
+}
+
+type LogoutPath = {
+    pathname: string,
+    state: PathState,
+}
+
 type LoginMenuProps = {
 }
 
@@ -19,7 +28,7 @@ export class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
 
         this.state = {
             isAuthenticated: false,
-            userName: null
+            userName: undefined
         };
 
         this.subscription = 0;
@@ -42,24 +51,14 @@ export class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
         });
     }
 
-    authenticatedView(userName: any, profilePath: any, logoutPath: any): JSX.Element {
-        console.log("userName");
-        console.log(userName);
-        console.log("profilePath");
-        console.log(profilePath);
-        console.log("logoutPath");
-        console.log(logoutPath);
+    authenticatedView(userName: string | undefined, profilePath: string | undefined, logoutPath: LogoutPath): JSX.Element {
         return (<Fragment>
             <Nav.Link className="text-dark" href={profilePath}>Hola {userName}</Nav.Link>
             <Nav.Link className="text-dark" href={logoutPath.pathname}>Salir</Nav.Link>
         </Fragment>);
     }
 
-    anonymousView(registerPath: any, loginPath: any): JSX.Element {
-        console.log("registerPath");
-        console.log(registerPath);
-        console.log("loginPath");
-        console.log(loginPath);
+    anonymousView(registerPath: string | undefined, loginPath: string | undefined): JSX.Element {
         return (<Fragment>
             <Nav.Link className="text-dark" href={registerPath}>Registro</Nav.Link>
             <Nav.Link className="text-dark" href={loginPath}>Login</Nav.Link>
@@ -74,8 +73,8 @@ export class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
             return this.anonymousView(registerPath, loginPath);
         } else {
             const profilePath = `${ApplicationPaths.Profile}`;
-            const logoutPath = { pathname: `${ApplicationPaths.LogOut}`, state: { local: true } };
-            return this.authenticatedView(userName, profilePath, logoutPath);
+            const logoutPath : LogoutPath = { pathname: `${ApplicationPaths.LogOut}`, state: { local: true } };
+            return this.authenticatedView(userName ? userName : undefined, profilePath, logoutPath);
         }
     }
 }

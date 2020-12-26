@@ -70,7 +70,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         }
     }
 
-    async login(returnUrl: string) {
+    async login(returnUrl: string): Promise<void> {
         const state = { returnUrl };
         const result = await authService.signIn(state);
         switch (result.status) {
@@ -87,7 +87,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         }
     }
 
-    async processLoginCallback() {
+    async processLoginCallback(): Promise<void> {
         const url = window.location.href;
         const result : ResultModel = await authService.completeSignIn(url);
         switch (result.status) {
@@ -106,7 +106,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         }
     }
 
-    getReturnUrl(state: ResultState | null) {
+    getReturnUrl(state: ResultState | null): string {
         const params = new URLSearchParams(window.location.search);
         const fromQuery = params.get(QueryParameterNames.ReturnUrl);
         if (fromQuery && !fromQuery.startsWith(`${window.location.origin}/`)) {
@@ -117,15 +117,15 @@ export class Login extends React.Component<LoginProps, LoginState> {
         return (state && state.returnUrl) || fromQuery || `${window.location.origin}/`;
     }
 
-    redirectToRegister() {
+    redirectToRegister(): void {
         this.redirectToApiAuthorizationPath(`${ApplicationPaths.IdentityRegisterPath}?${QueryParameterNames.ReturnUrl}=${encodeURI(ApplicationPaths.Login)}`);
     }
 
-    redirectToProfile() {
+    redirectToProfile(): void {
         this.redirectToApiAuthorizationPath(ApplicationPaths.IdentityManagePath);
     }
 
-    redirectToApiAuthorizationPath(apiAuthorizationPath: string) {
+    redirectToApiAuthorizationPath(apiAuthorizationPath: string): void {
         const redirectUrl = `${window.location.origin}${apiAuthorizationPath}`;
         // It's important that we do a replace here so that when the user hits the back arrow on the
         // browser he gets sent back to where it was on the app instead of to an endpoint on this
@@ -133,7 +133,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         window.location.replace(redirectUrl);
     }
 
-    navigateToReturnUrl(returnUrl: string) {
+    navigateToReturnUrl(returnUrl: string): void {
         // It's important that we do a replace here so that we remove the callback uri with the
         // fragment containing the tokens from the browser history.
         window.location.replace(returnUrl);

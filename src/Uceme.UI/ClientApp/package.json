@@ -7,7 +7,6 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "@types/jest": "^24.9.1",
     "@types/jsdom": "^16.2.3",
     "@types/node": "^12.12.42",
     "@types/react": "^16.9.25",
@@ -35,10 +34,16 @@
     "rimraf": "^2.6.2"
   },
   "devDependencies": {
+    "@types/enzyme": "3.10.8",
+    "@types/enzyme-adapter-react-16": "1.0.6",
+    "@types/jest": "^24.9.1",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
     "ajv": "^6.9.1",
     "cross-env": "^5.2.0",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.5",
+    "enzyme-to-json": "3.6.1",
     "eslint": "^7.11.0",
     "eslint-config-airbnb-typescript-prettier": "^4.1.0",
     "eslint-config-react-app": "^5.2.0",
@@ -46,25 +51,71 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.21.5",
+    "identity-obj-proxy": "3.0.0",
     "jest": "^26.6.0",
+    "jest-fetch-mock": "^3.0.3",
     "json-server": "^0.16.3",
     "parse5": "^5.1.1",
     "prettier": "^2.2.1",
     "stylelint": "^13.8.0",
     "stylelint-config-standard": "^20.0.0",
-    "ts-jest": "^24.3.0",
+    "ts-jest": "^26.4.4",
     "tslint": "^6.1.2",
     "typescript": "^3.9.7"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/index.tsx",
+      "!src/serviceWorker.ts",
+      "!src/reportWebVitals.ts"
+    ],
+    "coveragePathIgnorePatterns": [
+      "./src/*/*.types.{ts,tsx}",
+      "./src/index.tsx",
+      "./src/serviceWorker.ts"
+    ],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text-summary",
+      "clover"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 95,
+        "branches": 95,
+        "lines": 95,
+        "functions": 95
+      }
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/ts-jest"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "src/(.*)$": "<rootDir>/src/$1",
+      "\\.(gif|ttf|eot|svg|jpg|ico|jpeg|png|otf|webp|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+    }
+  },
   "scripts": {
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/**/*.{js,ts,tsx}",
+    "format": "prettier --write src/**/*.{ts,tsx,scss}",
     "lint": "eslint --fix src/**/*.{js,ts,tsx} -c test.eslintrc.js",
     "stylelint": "stylelint '**/*.scss' --fix",
     "start-other": "react-scripts start",
@@ -73,7 +124,9 @@
     "build-r": "react-scripts build",
     "test-r": "react-scripts test",
     "eject-r": "react-scripts eject",
-    "stubapi": "json-server  --watch --port 4155 --routes routes.json db.json"
+    "stubapi": "json-server  --watch --port 4155 --routes routes.json db.json",
+    "test:coverage": "react-scripts test --coverage --runInBand --watchAll=false",
+    "isready": "npm run format && npm run lint && npm run test:coverage && npm run build"
   },
   "browserslist": {
     "production": [
