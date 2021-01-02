@@ -2,6 +2,8 @@ import * as React from 'react'
 import { Route } from 'react-router';
 import Layout from './components/Layout';
 import Home from './components/Home';
+import BlogHome from './components/BlogHome';
+import BlogPostComponent from './components/BlogPostComponent';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import ApplicationPaths from './components/api-authorization/ApiAuthorizationConstants';
 import './App.scss';
@@ -13,7 +15,8 @@ function App(): JSX.Element {
             <Route exact path='/' component={Home} />
             <Route path='/especialidades' component={Home} />
             <Route path='/innovaciones' component={Home} />
-            <Route path='/blog' component={Home} />
+            <Route path="/blog/:page?" component={BlogHome} />
+            <Route path="/post/:slug" component={BlogPostComponent} />
             <Route path='/contacto' component={Home} />
             <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
         </Layout>

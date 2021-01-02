@@ -4,30 +4,21 @@ import { Container } from 'reactstrap';
 import './Blogs.scss';
 import tinyDate from '../../resources/images/tinydate.png';
 import photoIcon from '../../resources/images/photoicon.png';
-
-interface blog {
-    id: string,
-    title: string;
-    src: string;
-    altText: JSX.Element | JSX.Element[];
-    caption: string;
-    link: string;
-    date: string;
-}
+import BlogPost from '../../library/BlogPost';
 
 type blogState = {
-    items: blog[];
+    items: BlogPost[];
     isFetching: boolean;
 };
 
 const Blogs = () => {
-    const [data, setData] = React.useState<blogState>({ items: [] as Array<blog>, isFetching: false });
+    const [data, setData] = React.useState<blogState>({ items: [] as Array<BlogPost>, isFetching: false });
 
     React.useEffect(() => {
         fetch('api/blog/getblogsubset?amount=3')
             .then((response: { json: () => any; }) => response.json())
             .then(async (data: any[]) => {
-                const retrievedBlogs: blog[] = [];
+                const retrievedBlogs: BlogPost[] = [];
 
                 await Promise.all(data.map(async (obj: any) => {
                     const image = await import('../../resources/images/' + obj.foto.slice(obj.foto.lastIndexOf('/') + 1));
@@ -50,7 +41,7 @@ const Blogs = () => {
             })
             .catch((error: any) => {
                 console.log(error);
-                setData({ items: [] as Array<blog>, isFetching: false });
+                setData({ items: [] as Array<BlogPost>, isFetching: false });
             })
     }, []);
 
