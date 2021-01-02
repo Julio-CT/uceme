@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './Layout.scss';
-import NavMenu from './NavMenu';
+import Header from './Header';
+import Footer from './Footer';
 
 type LayoutState = {
   children: React.ReactElement[];
@@ -58,8 +59,9 @@ export default class Layout extends React.Component<LayoutProps, LayoutState> {
     const { children } = this.state;
     return (
       <>
-        <NavMenu />
+        <Header />
         <>{children}</>
+        <Footer />
       </>
     );
   }

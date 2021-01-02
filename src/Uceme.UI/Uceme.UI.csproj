@@ -44,6 +44,16 @@
     <None Remove="ClientApp\src\components\Counter %28copy%29.tsx" />
     <None Remove="ClientApp\package-lock.json" />
     <None Remove="ClientApp\package-lock.json" />
+    <None Remove="ClientApp\src\resources\images\facebook2.png" />
+    <None Remove="ClientApp\src\resources\images\instagram2.png" />
+    <None Remove="ClientApp\src\resources\images\linkedin2.png" />
+    <None Remove="ClientApp\src\resources\images\twitter2.png" />
+    <None Remove="ClientApp\public\apple-touch-icon-114x114.png" />
+    <None Remove="ClientApp\public\apple-touch-icon-57x57.png" />
+    <None Remove="ClientApp\public\apple-touch-icon-72x72.png" />
+    <None Remove="ClientApp\public\favicon.png" />
+    <None Remove="ClientApp\public\sitemap.xml" />
+    <None Remove="ClientApp\.eslintcache" />
   </ItemGroup>
 
   <ItemGroup>
@@ -85,6 +95,17 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ClientApp\src\resources\images\facebook2.png" />
+    <Content Include="ClientApp\src\resources\images\instagram2.png" />
+    <Content Include="ClientApp\src\resources\images\linkedin2.png" />
+    <Content Include="ClientApp\src\resources\images\twitter2.png" />
+    <Content Include="ClientApp\public\apple-touch-icon-114x114.png" />
+    <Content Include="ClientApp\public\apple-touch-icon-57x57.png" />
+    <Content Include="ClientApp\public\apple-touch-icon-72x72.png" />
+    <Content Include="ClientApp\public\favicon.png" />
+    <Content Include="ClientApp\public\sitemap.xml" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

@@ -5,21 +5,28 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
+            "command": "npm start",
+            "name": "Run npm start",
             "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}\\start"
+            "type": "node-terminal",
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "${workspaceFolder}"
         },
         {
-            "type": "chrome",
+            "type": "node-terminal",
             "request": "launch",
             "name": "Install",
             "preLaunchTask": "npm: install",
-            "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}"
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "Run stub api",
+            "command": "npm run stubapi",
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "${workspaceFolder}"
         },
         {
             "type": "chrome",

@@ -54,13 +54,17 @@
 
 .blogs .admin,
 .blogs .date {
-  font-size: 40%;
+  font-size: 70%;
   border: 1px solid #bdbdbd;
   float: left;
   height: 40px;
   width: 100%;
   text-align: center;
   padding: 11px 0;
+
+  img {
+    vertical-align: baseline;
+  }
 }
 
 .box-noticias a:hover > img,

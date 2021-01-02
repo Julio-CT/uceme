@@ -1,0 +1,77 @@
+@import '../variables.scss';
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+div.socialmediafooter {
+  width: 300px;
+  height: 30px;
+}
+
+div.socialmedia {
+  width: 32px;
+  height: 32px;
+  float: left;
+  margin-right: 10px;
+  font-size: 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+a.facebook,
+a.twitter,
+a.linkedin,
+a.instagram {
+  height: 32px;
+  line-height: 32px !important;
+  padding-left: 30px !important;
+  width: 32px;
+  cursor: pointer;
+  display: block;
+  position: relative;
+}
+
+a.facebook {
+  background: url(../resources/images/facebook2.png) no-repeat left 0;
+}
+
+a.twitter {
+  background: url(../resources/images/twitter2.png) no-repeat left 0;
+}
+
+a.linkedin {
+  background: url(../resources/images/linkedin2.png) no-repeat left 0;
+}
+
+a.instagram {
+  background: url(../resources/images/instagram2.png) no-repeat left 0;
+}
+
+a.facebook:hover {
+  background: url(../resources/images/facebook2.png) no-repeat left -32px;
+}
+
+a.twitter:hover {
+  background: url(../resources/images/twitter2.png) no-repeat left -32px;
+}
+
+a.linkedin:hover {
+  background: url(../resources/images/linkedin2.png) no-repeat left -32px;
+}
+
+a.instagram:hover {
+  background: url(../resources/images/instagram2.png) no-repeat left -32px;
+}
+
+.padded {
+  padding: 45px;
+}
