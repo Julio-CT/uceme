@@ -5,6 +5,6 @@
 
     public interface IBlogService
     {
-        IEnumerable<Blog> GetBlogSubset(int amount);
+        IEnumerable<Blog> GetBlogSubset(int amount, int page = 1);
     }
 }

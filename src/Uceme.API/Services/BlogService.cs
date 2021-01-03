@@ -20,7 +20,7 @@
             this.DbContext = context;
         }
 
-        public IEnumerable<Blog> GetBlogSubset(int amount)
+        public IEnumerable<Blog> GetBlogSubset(int amount, int page = 1)
         {
             try
             {
@@ -31,9 +31,10 @@
                     fecha = x.fecha,
                     foto = x.foto,
                     texto = x.texto,
+                    slug = x.slug,
                 });
 
-                data = data.OrderByDescending(x => x.fecha).Take(amount);
+                data = data.OrderByDescending(x => x.fecha).Skip((page - 1) * 10).Take(amount);
 
                 return data;
             }

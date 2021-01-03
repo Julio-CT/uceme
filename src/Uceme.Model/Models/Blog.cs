@@ -21,6 +21,9 @@ namespace Uceme.Model.Models
         public string foto { get; set; }
         public string texto { get; set; }
         public Nullable<bool> profesional { get; set; }
+        public string slug { get; set; }
+        public string seoTitle { get; set; }
+        public string metaDescription { get; set; }
 
         public int idUsuario { get; set; }
         public Usuario Usuario { get; set; }

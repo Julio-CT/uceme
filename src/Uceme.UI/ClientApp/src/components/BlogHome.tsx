@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import BlogPost from '../library/BlogPost';
+import parse from 'html-react-parser';
 
 type BlogHomeState = {
   loaded: boolean;
@@ -23,27 +24,27 @@ class BlogHome extends React.Component<BlogHomeProps, BlogHomeState> {
   }
 
   fetchPosts(page: number): void {
-    fetch(`api/blog/getblogs?page=${page}`)
+    fetch(`api/blog/getbloglist?page=${page}`)
       .then((response: { json: () => any }) => response.json())
       .then(async (resp: any) => {
-        // const retrievedBlogs: blog[] = [];
+        const retrievedBlogs: BlogPost[] = [];
 
-        // await Promise.all(resp.map(async (obj: any) => {
-        //     const image = await import('../../resources/images/' + obj.foto.slice(obj.foto.lastIndexOf('/') + 1));
-        //     retrievedBlogs.push({
-        //         id: obj.idBlog,
-        //         title: obj.titulo,
-        //         src: image.default,
-        //         altText: parse(obj.texto),
-        //         caption: obj.titulo,
-        //         link: 'Cirugía de Glándulas Suprarrenales',
-        //         date: new Intl.DateTimeFormat("en-GB", {
-        //             year: "numeric",
-        //             month: "long",
-        //             day: "2-digit"
-        //         }).format(new Date(obj.fecha)),
-        //     });
-        // }));
+        await Promise.all(resp.map(async (obj: any) => {
+            const image = await import('../resources/images/' + obj.foto.slice(obj.foto.lastIndexOf('/') + 1));
+            retrievedBlogs.push({
+                id: obj.idBlog,
+                title: obj.titulo,
+                imageSrc: image.default,
+                altText: parse(obj.texto),
+                caption: obj.titulo,
+                link: 'Cirugía de Glándulas Suprarrenales',
+                date: new Intl.DateTimeFormat("en-GB", {
+                    year: "numeric",
+                    month: "long",
+                    day: "2-digit"
+                }).format(new Date(obj.fecha)),
+            });
+        }));
 
         this.setState({
           loaded: false,

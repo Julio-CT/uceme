@@ -5,6 +5,7 @@ import './Blogs.scss';
 import tinyDate from '../../resources/images/tinydate.png';
 import photoIcon from '../../resources/images/photoicon.png';
 import BlogPost from '../../library/BlogPost';
+import { Link } from 'react-router-dom';
 
 type blogState = {
     items: BlogPost[];
@@ -25,10 +26,10 @@ const Blogs = () => {
                     retrievedBlogs.push({
                         id: obj.idBlog,
                         title: obj.titulo,
-                        src: image.default,
+                        imageSrc: image.default,
                         altText: parse(obj.texto),
                         caption: obj.titulo,
-                        link: 'Cirugía de Glándulas Suprarrenales',
+                        link: `/post/${obj.slug}`,
                         date: new Intl.DateTimeFormat("en-GB", {
                             year: "numeric",
                             month: "long",
@@ -45,33 +46,31 @@ const Blogs = () => {
             })
     }, []);
 
-    const posts = data.items.map((item) => {
+    const posts = data.items.map((post) => {
         return (
-            <div className='blogs col-12 col-md-4' key={item.id}>
-                <div className='box-noticias' key={item.title}>
-                    <a href={item.link}>
+            <div className='blogs col-12 col-md-4' key={post.id}>
+                <div className='box-noticias' key={post.title}>
+                    <a href={post.link}>
                         <img
-                            src={item.src} alt={item.title}
+                            src={post.imageSrc} alt={post.title}
                             className='img-post wp-post-image'
                             width='370' height='230' />
                     </a>
-                    <a href={item.link}>
+                    <a href={post.link}>
                         <img
                             className='icono-img' src={photoIcon} alt='icon' />
                     </a>
                     <h5 className='uppercase'>
-                        <a href={item.link}>
-                            {item.caption}
-                        </a>
+                        <Link to={post.link}>{post.caption}</Link>
                     </h5>
                     <div className='line-small'></div>
                     <p></p>
-                    <div className="post-ellipsis">{item.altText}</div>
+                    <div className="post-ellipsis">{post.altText}</div>
                     <p></p>
                 </div>
                 <div className='box-admin'>
                     <div className='date uppercase'>
-                        <img src={tinyDate} alt='date' />{item.date}
+                        <img src={tinyDate} alt='date' />{post.date}
                     </div>
                 </div>
             </div>

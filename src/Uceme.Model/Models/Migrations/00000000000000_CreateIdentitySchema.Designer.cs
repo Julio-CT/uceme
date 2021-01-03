@@ -14,6 +14,11 @@ namespace Uceme.UI.Data.Migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
+            if (modelBuilder is null)
+            {
+                throw new ArgumentNullException(nameof(modelBuilder));
+            }
+
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0-rc1.19455.8")

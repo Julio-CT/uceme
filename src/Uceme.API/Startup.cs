@@ -25,6 +25,7 @@ namespace Uceme.Api
     using Uceme.API.Utilities;
     using Uceme.Model.Data;
     using Uceme.Model.Models;
+    using Microsoft.Data.SqlClient;
 
     public class Startup
     {
@@ -148,8 +149,21 @@ namespace Uceme.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dataContext)
         {
+            if (dataContext != null)
+            {
+                try
+                {
+                    // migrate any database changes on startup (includes initial db creation)
+                    dataContext.Database.Migrate();
+                }
+                catch (SqlException)
+                {
+                    // no problem
+                }
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
