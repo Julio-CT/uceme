@@ -9,10 +9,11 @@ import * as serviceWorker from './serviceWorker';
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href')!;
 
 ReactDOM.render(
-    <BrowserRouter basename={baseUrl}>
-        <App />
-    </BrowserRouter>,
-    document.getElementById('root'));
+  <BrowserRouter basename={baseUrl}>
+    <App />
+  </BrowserRouter>,
+  document.getElementById('root')
+);
 
 // Uncomment the line above that imports the registerServiceWorker function
 // and the line below to register the generated service worker.
@@ -26,4 +27,3 @@ serviceWorker.register();
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
-

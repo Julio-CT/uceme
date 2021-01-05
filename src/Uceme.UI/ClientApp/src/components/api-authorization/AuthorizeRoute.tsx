@@ -6,12 +6,13 @@ import ApplicationPaths, {
 import authService from './AuthorizeService';
 
 type AuthRouteState = {
-  isReady: boolean,
-  authenticated: boolean,
-}
+  isReady: boolean;
+  authenticated: boolean;
+};
 
 export default class AuthorizeRoute extends Component<any, AuthRouteState> {
   subscription: number;
+
   constructor(props: any) {
     super(props);
 
@@ -40,7 +41,7 @@ export default class AuthorizeRoute extends Component<any, AuthRouteState> {
     this.setState({ isReady: true, authenticated });
   }
 
-  async authenticationChanged(): Promise<void>  {
+  async authenticationChanged(): Promise<void> {
     this.setState({ isReady: false, authenticated: false });
     await this.populateAuthenticationState();
   }
@@ -50,8 +51,9 @@ export default class AuthorizeRoute extends Component<any, AuthRouteState> {
     const link = document.createElement('a');
     link.href = this.props.path;
     const returnUrl = `${link.protocol}//${link.host}${link.pathname}${link.search}${link.hash}`;
-    const redirectUrl = `${ApplicationPaths.Login}?${QueryParameterNames.ReturnUrl
-      }=${encodeURI(returnUrl)}`;
+    const redirectUrl = `${ApplicationPaths.Login}?${
+      QueryParameterNames.ReturnUrl
+    }=${encodeURI(returnUrl)}`;
 
     if (!isReady) {
       return <div />;

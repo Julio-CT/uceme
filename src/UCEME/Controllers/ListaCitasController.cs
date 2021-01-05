@@ -9,6 +9,7 @@
         //
         // GET: /ListaCitas/
 
+        [HttpGet]
         [Authorize]
         public ActionResult Index()
         {
@@ -17,6 +18,7 @@
             return this.View(data);
         }
 
+        [HttpGet]
         [Authorize]
         public ActionResult Eliminar(int id)
         {

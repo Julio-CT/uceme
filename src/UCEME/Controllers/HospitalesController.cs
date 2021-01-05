@@ -10,6 +10,7 @@
 
     public class HospitalesController : SuperController
     {
+        [HttpGet]
         public ActionResult Index()
         {
             var hospi = this.DbContext.DatosProfesionales.Where(x => x.activo.HasValue && x.activo.Value).Select(o => o);
@@ -59,6 +60,7 @@
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Duration = 0, VaryByParam = "*")]
+        [ValidateAntiForgeryToken]
         public ActionResult CrearHospital(string nombre, string telefono, string email, string direccion, string texto, HttpPostedFileBase fichero)
         {
             var hop = new DatosProfesionales
@@ -103,6 +105,7 @@
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Duration = 0, VaryByParam = "*")]
+        [ValidateAntiForgeryToken]
         public ActionResult CrearCompania(string nombre, string link, HttpPostedFileBase fichero)
         {
             var comp = new Companias
@@ -142,6 +145,7 @@
             return this.RedirectToAction("index");
         }
 
+        [HttpGet]
         [Authorize]
         public ActionResult DeleteHospital(string id)
         {
@@ -180,7 +184,10 @@
                 {
                     System.IO.File.Delete(rutacompleta);
                 }
-                catch { }
+                catch
+                {
+                    // ignoring errors?
+                }
 
                 //nos cargamos todas previamente
                 foreach (var co in hospitalABorrar.Companias.ToList())
@@ -201,6 +208,7 @@
             return this.RedirectToAction("index");
         }
 
+        [HttpGet]
         [Authorize]
         public ActionResult DeleteComp(int id)
         {
@@ -223,7 +231,10 @@
                 {
                     System.IO.File.Delete(rutacompleta);
                 }
-                catch { }
+                catch
+                {
+                    // ignoring exceptions?
+                }
 
                 //nos cargamos el hospital
                 this.DbContext.Companias.Remove(companiaABorrar);
@@ -237,6 +248,7 @@
             return this.RedirectToAction("index");
         }
 
+        [HttpGet]
         [Authorize]
         public ActionResult EditarHospital(string id)
         {
@@ -283,6 +295,7 @@
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Duration = 0, VaryByParam = "*")]
+        [ValidateAntiForgeryToken]
         public ActionResult EditarHospital(HospitalesVista model, HttpPostedFileBase fichero, FormCollection coleccion)
         {
             try
@@ -330,6 +343,7 @@
             }
         }
 
+        [HttpGet]
         [Authorize]
         public ActionResult EditarCompania(int id)
         {
@@ -341,6 +355,7 @@
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Duration = 0, VaryByParam = "*")]
+        [ValidateAntiForgeryToken]
         public ActionResult EditarCompania(Companias model, HttpPostedFileBase fichero)
         {
             try
@@ -371,6 +386,7 @@
             }
         }
 
+        [HttpGet]
         public ActionResult ListaCompanias(string id)
         {
             try

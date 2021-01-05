@@ -16,7 +16,9 @@
         public static string EncodeString(string str, string passwordFormat)
         {
             if (str == null)
+            {
                 return null;
+            }
 
             var ae = new ASCIIEncoding();
             byte[] result;
@@ -68,7 +70,9 @@
         public static string EncodeBinary(byte[] buffer, string passwordFormat)
         {
             if (buffer == null)
+            {
                 return null;
+            }
 
             byte[] result;
             switch (passwordFormat)
@@ -118,14 +122,17 @@
         public static string CreateRandomPassword(int length = 8)
         {
             var rnd = new Random(Convert.ToInt32(DateTime.Now.Millisecond));  //Creates the seed from the time
-            var password = "";
+            var password = new StringBuilder();
             while (password.Length < length)
             {
                 var newChar = Convert.ToChar((int)((122 - 48 + 1) * rnd.NextDouble() + 48));
-                if (newChar >= 'A' & newChar <= 'Z' | newChar >= 'a' & newChar <= 'z' | newChar >= '0' & newChar <= '9')
-                    password += newChar;
+                if (newChar >= 'A' && newChar <= 'Z' || newChar >= 'a' && newChar <= 'z' || newChar >= '0' && newChar <= '9')
+                {
+                    password.Append(newChar);
+                }
             }
-            return password;
+
+            return password.ToString();
         }
 
         /// <summary>
@@ -138,7 +145,9 @@
         public static string EncodeMessageWithPassword(string plainMessage, string password)
         {
             if (plainMessage == null)
+            {
                 throw new ArgumentNullException(nameof(plainMessage), "The message cannot be null");
+            }
 
             var des = new TripleDESCryptoServiceProvider
             {
@@ -175,7 +184,9 @@
         public static string DecodeMessageWithPassword(string encryptedMessage, string password)
         {
             if (encryptedMessage == null)
+            {
                 throw new ArgumentNullException(nameof(encryptedMessage), "The encrypted message cannot be null");
+            }
 
             var des = new TripleDESCryptoServiceProvider
             {
@@ -206,7 +217,7 @@
             }
             catch (CryptographicException e)
             {
-                throw new ApplicationException("Cannot decrypt message.  Possibly, the password is wrong", e);
+                throw new InvalidOperationException("Cannot decrypt message.  Possibly, the password is wrong", e);
             }
 
             return Encoding.UTF8.GetString(plainBytes);
@@ -217,7 +228,10 @@
         public static string GetSha1(string passw)
         {
             //si no hay password a encriptar (null) se devuelve null (fácil, eh?)
-            if (passw == null) return null;
+            if (passw == null)
+            {
+                return null;
+            }
 
             //si sí que hay password a encriptar:
             var sha1 = SHA1.Create();

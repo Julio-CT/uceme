@@ -171,7 +171,7 @@
                     emailMessage.Append("no dejo email de contacto");
                 }
 
-                if (observaciones != "")
+                if (!string.IsNullOrEmpty(observaciones))
                 {
                     emailMessage.Append("<br />");
                     emailMessage.Append("Adjunto las siguientes observaciones : " + observaciones);
@@ -210,7 +210,7 @@
                 emailMessage.Append("Su telefono es : " + telefono);
                 emailMessage.Append("<br />");
                 emailMessage.Append("y su email: " + emailAddress);
-                if (observaciones != "")
+                if (!string.IsNullOrEmpty(observaciones))
                 {
                     emailMessage.Append("<br />");
                     emailMessage.Append("Adjunto las siguientes observaciones : " + observaciones);

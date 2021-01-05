@@ -76,7 +76,7 @@ class BlogPostComponent extends React.Component<BlogHomeProps, BlogHomeState> {
             <meta property="og:url" content={post.link} />
             <meta property="og:type" content="article" />
             <meta property="og:title" content={post.title} />
-            <meta property="og:description" content={post.metaDescription}  />
+            <meta property="og:description" content={post.metaDescription} />
           </Helmet>
 
           <h1>{post.title}</h1>

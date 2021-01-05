@@ -10,9 +10,7 @@
 
     public class SeguridadController : Controller
     {
-        //
-        // GET: /Seguridad/
-
+        [HttpGet]
         public ActionResult Login()
         {
             var usu = new Usuario();
@@ -20,6 +18,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(Usuario model, string returnUrl)
         {
             if (model != null)
@@ -49,6 +48,7 @@
             return this.View(model);
         }
 
+        [HttpGet]
         public ActionResult Logout()
         {
             CustomPrincipal.LogOut();
@@ -75,6 +75,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult PasswordRecovery(Usuario model)
         {
             if (this.ModelState.IsValid)
@@ -134,6 +135,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Validate(CambioPasswordVista model)
         {
             if (model != null && this.ModelState.IsValid)

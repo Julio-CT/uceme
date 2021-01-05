@@ -20,16 +20,25 @@
 
                 if (!File.Exists(strFile))
                 {
-                    using (var fs = File.Create(strFile)) { }
+                    using (var fs = File.Create(strFile))
+                    {
+                        using (var w = File.AppendText(strFile))
+                        {
+                            Log(strOutputFileContents, w);
+                        }
+                    }
                 }
-
-                var w = File.AppendText(strFile);
-                Log(strOutputFileContents, w);
-                w.Close();
+                else
+                {
+                    using (var w = File.AppendText(strFile))
+                    {
+                        Log(strOutputFileContents, w);
+                    }
+                }
             }
             catch (Exception e)
             {
-                var sError = e.Message;
+                // ignoring errors?
             }
         }
 

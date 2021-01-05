@@ -10,15 +10,12 @@
 
     public class TecnicasController : SuperController
     {
-        //
-        // GET: /Tecnicas/
-
-        private static List<TecnicaVista> _conjuntodata;
-        private static readonly int _elementospp = 5;
+        private readonly List<TecnicaVista> _conjuntodata;
+        private const int _elementospp = 5;
 
         public TecnicasController()
         {
-            _conjuntodata = (from o in this.DbContext.Tecnica
+            this._conjuntodata = (from o in this.DbContext.Tecnica
                              orderby o.fecha descending
                              select new TecnicaVista
                              {
@@ -29,15 +26,7 @@
                              }).ToList();
         }
 
-        private List<TecnicaVista> GetSubconjunto(int pagina = 1)
-        {
-            var skipRecords = pagina * _elementospp;
-
-            return _conjuntodata.
-                Skip(skipRecords).
-                Take(_elementospp).ToList();
-        }
-
+        [HttpGet]
         public ActionResult Index(int? id)
         {
             //scrolling
@@ -48,12 +37,15 @@
             var data = this.GetSubconjunto(pagina);
 
             if (this.Request.IsAjaxRequest())
+            {
                 return this.PartialView("Subconjunto", data);
+            }
 
             return this.View(data);
         }
 
         //nuevo!! para traer un solo articulo (para cuando linkemos desde fb o tw)
+        [HttpGet]
         public ActionResult Uno(int id)
         {
             var data = (from o in this.DbContext.Tecnica
@@ -69,6 +61,7 @@
             return this.View("Index", data);
         }
 
+        [HttpGet]
         [Authorize]
         public ActionResult Anadir()
         {
@@ -79,47 +72,46 @@
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Duration = 0, VaryByParam = "*")]
+        [ValidateAntiForgeryToken]
         public ActionResult Anadir(TecnicaVista model, HttpPostedFileBase fichero)
         {
-            if (model != null && this.ModelState.IsValid)
+            if (model != null && this.ModelState.IsValid && fichero != null && fichero.ContentLength > 0)
             {
-                if (fichero != null && fichero.ContentLength > 0)
+                var blog = new Tecnica
                 {
-                    var blog = new Tecnica
-                    {
-                        titulo = model.Titulo,
-                        fecha = DateTime.Now,
-                        texto = model.Texto,
-                        foto = ""
-                    };
+                    titulo = model.Titulo,
+                    fecha = DateTime.Now,
+                    texto = model.Texto,
+                    foto = ""
+                };
 
-                    this.DbContext.Tecnica.Add(blog);
+                this.DbContext.Tecnica.Add(blog);
+                this.DbContext.SaveChanges();
+
+                try
+                {
+                    var nombre = "Tecnica" + blog.idTecnica;
+                    var extension = fichero.FileName.Substring(fichero.FileName.LastIndexOf(".", StringComparison.CurrentCulture));
+                    var ruta = this.Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
+                    fichero.SaveAs(ruta);
+                    blog.foto = "~/uploads/fotos/" + nombre + extension;
+
+                    this.DbContext.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    //si falla el anadir la foto, borramos el elemento de la base de datos y devolvemos la vista con un error
+                    this.DbContext.Tecnica.Remove(blog);
                     this.DbContext.SaveChanges();
 
-                    try
-                    {
-                        var nombre = "Tecnica" + blog.idTecnica;
-                        var extension = fichero.FileName.Substring(fichero.FileName.LastIndexOf(".", StringComparison.CurrentCulture));
-                        var ruta = this.Server.MapPath("~/Uploads/Fotos") + "/" + nombre + extension;
-                        fichero.SaveAs(ruta);
-                        blog.foto = "~/uploads/fotos/" + nombre + extension;
-
-                        this.DbContext.SaveChanges();
-                    }
-                    catch (Exception e)
-                    {
-                        //si falla el anadir la foto, borramos el elemento de la base de datos y devolvemos la vista con un error
-                        this.DbContext.Tecnica.Remove(blog);
-                        this.DbContext.SaveChanges();
-
-                        this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCode.ErrorAddingItem) + " " + e.Message);
-                        return this.RedirectToAction("index", "Tecnicas");
-                    }
+                    this.ModelState.AddModelError("UcemeError", Utilidades.ErrorManager.ErrorCodeToString(Utilidades.ErrorCode.ErrorAddingItem) + " " + e.Message);
+                    return this.RedirectToAction("index", "Tecnicas");
                 }
             }
             return this.RedirectToAction("Index", "Tecnicas");
         }
 
+        [HttpGet]
         [Authorize]
         public ActionResult Editar(int id)
         {
@@ -139,15 +131,11 @@
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Duration = 0, VaryByParam = "*")]
+        [ValidateAntiForgeryToken]
         public ActionResult Editar(TecnicaVista model, HttpPostedFileBase fichero)
         {
             if (model != null && this.ModelState.IsValid)
             {
-                /* Se supone que un usuario solo podrá editar sus blog asi que dejo el usuario sin modificar
-                 CustomIdentity cus = (CustomIdentity)System.Web.HttpContext.Current.User.Identity;
-                 Usuario usu = db.Usuario.FirstOrDefault(oo => oo.login == cus.Email);
-                 */
-
                 //Buscamos el blog a modificar...
                 var blog = this.DbContext.Tecnica.Find(model.IdTecnica);
 
@@ -172,6 +160,7 @@
         }
 
         // action para eliminar una entrada en el blog
+        [HttpGet]
         [Authorize]
         public ActionResult Eliminar(int id)
         {
@@ -190,6 +179,15 @@
             }
 
             return this.Json("ok", JsonRequestBehavior.AllowGet);
+        }
+
+        private List<TecnicaVista> GetSubconjunto(int pagina = 1)
+        {
+            var skipRecords = pagina * _elementospp;
+
+            return this._conjuntodata.
+                Skip(skipRecords).
+                Take(_elementospp).ToList();
         }
     }
 }

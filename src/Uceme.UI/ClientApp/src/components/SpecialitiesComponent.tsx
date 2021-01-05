@@ -1,10 +1,10 @@
 import * as React from 'react';
-import './Specialities.scss';
-import slide1 from '../../resources/images/cirugia-tiroidea.png';
-import slide2 from '../../resources/images/cirugia-paratiroidea.png';
-import slide3 from '../../resources/images/obesidad-morbida.png';
-import slide4 from '../../resources/images/cirugia-glandulas-suprarrenales.png';
-import slide5 from '../../resources/images/tiroidectomia-sin-cicatriz.png';
+import './SpecialitiesComponent.scss';
+import slide1 from '../resources/images/cirugia-tiroidea.png';
+import slide2 from '../resources/images/cirugia-paratiroidea.png';
+import slide3 from '../resources/images/obesidad-morbida.png';
+import slide4 from '../resources/images/cirugia-glandulas-suprarrenales.png';
+import slide5 from '../resources/images/tiroidectomia-sin-cicatriz.png';
 
 const specials = [
   {
@@ -73,19 +73,21 @@ const items: JSX.Element[] = specials.map((item) => {
   );
 });
 
-const Specialities: () => JSX.Element = () => {
+const SpecialitiesComponent: () => JSX.Element = () => {
   return (
-    <section id="section-specialities" className="clearfix">
-      <div className="specialities container clearfix extra-margin">
-        <h3 className="uppercase">Especialidades</h3>
-        <h4 className="padding-y-medium spacing uppercase">
-          La última tecnología unida a un excelente trato personal
-        </h4>
-        <div className="line" />
-        <div className="row justify-content-md-center">{items}</div>
-      </div>
-    </section>
+    <div className="App App-home header-distance">
+      <section id="section-specialities" className="clearfix">
+        <div className="specialities container clearfix extra-margin">
+          <h3 className="uppercase">Especialidades</h3>
+          <h4 className="padding-y-medium spacing uppercase">
+            La última tecnología unida a un excelente trato personal
+          </h4>
+          <div className="line" />
+          <div className="row justify-content-md-center">{items}</div>
+        </div>
+      </section>
+    </div>
   );
 };
 
-export default Specialities;
+export default SpecialitiesComponent;

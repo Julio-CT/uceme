@@ -15,17 +15,17 @@ namespace Uceme.Api
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc.Authorization;
+    using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
     using Uceme.API.Services;
-    using Uceme.Model.Settings;
     using Uceme.API.Utilities;
     using Uceme.Model.Data;
     using Uceme.Model.Models;
-    using Microsoft.Data.SqlClient;
+    using Uceme.Model.Settings;
 
     public class Startup
     {
@@ -113,14 +113,14 @@ namespace Uceme.Api
             services.AddControllers();
 
             services.AddCors(o => {
-                o.AddPolicy(relaxedPolicy, builder =>
+                o.AddPolicy(this.relaxedPolicy, builder =>
                 {
                     builder.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                 });
 
-                o.AddPolicy(strictPolicy, builder =>
+                o.AddPolicy(this.strictPolicy, builder =>
                 {
                     builder.WithOrigins("http://localhost:3000")
                             .WithMethods("PUT", "DELETE", "GET");
@@ -136,7 +136,7 @@ namespace Uceme.Api
             services.AddTransient<IFotosService, FotosService>();
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<IConfiguration>(this.Configuration);
             services.Configure<AuthMessageSenderSettings>(this.Configuration);
 
             var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();

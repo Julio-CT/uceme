@@ -9,9 +9,7 @@
 
     public class ServiciosController : SuperController
     {
-        //
-        // GET: /Servicios/
-
+        [HttpGet]
         public ActionResult Index()
         {
             var data = this.DbContext.Servicio.Select(o => new ServicioVista
@@ -29,6 +27,7 @@
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Duration = 0, VaryByParam = "*")]
+        [ValidateAntiForgeryToken]
         public ActionResult CrearServicio(ServicioVista model, HttpPostedFileBase fichero)
         {
             var ser = new Servicio
@@ -68,6 +67,7 @@
             return this.RedirectToAction("index");
         }
 
+        [HttpGet]
         [Authorize]
         public ActionResult EditarServicio(int id)
         {
@@ -88,6 +88,7 @@
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         [OutputCache(Duration = 0, VaryByParam = "*")]
+        [ValidateAntiForgeryToken]
         public ActionResult EditarServicio(ServicioVista model, HttpPostedFileBase fichero)
         {
             var ser = this.DbContext.Servicio.Find(model.IdServicio);
@@ -111,6 +112,7 @@
             return this.RedirectToAction("index");
         }
 
+        [HttpGet]
         [Authorize]
         public ActionResult Eliminar(int id)
         {

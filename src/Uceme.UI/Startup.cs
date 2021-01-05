@@ -41,14 +41,14 @@ namespace Uceme.UI
                 .AddIdentityServerJwt();
 
             services.AddCors(o => {
-                o.AddPolicy(relaxedPolicy, builder =>
+                o.AddPolicy(this.relaxedPolicy, builder =>
                 {
                     builder.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                 });
 
-                o.AddPolicy(strictPolicy, builder =>
+                o.AddPolicy(this.strictPolicy, builder =>
                 {
                     builder.WithOrigins("http://localhost:3000")
                             .WithMethods("PUT", "DELETE", "GET");

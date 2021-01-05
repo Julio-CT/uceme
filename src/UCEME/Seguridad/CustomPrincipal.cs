@@ -58,7 +58,11 @@
                     Path = FormsAuthentication.FormsCookiePath
                 };
 
-                if (recordar) cookie.Expires = DateTime.Now.AddYears(1);
+                if (recordar)
+                {
+                    cookie.Expires = DateTime.Now.AddYears(1);
+                }
+
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
             return identity.IsAuthenticated;

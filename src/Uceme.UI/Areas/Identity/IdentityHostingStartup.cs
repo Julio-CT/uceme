@@ -5,13 +5,6 @@ namespace Uceme.UI.Areas.Identity
 {
     using System;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Uceme.Model.Data;
-    using Uceme.Model.Models;
 
     public class IdentityHostingStartup : IHostingStartup
     {

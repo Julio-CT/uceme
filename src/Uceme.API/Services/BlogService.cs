@@ -40,7 +40,7 @@
             }
             catch (Exception e)
             {
-                logger.LogError($"Error retrieving Blogs {e.Message}");
+                this.logger.LogError($"Error retrieving Blogs {e.Message}");
                 throw new DataException("Error retrieving Blogs", e);
             }
         }

@@ -1,27 +1,35 @@
 import React from 'react';
 
 export type Settings = {
-    telephone: string;
-    address: string;
-    contactEmail: string;
-  } | null;
+  telephone: string;
+  address: string;
+  contactEmail: string;
+  baseHref: string;
+} | null;
 
-const SettingsContextAlt = (): React.Context<Settings> => {
-    const defaultSettings: React.Context<any> = React.createContext(null);
-    const [context, setContext] = React.useState<React.Context<Settings>>(defaultSettings);
+const SettingsContext = (): React.Context<Settings> => {
+  const defaultSettings: React.Context<any> = React.createContext(null);
+  const [context, setContext] = React.useState<React.Context<Settings>>(
+    defaultSettings
+  );
+  const baseHref: string =
+    process.env.NODE_ENV === 'development' ? '' : 'ucemeapi/';
 
-    React.useEffect(() => {
-        fetch('api/settings/getsettings')
-            .then((response: { json: () => any; }) => response.json())
-            .then(async (data: Settings) => {
-                setContext(React.createContext(data));
-            })
-            .catch((error: any) => {
-                console.log(error);
-            })    
-        }, []);
+  React.useEffect(() => {
+    fetch(`${baseHref}api/settings/getsettings`)
+      .then((response: { json: () => any }) => response.json())
+      .then(async (data: Settings) => {
+        if (data) {
+          data.baseHref = baseHref;
+        }
+        setContext(React.createContext(data));
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  }, [baseHref]);
 
-    return context;
-}
+  return context;
+};
 
-export default SettingsContextAlt;
+export default SettingsContext;

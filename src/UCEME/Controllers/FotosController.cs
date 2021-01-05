@@ -59,7 +59,9 @@
             var data = this.GetSubconjunto(pagina);
 
             if (this.Request.IsAjaxRequest())
+            {
                 return this.PartialView("Subconjunto", data);
+            }
 
             return this.View(data);
         }
