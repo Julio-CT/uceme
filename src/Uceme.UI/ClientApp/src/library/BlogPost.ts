@@ -2,6 +2,7 @@ type BlogPost = {
   id: string;
   title?: string;
   imageSrc: string;
+  text: string;
   altText: JSX.Element | JSX.Element[];
   caption: string;
   link: string;

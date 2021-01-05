@@ -38,9 +38,11 @@ const Blogs = () => {
                 id: obj.idBlog,
                 title: obj.titulo,
                 imageSrc: image.default,
+                text: obj.texto,
                 altText: parse(obj.texto),
                 caption: obj.titulo,
                 link: `/post/${obj.slug}`,
+                slug: obj.slug,
                 date: new Intl.DateTimeFormat('en-GB', {
                   year: 'numeric',
                   month: 'long',

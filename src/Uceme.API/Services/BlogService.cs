@@ -32,9 +32,34 @@
                     foto = x.foto,
                     texto = x.texto,
                     slug = x.slug,
+                    metaDescription = x.metaDescription,
                 });
 
-                data = data.OrderByDescending(x => x.fecha).Skip((page - 1) * 10).Take(amount);
+                data = data.OrderByDescending(x => x.fecha).Skip((page - 1) * 10 + Math.Max(page - 2, 0) * 2).Take(amount);
+
+                return data;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error retrieving Blogs {e.Message}");
+                throw new DataException("Error retrieving Blogs", e);
+            }
+        }
+
+        public Blog GetPost(string slug)
+        {
+            try
+            {
+                var data = this.DbContext.Blog.Select(x => new Blog()
+                {
+                    idBlog = x.idBlog,
+                    titulo = x.titulo,
+                    fecha = x.fecha,
+                    foto = x.foto,
+                    texto = x.texto,
+                    slug = x.slug,
+                    metaDescription = x.metaDescription,
+                }).First(x => x.slug == slug);
 
                 return data;
             }
