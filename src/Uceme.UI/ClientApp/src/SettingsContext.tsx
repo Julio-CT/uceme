@@ -22,6 +22,7 @@ const SettingsContext = (): React.Context<Settings> => {
         if (data) {
           data.baseHref = baseHref;
         }
+
         setContext(React.createContext(data));
       })
       .catch((error: any) => {

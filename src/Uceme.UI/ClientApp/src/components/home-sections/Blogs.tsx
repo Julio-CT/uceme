@@ -8,14 +8,14 @@ import photoIcon from '../../resources/images/photoicon.png';
 import BlogPost from '../../library/BlogPost';
 import SettingsContext from '../../SettingsContext';
 
-type blogState = {
+type BlogState = {
   items: BlogPost[];
   isFetching: boolean;
 };
 
 const Blogs = () => {
   const settings = React.useContext(SettingsContext());
-  const [data, setData] = React.useState<blogState>({
+  const [data, setData] = React.useState<BlogState>({
     items: [] as Array<BlogPost>,
     isFetching: false,
   });
@@ -30,7 +30,7 @@ const Blogs = () => {
           await Promise.all(
             data.map(async (obj: any) => {
               const image = await import(
-                `../../resources/images/${obj.foto.slice(
+                `../../uploads/${obj.foto.slice(
                   obj.foto.lastIndexOf('/') + 1
                 )}`
               );

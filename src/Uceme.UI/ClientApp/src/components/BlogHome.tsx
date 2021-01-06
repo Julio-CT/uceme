@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import BlogPost from '../library/BlogPost';
 import './BlogHome.scss';
+import SettingsContext from '../SettingsContext';
 
 type BlogHomeState = {
   loaded: boolean;
@@ -18,35 +19,18 @@ type BlogHomeProps = {
   match?: any;
 };
 
-class BlogHome extends React.Component<BlogHomeProps, BlogHomeState> {
-  constructor(props: BlogHomeProps) {
-    super(props);
+const BlogHome = (props: BlogHomeProps) => {
+  const settings = React.useContext(SettingsContext());
+  const [data, setData] = React.useState<BlogHomeState>({
+    loaded: false,
+    resp: null,
+    page: props?.params?.page ?? props?.match?.params?.page ?? 1,
+  });
 
-    this.state = {
-      loaded: false,
-      resp: null,
-      page: this.props?.params?.page ?? this.props?.match?.params?.page ?? 1,
-    };
-  }
+  const isFirstRun = useRef(true);
 
-  UNSAFE_componentWillMount() {
-    const page =
-      this.props?.params?.page || this.props?.match?.params?.page || 1;
-
-    this.setState({ page: page });
-    debugger;
-    this.fetchPosts(page);
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps: BlogHomeProps) {
-    const page = nextProps.params?.page || nextProps.match?.params?.page || 1;
-
-    this.setState({ loaded: false, page: page });
-    this.fetchPosts(page);
-  }
-
-  fetchPosts(page: number): void {
-    fetch(`api/blog/getbloglist?page=${page}`)
+  const fetchPosts = (page: number, baseHref: string) => {
+    fetch(`${baseHref}api/blog/getbloglist?page=${page}`)
       .then((response: { json: () => any }) => response.json())
       .then(async (resp: any) => {
         const retrievedBlogs: BlogPost[] = [];
@@ -54,9 +38,7 @@ class BlogHome extends React.Component<BlogHomeProps, BlogHomeState> {
         await Promise.all(
           resp.map(async (obj: any) => {
             const image = await import(
-              `../resources/images/${obj.foto.slice(
-                obj.foto.lastIndexOf('/') + 1
-              )}`
+              `../uploads/${obj.foto.slice(obj.foto.lastIndexOf('/') + 1)}`
             );
             retrievedBlogs.push({
               id: obj.idBlog,
@@ -77,82 +59,96 @@ class BlogHome extends React.Component<BlogHomeProps, BlogHomeState> {
           })
         );
 
-        this.setState({
+        setData({
           loaded: true,
           resp: retrievedBlogs,
+          page: page,
         });
       })
       .catch((error: any) => {
         console.log(error);
-        this.setState({
+        setData({
           loaded: false,
           resp: null,
+          page: page,
         });
       });
-  }
+  };
 
-  render() {
-    if (this.state.loaded) {
-      const nextPage: number = this.state.page ? +this.state.page + 1 : 2;
-      const previousPage: number | undefined =
-        this.state.page && +this.state.page !== 1
-          ? +this.state.page - 1
-          : undefined;
+  React.useEffect(() => {
+    if (settings) {
+      const page = props?.params?.page || props?.match?.params?.page || 1;
 
-      return (
-        <div className="App App-home header-distance">
-          <div className="container">
-              <div
-                className={`section padding-top section--large section--grey section--in-view article-list article-list--page-${this.state.page}`}
-              >
-                {this.state.resp.map((post: BlogPost, index: number) => {
-                  return (
-                    <Fragment key={post.slug}>
-                      <article
-                        className={`article article--list article--blog article--${
-                          +index + 1
-                        }`}
-                      >
-                        <a
-                          href={`/post/${post.slug}`}
-                          className="article__image article__image--thumb"
-                        >
-                          <img src={post.imageSrc} alt={post.caption}></img>
+      if (isFirstRun.current) {
+        isFirstRun.current = false;
+
+        fetchPosts(page, settings.baseHref);
+        return;
+      }
+
+      setData({ loaded: false, page: page });
+      fetchPosts(page, settings.baseHref);
+    }
+  }, [props?.match?.params?.page, props?.params?.page, settings]);
+
+  if (data.loaded) {
+    const nextPage: number = data.page ? +data.page + 1 : 2;
+    const previousPage: number | undefined =
+      data.page && +data.page !== 1 ? +data.page - 1 : undefined;
+
+    return (
+      <div className="App App-home header-distance">
+        <div className="container">
+          <div
+            className={`section padding-top section--large section--grey section--in-view article-list article-list--page-${data.page}`}
+          >
+            {data.resp.map((post: BlogPost, index: number) => {
+              return (
+                <Fragment key={post.slug}>
+                  <article
+                    className={`article article--list article--blog article--${
+                      +index + 1
+                    }`}
+                  >
+                    <a
+                      href={`/post/${post.slug}`}
+                      className="article__image article__image--thumb"
+                    >
+                      <img src={post.imageSrc} alt={post.caption}></img>
+                    </a>
+                    <div className="article__inner">
+                      <h2 className="article__title">
+                        <a href={`/post/${post.slug}`} rel="bookmark">
+                          {post.title}
                         </a>
-                        <div className="article__inner">
-                          <h2 className="article__title">
-                            <a href={`/post/${post.slug}`} rel="bookmark">
-                              {post.title}
-                            </a>
-                          </h2>
+                      </h2>
 
-                          <div className="article__meta">
-                            <p className="article__date">{post.date}</p>
-                            <p className="article__author">
-                              {post.metaDescription}
-                            </p>
-                          </div>
-                        </div>
-                      </article>
-                    </Fragment>
-                  );
-                })}
-                <br />
-                <div>
-                  {previousPage && (
-                    <Link to={`/blog/${previousPage}`}>Anterior</Link>
-                  )}
+                      <div className="article__meta">
+                        <p className="article__date">{post.date}</p>
+                        <p className="article__author">
+                          {post.metaDescription}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                </Fragment>
+              );
+            })}
+            <br />
+            <div>
+              {previousPage && (
+                <Link to={`/blog/${previousPage}`}>Anterior</Link>
+              )}
 
-                  {nextPage && <Link to={`/blog/${nextPage}`}>Siguiente</Link>}
-                </div>
-              </div>
+              {nextPage && <Link to={`/blog/${nextPage}`}>Siguiente</Link>}
+            </div>
           </div>
         </div>
-      );
-    }
-
-    return <div className="App App-home header-distance">Loading...</div>;
+      </div>
+    );
   }
-}
+
+  return <div className="App App-home header-distance">Loading...</div>;
+};
 
 export default BlogHome;
