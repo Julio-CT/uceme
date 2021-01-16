@@ -2,7 +2,7 @@ name: .NET
 
 on:
   push:
-    branches: [ feature/34 ]
+    branches: [ develop ]
   pull_request:
     branches: [ develop ]
 
@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 3.1.100
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore src/UCEME.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore src/UCEME.sln
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal src/UCEME.sln
