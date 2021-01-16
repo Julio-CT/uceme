@@ -1,3 +1,5 @@
+![.NET](https://github.com/Julio-CT/uceme/workflows/.NET/badge.svg)
+
 # README #
 
 This README would normally document whatever steps are necessary to get your application up and running.
