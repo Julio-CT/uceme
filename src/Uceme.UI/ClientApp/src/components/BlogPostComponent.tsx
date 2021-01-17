@@ -28,13 +28,11 @@ const BlogPostComponent = (props: BlogPostProps) => {
       .then((response: { json: () => any }) => response.json())
       .then(async (resp: any) => {
         let retrievedBlog: BlogPost;
-        const image = await import(
-          '../uploads/' + resp.foto.slice(resp.foto.lastIndexOf('/') + 1)
-        );
+        const image = process.env.PUBLIC_URL + '/uploads/' + resp.foto.slice(resp.foto.lastIndexOf('/') + 1);
         retrievedBlog = {
           id: resp.idBlog,
           title: resp.titulo,
-          imageSrc: image.default,
+          imageSrc: image,
           text: resp.texto,
           altText: parse(resp.texto),
           metaDescription: resp.metaDescription,

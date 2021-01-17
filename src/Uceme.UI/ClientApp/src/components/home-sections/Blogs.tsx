@@ -29,15 +29,11 @@ const Blogs = () => {
 
           await Promise.all(
             data.map(async (obj: any) => {
-              const image = await import(
-                `../../uploads/${obj.foto.slice(
-                  obj.foto.lastIndexOf('/') + 1
-                )}`
-              );
+              const image = process.env.PUBLIC_URL + '/uploads/' + obj.foto.slice(obj.foto.lastIndexOf('/') + 1);
               retrievedBlogs.push({
                 id: obj.idBlog,
                 title: obj.titulo,
-                imageSrc: image.default,
+                imageSrc: image,
                 text: obj.texto,
                 altText: parse(obj.texto),
                 caption: obj.titulo,
