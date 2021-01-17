@@ -39,5 +39,39 @@
 
             return result.ToList();
         }
+
+        [HttpGet("getbloglist")]
+        [AllowAnonymous]
+        public ActionResult<IEnumerable<Blog>> GetBlogList(int page)
+        {
+            IEnumerable<Blog> result;
+            try
+            {
+                result = this.blogService.GetBlogSubset(page == 1 ? 10 : 12, page);
+            }
+            catch (DataException)
+            {
+                return this.BadRequest();
+            }
+
+            return result.ToList();
+        }
+
+        [HttpGet("getpost")]
+        [AllowAnonymous]
+        public ActionResult<Blog> GetPost(string slug)
+        {
+            Blog result;
+            try
+            {
+                result = this.blogService.GetPost(slug);
+            }
+            catch (DataException)
+            {
+                return this.BadRequest();
+            }
+
+            return result;
+        }
     }
 }

@@ -907,7 +907,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uceme.Foundation\Uceme.Foundation.csproj">
-      <Project>{ff201c40-d7c1-4938-b870-8c968735f4d6}</Project>
+      <Project>{C35E5144-8238-4389-9A78-4F9BA8FD7D5C}</Project>
       <Name>Uceme.Foundation</Name>
     </ProjectReference>
   </ItemGroup>

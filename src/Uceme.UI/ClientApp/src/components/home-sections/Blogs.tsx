@@ -8,14 +8,14 @@ import photoIcon from '../../resources/images/photoicon.png';
 import BlogPost from '../../library/BlogPost';
 import SettingsContext from '../../SettingsContext';
 
-type blogState = {
+type BlogState = {
   items: BlogPost[];
   isFetching: boolean;
 };
 
 const Blogs = () => {
   const settings = React.useContext(SettingsContext());
-  const [data, setData] = React.useState<blogState>({
+  const [data, setData] = React.useState<BlogState>({
     items: [] as Array<BlogPost>,
     isFetching: false,
   });
@@ -29,18 +29,16 @@ const Blogs = () => {
 
           await Promise.all(
             data.map(async (obj: any) => {
-              const image = await import(
-                `../../resources/images/${obj.foto.slice(
-                  obj.foto.lastIndexOf('/') + 1
-                )}`
-              );
+              const image = process.env.PUBLIC_URL + '/uploads/' + obj.foto.slice(obj.foto.lastIndexOf('/') + 1);
               retrievedBlogs.push({
                 id: obj.idBlog,
                 title: obj.titulo,
-                imageSrc: image.default,
+                imageSrc: image,
+                text: obj.texto,
                 altText: parse(obj.texto),
                 caption: obj.titulo,
                 link: `/post/${obj.slug}`,
+                slug: obj.slug,
                 date: new Intl.DateTimeFormat('en-GB', {
                   year: 'numeric',
                   month: 'long',

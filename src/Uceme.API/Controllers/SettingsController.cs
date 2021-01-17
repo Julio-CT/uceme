@@ -37,6 +37,7 @@
             }
             catch (DataException)
             {
+                this.logger.LogError("error returning settings");
                 return this.BadRequest();
             }
 
