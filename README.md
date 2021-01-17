@@ -1,4 +1,4 @@
-![.NET](https://github.com/Julio-CT/uceme/workflows/.NET/badge.svg)
+![.NET](https://github.com/Julio-CT/uceme/workflows/.NET/badge.svg)![Node.js CI](https://github.com/Julio-CT/uceme/workflows/Node.js%20CI/badge.svg)
 
 # README #
 
