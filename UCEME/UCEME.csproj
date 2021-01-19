@@ -340,7 +340,7 @@
     <Compile Include="Seguridad\ICustomIdentity.cs" />
     <Compile Include="Seguridad\ICustomPrincipal.cs" />
     <Compile Include="Seguridad\IdentityRepresentation.cs" />
-    <Compile Include="Utilidades\ConsultasBbdd.cs" />
+    <Compile Include="Utilidades\ConsultasBBDD.cs" />
     <Compile Include="Utilidades\DiasHoras.cs" />
     <Compile Include="Utilidades\Encodificacion.cs" />
     <Compile Include="Utilidades\ErrorCodes.cs" />
