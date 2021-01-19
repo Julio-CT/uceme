@@ -1,4 +1,4 @@
-![.NET](https://github.com/Julio-CT/uceme/workflows/.NET/badge.svg)![Node.js CI](https://github.com/Julio-CT/uceme/workflows/Node.js%20CI/badge.svg)![CodeQL](https://github.com/Julio-CT/uceme/workflows/CodeQL/badge.svg)
+![.NET](https://github.com/Julio-CT/uceme/workflows/.NET/badge.svg)![Node.js CI](https://github.com/Julio-CT/uceme/workflows/Node.js%20CI/badge.svg)![CodeQL](https://github.com/Julio-CT/uceme/workflows/CodeQL/badge.svg)![Snyk Infrastructure as Code](https://github.com/Julio-CT/uceme/workflows/Snyk%20Infrastructure%20as%20Code/badge.svg)![OSSAR](https://github.com/Julio-CT/uceme/workflows/OSSAR/badge.svg)
 
 # README #
 
