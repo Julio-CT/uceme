@@ -35,7 +35,7 @@
             bool result;
             try
             {
-                result = this.emailService.SendEmail(message.Name, message.Email, message.Message);
+                result = this.emailService.SendEmailToManagement(message.Name, message.Email, message.Message);
             }
             catch (OperationCanceledException)
             {

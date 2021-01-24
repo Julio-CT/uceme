@@ -13,7 +13,6 @@ namespace Uceme.Api
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc.Authorization;
     using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;

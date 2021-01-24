@@ -6,6 +6,8 @@
     {
         ApplicationDbContext DbContext { get; }
 
-        bool SendEmail(string toAddress, string subject, string body);
+        bool SendEmailToManagement(string fromAddress, string subject, string body);
+
+        bool SendEmailToClient(string toAddress, string subject, string body);
     }
 }

@@ -16,19 +16,19 @@ import slide4 from '../../resources/images/cita-medica-uceme.jpg';
 const items = [
   {
     src: slide1,
-    altText: 'Unidad de Cirugia Endocrinometabolica Especializada',
+    altText: 'Unidad de Cirugía Endocrinometabólica Especializada',
     caption: 'UCEME',
   },
   {
     src: slide2,
     altText: 'Pioneros en España en Tiroidectomía por Abordaje Extracervical',
-    caption: 'INNOVACIONES TECNICAS',
+    caption: 'INNOVACIONES TÉCNICAS',
   },
   {
     src: slide3,
     altText:
       'Ofrecemos un trato personalizado en enfermedades de tiroides, paratiroides, glándula suprarrenal y obesidad mórbida.',
-    caption: 'CONOCENOS',
+    caption: 'CONÓCENOS',
   },
   {
     src: slide4,

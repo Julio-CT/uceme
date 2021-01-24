@@ -11,29 +11,28 @@ const ContactUsComponent: () => JSX.Element = () => {
   const handleChange = (event: any) => {
     const name = event.target.name;
     setData({ ...data, [name]: event.target.value });
-  }
+  };
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    alert('A name was submitted: ' + data.name + data.email + data.message);
     fetch(`${settings?.baseHref}api/contact/contactemail`, {
       method: 'POST',
       cache: 'no-cache',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data)
-    }).then(data => {
+      body: JSON.stringify(data),
+    }).then((data) => {
+      alert(
+        'Correo electrónico enviado. Nuestro equipo se pondrá en contacto lo antes posible. Muchas gracias.'
+      );
       console.log(data);
     });
-  }
+  };
 
   if (settings) {
     return (
-      <section
-        id="section-contact_form"
-        className="container"
-      >
+      <section id="section-contact_form" className="container">
         <div className="App header-distance extra-padding row justify-content-md-center">
           <form onSubmit={handleSubmit} className="col-12 col-md-6">
             <h3 className="uppercase">Envienos un mensaje</h3>
@@ -44,33 +43,52 @@ const ContactUsComponent: () => JSX.Element = () => {
             <label className="contactItem col-9 color-orange">
               Nombre y apellidos*
             </label>
-            <input type="text" value={data.name} name='name' onChange={handleChange}  
+            <input
+              type="text"
+              value={data.name}
+              name="name"
+              onChange={handleChange}
               className="contactItem col-9"
-              placeholder="Nombre y apellidos" 
-              autoComplete="nombre" autoCorrect="off" autoCapitalize="none" 
-              spellCheck="false" />
+              placeholder="Nombre y apellidos"
+              autoComplete="nombre"
+              autoCorrect="off"
+              autoCapitalize="none"
+              spellCheck="false"
+            />
             <label className="contactItem col-9 color-orange">
               Dirección de correo electrónico*
             </label>
-            <input type="email" value={data.emailAddress} name='email' onChange={handleChange}
-             className="contactItem col-9"
-             placeholder="Dirección de correo electrónico" 
-             autoComplete="email" autoCorrect="off" autoCapitalize="none" 
-             spellCheck="false" />
-            <label className="contactItem col-9 color-orange">
-              Mensaje*
-            </label>
-            <textarea value={data.message} name='message' onChange={handleChange} 
-             className="contactItem col-9"
-             placeholder="Escriba su mensaje" 
-             autoCorrect="on" autoCapitalize="none" 
-             spellCheck="true" />
-            <button className="col-9 btn btn-success extra-margin submit-button" type="submit">Enviar</button>
+            <input
+              type="email"
+              value={data.emailAddress}
+              name="email"
+              onChange={handleChange}
+              className="contactItem col-9"
+              placeholder="Dirección de correo electrónico"
+              autoComplete="email"
+              autoCorrect="off"
+              autoCapitalize="none"
+              spellCheck="false"
+            />
+            <label className="contactItem col-9 color-orange">Mensaje*</label>
+            <textarea
+              value={data.message}
+              name="message"
+              onChange={handleChange}
+              className="contactItem col-9"
+              placeholder="Escriba su mensaje"
+              autoCorrect="on"
+              autoCapitalize="none"
+              spellCheck="true"
+            />
+            <button
+              className="col-9 btn btn-success extra-margin submit-button"
+              type="submit"
+            >
+              Enviar
+            </button>
           </form>
-          <section
-            id="section-contact_us"
-            className="col-12 col-md-6"
-          >
+          <section id="section-contact_us" className="col-12 col-md-6">
             <h3 className="uppercase">Contacto</h3>
             <h4 className="padding-y-medium uppercase spacing">
               Estamos a tu disposición para cualquier duda o consulta
