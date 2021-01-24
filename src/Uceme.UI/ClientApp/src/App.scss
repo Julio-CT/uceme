@@ -105,6 +105,10 @@ strong {
   margin-top: 30px;
 }
 
+.extra-padding {
+  padding-top: 30px;
+}
+
 .uppercase {
   text-transform: uppercase;
 }
@@ -127,4 +131,9 @@ section {
 
 .color-gray {
   color: $uceme-gray;
+}
+
+.submit-button {
+  background-color: $uceme-orange;
+  font-size: smaller;
 }

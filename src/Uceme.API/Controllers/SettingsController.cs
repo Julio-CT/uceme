@@ -13,7 +13,7 @@
     public class SettingsController : Controller
     {
         private readonly ILogger<SettingsController> logger;
-    
+
         private readonly IOptions<AppSettings> configuration;
 
         public SettingsController(

@@ -135,6 +135,7 @@ namespace Uceme.Api
             services.AddTransient<IMedicoService, MedicoService>();
             services.AddTransient<IFotosService, FotosService>();
             services.AddTransient<IBlogService, BlogService>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddSingleton<IConfiguration>(this.Configuration);
             services.Configure<AuthMessageSenderSettings>(this.Configuration);

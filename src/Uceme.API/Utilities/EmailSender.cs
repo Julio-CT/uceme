@@ -36,8 +36,8 @@
 
             using (var mailMessage = new MailMessage())
             {
-                mailMessage.From = new MailAddress(apiKey.EmailFrom);
-                mailMessage.To.Add(new MailAddress(email));
+                mailMessage.From = new MailAddress(apiKey.EmailFrom, "From Name");
+                mailMessage.To.Add(new MailAddress(email, "To Name"));
                 mailMessage.Subject = subject;
                 mailMessage.Body = message;
                 mailMessage.IsBodyHtml = true;
@@ -45,12 +45,14 @@
                 using (var smtpServer = new SmtpClient())
                 {
                     smtpServer.Host = apiKey.HostSmtp;
-
                     smtpServer.Port = apiKey.PortSmtp;
 
                     //hasta configurar la cuenta de envio, supongo que con las credenciales de esta, será valida
                     smtpServer.Credentials = new NetworkCredential(apiKey.CredentialUser, apiKey.CredentialPassword);
                     smtpServer.EnableSsl = true;
+
+                    smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtpServer.UseDefaultCredentials = false;
                     return smtpServer.SendMailAsync(mailMessage);
                 }
             }

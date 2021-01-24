@@ -33,5 +33,6 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Models\Migrations\" />
+    <Folder Include="DataContracts\" />
   </ItemGroup>
 </Project>
