@@ -1,1 +1,0 @@
-﻿interface Window { rootUrl: string; }
