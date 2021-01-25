@@ -36,8 +36,11 @@ const BlogHome = (props: BlogHomeProps) => {
         const retrievedBlogs: BlogPost[] = [];
 
         await Promise.all(
-            resp.map(async (obj: any) => {
-            const image = process.env.PUBLIC_URL + '/uploads/' + obj.foto.slice(obj.foto.lastIndexOf('/') + 1);
+          resp.map(async (obj: any) => {
+            const image =
+              process.env.PUBLIC_URL +
+              '/uploads/' +
+              obj.foto.slice(obj.foto.lastIndexOf('/') + 1);
             retrievedBlogs.push({
               id: obj.idBlog,
               title: obj.titulo,

@@ -22,30 +22,30 @@ const ContactUs: () => JSX.Element = () => {
         </p>
         <div className="row justify-content-md-center">
           <div className="contactItem col-12 col-md-4">
-            <p className="uppercase color-orange">Petición de cita</p>
             <div className="line-small" />
-            <a
-              className="color-gray"
-              title="telefono"
-              href="tel:{settings.Telephone}"
-            >
-              {settings.telephone}
-            </a>
-          </div>
-          <div className="contactItem col-12 col-md-4">
-            <p className="uppercase color-orange">Dirección</p>
-            <div className="line-small" />
-            <span className="color-gray">{settings.address}</span>
-          </div>
-          <div className="contactItem col-12 col-md-4">
-            <p className="uppercase color-orange">Email</p>
-            <div className="line-small" />
+            <p className="uppercase color-orange">Correo electrónico</p>
             <a
               className="color-gray"
               href="mailto:{settings.ContactEmail}"
               title="email"
             >
               {settings.contactEmail}
+            </a>
+          </div>
+          <div className="contactItem col-12 col-md-4">
+            <div className="line-small" />
+            <p className="uppercase color-orange">Dirección</p>
+            <span className="color-gray">{settings.address}</span>
+          </div>
+          <div className="contactItem col-12 col-md-4">
+            <div className="line-small" />
+            <p className="uppercase color-orange">Teléfono</p>
+            <a
+              className="color-gray"
+              title="telefono"
+              href="tel:{settings.Telephone}"
+            >
+              {settings.telephone}
             </a>
           </div>
         </div>

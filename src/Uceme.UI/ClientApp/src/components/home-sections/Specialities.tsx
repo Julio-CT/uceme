@@ -10,7 +10,7 @@ const specials = [
   {
     title: 'cirugia',
     src: slide1,
-    altText: 'Unidad de Cirugia Endocrinometabolica Especializada',
+    altText: 'Unidad de Cirugía Endocrinometabólica Especializada',
     caption: 'Cirugía Tiroidea',
     link: 'Cirugía de Glándulas Suprarrenales',
   },
