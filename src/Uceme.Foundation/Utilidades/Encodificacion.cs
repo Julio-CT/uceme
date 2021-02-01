@@ -7,12 +7,13 @@
     using System.Text;
 
     public static class Encodificacion
-    {/// <summary>
-     /// Takes a string and generates a hash value of 16 bytes.
-     /// </summary>
-     /// <param name="str">The string to be hashed</param>
-     /// <param name="passwordFormat">Selects the hashing algorithm used. Accepted values are "sha1" and "md5".</param>
-     /// <returns>A hex string of the hashed password.</returns>
+    {
+        /// <summary>
+        /// Takes a string and generates a hash value of 16 bytes.
+        /// </summary>
+        /// <param name="str">The string to be hashed</param>
+        /// <param name="passwordFormat">Selects the hashing algorithm used. Accepted values are "sha1" and "md5".</param>
+        /// <returns>A hex string of the hashed password.</returns>
         public static string EncodeString(string str, string passwordFormat)
         {
             if (str == null)

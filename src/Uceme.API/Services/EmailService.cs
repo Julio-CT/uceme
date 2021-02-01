@@ -2,9 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using Uceme.API.Utilities;
+    using Uceme.Foundation.Utilities;
     using Uceme.Model.Data;
     using Uceme.Model.Settings;
 
@@ -31,11 +32,17 @@
 
         public AuthMessageSenderSettings Options { get; } //set only via Secret Manager
 
-        public bool SendEmailToManagement(string fromAddress, string subject, string body)
+        public async Task<bool> SendEmailToManagementAsync(string fromAddress, string subject, string body)
         {
             try
             {
-                this.EmailSender.SendEmailAsync(fromAddress, subject, body);
+                var addresses = new List<string>()
+                {
+                    fromAddress,
+                    this.Options.EmailFrom,
+                };
+
+                await this.EmailSender.SendEmailAsync(addresses, subject, body).ConfigureAwait(false);
                 return true;
             }
             catch (Exception e)
@@ -45,7 +52,27 @@
             }
         }
 
-        public bool SendEmailToClient(string toAddress, string subject, string body)
+        public bool SendEmailToManagement(string fromAddress, string subject, string body)
+        {
+            try
+            {
+                var addresses = new List<string>()
+                {
+                    fromAddress,
+                    this.Options.EmailFrom,
+                };
+
+                this.EmailSender.SendEmail(fromAddress, subject, body);
+                return true;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError("error sending email to management");
+                throw new OperationCanceledException("Error sending email to management", e);
+            }
+        }
+
+        public async Task<bool> SendEmailToClientAsync(string toAddress, string subject, string body)
         {
             try
             {
@@ -54,8 +81,8 @@
                     toAddress,
                     this.Options.EmailFrom,
                 };
-                
-                this.EmailSender.SendEmailAsync(toAddresses, subject, body);
+
+                await EmailSender.SendEmailAsync(toAddresses, subject, body).ConfigureAwait(false);
                 return true;
             }
             catch (Exception e)
