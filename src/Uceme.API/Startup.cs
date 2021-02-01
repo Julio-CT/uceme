@@ -21,7 +21,7 @@ namespace Uceme.Api
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
     using Uceme.API.Services;
-    using Uceme.API.Utilities;
+    using Uceme.Foundation.Utilities;
     using Uceme.Model.Data;
     using Uceme.Model.Models;
     using Uceme.Model.Settings;

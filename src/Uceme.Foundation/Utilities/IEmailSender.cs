@@ -1,4 +1,4 @@
-﻿namespace Uceme.API.Utilities
+﻿namespace Uceme.Foundation.Utilities
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -11,5 +11,9 @@
         Task SendEmailAsync(string email, string subject, string htmlMessage);
 
         Task SendEmailAsync(IEnumerable<string> emails, string subject, string htmlMessage);
+
+        void SendEmail(string email, string subject, string htmlMessage);
+
+        void SendEmail(IEnumerable<string> emails, string subject, string htmlMessage);
     }
 }

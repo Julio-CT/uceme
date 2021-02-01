@@ -1,11 +1,23 @@
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
 import './ContactUsComponent.scss';
 import SettingsContext from '../SettingsContext';
 
+type contactUsState = {
+  loaded: boolean;
+  name: string;
+  email: string;
+  message: string;
+};
+
 const ContactUsComponent: () => JSX.Element = () => {
+  const history = useHistory();
   const settings = React.useContext(SettingsContext());
-  const [data, setData] = React.useState<any>({
+  const [data, setData] = React.useState<contactUsState>({
     loaded: false,
+    name: '',
+    email: '',
+    message: '',
   });
 
   const handleChange = (event: any) => {
@@ -22,11 +34,26 @@ const ContactUsComponent: () => JSX.Element = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    }).then((data) => {
-      alert(
-        'Correo electrónico enviado. Nuestro equipo se pondrá en contacto lo antes posible. Muchas gracias.'
-      );
-      console.log(data);
+    }).then((response) => {
+      debugger;
+      if (response && response.status === 200) {
+        alert(
+          'Correo electrónico enviado. Nuestro equipo se pondrá en contacto lo antes posible. Muchas gracias.'
+        );
+
+        setData({
+          loaded: true,
+          name: '',
+          email: '',
+          message: '',
+        });
+
+        history.push('/#home');
+      } else {
+        alert(
+          'Lo sentimos, el envío del correo electrónico ha fallado, por favor inténtelo en unos minutos.'
+        );
+      }
     });
   };
 
@@ -60,7 +87,7 @@ const ContactUsComponent: () => JSX.Element = () => {
             </label>
             <input
               type="email"
-              value={data.emailAddress}
+              value={data.email}
               name="email"
               onChange={handleChange}
               className="contactItem col-9"
