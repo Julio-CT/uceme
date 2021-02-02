@@ -20,7 +20,20 @@
             this.Options = optionsAccessor.Value;
         }
 
+        public EmailSender(IOptions<AuthMessageSenderSettings> optionsAccessor, ISmtpClient smtpClient)
+        {
+            if (optionsAccessor == null)
+            {
+                throw new ArgumentNullException(nameof(optionsAccessor));
+            }
+
+            this.Options = optionsAccessor.Value;
+            this.SmtpClient = smtpClient;
+        }
+
         public AuthMessageSenderSettings Options { get; } //set only via Secret Manager
+
+        public ISmtpClient SmtpClient { get; } //set only via Secret Manager
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
@@ -116,14 +129,13 @@
                 mailMessage.Body = message;
                 mailMessage.IsBodyHtml = true;
 
-                using (var smtpServer = new SmtpClient())
+                using (var smtpServer = this.SmtpClient ?? new SmtpClientWrapper())
                 {
                     smtpServer.Host = this.Options.HostSmtp;
                     smtpServer.Port = this.Options.PortSmtp;
                     smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                     smtpServer.UseDefaultCredentials = false;
 
-                    //hasta configurar la cuenta de envio, supongo que con las credenciales de esta, será valida
                     smtpServer.Credentials = new NetworkCredential(this.Options.CredentialUser, this.Options.CredentialPassword);
                     smtpServer.EnableSsl = true;
                     try
@@ -152,14 +164,13 @@
                 mailMessage.Body = message;
                 mailMessage.IsBodyHtml = true;
 
-                using (var smtpServer = new SmtpClient())
+                using (var smtpServer = this.SmtpClient ?? new SmtpClientWrapper())
                 {
                     smtpServer.Host = this.Options.HostSmtp;
                     smtpServer.Port = this.Options.PortSmtp;
                     smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                     smtpServer.UseDefaultCredentials = false;
 
-                    //hasta configurar la cuenta de envio, supongo que con las credenciales de esta, será valida
                     smtpServer.Credentials = new NetworkCredential(this.Options.CredentialUser, this.Options.CredentialPassword);
                     smtpServer.EnableSsl = true;
                     try
