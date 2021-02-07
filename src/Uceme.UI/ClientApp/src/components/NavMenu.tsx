@@ -3,6 +3,7 @@ import { Component } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import './NavMenu.scss';
+import LoginMenu from './api-authorization/LoginMenu';
 
 type NavMenuState = {
   collapsed: boolean;
@@ -36,6 +37,9 @@ export default class NavMenu extends Component<NavMenuProps, NavMenuState> {
               <Nav.Link href="/innovaciones">Innovaciones Técnicas</Nav.Link>
               <Nav.Link href="/blog">Blog</Nav.Link>
               <Nav.Link href="/contacto">Contacto</Nav.Link>
+            </Nav>
+            <Nav>
+              <LoginMenu />
             </Nav>
           </Navbar.Collapse>
         </Navbar>

@@ -22,7 +22,7 @@ namespace Uceme.Foundation.Tests
                 EmailFrom = "test.uceme@gmail.com",
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
-                CredentialUser = "notificaciones.uceme@gmail.com",
+                CredentialUser = "test.uceme@gmail.com",
                 CredentialPassword = "Uceme1975",
             };
 
@@ -48,7 +48,7 @@ namespace Uceme.Foundation.Tests
                 EmailFrom = "test.uceme@gmail.com",
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
-                CredentialUser = "notificaciones.uceme@gmail.com",
+                CredentialUser = "test.uceme@gmail.com",
                 CredentialPassword = "Uceme1975",
             };
 
@@ -77,7 +77,7 @@ namespace Uceme.Foundation.Tests
                 EmailFrom = "test.uceme@gmail.com",
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
-                CredentialUser = "notificaciones.uceme@gmail.com",
+                CredentialUser = "test.uceme@gmail.com",
                 CredentialPassword = "Uceme1975",
             };
 
@@ -103,7 +103,7 @@ namespace Uceme.Foundation.Tests
                 EmailFrom = "test.uceme@gmail.com",
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
-                CredentialUser = "notificaciones.uceme@gmail.com",
+                CredentialUser = "test.uceme@gmail.com",
                 CredentialPassword = "Uceme1975",
             };
 
