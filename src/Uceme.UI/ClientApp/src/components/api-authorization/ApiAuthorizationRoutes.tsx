@@ -12,6 +12,10 @@ export default class ApiAuthorizationRoutes extends React.Component {
     return (
       <>
         <Route
+          path='/'
+          render={() => loginAction(LoginActions.Login)}
+        />
+        <Route
           path={ApplicationPaths.Login}
           render={() => loginAction(LoginActions.Login)}
         />

@@ -24,6 +24,10 @@ function App(): JSX.Element {
         path={ApplicationPaths.ApiAuthorizationPrefix}
         component={ApiAuthorizationRoutes}
       />
+      <Route
+        path="/adminlogin"
+        component={ApiAuthorizationRoutes}
+      />
     </Layout>
   );
 }

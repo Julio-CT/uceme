@@ -63,24 +63,11 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
         <Nav.Link className="text-dark" href={profilePath}>
           Hola {userName}
         </Nav.Link>
+        <Nav.Link className="text-dark" href={profilePath}>
+          Gestión citas
+        </Nav.Link>
         <Nav.Link className="text-dark" href={logoutPath.pathname}>
           Salir
-        </Nav.Link>
-      </>
-    );
-  }
-
-  static anonymousView(
-    registerPath: string | undefined,
-    loginPath: string | undefined
-  ): JSX.Element {
-    return (
-      <>
-        <Nav.Link className="text-dark" href={registerPath}>
-          Registro
-        </Nav.Link>
-        <Nav.Link className="text-dark" href={loginPath}>
-          Login
         </Nav.Link>
       </>
     );
@@ -89,9 +76,7 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
   render(): JSX.Element {
     const { isAuthenticated, userName } = this.state;
     if (!isAuthenticated) {
-      const registerPath = `${ApplicationPaths.Register}`;
-      const loginPath = `${ApplicationPaths.Login}`;
-      return LoginMenu.anonymousView(registerPath, loginPath);
+      return (<></>);
     }
 
     const profilePath = `${ApplicationPaths.Profile}`;
