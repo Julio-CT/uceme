@@ -9,16 +9,10 @@
 
 namespace Uceme.Model.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Companias
     {
-        public Companias()
-        {
-        }
-
         [Key]
         public int idCompanias { get; set; }
         public string nombre { get; set; }

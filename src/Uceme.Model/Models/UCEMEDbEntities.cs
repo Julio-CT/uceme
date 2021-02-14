@@ -10,9 +10,7 @@
 namespace Uceme.Model.Models
 {
     using System;
-    using IdentityServer4.EntityFramework.Options;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Options;
 
     public partial class UCEMEDbEntities : DbContext
     {

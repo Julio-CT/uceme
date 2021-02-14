@@ -35,11 +35,11 @@
 
         public ISmtpClient SmtpClient { get; } //set only via Secret Manager
 
-        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+        public async Task SendEmailAsync(string toEmail, string subject, string htmlMessage)
         {
-            if (string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(toEmail))
             {
-                throw new ArgumentNullException(nameof(email));
+                throw new ArgumentNullException(nameof(toEmail));
             }
 
             if (string.IsNullOrEmpty(subject))
@@ -52,14 +52,14 @@
                 throw new ArgumentNullException(nameof(htmlMessage));
             }
 
-            await ExecuteAsync(subject, htmlMessage, new List<string> { email }).ConfigureAwait(false);
+            await ExecuteAsync(subject, htmlMessage, new List<string> { toEmail }).ConfigureAwait(false);
         }
 
-        public async Task SendEmailAsync(IEnumerable<string> emails, string subject, string htmlMessage)
+        public async Task SendEmailAsync(IEnumerable<string> toEmails, string subject, string htmlMessage)
         {
-            if (emails == null)
+            if (toEmails == null)
             {
-                throw new ArgumentNullException(nameof(emails));
+                throw new ArgumentNullException(nameof(toEmails));
             }
 
             if (string.IsNullOrEmpty(subject))
@@ -72,14 +72,14 @@
                 throw new ArgumentNullException(nameof(htmlMessage));
             }
 
-            await ExecuteAsync(subject, htmlMessage, emails).ConfigureAwait(false);
+            await this.ExecuteAsync(subject, htmlMessage, toEmails).ConfigureAwait(false);
         }
 
-        public void SendEmail(string email, string subject, string htmlMessage)
+        public void SendEmail(string toEmail, string subject, string htmlMessage)
         {
-            if (string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(toEmail))
             {
-                throw new ArgumentNullException(nameof(email));
+                throw new ArgumentNullException(nameof(toEmail));
             }
 
             if (string.IsNullOrEmpty(subject))
@@ -92,14 +92,14 @@
                 throw new ArgumentNullException(nameof(htmlMessage));
             }
 
-            this.Execute(subject, htmlMessage, new List<string> { email });
+            this.Execute(subject, htmlMessage, new List<string> { toEmail });
         }
 
-        public void SendEmail(IEnumerable<string> emails, string subject, string htmlMessage)
+        public void SendEmail(IEnumerable<string> toEmails, string subject, string htmlMessage)
         {
-            if (emails == null)
+            if (toEmails == null)
             {
-                throw new ArgumentNullException(nameof(emails));
+                throw new ArgumentNullException(nameof(toEmails));
             }
 
             if (string.IsNullOrEmpty(subject))
@@ -112,15 +112,15 @@
                 throw new ArgumentNullException(nameof(htmlMessage));
             }
 
-            this.Execute(subject, htmlMessage, emails);
+            this.Execute(subject, htmlMessage, toEmails);
         }
 
-        private async Task ExecuteAsync(string subject, string message, IEnumerable<string> emails)
+        private async Task ExecuteAsync(string subject, string message, IEnumerable<string> toEmails)
         {
             using (var mailMessage = new MailMessage())
             {
                 mailMessage.From = new MailAddress(this.Options.EmailFrom, "Notificaciones UCEME");
-                foreach (var email in emails)
+                foreach (var email in toEmails)
                 {
                     mailMessage.To.Add(new MailAddress(email, email));
                 }
@@ -150,12 +150,12 @@
             }
         }
 
-        private void Execute(string subject, string message, IEnumerable<string> emails)
+        private void Execute(string subject, string message, IEnumerable<string> toEmails)
         {
             using (var mailMessage = new MailMessage())
             {
                 mailMessage.From = new MailAddress(this.Options.EmailFrom, "From Name");
-                foreach (var email in emails)
+                foreach (var email in toEmails)
                 {
                     mailMessage.To.Add(new MailAddress(email, "To Name"));
                 }

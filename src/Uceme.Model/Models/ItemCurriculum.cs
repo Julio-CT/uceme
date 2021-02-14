@@ -9,8 +9,6 @@
 
 namespace Uceme.Model.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class ItemCurriculum
@@ -22,6 +20,6 @@ namespace Uceme.Model.Models
         public string Texto { get; set; }
         public int idCurriculum { get; set; }
     
-        public virtual Curriculum Curriculum { get; set; }
+        ////public virtual Curriculum Curriculum { get; set; }
     }
 }

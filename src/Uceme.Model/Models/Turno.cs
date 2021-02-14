@@ -9,7 +9,6 @@
 
 namespace Uceme.Model.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -18,7 +17,7 @@ namespace Uceme.Model.Models
     {
         public Turno()
         {
-            this.Cita = new HashSet<Cita>();
+            ////this.Cita = new HashSet<Cita>();
         }
 
         [Key]
@@ -31,8 +30,8 @@ namespace Uceme.Model.Models
         public int paralelas { get; set; }
         public int porhora { get; set; }
         public int idHospital { get; set; }
-    
-        public virtual ICollection<Cita> Cita { get; set; }
-        public virtual DatosProfesionales DatosProfesionales { get; set; }
+
+        ////public virtual ICollection<Cita> Cita { get; set; }
+        ////public virtual DatosProfesionales DatosProfesionales { get; set; }
     }
 }

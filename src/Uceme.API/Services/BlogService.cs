@@ -12,19 +12,19 @@
     {
         private readonly ILogger<FotosService> logger;
 
-        public ApplicationDbContext DbContext { get; }
+        private readonly ApplicationDbContext dbContext;
 
         public BlogService(ILogger<FotosService> logger, ApplicationDbContext context)
         {
             this.logger = logger;
-            this.DbContext = context;
+            this.dbContext = context;
         }
 
         public IEnumerable<Blog> GetBlogSubset(int amount, int page = 1)
         {
             try
             {
-                var data = this.DbContext.Blog.Select(x => new Blog()
+                var data = this.dbContext.Blog.Select(x => new Blog()
                 {
                     idBlog = x.idBlog,
                     titulo = x.titulo,
@@ -50,7 +50,7 @@
         {
             try
             {
-                var data = this.DbContext.Blog.Select(x => new Blog()
+                var data = this.dbContext.Blog.Select(x => new Blog()
                 {
                     idBlog = x.idBlog,
                     titulo = x.titulo,

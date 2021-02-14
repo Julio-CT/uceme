@@ -9,15 +9,13 @@
 
 namespace Uceme.Model.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class DatosContacto
     {
         public DatosContacto()
         {
-            this.Usuario = new HashSet<Usuario>();
+            ////this.Usuario = new HashSet<Usuario>();
         }
 
         [Key]
@@ -26,6 +24,6 @@ namespace Uceme.Model.Models
         public string telefono { get; set; }
         public string direccion { get; set; }
     
-        public virtual ICollection<Usuario> Usuario { get; set; }
+        ////public virtual ICollection<Usuario> Usuario { get; set; }
     }
 }

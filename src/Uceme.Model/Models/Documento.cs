@@ -9,8 +9,6 @@
 
 namespace Uceme.Model.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Documento
@@ -21,6 +19,6 @@ namespace Uceme.Model.Models
         public string link { get; set; }
         public int idUsuario { get; set; }
     
-        public virtual Usuario Usuario { get; set; }
+        ////public virtual Usuario Usuario { get; set; }
     }
 }

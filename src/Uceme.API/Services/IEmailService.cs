@@ -5,8 +5,6 @@
 
     public interface IEmailService
     {
-        ApplicationDbContext DbContext { get; }
-
         Task<bool> SendEmailToManagementAsync(string fromAddress, string subject, string body);
 
         bool SendEmailToManagement(string fromAddress, string subject, string body);

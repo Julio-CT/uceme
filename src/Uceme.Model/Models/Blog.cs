@@ -17,7 +17,7 @@ namespace Uceme.Model.Models
         [Key]
         public int idBlog { get; set; }
         public string titulo { get; set; }
-        public System.DateTime fecha { get; set; }
+        public DateTime fecha { get; set; }
         public string foto { get; set; }
         public string texto { get; set; }
         public Nullable<bool> profesional { get; set; }
@@ -26,6 +26,6 @@ namespace Uceme.Model.Models
         public string metaDescription { get; set; }
 
         public int idUsuario { get; set; }
-        public Usuario Usuario { get; set; }
+        ////public virtual Usuario Usuario { get; set; }
     }
 }

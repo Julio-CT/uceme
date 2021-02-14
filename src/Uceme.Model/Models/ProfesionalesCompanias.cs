@@ -9,16 +9,8 @@
 
 namespace Uceme.Model.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
     public partial class ProfesionalesCompanias
     {
-        public ProfesionalesCompanias()
-        {
-        }
-
         public int idCompanias { get; set; }
         public int idDatosPro { get; set; }
     }

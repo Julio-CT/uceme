@@ -35,7 +35,6 @@ const ContactUsComponent: () => JSX.Element = () => {
       },
       body: JSON.stringify(data),
     }).then((response) => {
-      debugger;
       if (response && response.status === 200) {
         alert(
           'Correo electrónico enviado. Nuestro equipo se pondrá en contacto lo antes posible. Muchas gracias.'

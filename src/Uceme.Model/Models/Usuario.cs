@@ -32,9 +32,9 @@ namespace Uceme.Model.Models
         public ICollection<Documento> Documento { get; set; }
 
         public int idCurriculum { get; set; }
-        public Curriculum Curriculum { get; set; }
+        ////public virtual Curriculum Curriculum { get; set; }
         public int idDatosContacto { get; set; }
-        public DatosContacto DatosContacto { get; set; }
+        ////public virtual DatosContacto DatosContacto { get; set; }
         public int idRol { get; set; }
         public Rol Rol { get; set; }
     }

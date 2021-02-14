@@ -9,7 +9,6 @@
 
 namespace Uceme.Model.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -17,16 +16,16 @@ namespace Uceme.Model.Models
     {
         public Curriculum()
         {
-            this.ItemCurriculum = new HashSet<ItemCurriculum>();
-            this.Usuario = new HashSet<Usuario>();
+            ////this.ItemCurriculum = new HashSet<ItemCurriculum>();
+            ////this.Usuario = new HashSet<Usuario>();
         }
 
         [Key]
         public int idCurriculum { get; set; }
         public string Titulo { get; set; }
         public string Text { get; set; }
-    
-        public virtual ICollection<ItemCurriculum> ItemCurriculum { get; set; }
-        public virtual ICollection<Usuario> Usuario { get; set; }
+
+        ////public virtual ICollection<ItemCurriculum> ItemCurriculum { get; set; }
+        ////public virtual ICollection<Usuario> Usuario { get; set; }
     }
 }
