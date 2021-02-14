@@ -17,7 +17,7 @@ namespace Uceme.Model.Models
     {
         public DatosProfesionales()
         {
-            this.Turno = new HashSet<Turno>();
+            ////this.Turno = new HashSet<Turno>();
         }
 
         [Key]
@@ -30,6 +30,6 @@ namespace Uceme.Model.Models
         public string foto { get; set; }
         public Nullable<bool> activo { get; set; }
     
-        public virtual ICollection<Turno> Turno { get; set; }
+        ////public virtual ICollection<Turno> Turno { get; set; }
     }
 }

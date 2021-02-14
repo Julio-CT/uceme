@@ -9,16 +9,10 @@
 
 namespace Uceme.Model.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class UserProfile
     {
-        public UserProfile()
-        {
-        }
-
         [Key]
         public int UserId { get; set; }
         public string UserName { get; set; }

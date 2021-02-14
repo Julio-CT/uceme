@@ -21,12 +21,12 @@
             }
 
             this.logger = logger;
-            this.DbContext = context;
+            this.dbContext = context;
             this.EmailSender = emailSender;
             this.Options = optionsAccessor.Value;
         }
 
-        public ApplicationDbContext DbContext { get; }
+        private readonly ApplicationDbContext dbContext;
 
         public IEmailSender EmailSender { get; }
 
@@ -36,13 +36,17 @@
         {
             try
             {
-                var addresses = new List<string>()
+                var toAddresses = new List<string>()
                 {
-                    fromAddress,
                     this.Options.EmailFrom,
                 };
 
-                await this.EmailSender.SendEmailAsync(addresses, subject, body).ConfigureAwait(false);
+                if (!string.IsNullOrEmpty(fromAddress))
+                {
+                    toAddresses.Add(fromAddress);
+                }
+
+                await this.EmailSender.SendEmailAsync(toAddresses, subject, body).ConfigureAwait(false);
                 return true;
             }
             catch (Exception e)
@@ -58,9 +62,13 @@
             {
                 var addresses = new List<string>()
                 {
-                    fromAddress,
                     this.Options.EmailFrom,
                 };
+
+                if (!string.IsNullOrEmpty(fromAddress))
+                {
+                    addresses.Add(fromAddress);
+                }
 
                 this.EmailSender.SendEmail(fromAddress, subject, body);
                 return true;

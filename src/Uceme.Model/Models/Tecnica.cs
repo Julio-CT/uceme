@@ -10,7 +10,6 @@
 namespace Uceme.Model.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Tecnica
@@ -18,7 +17,7 @@ namespace Uceme.Model.Models
         [Key]
         public int idTecnica { get; set; }
         public string titulo { get; set; }
-        public System.DateTime fecha { get; set; }
+        public DateTime fecha { get; set; }
         public string foto { get; set; }
         public string texto { get; set; }
     }

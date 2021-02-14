@@ -10,16 +10,15 @@
 namespace Uceme.Model.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Video
     {
+        [Key]
+        public int idVideo { get; set; }
         public string titulo { get; set; }
         public string descripcion { get; set; }
         public string link { get; set; }
-        [Key]
-        public int idVideo { get; set; }
         public Nullable<int> posicion { get; set; }
     }
 }

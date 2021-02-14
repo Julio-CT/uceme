@@ -18,16 +18,12 @@
 
         private readonly ILogger<AuthoriseController> logger;
 
-        private readonly ApplicationDbContext dbContext;
-
         public AuthoriseController(
             ILogger<AuthoriseController> logger,
-            ApplicationDbContext context,
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager)
         {
             this.logger = logger;
-            this.dbContext = context;
             this.userManager = userManager;
             this.signInManager = signInManager;
         }

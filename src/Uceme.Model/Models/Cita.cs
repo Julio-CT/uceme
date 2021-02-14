@@ -22,8 +22,8 @@ namespace Uceme.Model.Models
         public string nombre { get; set; }
         public string email { get; set; }
         public string telefono { get; set; }
+
         public int idTurno { get; set; }
-    
-        public virtual Turno Turno { get; set; }
+        ////public virtual Turno Turno { get; set; }
     }
 }

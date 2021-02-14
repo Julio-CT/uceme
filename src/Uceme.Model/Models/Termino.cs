@@ -9,17 +9,15 @@
 
 namespace Uceme.Model.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Termino
     {
+        [Key]
+        public int idTermino { get; set; }
         public string nombre { get; set; }
         public string texto { get; set; }
         public string foto { get; set; }
         public string link { get; set; }
-        [Key]
-        public int idTermino { get; set; }
     }
 }

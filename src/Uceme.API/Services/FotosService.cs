@@ -12,18 +12,19 @@
     {
         private readonly ILogger<FotosService> logger;
 
-        public ApplicationDbContext DbContext { get; }
+        private readonly ApplicationDbContext dbContext;
 
         public FotosService(ILogger<FotosService> logger, ApplicationDbContext context)
         {
             this.logger = logger;
-            this.DbContext = context;
+            this.dbContext = context;
         }
+
         public IEnumerable<Fotos> GetFotos()
         {
             try
             {
-                var listaFotos = this.DbContext.Fotos.Where(o => o.destacada.Value);
+                var listaFotos = this.dbContext.Fotos.Where(o => o.destacada.Value);
                 this.logger.LogInformation($"retrieved {listaFotos.Count()} items");
 
                 return listaFotos;

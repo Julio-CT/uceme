@@ -12,25 +12,26 @@
     {
         private readonly ILogger<FotosService> logger;
 
-        public ApplicationDbContext DbContext { get; }
+        private readonly ApplicationDbContext dbContext;
 
         public MedicoService(ILogger<FotosService> logger, ApplicationDbContext context)
         {
             this.logger = logger;
-            this.DbContext = context;
+            this.dbContext = context;
         }
 
         public IEnumerable<Usuario> GetMedicoMinVista(bool hackOrder)
         {
             try
             {
-                var data = this.DbContext.Usuario.Where(us => us.idRol == 2).OrderBy(o => o.display_order).Select(o => new Usuario
+                var data = this.dbContext.Usuario.Where(us => us.idRol == 2).OrderBy(o => o.display_order).Select(o => new Usuario
                 {
                     idUsuario = o.idUsuario,
                     nombre = o.nombre,
                     apellidos = o.apellidos,
                     foto = o.foto,
                 });
+
                 this.logger.LogInformation($"retrieved {data.Count()} items");
 
                 return data;
