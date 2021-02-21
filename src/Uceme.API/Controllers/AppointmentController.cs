@@ -9,6 +9,8 @@
     using Uceme.API.Services;
     using Uceme.Model.DataContracts;
 
+    [Route("api/[controller]")]
+    [ApiController]
     public class AppointmentController : Controller
     {
         private readonly ILogger<AppointmentController> logger;

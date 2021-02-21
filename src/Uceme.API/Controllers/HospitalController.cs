@@ -9,6 +9,8 @@
     using Uceme.API.Services;
     using Uceme.Model.Models;
 
+    [Route("api/[controller]")]
+    [ApiController]
     public class HospitalController : Controller
     {
         private readonly ILogger<HospitalController> logger;

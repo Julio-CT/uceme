@@ -1,9 +1,13 @@
 import * as React from 'react';
-import { Container } from 'reactstrap';
+import { Button, Container } from 'reactstrap';
+import AppointmentModal from './AppointmentModal';
 import './Footer.scss';
 
 const Footer = (): JSX.Element => {
   const year = new Date().getFullYear();
+  const [modal, setModal] = React.useState(false);
+
+  const toggle = () => setModal(!modal);
   return (
     <footer className="padded">
       <Container>
@@ -68,8 +72,12 @@ const Footer = (): JSX.Element => {
               title="HTML5 Powered with CSS3 / Styling, and Semantics"
             />
           </a>
+          <Button color="danger" onClick={toggle}>
+            Pide cita
+          </Button>
         </div>
       </Container>
+      <AppointmentModal />
     </footer>
   );
 };
