@@ -1,65 +1,337 @@
 import * as React from 'react';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import {
+  Button,
+  Input,
+  Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from 'reactstrap';
+import AppointmentHours from './appointment-sections/AppointmentHours';
+import DatePicker from 'reactstrap-date-picker2';
+import SettingsContext from '../SettingsContext';
 import './AppointmentModal.scss';
 
-const AppointmentModal = (): JSX.Element => {
-  const [modal, setModal] = React.useState(false);
+const AppointmentModal = (props: any): JSX.Element => {
+  const settings = React.useContext(SettingsContext());
+  const inputName = 'reactstrap_date_picker_basic';
+  const [showDays, setShowDays] = React.useState<boolean>(true);
+  const [showHours, setShowHours] = React.useState<boolean>(false);
+  const [sendEnabled, setSendEnabled] = React.useState<boolean>(false);
+  const [disabledDays, setDisabledDays] = React.useState<number[]>([
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+  ]);
+  const [selectedDay, setDay] = React.useState<string>(
+    `${new Date().toISOString().slice(0, 10)}T00:00:00.000Z`
+  );
+  const [fmtValue, setFmtValue] = React.useState<string>(
+    new Date().toISOString().slice(0, 10)
+  );
+  const [hours, setHours] = React.useState<string[]>([]);
+  const [selectedHour, setSelectedHour] = React.useState<string>();
+  const [email, setEmail] = React.useState<string>();
+  const [name, setName] = React.useState<string>();
+  const [phone, setPhone] = React.useState<string>();
+  const [extraInfo, setExtraInfo] = React.useState<string>();
+  const [acceptTC, setAcceptTC] = React.useState<boolean>(false);
+  const weekStart = 1;
+  const hospitalId = '1';
+  const hospital = 'Beata María Ana';
 
-  const toggle = () => setModal(!modal);
+  const resetForm = () => {
+    setShowHours(false);
+    setSendEnabled(false);
+    setAcceptTC(false);
+    setName(undefined);
+    setPhone(undefined);
+    setEmail(undefined);
+    setExtraInfo(undefined);
+  };
+
+  const fetchDays = (hospital: string, baseHref: string) => {
+    fetch(`${baseHref}api/appointment/getdays?hospitalId=${hospital}`)
+      .then((response: { json: () => any }) => response.json())
+      .then(async (resp: any) => {
+        setDisabledDays(disabledDays.filter((el) => !resp.includes(el)));
+        resetForm();
+        setShowDays(true);
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
+
+  const fetchHours = (date: string, baseHref: string) => {
+    const day = new Date(date);
+    const data = {
+      weekDay: day.getDay(),
+      hospitalId: hospitalId,
+      day: day.getDate(),
+      month: day.getMonth() + 1,
+      year: day.getFullYear(),
+    };
+
+    fetch(`${baseHref}api/appointment/gethours`, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data), // body data type must match "Content-Type" header
+    })
+      .then((response: { json: () => any }) => response.json())
+      .then(async (resp: any) => {
+        setShowHours(true);
+        setHours(resp.hours);
+        setSendEnabled(false);
+      })
+      .catch((error: any) => {
+        console.log(error);
+        setHours([]);
+        setSendEnabled(false);
+      });
+  };
+
+  const selectHour = (hour: string) => {
+    setSelectedHour(hour);
+    setSendEnabled(true);
+  };
+
+  const selectDay = (value: any, frmValue: any) => {
+    if (settings) {
+      fetchHours(value, settings.baseHref);
+      setDay(value);
+      setFmtValue(frmValue);
+    }
+  };
+
+  const handleValidation = () => {
+    let errors: any = {};
+    let formIsValid = true;
+
+    //Name
+    if (!selectedDay) {
+      formIsValid = false;
+      errors['day'] = 'Cannot be empty';
+    }
+
+    if (!selectedHour) {
+      formIsValid = false;
+      errors['hour'] = 'Cannot be empty';
+    }
+
+    //Email
+    if (!email) {
+      formIsValid = false;
+      errors['email'] = 'Cannot be empty';
+    }
+
+    if (typeof email !== 'undefined') {
+      let lastAtPos = email.lastIndexOf('@');
+      let lastDotPos = email.lastIndexOf('.');
+
+      if (
+        !(
+          lastAtPos < lastDotPos &&
+          lastAtPos > 0 &&
+          email.indexOf('@@') === -1 &&
+          lastDotPos > 2 &&
+          email.length - lastDotPos > 2
+        )
+      ) {
+        formIsValid = false;
+        errors['email'] = 'Email is not valid';
+      }
+    }
+
+    if (!name) {
+      formIsValid = false;
+      errors['name'] = 'Cannot be empty';
+    }
+
+    if (!phone) {
+      formIsValid = false;
+      errors['phone'] = 'Cannot be empty';
+    }
+
+    if (!acceptTC) {
+      formIsValid = false;
+      errors['acceptTC'] = 'Cannot be empty';
+    }
+
+    return formIsValid;
+  };
+
+  const submitForm = () => {
+    if (handleValidation() && settings) {
+      const day = new Date(selectedDay);
+      const data = {
+        weekDay: day.getDay(),
+        hospitalId: hospitalId,
+        day: day.getDate(),
+        month: day.getMonth() + 1,
+        year: day.getFullYear(),
+        hour: selectedHour,
+        name: name,
+        phone: phone,
+        email: email,
+        extraInfo: extraInfo,
+      };
+
+      fetch(`${settings.baseHref}api/appointment/addappointment`, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+      })
+        .then((response: { json: () => any }) => response.json())
+        .then(async (resp: any) => {
+          resetForm();
+          props.toggle();
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+    }
+  };
+
+  React.useEffect(() => {
+    if (settings) {
+      fetchDays(hospitalId, settings.baseHref);
+    }
+  }, [settings]);
+
   return (
-    <Modal isOpen={modal} toggle={toggle}>
-      <ModalHeader toggle={toggle}>
-        <div className="e1p32jev1 css-1ij5pq9 e6vs4hd0">
-          <picture>
-            <source
-              srcSet="Les%20Pe%CC%81pites%20in%20Paris%20-%20Restaurant%20Reviews,%20Menu%20and%20Prices%20-%20TheFork_files/adafd213-7c06-4add-bb62-2e12be1e0eb5_002.webp 800w, Les%20Pe%CC%81pites%20in%20Paris%20-%20Restaurant%20Reviews,%20Menu%20and%20Prices%20-%20TheFork_files/adafd213-7c06-4add-bb62-2e12be1e0eb5_006.webp 1600w"
-              media="(min-width:400px)"
-              sizes="800px"
-            ></source>
-            <source
-              srcSet="Les%20Pe%CC%81pites%20in%20Paris%20-%20Restaurant%20Reviews,%20Menu%20and%20Prices%20-%20TheFork_files/adafd213-7c06-4add-bb62-2e12be1e0eb5_003.webp 400w, Les%20Pe%CC%81pites%20in%20Paris%20-%20Restaurant%20Reviews,%20Menu%20and%20Prices%20-%20TheFork_files/adafd213-7c06-4add-bb62-2e12be1e0eb5_005.webp 800w"
-              sizes="400px"
-            ></source>
-            <img
-              alt=""
-              src="Les%20Pe%CC%81pites%20in%20Paris%20-%20Restaurant%20Reviews,%20Menu%20and%20Prices%20-%20TheFork_files/adafd213-7c06-4add-bb62-2e12be1e0eb5_003.webp"
-              className="e316tjz1 css-1pyjdiy e316tjz0"
-              width="400"
-              height="200"
-            ></img>
-          </picture>
-          <div className="css-1psewps e6vs4hd0"></div>
-          <div color="special.white" className="css-1ao3py0 e6vs4hd0">
-            <div className="css-19h4hyn e6vs4hd0">
-              <h2 color="special.white" className="css-p6idae ejesmtr0">
-                <span className="css-13rhg2p et6f7t80">
-                  <span>Reservation</span>
-                  <span
-                    aria-hidden="true"
-                    className="css-ig1rp0 e1vdlbgy0"
-                  ></span>
-                </span>
-                Les Pépites
-              </h2>
-            </div>
-          </div>
+    <Modal isOpen={props.modal} toggle={props.toggle}>
+      <ModalHeader toggle={props.toggle} className="beatabg">
+        <div className="Aligner">
+          <div className="Aligner-item Aligner-item--top"></div>
+          <div className="Aligner-item">Reserve cita</div>
+          <div className="Aligner-item Aligner-item--bottom"></div>
         </div>
       </ModalHeader>
       <ModalBody>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
+        <section id="section-contact_form" className="container">
+          <div className="extra-padding row justify-content-md-center">
+            <form className="col-12">
+              <span>Hospital {hospital}</span>
+              {showDays && (
+                <div>
+                  <Label for="dateForm">Fecha</Label>
+                  <DatePicker
+                    id="dateForm"
+                    name={inputName}
+                    value={selectedDay}
+                    onChange={(v: any, f: any) => {
+                      selectDay(v, f);
+                    }}
+                    disabledWeekDays={disabledDays}
+                    weekStartsOn={weekStart}
+                    minDate={`${new Date()
+                      .toISOString()
+                      .slice(0, 10)}T00:00:00.000Z`}
+                  />
+                </div>
+              )}
+              {showHours && (
+                <div>
+                  <Label for="hourForm">Hora</Label>
+                  <AppointmentHours
+                    hours={hours}
+                    onSelectedHour={(v: any) => selectHour(v)}
+                  />
+                </div>
+              )}
+              {sendEnabled && (
+                <div>
+                  <Label for="nameForm">Nombre</Label>
+                  <Input
+                    type="text"
+                    name="nameForm"
+                    id="nameForm"
+                    placeholder="Campo requerido"
+                    onChange={(evt) => setName(evt.target.value)}
+                    required
+                  />
+                  <Label for="phoneForm">Teléfono</Label>
+                  <Input
+                    type="tel"
+                    name="phoneForm"
+                    id="phoneForm"
+                    placeholder="Campo requerido"
+                    onChange={(evt) => setPhone(evt.target.value)}
+                    required
+                  />
+                  <Label for="emailForm">Email de contacto</Label>
+                  <Input
+                    type="email"
+                    name="emailForm"
+                    id="emailForm"
+                    placeholder="Campo requerido"
+                    onChange={(evt) => setEmail(evt.target.value)}
+                    required
+                  />
+                  <Label for="notesForm">Observaciones</Label>
+                  <Input
+                    type="textarea"
+                    name="notes"
+                    id="notesForm"
+                    onChange={(evt) => setExtraInfo(evt.target.value)}
+                  />
+                </div>
+              )}
+              {name && email && phone && (
+                <div>
+                  <Label check>
+                    <Input
+                      type="checkbox"
+                      checked={acceptTC}
+                      onChange={() => setAcceptTC(!acceptTC)}
+                    />{' '}
+                    Acepto la{' '}
+                    <a
+                      href="https://www.pakainfo.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      cláusula de protección de datos
+                    </a>
+                  </Label>
+                </div>
+              )}
+            </form>
+          </div>
+        </section>
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={toggle}>
-          Do Something
+        <Button
+          color="primary"
+          disabled={!sendEnabled || !name || !email || !phone || !acceptTC}
+          onClick={() => submitForm()}
+        >
+          Confirmar cita
         </Button>{' '}
-        <Button color="secondary" onClick={toggle}>
-          Cancel
+        <Button color="secondary" onClick={props.toggle}>
+          Cancelar
         </Button>
       </ModalFooter>
     </Modal>

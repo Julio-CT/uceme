@@ -5,18 +5,18 @@
     public class AppointmentHoursRequest
     {
         [JsonPropertyName("weekDay")]
-        public string WeekDay { get; set; }
+        public int WeekDay { get; set; }
 
         [JsonPropertyName("hospitalId")]
         public string HospitalId { get; set; }
 
         [JsonPropertyName("day")]
-        public string Day { get; set; }
+        public int Day { get; set; }
 
         [JsonPropertyName("month")]
-        public string Month { get; set; }
+        public int Month { get; set; }
 
         [JsonPropertyName("year")]
-        public string Year { get; set; }
+        public int Year { get; set; }
     }
 }

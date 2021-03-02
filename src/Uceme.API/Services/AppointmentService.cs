@@ -6,6 +6,7 @@
     using System.Globalization;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
     using Microsoft.Extensions.Logging;
     using Uceme.Model.Data;
     using Uceme.Model.DataContracts;
@@ -38,11 +39,11 @@
 
             try
             {
-                var americanDate = Convert.ToInt32(appointmentHoursRequest.Day, CultureInfo.CurrentCulture)
-                    + (Convert.ToInt32(appointmentHoursRequest.Month, CultureInfo.CurrentCulture) + 1) * 100
-                    + Convert.ToInt32(appointmentHoursRequest.Year, CultureInfo.CurrentCulture) * 10000;
+                var americanDate = appointmentHoursRequest.Day
+                    + (appointmentHoursRequest.Month + 1) * 100
+                    + appointmentHoursRequest.Year * 10000;
                 var hospitalId = Convert.ToInt32(appointmentHoursRequest.HospitalId, CultureInfo.CurrentCulture);
-                var weekday = Convert.ToInt32(appointmentHoursRequest.WeekDay, CultureInfo.CurrentCulture);
+                var weekday = appointmentHoursRequest.WeekDay;
 
                 var result = new List<string>();
 
@@ -93,7 +94,7 @@
             }
         }
 
-        public bool AddAppointment(AppointmentRequest appointmentRequest)
+        public async Task<bool> AddAppointmentAsync(AppointmentRequest appointmentRequest)
         {
             if (appointmentRequest == null)
             {
@@ -104,7 +105,9 @@
             {
                 var cita = new Cita
                 {
-                    dia = Convert.ToInt32(appointmentRequest.Day, CultureInfo.CurrentCulture),
+                    dia = appointmentRequest.Day
+                    + (appointmentRequest.Month + 1) * 100
+                    + appointmentRequest.Year * 10000,
                     hora = UCEME.Utilities.DateTimeUtils.TimeToDecimal(appointmentRequest.Hour),
                     nombre = appointmentRequest.Name,
                     telefono = appointmentRequest.Phone,
@@ -120,37 +123,12 @@
                     cita.email = appointmentRequest.Email;
                 }
 
-                this.dbContext.Cita.Add(cita);
-                var emailMessage = new StringBuilder();
-
-                emailMessage.Append("<br />");
-                emailMessage.Append("Hay una nueva cita de UCEME: ");
-                emailMessage.Append("<br />");
-                emailMessage.Append("El paciente " + cita.nombre + " tiene una cita el dia " + cita.dia + " a las " + cita.hora);
-                emailMessage.Append("<br />");
-                emailMessage.Append("Su telefono es : " + cita.telefono);
-                emailMessage.Append("<br />");
-                if (!string.IsNullOrEmpty(cita.email))
-                {
-                    emailMessage.Append("y su email es: " + cita.email);
-                }
-                else
-                {
-                    emailMessage.Append("y no dejo email de contacto");
-                }
-
-                if (!string.IsNullOrEmpty(appointmentRequest.ExtraInfo))
-                {
-                    emailMessage.Append("<br />");
-                    emailMessage.Append("Adjuntó las siguientes observaciones : " + appointmentRequest.ExtraInfo);
-                }
+                var result = await SendAppointmentEmailAsync(appointmentRequest, cita).ConfigureAwait(false);
 
                 this.dbContext.Cita.Add(cita);
-                this.emailService.SendEmailToManagementAsync(cita.email, "Nueva cita en Uceme", emailMessage.ToString());
-
                 this.dbContext.SaveChanges();
 
-                return true;
+                return result;
 
             }
             catch (Exception e)
@@ -158,6 +136,35 @@
                 this.logger.LogError($"Error retrieving Hospital {e.Message}");
                 throw new DataException("Error retrieving Hospital", e);
             }
+        }
+
+        private async Task<bool> SendAppointmentEmailAsync(AppointmentRequest appointmentRequest, Cita cita)
+        {
+            var emailMessage = new StringBuilder();
+
+            emailMessage.Append("<br />");
+            emailMessage.Append("Hay una nueva cita de UCEME: ");
+            emailMessage.Append("<br />");
+            emailMessage.Append("El paciente " + cita.nombre + " tiene una cita el dia " + cita.dia + " a las " + cita.hora);
+            emailMessage.Append("<br />");
+            emailMessage.Append("Su telefono es : " + cita.telefono);
+            emailMessage.Append("<br />");
+            if (!string.IsNullOrEmpty(cita.email))
+            {
+                emailMessage.Append("y su email es: " + cita.email);
+            }
+            else
+            {
+                emailMessage.Append("y no dejo email de contacto");
+            }
+
+            if (!string.IsNullOrEmpty(appointmentRequest.ExtraInfo))
+            {
+                emailMessage.Append("<br />");
+                emailMessage.Append("Adjuntó las siguientes observaciones : " + appointmentRequest.ExtraInfo);
+            }
+
+            return await emailService.SendEmailToManagementAsync(cita.email, "Nueva cita en Uceme", emailMessage.ToString()).ConfigureAwait(false);
         }
     }
 }

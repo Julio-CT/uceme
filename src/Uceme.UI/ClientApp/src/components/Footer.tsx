@@ -77,7 +77,7 @@ const Footer = (): JSX.Element => {
           </Button>
         </div>
       </Container>
-      <AppointmentModal />
+      <AppointmentModal modal={modal} toggle={toggle} />
     </footer>
   );
 };

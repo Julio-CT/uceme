@@ -10,86 +10,164 @@ html {
   }
 }
 
-div.socialmediafooter {
-  width: 300px;
-  height: 30px;
-}
-
-div.socialmedia {
-  width: 32px;
-  height: 32px;
-  float: left;
-  margin-right: 10px;
-  font-size: 0;
-}
-
 .full-width {
   width: 100%;
 }
 
-a.facebook,
-a.twitter,
-a.linkedin,
-a.instagram {
-  height: 32px;
-  line-height: 32px !important;
-  padding-left: 30px !important;
-  width: 32px;
-  cursor: pointer;
-  display: block;
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 450px;
+  min-height: 100px;
+  opacity: 70%;
+}
+
+.Aligner-item {
+  max-width: 50%;
+  color: black;
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
+
+.beatabg {
+  background: url(../resources/images/cita-previa.png) no-repeat left 0;
+}
+
+.close-button-div {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 1;
+
+  svg: {
+    width: 1.25em;
+    height: 1.25em;
+  }
+}
+
+.close-buton {
   position: relative;
-}
+  border: 0px none;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  vertical-align: bottom;
+  transition: background-color 62.5ms ease 0s, box-shadow 62.5ms ease 0s;
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: RalewayX, arial, sans-serif;
+  font-style: normal;
+  padding: 0px 0.125rem;
+  min-width: 3rem;
+  height: 3rem;
+  line-height: 3rem;
+  box-shadow: none;
+  color: rgb(88, 148, 66);
+  background-color: transparent;
 
-a.facebook {
-  background: url(../resources/images/facebook2.png) no-repeat left 0;
-}
-
-a.twitter {
-  background: url(../resources/images/twitter2.png) no-repeat left 0;
-}
-
-a.linkedin {
-  background: url(../resources/images/linkedin2.png) no-repeat left 0;
-}
-
-a.instagram {
-  background: url(../resources/images/instagram2.png) no-repeat left 0;
-}
-
-a.facebook:hover {
-  background: url(../resources/images/facebook2.png) no-repeat left -32px;
-}
-
-a.twitter:hover {
-  background: url(../resources/images/twitter2.png) no-repeat left -32px;
-}
-
-a.linkedin:hover {
-  background: url(../resources/images/linkedin2.png) no-repeat left -32px;
-}
-
-a.instagram:hover {
-  background: url(../resources/images/instagram2.png) no-repeat left -32px;
-}
-
-@media (max-width: 768px) {
-  a.facebook {
-    background: url(../resources/images/facebook2.png) no-repeat left -32px;
-  }
-
-  a.twitter {
-    background: url(../resources/images/twitter2.png) no-repeat left -32px;
-  }
-
-  a.linkedin {
-    background: url(../resources/images/linkedin2.png) no-repeat left -32px;
-  }
-
-  a.instagram {
-    background: url(../resources/images/instagram2.png) no-repeat left -32px;
+  svg: {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
   }
 }
 
-.padded {
-  padding: 45px;
+.close-button-svg {
+  width: 1em;
+  height: 1em;
+  fill: currentcolor;
+  vertical-align: text-bottom;
+  color: rgb(255, 255, 255);
+}
+
+.close-buton-text {
+  -webkit-clip: rect(1px, 1px, 1px, 1px) !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  white-space: nowrap !important;
+  height: 1px !important;
+  width: 1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  contain: paint !important;
+}
+
+.modal-section {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.menu-wrapper {
+  position: relative;
+  max-width: 500px;
+  margin: 1em auto;
+  border: 1px solid black;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.menu {
+  background: #f3f3f3;
+  box-sizing: border-box;
+
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  .item {
+    display: inline-block;
+    width: 100px;
+    height: 100%;
+    outline: 1px dotted gray;
+    padding: 1em;
+    box-sizing: border-box;
+  }
+}
+
+.paddle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3em;
+}
+.left-paddle {
+  left: 0;
+}
+.right-paddle {
+  right: 0;
+}
+.hidden {
+  display: none;
+}
+
+.print {
+  margin: auto;
+  max-width: 500px;
+
+  span {
+    display: inline-block;
+    width: 100px;
+  }
 }

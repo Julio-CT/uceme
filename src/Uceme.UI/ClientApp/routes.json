@@ -1,5 +1,5 @@
 {
-  "/api/appointent/": "/$1",
+  "/api/appointment/": "/$1",
   "/api/blog/*": "/$1",
   "/api/contact/": "/$1",
   "/api/home/*": "/$1",
