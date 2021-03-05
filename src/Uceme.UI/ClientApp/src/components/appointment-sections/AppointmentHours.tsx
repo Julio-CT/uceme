@@ -16,6 +16,8 @@ type AppointmentHoursProps = {
 type AppointmentHoursState = {
     hours: string[];
     selectedHour?: string;
+    leftPaddleEnabled: boolean;
+    rightPaddleEnabled: boolean;
 };
 
 export const MyButtonGroup = React.forwardRef((props: any, ref: React.Ref<any>) => {
@@ -35,6 +37,8 @@ class AppointmentHours extends React.Component<AppointmentHoursProps, Appointmen
         this.state = {
             hours: this.props.hours,
             selectedHour: this.props.selectedHour,
+            leftPaddleEnabled: false,
+            rightPaddleEnabled: true,
         };
         this.refScrollable = React.createRef();
         this.leftPaddle = React.createRef();
@@ -52,14 +56,14 @@ class AppointmentHours extends React.Component<AppointmentHoursProps, Appointmen
     setSideScroll = () => {
         if (this.state.hours.length > 0) {
             // get items dimensions
-            const itemsLength = document.getElementsByClassName('item').length;
-            const itemSize = document.getElementsByClassName('item')[0].clientWidth;
+            const itemsLength = document.getElementsByClassName('scrollable-item').length;
+            const itemSize = document.getElementsByClassName('scrollable-item')[0].clientWidth;
             // get some relevant size for the paddle triggering point
             const paddleMargin = 20;
 
             // get wrapper width
             const getMenuWrapperSize = function () {
-                return document.getElementsByClassName('menu-wrapper')[0].clientWidth;
+                return document.getElementsByClassName('scrollable-wrapper')[0].clientWidth;
             }
 
             let menuWrapperSize = getMenuWrapperSize();
@@ -90,15 +94,18 @@ class AppointmentHours extends React.Component<AppointmentHoursProps, Appointmen
                 // show & hide the paddles 
                 // depending on scroll position
                 if (menuPosition <= paddleMargin) {
-                    this.leftPaddle.current.classList.add('hidden');
-                    this.rightPaddle.current.classList.remove('hidden');
+                    /* this.leftPaddle.current.classList.add('hidden');
+                    this.rightPaddle.current.classList.remove('hidden'); */
+                    this.setState({ leftPaddleEnabled: false, rightPaddleEnabled: true, });
                 } else if (menuPosition < menuEndOffset) {
                     // show both paddles in the middle
-                    this.leftPaddle.current.classList.remove('hidden');
-                    this.rightPaddle.current.classList.remove('hidden');
+                    /* this.leftPaddle.current.classList.remove('hidden');
+                    this.rightPaddle.current.classList.remove('hidden'); */
+                    this.setState({ leftPaddleEnabled: true, rightPaddleEnabled: true, });
                 } else if (menuPosition >= menuEndOffset) {
-                    this.leftPaddle.current.classList.remove('hidden');
-                    this.rightPaddle.current.classList.add('hidden');
+                    /* this.leftPaddle.current.classList.remove('hidden');
+                    this.rightPaddle.current.classList.add('hidden'); */
+                    this.setState({ leftPaddleEnabled: true, rightPaddleEnabled: false, });
                 }
             });
         }
@@ -123,7 +130,7 @@ class AppointmentHours extends React.Component<AppointmentHoursProps, Appointmen
             this.setState({
                 hours: newProps.hours,
                 selectedHour: newProps.selectedHour,
-            }, () => { 
+            }, () => {
                 this.setSideScroll();
             })
         }
@@ -131,15 +138,15 @@ class AppointmentHours extends React.Component<AppointmentHoursProps, Appointmen
 
     render() {
         return (
-            <div className="menu-wrapper">
-                <div className="menu" ref={this.refScrollable}>
+            <div className="scrollable-wrapper">
+                <div className="scrollable" ref={this.refScrollable}>
                     <MyButtonGroup id="hourForm" >
                         {this.state.hours.map((hour: string) => {
                             return (
                                 <Button key={hour}
                                     onClick={() => this.selectHour(hour)}
                                     active={hour === this.state.selectedHour}
-                                    className="item">
+                                    className="scrollable-item">
                                     {hour}
                                 </Button>)
                         })
@@ -147,10 +154,10 @@ class AppointmentHours extends React.Component<AppointmentHoursProps, Appointmen
                     </MyButtonGroup>
                 </div>
                 <div className="paddles">
-                    <button className="left-paddle paddle hidden" onClick={(e) => this.handleRightPaddleClick(-20, e)} ref={this.leftPaddle}>
+                    <button className="left-paddle paddle" disabled={!this.state.leftPaddleEnabled} onClick={(e) => this.handleRightPaddleClick(-20, e)} ref={this.leftPaddle}>
                         {'<'}
                     </button>
-                    <button className="right-paddle paddle" onClick={(e) => this.handleRightPaddleClick(20, e)} ref={this.rightPaddle}>
+                    <button className="right-paddle paddle" disabled={!this.state.rightPaddleEnabled} onClick={(e) => this.handleRightPaddleClick(20, e)} ref={this.rightPaddle}>
                         {'>'}
                     </button>
                 </div>

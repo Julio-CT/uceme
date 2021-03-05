@@ -24,7 +24,7 @@ html {
   justify-content: center;
   width: 100%;
   min-width: 450px;
-  min-height: 100px;
+  min-height: 50px;
   opacity: 70%;
 }
 
@@ -47,78 +47,7 @@ html {
   background: url(../resources/images/cita-previa.png) no-repeat left 0;
 }
 
-.close-button-div {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  z-index: 1;
-
-  svg: {
-    width: 1.25em;
-    height: 1.25em;
-  }
-}
-
-.close-buton {
-  position: relative;
-  border: 0px none;
-  border-radius: 0.25rem;
-  text-transform: uppercase;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  vertical-align: bottom;
-  transition: background-color 62.5ms ease 0s, box-shadow 62.5ms ease 0s;
-  font-size: 1rem;
-  font-weight: 400;
-  font-family: RalewayX, arial, sans-serif;
-  font-style: normal;
-  padding: 0px 0.125rem;
-  min-width: 3rem;
-  height: 3rem;
-  line-height: 3rem;
-  box-shadow: none;
-  color: rgb(88, 148, 66);
-  background-color: transparent;
-
-  svg: {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-  }
-}
-
-.close-button-svg {
-  width: 1em;
-  height: 1em;
-  fill: currentcolor;
-  vertical-align: text-bottom;
-  color: rgb(255, 255, 255);
-}
-
-.close-buton-text {
-  -webkit-clip: rect(1px, 1px, 1px, 1px) !important;
-  clip: rect(1px, 1px, 1px, 1px) !important;
-  overflow: hidden !important;
-  position: absolute !important;
-  white-space: nowrap !important;
-  height: 1px !important;
-  width: 1px !important;
-  padding: 0 !important;
-  border: 0 !important;
-  contain: paint !important;
-}
-
-.modal-section {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-}
-
-.menu-wrapper {
+.scrollable-wrapper {
   position: relative;
   max-width: 500px;
   margin: 1em auto;
@@ -127,22 +56,31 @@ html {
   overflow-y: hidden;
 }
 
-.menu {
+.scrollable {
   background: #f3f3f3;
   box-sizing: border-box;
-
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+  margin: 0 3em 0 3em;
 
-  .item {
+  .scrollable-item {
     display: inline-block;
     width: 100px;
     height: 100%;
     outline: 1px dotted gray;
-    padding: 1em;
+    padding: 0.5em 1em;
     box-sizing: border-box;
+    color: rgb(67, 113, 50);
+    background-color: rgb(232, 240, 229);
+    box-shadow: rgb(67, 113, 50) 0 0 0 1px inset;
+
+    &.active {
+      box-shadow: none;
+      color: rgb(255, 255, 255);
+      background-color: rgb(88, 148, 66);
+    }
   }
 }
 
@@ -151,13 +89,21 @@ html {
   top: 0;
   bottom: 0;
   width: 3em;
+  border: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
 }
+
 .left-paddle {
   left: 0;
 }
+
 .right-paddle {
   right: 0;
 }
+
 .hidden {
   display: none;
 }
@@ -170,4 +116,22 @@ html {
     display: inline-block;
     width: 100px;
   }
+}
+
+.field-label {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  font-family: RalewayX, arial, sans-serif;
+  font-style: normal;
+  line-height: 1.38462;
+}
+
+.field-margin {
+  margin: 0 3em 0 3em;
+}
+
+.submit-form-button,
+.submit-form-button:hover {
+  background: $uceme-green;
+  border-color: $uceme-green;
 }

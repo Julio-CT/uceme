@@ -28,11 +28,9 @@ const AppointmentModal = (props: any): JSX.Element => {
     5,
     6,
   ]);
+  const [daysFetched, setDaysFetched] = React.useState<boolean>(false);
   const [selectedDay, setDay] = React.useState<string>(
     `${new Date().toISOString().slice(0, 10)}T00:00:00.000Z`
-  );
-  const [fmtValue, setFmtValue] = React.useState<string>(
-    new Date().toISOString().slice(0, 10)
   );
   const [hours, setHours] = React.useState<string[]>([]);
   const [selectedHour, setSelectedHour] = React.useState<string>();
@@ -55,18 +53,26 @@ const AppointmentModal = (props: any): JSX.Element => {
     setExtraInfo(undefined);
   };
 
-  const fetchDays = (hospital: string, baseHref: string) => {
-    fetch(`${baseHref}api/appointment/getdays?hospitalId=${hospital}`)
-      .then((response: { json: () => any }) => response.json())
-      .then(async (resp: any) => {
-        setDisabledDays(disabledDays.filter((el) => !resp.includes(el)));
-        resetForm();
-        setShowDays(true);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  };
+  const fetchDays = React.useCallback(
+    (hospital: string, baseHref: string) => {
+      if (!daysFetched) {
+        fetch(`${baseHref}api/appointment/getdays?hospitalId=${hospital}`)
+          .then((response: { json: () => any }) => response.json())
+          .then(async (resp: any) => {
+            setDisabledDays(
+              disabledDays.filter((el) => !resp.includes(el + 1))
+            );
+            resetForm();
+            setShowDays(true);
+            setDaysFetched(true);
+          })
+          .catch((error: any) => {
+            console.log(error);
+          });
+      }
+    },
+    [disabledDays, daysFetched]
+  );
 
   const fetchHours = (date: string, baseHref: string) => {
     const day = new Date(date);
@@ -113,7 +119,6 @@ const AppointmentModal = (props: any): JSX.Element => {
     if (settings) {
       fetchHours(value, settings.baseHref);
       setDay(value);
-      setFmtValue(frmValue);
     }
   };
 
@@ -218,7 +223,7 @@ const AppointmentModal = (props: any): JSX.Element => {
     if (settings) {
       fetchDays(hospitalId, settings.baseHref);
     }
-  }, [settings]);
+  }, [settings, fetchDays]);
 
   return (
     <Modal isOpen={props.modal} toggle={props.toggle}>
@@ -231,12 +236,14 @@ const AppointmentModal = (props: any): JSX.Element => {
       </ModalHeader>
       <ModalBody>
         <section id="section-contact_form" className="container">
-          <div className="extra-padding row justify-content-md-center">
+          <div className="row justify-content-md-center">
             <form className="col-12">
-              <span>Hospital {hospital}</span>
+              <span className="field-margin">Hospital {hospital}</span>
               {showDays && (
-                <div>
-                  <Label for="dateForm">Fecha</Label>
+                <div className="extra-padding field-margin">
+                  <Label for="dateForm" className="field-label">
+                    Fecha
+                  </Label>
                   <DatePicker
                     id="dateForm"
                     name={inputName}
@@ -254,7 +261,9 @@ const AppointmentModal = (props: any): JSX.Element => {
               )}
               {showHours && (
                 <div>
-                  <Label for="hourForm">Hora</Label>
+                  <Label for="hourForm" className="field-label field-margin">
+                    Hora
+                  </Label>
                   <AppointmentHours
                     hours={hours}
                     onSelectedHour={(v: any) => selectHour(v)}
@@ -262,8 +271,10 @@ const AppointmentModal = (props: any): JSX.Element => {
                 </div>
               )}
               {sendEnabled && (
-                <div>
-                  <Label for="nameForm">Nombre</Label>
+                <div className="field-margin">
+                  <Label for="nameForm" className="field-label">
+                    Nombre
+                  </Label>
                   <Input
                     type="text"
                     name="nameForm"
@@ -272,7 +283,9 @@ const AppointmentModal = (props: any): JSX.Element => {
                     onChange={(evt) => setName(evt.target.value)}
                     required
                   />
-                  <Label for="phoneForm">Teléfono</Label>
+                  <Label for="phoneForm" className="field-label">
+                    Teléfono
+                  </Label>
                   <Input
                     type="tel"
                     name="phoneForm"
@@ -281,7 +294,9 @@ const AppointmentModal = (props: any): JSX.Element => {
                     onChange={(evt) => setPhone(evt.target.value)}
                     required
                   />
-                  <Label for="emailForm">Email de contacto</Label>
+                  <Label for="emailForm" className="field-label">
+                    Email de contacto
+                  </Label>
                   <Input
                     type="email"
                     name="emailForm"
@@ -290,7 +305,9 @@ const AppointmentModal = (props: any): JSX.Element => {
                     onChange={(evt) => setEmail(evt.target.value)}
                     required
                   />
-                  <Label for="notesForm">Observaciones</Label>
+                  <Label for="notesForm" className="field-label">
+                    Observaciones
+                  </Label>
                   <Input
                     type="textarea"
                     name="notes"
@@ -324,7 +341,7 @@ const AppointmentModal = (props: any): JSX.Element => {
       </ModalBody>
       <ModalFooter>
         <Button
-          color="primary"
+          className="submit-form-button"
           disabled={!sendEnabled || !name || !email || !phone || !acceptTC}
           onClick={() => submitForm()}
         >
