@@ -3,8 +3,13 @@ import { Container } from 'reactstrap';
 import './Header.scss';
 import NavMenu from './NavMenu';
 import logo from '../resources/images/ucemelogobl.png';
+import citaPreviaLogo from '../resources/images/icono-cita-previa.webp';
+import AppointmentModal from './AppointmentModal';
 
 const Header = (): JSX.Element => {
+  const [modal, setModal] = React.useState(false);
+
+  const toggle = () => setModal(!modal);
   return (
     <header className="uceme-header">
       <Container>
@@ -28,6 +33,20 @@ const Header = (): JSX.Element => {
 
         <NavMenu />
       </Container>
+      <div className="fixedButton" onClick={toggle}>
+        <div className="roundedFixedBtn">
+          <span>Reserve cita</span>
+          <img
+            alt="citaprevia"
+            src={citaPreviaLogo}
+            width="100%"
+            height="100%"
+            className="d-inline-block align-top appointment-icon"
+          />
+        </div>
+      </div>
+
+      <AppointmentModal modal={modal} toggle={toggle} />
     </header>
   );
 };

@@ -25,6 +25,9 @@ namespace UCEME.Utilities
             var hours = Convert.ToInt32(Math.Floor(inicio));
             var minutes = Convert.ToInt32((inicio - hours) * 60);
 
+            hours = minutes == 60 ? hours + 1 : hours;
+            minutes = minutes == 60 ? 0 : minutes;
+
             return hours.ToString("00", CultureInfo.CurrentCulture) + ":" + minutes.ToString("00", CultureInfo.CurrentCulture);
         }
 

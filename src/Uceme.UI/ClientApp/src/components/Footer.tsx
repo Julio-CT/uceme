@@ -4,6 +4,7 @@ import './Footer.scss';
 
 const Footer = (): JSX.Element => {
   const year = new Date().getFullYear();
+
   return (
     <footer className="padded">
       <Container>

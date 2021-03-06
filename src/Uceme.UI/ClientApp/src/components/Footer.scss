@@ -41,19 +41,19 @@ a.instagram {
 }
 
 a.facebook {
-  background: url(../resources/images/facebook2.png) no-repeat left 0;
+  background: url(../resources/images/facebook2.png) no-repeat left -32px;
 }
 
 a.twitter {
-  background: url(../resources/images/twitter2.png) no-repeat left 0;
+  background: url(../resources/images/twitter2.png) no-repeat left -32px;
 }
 
 a.linkedin {
-  background: url(../resources/images/linkedin2.png) no-repeat left 0;
+  background: url(../resources/images/linkedin2.png) no-repeat left -32px;
 }
 
 a.instagram {
-  background: url(../resources/images/instagram2.png) no-repeat left 0;
+  background: url(../resources/images/instagram2.png) no-repeat left -32px;
 }
 
 a.facebook:hover {
@@ -70,6 +70,24 @@ a.linkedin:hover {
 
 a.instagram:hover {
   background: url(../resources/images/instagram2.png) no-repeat left -32px;
+}
+
+@media (max-width: 768px) {
+  a.facebook {
+    background: url(../resources/images/facebook2.png) no-repeat left -32px;
+  }
+
+  a.twitter {
+    background: url(../resources/images/twitter2.png) no-repeat left -32px;
+  }
+
+  a.linkedin {
+    background: url(../resources/images/linkedin2.png) no-repeat left -32px;
+  }
+
+  a.instagram {
+    background: url(../resources/images/instagram2.png) no-repeat left -32px;
+  }
 }
 
 .padded {

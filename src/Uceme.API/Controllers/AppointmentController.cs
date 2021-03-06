@@ -3,12 +3,15 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Uceme.API.Services;
     using Uceme.Model.DataContracts;
 
+    [Route("api/[controller]")]
+    [ApiController]
     public class AppointmentController : Controller
     {
         private readonly ILogger<AppointmentController> logger;
@@ -42,29 +45,30 @@
 
         [HttpPost("gethours")]
         [AllowAnonymous]
-        public ActionResult<IEnumerable<string>> GetHours([FromBody] AppointmentHoursRequest appointmentHoursRequest)
+        public ActionResult<AppointmentHoursResponse> GetHours([FromBody] AppointmentHoursRequest appointmentHoursRequest)
         {
-            IEnumerable<string> result;
+            var result = new AppointmentHoursResponse();
             try
             {
-                result = this.appointmentService.GetHours(appointmentHoursRequest);
+                result.Hours = this.appointmentService.GetHours(appointmentHoursRequest);
+
             }
             catch (DataException)
             {
                 return this.BadRequest();
             }
 
-            return result.ToList();
+            return result;
         }
 
         [HttpPost("addappointment")]
         [AllowAnonymous]
-        public ActionResult<bool> AddApointment([FromBody] AppointmentRequest appointmentRequest)
+        public async Task<ActionResult<bool>> AddApointmentAsync([FromBody] AppointmentRequest appointmentRequest)
         {
             bool result;
             try
             {
-                result = this.appointmentService.AddAppointment(appointmentRequest);
+                result = await this.appointmentService.AddAppointmentAsync(appointmentRequest).ConfigureAwait(false);
             }
             catch (DataException)
             {
