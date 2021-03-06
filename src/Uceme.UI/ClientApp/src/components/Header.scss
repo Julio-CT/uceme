@@ -100,3 +100,38 @@ a.small-logo {
 .logo-container {
   padding-left: 30px;
 }
+
+.fixedButton {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 30px;
+  cursor: pointer;
+}
+
+.roundedFixedBtn {
+  height: 2em;
+  width: 9em;
+  font-size: 1.6em;
+  font-weight: bold;
+  border-radius: 1em;
+  background-color: white;
+  border: 1px solid $uceme-orange;
+  color: $uceme-green;
+  text-align: center;
+  cursor: pointer;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .roundedFixedBtn > span {
+    line-height: 1.7em;
+  }
+}
+
+.appointment-icon {
+  width: 30px;
+  height: 30px;
+  margin: 5px 5px 5px 10px;
+}

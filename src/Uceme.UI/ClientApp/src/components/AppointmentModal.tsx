@@ -210,10 +210,20 @@ const AppointmentModal = (props: any): JSX.Element => {
       })
         .then((response: { json: () => any }) => response.json())
         .then(async (resp: any) => {
-          resetForm();
-          props.toggle();
+          if (resp.status === 200) {
+            alert('Cita previa registrada correctamente. Muchas gracias.');
+            resetForm();
+            props.toggle();
+          } else {
+            alert(
+              'Lo sentimos, ha ocurrido un error registrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+            );
+          }
         })
         .catch((error: any) => {
+          alert(
+            'Lo sentimos, ha ocurrido un error registrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+          );
           console.log(error);
         });
     }
