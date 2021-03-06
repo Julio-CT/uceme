@@ -27,6 +27,8 @@
             }
 
             migrationBuilder.DropColumn("slug", "dbo.Blog");
+            migrationBuilder.DropColumn("seoTitle", "dbo.Blog");
+            migrationBuilder.DropColumn("metaDescription", "dbo.Blog");
         }
     }
 }
