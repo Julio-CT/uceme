@@ -126,7 +126,6 @@ const AppointmentModal = (props: any): JSX.Element => {
     let errors: any = {};
     let formIsValid = true;
 
-    //Name
     if (!selectedDay) {
       formIsValid = false;
       errors['day'] = 'Cannot be empty';
@@ -137,7 +136,6 @@ const AppointmentModal = (props: any): JSX.Element => {
       errors['hour'] = 'Cannot be empty';
     }
 
-    //Email
     if (!email) {
       formIsValid = false;
       errors['email'] = 'Cannot be empty';
@@ -210,7 +208,7 @@ const AppointmentModal = (props: any): JSX.Element => {
       })
         .then((response: { json: () => any }) => response.json())
         .then(async (resp: any) => {
-          if (resp.status === 200) {
+          if (resp) {
             alert('Cita previa registrada correctamente. Muchas gracias.');
             resetForm();
             props.toggle();
@@ -327,7 +325,7 @@ const AppointmentModal = (props: any): JSX.Element => {
                 </div>
               )}
               {name && email && phone && (
-                <div>
+                <div className="field-margin">
                   <Label check>
                     <Input
                       type="checkbox"
@@ -336,7 +334,7 @@ const AppointmentModal = (props: any): JSX.Element => {
                     />{' '}
                     Acepto la{' '}
                     <a
-                      href="https://www.pakainfo.com"
+                      href="condiciones"
                       target="_blank"
                       rel="noopener noreferrer"
                     >

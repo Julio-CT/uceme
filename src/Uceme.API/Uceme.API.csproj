@@ -6,6 +6,7 @@
     <LangVersion>8.0</LangVersion>
     <UserSecretsId>740b7af1-dd04-4fe9-b50c-73116666f985</UserSecretsId>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <ReleaseVersion>0.3</ReleaseVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

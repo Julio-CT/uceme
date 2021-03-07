@@ -9,6 +9,7 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <AssemblyName>Uceme.UI</AssemblyName>
     <UserSecretsId>ed8f4c01-2351-4d8d-8b56-de27c8c3f046</UserSecretsId>
+    <ReleaseVersion>0.3</ReleaseVersion>
   </PropertyGroup>
 
   <ItemGroup>
