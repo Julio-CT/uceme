@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import BlogPost from '../library/BlogPost';
 import parse from 'html-react-parser';
 import SettingsContext from '../SettingsContext';
+import './BlogHome.scss';
 
 type BlogPostState = {
   loaded: boolean;
@@ -72,7 +73,11 @@ const BlogPostComponent = (props: BlogPostProps) => {
 
   if (data.loaded && data.post) {
     return (
-      <div className="App App-home header-distance">
+      <div className="App-home header-distance">
+        <div className="container">
+          <div
+            className={`section padding-top section--large section--grey section--in-view article-list article-list--page-1`}
+          >
         <Helmet>
           <title>{data.post.seoTitle}</title>
           <meta name="description" content={data.post.metaDescription} />
@@ -83,8 +88,34 @@ const BlogPostComponent = (props: BlogPostProps) => {
           <meta property="og:description" content={data.post.metaDescription} />
         </Helmet>
 
-        <h1>{data.post.title}</h1>
-        <div dangerouslySetInnerHTML={{ __html: data.post.text }} />
+        <article
+          className={`article article--list article--blog article--1`}
+        >
+          <a
+            href={`/post/${data.post.slug}`}
+            className="article__image article__image--thumb"
+          >
+            <img src={data.post.imageSrc} alt={data.post.caption}></img>
+          </a>
+          <div className="article__inner">
+            <h2 className="article__title">
+              <a href={`/post/${data.post.slug}`} rel="bookmark">
+                {data.post.title}
+              </a>
+            </h2>
+
+            <div dangerouslySetInnerHTML={{ __html: data.post.text }} />
+            <div className="article__meta">
+              <p className="article__date">{data.post.date}</p>
+              <p className="article__author">
+                {data.post.metaDescription}
+              </p>
+            </div>
+          </div>
+
+        </article>
+      </div>
+      </div>
       </div>
     );
   }
