@@ -130,7 +130,7 @@ const ContactUsComponent: () => JSX.Element = () => {
                 <p className="uppercase color-orange">Correo electrónico</p>
                 <a
                   className="color-gray"
-                  href="mailto:{settings.ContactEmail}"
+                  href={"mailto:" + settings.contactEmail}
                   title="email"
                 >
                   {settings.contactEmail}
@@ -147,10 +147,12 @@ const ContactUsComponent: () => JSX.Element = () => {
                 <a
                   className="color-gray"
                   title="telefono"
-                  href="tel:{settings.Telephone}"
+                  href={"tel:" + settings.telephone}
                 >
                   {settings.telephone}
                 </a>
+                <p className="color-gray">Horario de atención:<br /> L 9:00 a 14:00<br /> M, X, J 15:30 a 20:00
+                </p>
               </div>
             </div>
           </section>
