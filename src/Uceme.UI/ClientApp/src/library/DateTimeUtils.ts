@@ -1,4 +1,4 @@
-﻿export class DateTimeUtils {
+export class DateTimeUtils {
   static TimeToString(dateAsInt: string): string {
     if (!dateAsInt) {
       return dateAsInt;
@@ -27,12 +27,12 @@
       var day = parseInt(dateString.substring(6, 8));
 
       var today = new Date(year, month - 1, day);
-      var options = {
+      /* var options = {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
         day: 'numeric',
-      };
+      }; */
       return today.toLocaleDateString('es-ES');
     } catch (e) {
       debugger;
