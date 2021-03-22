@@ -20,10 +20,10 @@ namespace UCEME.Utilities
             return result;
         }
 
-        public static string TimeToString(decimal inicio)
+        public static string TimeToString(decimal dateAsInt)
         {
-            var hours = Convert.ToInt32(Math.Floor(inicio));
-            var minutes = Convert.ToInt32((inicio - hours) * 60);
+            var hours = Convert.ToInt32(Math.Floor(dateAsInt));
+            var minutes = Convert.ToInt32((dateAsInt - hours) * 60);
 
             hours = minutes == 60 ? hours + 1 : hours;
             minutes = minutes == 60 ? 0 : minutes;

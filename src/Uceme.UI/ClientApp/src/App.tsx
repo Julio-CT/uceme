@@ -7,10 +7,12 @@ import ConditionsComponent from './components/ConditionsComponent';
 import BlogPostComponent from './components/BlogPostComponent';
 import SpecialitiesComponent from './components/SpecialitiesComponent';
 import ContactUsComponent from './components/ContactUsComponent';
+import AppointmentManager from './components/AppointmentManager';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import ApplicationPaths from './components/api-authorization/ApiAuthorizationConstants';
 import './App.scss';
 import './custom.scss';
+import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 
 function App(): JSX.Element {
   return (
@@ -22,6 +24,7 @@ function App(): JSX.Element {
       <Route path="/blog/:page?" component={BlogHome} />
       <Route path="/post/:slug" component={BlogPostComponent} />
       <Route path="/contacto" component={ContactUsComponent} />
+      <AuthorizeRoute path='/appointmentmanager' component={AppointmentManager} />
       <Route
         path={ApplicationPaths.ApiAuthorizationPrefix}
         component={ApiAuthorizationRoutes}

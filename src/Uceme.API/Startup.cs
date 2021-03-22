@@ -20,8 +20,8 @@ namespace Uceme.Api
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
-    using Uceme.API.Services;
     using Uceme.Foundation.Utilities;
+    using Uceme.Library.Services;
     using Uceme.Model.Data;
     using Uceme.Model.Models;
     using Uceme.Model.Settings;
@@ -122,7 +122,7 @@ namespace Uceme.Api
                 o.AddPolicy(this.strictPolicy, builder =>
                 {
                     builder.WithOrigins("http://localhost:3000")
-                            .WithMethods("PUT", "DELETE", "GET");
+                            .WithMethods("PUT", "DELETE", "GET", "POST");
                 });
             });
 
@@ -146,8 +146,6 @@ namespace Uceme.Api
             {
                 options.SwaggerDoc(swaggerSettings.SwaggerVersion, new OpenApiInfo { Title = swaggerSettings.SwaggerApp, Version = swaggerSettings.SwaggerVersion });
             });
-
-            ////AutoMapper.Mapper.Initialize(x => x.AddProfile(new MappingProfile()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

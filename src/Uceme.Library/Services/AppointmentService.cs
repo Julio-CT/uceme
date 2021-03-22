@@ -1,4 +1,4 @@
-﻿namespace Uceme.API.Services
+﻿namespace Uceme.Library.Services
 {
     using System;
     using System.Collections.Generic;
@@ -28,6 +28,46 @@
             this.logger = logger;
             this.dbContext = context;
             this.emailService = emailService;
+        }
+
+        public IEnumerable<Cita> GetAppointments()
+        {
+            try
+            {
+                var existingAppointments = this.dbContext.Cita.OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
+
+                return existingAppointments;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error retrieving appointments {e.Message}");
+                throw new DataException("Error retrieving appointments", e);
+            }
+        }
+
+        public IEnumerable<Cita> GetCloseAppointments()
+        {
+            try
+            {
+                var todaysYear = DateTime.Now.Year.ToString(CultureInfo.CurrentCulture);
+                var todaysMonth = DateTime.Now.Month.ToString(CultureInfo.CurrentCulture);
+                todaysMonth = todaysMonth.Length > 1 ? todaysMonth : "0" + todaysMonth;
+                var todaysDay = DateTime.Now.Day.ToString(CultureInfo.CurrentCulture);
+                var todaysDate = Convert.ToUInt32(todaysYear + todaysMonth + todaysDay, CultureInfo.CurrentCulture);
+                var tomorrowsYear = DateTime.Now.AddDays(2).Year.ToString(CultureInfo.CurrentCulture);
+                var tomorrowsMonth = DateTime.Now.AddDays(2).Month.ToString(CultureInfo.CurrentCulture);
+                tomorrowsMonth = tomorrowsMonth.Length > 1 ? tomorrowsMonth : "0" + tomorrowsMonth;
+                var tomorrowsDay = DateTime.Now.AddDays(2).Day.ToString(CultureInfo.CurrentCulture);
+                var tomorrowsDate = Convert.ToUInt32(tomorrowsYear + tomorrowsMonth + tomorrowsDay, CultureInfo.CurrentCulture);
+                var existingAppointments = this.dbContext.Cita.Where(a => a.dia <= tomorrowsDate && a.dia >= todaysDate).OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
+
+                return existingAppointments;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error retrieving appointments {e.Message}");
+                throw new DataException("Error retrieving appointments", e);
+            }
         }
 
         public IEnumerable<string> GetHours(AppointmentHoursRequest appointmentHoursRequest)
@@ -74,8 +114,8 @@
             }
             catch (Exception e)
             {
-                this.logger.LogError($"Error retrieving Hospitals {e.Message}");
-                throw new DataException("Error retrieving Hospitals", e);
+                this.logger.LogError($"Error retrieving hours {e.Message}");
+                throw new DataException("Error retrieving hours", e);
             }
         }
 
@@ -89,8 +129,8 @@
             }
             catch (Exception e)
             {
-                this.logger.LogError($"Error retrieving Hospital {e.Message}");
-                throw new DataException("Error retrieving Hospital", e);
+                this.logger.LogError($"Error retrieving days {e.Message}");
+                throw new DataException("Error retrieving days", e);
             }
         }
 
@@ -106,7 +146,7 @@
                 var cita = new Cita
                 {
                     dia = appointmentRequest.Day
-                    + (appointmentRequest.Month + 1) * 100
+                    + appointmentRequest.Month * 100
                     + appointmentRequest.Year * 10000,
                     hora = UCEME.Utilities.DateTimeUtils.TimeToDecimal(appointmentRequest.Hour),
                     nombre = appointmentRequest.Name,
@@ -123,18 +163,18 @@
                     cita.email = appointmentRequest.Email;
                 }
 
-                var result = await SendAppointmentEmailAsync(appointmentRequest, cita).ConfigureAwait(false);
-
                 this.dbContext.Cita.Add(cita);
                 this.dbContext.SaveChanges();
+
+                var result = await SendAppointmentEmailAsync(appointmentRequest, cita).ConfigureAwait(false);
 
                 return result;
 
             }
             catch (Exception e)
             {
-                this.logger.LogError($"Error retrieving Hospital {e.Message}");
-                throw new DataException("Error retrieving Hospital", e);
+                this.logger.LogError($"Error adding appointment {e.Message}");
+                throw new DataException("Error adding appointment", e);
             }
         }
 
@@ -145,7 +185,9 @@
             emailMessage.Append("<br />");
             emailMessage.Append("Hay una nueva cita de UCEME: ");
             emailMessage.Append("<br />");
-            emailMessage.Append("El paciente " + cita.nombre + " tiene una cita el dia " + cita.dia + " a las " + cita.hora);
+            emailMessage.Append("El paciente " + cita.nombre + " tiene una cita el dia " + appointmentRequest.Day +
+                    "/" + (appointmentRequest.Month + 1) +
+                    "/" + appointmentRequest.Year + " a las " + appointmentRequest.Hour);
             emailMessage.Append("<br />");
             emailMessage.Append("Su telefono es : " + cita.telefono);
             emailMessage.Append("<br />");

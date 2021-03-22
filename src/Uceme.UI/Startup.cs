@@ -8,8 +8,12 @@ namespace Uceme.UI
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.OpenApi.Models;
+    using Uceme.Foundation.Utilities;
+    using Uceme.Library.Services;
     using Uceme.Model.Data;
     using Uceme.Model.Models;
+    using Uceme.Model.Settings;
 
     public class Startup
     {
@@ -51,17 +55,35 @@ namespace Uceme.UI
                 o.AddPolicy(this.strictPolicy, builder =>
                 {
                     builder.WithOrigins("http://localhost:3000")
-                            .WithMethods("PUT", "DELETE", "GET");
+                            .WithMethods("PUT", "DELETE", "GET", "POST");
                 });
              });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddTransient<IMedicoService, MedicoService>();
+            services.AddTransient<IFotosService, FotosService>();
+            services.AddTransient<IBlogService, BlogService>();
+            services.AddTransient<IHospitalService, HospitalService>();
+            services.AddSingleton<IConfiguration>(this.Configuration);
+            services.Configure<AuthMessageSenderSettings>(this.Configuration);
+
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IAppointmentService, AppointmentService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
+            });
+
+            var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc(swaggerSettings.SwaggerVersion, new OpenApiInfo { Title = swaggerSettings.SwaggerApp, Version = swaggerSettings.SwaggerVersion });
             });
         }
 
@@ -71,7 +93,15 @@ namespace Uceme.UI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
+
+                var settings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint(settings.SwaggerUri.ToString(), settings.SwaggerApp);
+                });
             }
             else
             {

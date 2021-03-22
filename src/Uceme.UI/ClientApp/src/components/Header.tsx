@@ -8,8 +8,8 @@ import AppointmentModal from './AppointmentModal';
 
 const Header = (): JSX.Element => {
   const [modal, setModal] = React.useState(false);
-
   const toggle = () => setModal(!modal);
+
   return (
     <header className="uceme-header">
       <Container>

@@ -1,4 +1,4 @@
-﻿namespace Uceme.API.Services
+﻿namespace Uceme.Library.Services
 {
     using System.Threading.Tasks;
     using Uceme.Model.Data;

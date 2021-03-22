@@ -1,4 +1,4 @@
-﻿namespace Uceme.API.Services
+﻿namespace Uceme.Library.Services
 {
     using System;
     using System.Collections.Generic;
@@ -13,7 +13,11 @@
     {
         private readonly ILogger<EmailService> logger;
 
-        public EmailService(IOptions<AuthMessageSenderSettings> optionsAccessor, ILogger<EmailService> logger, ApplicationDbContext context, IEmailSender emailSender)
+        public EmailService(
+            IOptions<AuthMessageSenderSettings> optionsAccessor,
+            ILogger<EmailService> logger,
+            ApplicationDbContext context,
+            IEmailSender emailSender)
         {
             if (optionsAccessor == null)
             {

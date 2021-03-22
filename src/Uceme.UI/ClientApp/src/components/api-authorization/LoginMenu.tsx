@@ -63,7 +63,7 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
         <Nav.Link className="text-dark" href={profilePath}>
           Hola {userName}
         </Nav.Link>
-        <Nav.Link className="text-dark" href={profilePath}>
+        <Nav.Link className="text-dark" href="/appointmentmanager">
           Gestión citas
         </Nav.Link>
         <Nav.Link className="text-dark" href={logoutPath.pathname}>
