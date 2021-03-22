@@ -1,8 +1,9 @@
-﻿namespace Uceme.API.Services
+﻿namespace Uceme.Library.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Uceme.Model.DataContracts;
+    using Uceme.Model.Models;
 
     public interface IAppointmentService
     {
@@ -11,5 +12,9 @@
         IEnumerable<int> GetDays(int hospitalId);
 
         IEnumerable<string> GetHours(AppointmentHoursRequest appointmentHoursRequest);
+
+        IEnumerable<Cita> GetAppointments();
+
+        IEnumerable<Cita> GetCloseAppointments();
     }
 }

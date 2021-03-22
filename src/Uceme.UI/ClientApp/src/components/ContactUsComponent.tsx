@@ -61,7 +61,7 @@ const ContactUsComponent: () => JSX.Element = () => {
       <section id="section-contact_form" className="container">
         <div className="App header-distance extra-padding row justify-content-md-center">
           <form onSubmit={handleSubmit} className="col-12 col-md-6">
-            <h3 className="uppercase">Envienos un mensaje</h3>
+            <h3 className="uppercase">Envíenos un mensaje</h3>
             <h4 className="padding-y-medium uppercase spacing">
               Sus mensajes serán atendidos lo antes posible.
             </h4>
@@ -117,11 +117,11 @@ const ContactUsComponent: () => JSX.Element = () => {
           <section id="section-contact_us" className="col-12 col-md-6">
             <h3 className="uppercase">Contacto</h3>
             <h4 className="padding-y-medium uppercase spacing">
-              Estamos a tu disposición para cualquier duda o consulta
+              Estamos a su disposición para cualquier duda o consulta
             </h4>
             <div className="line" />
             <p className="subtitulo">
-              Contacta por teléfono, por correo electrónico o en persona en
+              Contacte por teléfono, por correo electrónico o en persona en
               nuestras instalaciones.
             </p>
             <div className="row justify-content-md-center">
