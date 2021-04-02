@@ -18,7 +18,7 @@
 
         private readonly IEmailService emailService;
 
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext context;
 
         public AppointmentService(
             ILogger<HospitalService> logger,
@@ -26,7 +26,7 @@
             IEmailService emailService)
         {
             this.logger = logger;
-            this.dbContext = context;
+            this.context = context;
             this.emailService = emailService;
         }
 
@@ -34,7 +34,7 @@
         {
             try
             {
-                var existingAppointments = this.dbContext.Cita.OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
+                var existingAppointments = this.context.Cita.OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
 
                 return existingAppointments;
             }
@@ -59,7 +59,7 @@
                 tomorrowsMonth = tomorrowsMonth.Length > 1 ? tomorrowsMonth : "0" + tomorrowsMonth;
                 var tomorrowsDay = DateTime.Now.AddDays(2).Day.ToString(CultureInfo.CurrentCulture);
                 var tomorrowsDate = Convert.ToUInt32(tomorrowsYear + tomorrowsMonth + tomorrowsDay, CultureInfo.CurrentCulture);
-                var existingAppointments = this.dbContext.Cita.Where(a => a.dia <= tomorrowsDate && a.dia >= todaysDate).OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
+                var existingAppointments = this.context.Cita.Where(a => a.dia <= tomorrowsDate && a.dia >= todaysDate).OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
 
                 return existingAppointments;
             }
@@ -80,17 +80,17 @@
             try
             {
                 var americanDate = appointmentHoursRequest.Day
-                    + (appointmentHoursRequest.Month + 1) * 100
-                    + appointmentHoursRequest.Year * 10000;
+                    + ((appointmentHoursRequest.Month + 1) * 100)
+                    + (appointmentHoursRequest.Year * 10000);
                 var hospitalId = Convert.ToInt32(appointmentHoursRequest.HospitalId, CultureInfo.CurrentCulture);
                 var weekday = appointmentHoursRequest.WeekDay;
 
                 var result = new List<string>();
 
-                var shifts = this.dbContext.Turno.Where(o => o.idHospital == hospitalId && o.dia == weekday).ToList();
+                var shifts = this.context.Turno.Where(o => o.idHospital == hospitalId && o.dia == weekday).ToList();
                 foreach (var shift in shifts)
                 {
-                    var existingAppointments = this.dbContext.Cita.Where(o => o.dia == americanDate && o.idTurno == shift.idTurno).ToList();
+                    var existingAppointments = this.context.Cita.Where(o => o.dia == americanDate && o.idTurno == shift.idTurno).ToList();
                     var increment = 1 / Convert.ToDecimal(shift.porhora);
 
                     for (var i = 0; i < shift.paralelas; i++)
@@ -123,9 +123,8 @@
         {
             try
             {
-                var data = this.dbContext.Turno.Where(o => o.idHospital == hospitalId).Select(o => o.dia).ToList();
+                var data = this.context.Turno.Where(o => o.idHospital == hospitalId).Select(o => o.dia).ToList();
                 return data;
-
             }
             catch (Exception e)
             {
@@ -146,8 +145,8 @@
                 var cita = new Cita
                 {
                     dia = appointmentRequest.Day
-                    + appointmentRequest.Month * 100
-                    + appointmentRequest.Year * 10000,
+                    + (appointmentRequest.Month * 100)
+                    + (appointmentRequest.Year * 10000),
                     hora = UCEME.Utilities.DateTimeUtils.TimeToDecimal(appointmentRequest.Hour),
                     nombre = appointmentRequest.Name,
                     telefono = appointmentRequest.Phone,
@@ -156,20 +155,19 @@
                 var weekday = Convert.ToInt32(appointmentRequest.WeekDay, CultureInfo.CurrentCulture);
                 var hospitalId = Convert.ToInt32(appointmentRequest.HospitalId, CultureInfo.CurrentCulture);
 
-                var turno = this.dbContext.Turno.FirstOrDefault(o => o.idHospital == hospitalId && o.dia == weekday);
+                var turno = this.context.Turno.FirstOrDefault(o => o.idHospital == hospitalId && o.dia == weekday);
                 cita.idTurno = turno.idTurno;
                 if (!string.IsNullOrEmpty(appointmentRequest.Email))
                 {
                     cita.email = appointmentRequest.Email;
                 }
 
-                this.dbContext.Cita.Add(cita);
-                this.dbContext.SaveChanges();
+                this.context.Cita.Add(cita);
+                this.context.SaveChanges();
 
                 var result = await this.SendAppointmentEmailAsync(appointmentRequest, cita).ConfigureAwait(false);
 
                 return result;
-
             }
             catch (Exception e)
             {

@@ -1,4 +1,4 @@
-namespace Uceme.Foundation.Tests
+﻿namespace Uceme.Foundation.Tests
 {
     using System.Collections.Generic;
     using System.Net.Mail;
@@ -39,7 +39,7 @@ namespace Uceme.Foundation.Tests
             var subject = "BB";
             var htmlMessage = "CC";
 
-            /// ACT
+            //// ACT
             await sut.SendEmailAsync(email, subject, htmlMessage).ConfigureAwait(false);
 
             //// ASSERT
@@ -67,14 +67,15 @@ namespace Uceme.Foundation.Tests
             smtpClientMock.Setup(x => x.SendMailAsync(It.IsAny<MailMessage>())).Verifiable();
 
             var sut = new EmailSender(options, smtpClientMock.Object);
-            var emails = new List<string>() {
+            var emails = new List<string>()
+            {
                 this.emailTo,
                 "test.uceme+test@gmail.com",
             };
             var subject = "BB";
             var htmlMessage = "CC";
 
-            /// ACT
+            //// ACT
             await sut.SendEmailAsync(emails, subject, htmlMessage).ConfigureAwait(false);
 
             //// ASSERT
@@ -106,7 +107,7 @@ namespace Uceme.Foundation.Tests
             var subject = "BB";
             var htmlMessage = "CC";
 
-            /// ACT
+            //// ACT
             sut.SendEmail(email, subject, htmlMessage);
 
             //// ASSERT
@@ -134,14 +135,15 @@ namespace Uceme.Foundation.Tests
             smtpClientMock.Setup(x => x.Send(It.IsAny<MailMessage>())).Verifiable();
 
             var sut = new EmailSender(options, smtpClientMock.Object);
-            var emails = new List<string>() {
+            var emails = new List<string>()
+            {
                 this.emailTo,
                 "test.uceme+test@gmail.com",
             };
             var subject = "BB";
             var htmlMessage = "CC";
 
-            /// ACT
+            //// ACT
             sut.SendEmail(emails, subject, htmlMessage);
 
             //// ASSERT

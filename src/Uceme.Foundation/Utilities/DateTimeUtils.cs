@@ -1,5 +1,4 @@
-﻿
-namespace UCEME.Utilities
+﻿namespace UCEME.Utilities
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace UCEME.Utilities
             }
 
             decimal result = Convert.ToInt32(strhora.Substring(0, strhora.Length - 3), CultureInfo.CurrentCulture)
-                + Convert.ToDecimal(strhora.Substring(strhora.Length - 2, 2), CultureInfo.CurrentCulture) / 60;
+                + (Convert.ToDecimal(strhora.Substring(strhora.Length - 2, 2), CultureInfo.CurrentCulture) / 60);
 
             return result;
         }

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 
 [assembly: HostingStartup(typeof(Uceme.UI.Areas.Identity.IdentityHostingStartup))]
 
@@ -16,7 +16,8 @@ namespace Uceme.UI.Areas.Identity
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
             });
         }
     }

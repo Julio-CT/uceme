@@ -31,9 +31,9 @@
             this.SmtpClient = smtpClient;
         }
 
-        public AuthMessageSenderSettings Options { get; } //set only via Secret Manager
+        public AuthMessageSenderSettings Options { get; } // set only via Secret Manager
 
-        public ISmtpClient SmtpClient { get; } //set only via Secret Manager
+        public ISmtpClient SmtpClient { get; } // set only via Secret Manager
 
         public async Task SendEmailAsync(string toEmail, string subject, string htmlMessage)
         {

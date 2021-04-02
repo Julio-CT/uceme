@@ -142,7 +142,7 @@
     <Rule Id="SA1520" Action="Error" />
     <Rule Id="SA1600" Action="None" />
     <Rule Id="SA1601" Action="None" />
-    <Rule Id="SA1602" Action="Error" />
+    <Rule Id="SA1602" Action="None" />
     <Rule Id="SA1604" Action="Error" />
     <Rule Id="SA1605" Action="Error" />
     <Rule Id="SA1606" Action="Error" />
@@ -178,7 +178,7 @@
     <Rule Id="SA1642" Action="Error" />
     <Rule Id="SA1643" Action="Error" />
     <Rule Id="SA1648" Action="Error" />
-    <Rule Id="SA1649" Action="Error" />
+    <Rule Id="SA1649" Action="Warning" />
     <Rule Id="SA1651" Action="Error" />
   </Rules>
 </RuleSet>

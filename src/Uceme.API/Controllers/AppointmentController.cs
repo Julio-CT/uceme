@@ -51,7 +51,6 @@
             try
             {
                 result.Hours = this.appointmentService.GetHours(appointmentHoursRequest);
-
             }
             catch (DataException)
             {

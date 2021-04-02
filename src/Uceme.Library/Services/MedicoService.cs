@@ -12,19 +12,19 @@
     {
         private readonly ILogger<FotosService> logger;
 
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext context;
 
         public MedicoService(ILogger<FotosService> logger, ApplicationDbContext context)
         {
             this.logger = logger;
-            this.dbContext = context;
+            this.context = context;
         }
 
         public IEnumerable<Usuario> GetMedicoMinVista(bool hackOrder)
         {
             try
             {
-                var data = this.dbContext.Usuario.Where(us => us.idRol == 2).OrderBy(o => o.display_order).Select(o => new Usuario
+                var data = this.context.Usuario.Where(us => us.idRol == 2).OrderBy(o => o.display_order).Select(o => new Usuario
                 {
                     idUsuario = o.idUsuario,
                     nombre = o.nombre,
