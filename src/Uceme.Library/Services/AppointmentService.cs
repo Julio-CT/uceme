@@ -166,7 +166,7 @@
                 this.dbContext.Cita.Add(cita);
                 this.dbContext.SaveChanges();
 
-                var result = await SendAppointmentEmailAsync(appointmentRequest, cita).ConfigureAwait(false);
+                var result = await this.SendAppointmentEmailAsync(appointmentRequest, cita).ConfigureAwait(false);
 
                 return result;
 
@@ -206,7 +206,7 @@
                 emailMessage.Append("Adjuntó las siguientes observaciones : " + appointmentRequest.ExtraInfo);
             }
 
-            return await emailService.SendEmailToManagementAsync(cita.email, "Nueva cita en Uceme", emailMessage.ToString()).ConfigureAwait(false);
+            return await this.emailService.SendEmailToManagementAsync(cita.email, "Nueva cita en Uceme", emailMessage.ToString()).ConfigureAwait(false);
         }
     }
 }

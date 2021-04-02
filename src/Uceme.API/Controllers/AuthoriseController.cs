@@ -5,7 +5,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using Uceme.Model.Data;
     using Uceme.Model.Models;
 
     [Route("api/[controller]")]

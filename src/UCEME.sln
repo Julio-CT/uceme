@@ -5,27 +5,37 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E1ABD702-768C-4AA5-862B-825256C24A46}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		.editorconfig = .editorconfig
+		..\azure-pipelines-1.yml = ..\azure-pipelines-1.yml
+		..\azure-pipelines.yml = ..\azure-pipelines.yml
+		Directory.Build.props = Directory.Build.props
+		Uceme.ruleset = Uceme.ruleset
 		WE-Palette.css = WE-Palette.css
 		WebEssentials-Settings.json = WebEssentials-Settings.json
 		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.API.Test", "Uceme.API.Test\Uceme.API.Test.csproj", "{9411817A-BDA1-47FA-9329-8A41425CB40A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.API.Test", "Uceme.API.Test\Uceme.API.Test.csproj", "{9411817A-BDA1-47FA-9329-8A41425CB40A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.API", "Uceme.API\Uceme.API.csproj", "{2608C7CB-95DE-4BF4-A1AE-7ECEB76D95EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.API", "Uceme.API\Uceme.API.csproj", "{2608C7CB-95DE-4BF4-A1AE-7ECEB76D95EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.Foundation", "Uceme.Foundation\Uceme.Foundation.csproj", "{2AD6D110-6234-4DFA-935F-7D5A5F40C214}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Foundation", "Uceme.Foundation\Uceme.Foundation.csproj", "{2AD6D110-6234-4DFA-935F-7D5A5F40C214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.Model", "Uceme.Model\Uceme.Model.csproj", "{F8A98D9D-A4A1-49E1-A652-655D5608FC96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Model", "Uceme.Model\Uceme.Model.csproj", "{F8A98D9D-A4A1-49E1-A652-655D5608FC96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.Foundation.Tests", "Uceme.Foundation.Tests\Uceme.Foundation.Tests.csproj", "{25F62FAA-AFB1-4B42-AE3A-22923F7BEA9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Foundation.Tests", "Uceme.Foundation.Tests\Uceme.Foundation.Tests.csproj", "{25F62FAA-AFB1-4B42-AE3A-22923F7BEA9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.UI", "Uceme.UI\Uceme.UI.csproj", "{C5D4AC8A-7922-4702-92A5-9DA3C2E5DA90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.UI", "Uceme.UI\Uceme.UI.csproj", "{C5D4AC8A-7922-4702-92A5-9DA3C2E5DA90}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Uceme.Library", "Uceme.Library\Uceme.Library.shproj", "{80C3E890-A796-4B55-91BE-3ED5C51B9779}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Uceme.Library\Uceme.Library.projitems*{2608c7cb-95de-4bf4-a1ae-7eceb76d95ec}*SharedItemsImports = 5
+		Uceme.Library\Uceme.Library.projitems*{80c3e890-a796-4b55-91be-3ed5c51b9779}*SharedItemsImports = 13
+		Uceme.Library\Uceme.Library.projitems*{c5d4ac8a-7922-4702-92a5-9da3c2e5da90}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -60,8 +70,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1EFEFCA7-59F4-4F5C-A092-B7ABE99A76EE}
 		VisualSVNWorkingCopyRoot = .
+		SolutionGuid = {1EFEFCA7-59F4-4F5C-A092-B7ABE99A76EE}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

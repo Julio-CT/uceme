@@ -1,0 +1,12 @@
+{
+  "ServerUri": "http://sonar.calrom.com",
+  "Organization": null,
+  "ProjectKey": "Uceme",
+  "ProjectName": "Uceme",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AWUASw8d_vb3HouUu2Iw",
+      "ProfileTimestamp": "2018-08-03T15:57:23+01:00"
+    }
+  }
+}

@@ -6,6 +6,6 @@
 
         ErrorDeletingItem = 1,
 
-        ErrorPublishingToSocialNetwork = 2
+        ErrorPublishingToSocialNetwork = 2,
     }
 }

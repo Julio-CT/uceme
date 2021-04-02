@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 
 [assembly: HostingStartup(typeof(Uceme.UI.Areas.Identity.IdentityHostingStartup))]
+
 namespace Uceme.UI.Areas.Identity
 {
     using System;

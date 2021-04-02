@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "Calrom Limited",
+      "headerDecoration": "-----------------------------------------------------------------------",
+      "documentationCulture": "en-GB",
+      "copyrightText": "Copyright (c) Calrom Limited. All rights reserved."
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require"
+    }
+  }
+}

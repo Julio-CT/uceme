@@ -94,7 +94,7 @@
                     this.Options.EmailFrom,
                 };
 
-                await EmailSender.SendEmailAsync(toAddresses, subject, body).ConfigureAwait(false);
+                await this.EmailSender.SendEmailAsync(toAddresses, subject, body).ConfigureAwait(false);
                 return true;
             }
             catch (Exception e)

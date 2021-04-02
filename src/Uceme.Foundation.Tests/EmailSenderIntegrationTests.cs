@@ -56,7 +56,7 @@ namespace Uceme.Foundation.Tests
             var sut = new EmailSender(options);
             var emails = new List<string>() {
                 this.emailTo,
-                "test.uceme+test@gmail.com"
+                "test.uceme+test@gmail.com",
             };
 
             var subject = "Integration Test";
@@ -67,6 +67,7 @@ namespace Uceme.Foundation.Tests
 
             //// ASSERT
         }
+
         [TestMethod]
         [TestCategory("IntegrationTests")]
         public void SendEmailToOneAddress()
@@ -111,7 +112,7 @@ namespace Uceme.Foundation.Tests
             var sut = new EmailSender(options);
             var emails = new List<string>() {
                 this.emailTo,
-                "test.uceme+test@gmail.com"
+                "test.uceme+test@gmail.com",
             };
 
             var subject = "Integration Test";

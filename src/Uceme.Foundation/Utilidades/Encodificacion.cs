@@ -152,7 +152,7 @@
 
             var des = new TripleDESCryptoServiceProvider
             {
-                IV = new byte[8]
+                IV = new byte[8],
             };
 
             //Creates the key based on the password and stores it in a byte array.
@@ -191,7 +191,7 @@
 
             var des = new TripleDESCryptoServiceProvider
             {
-                IV = new byte[8]
+                IV = new byte[8],
             };
 
             //Creates the key based on the password and stores it in a byte array.

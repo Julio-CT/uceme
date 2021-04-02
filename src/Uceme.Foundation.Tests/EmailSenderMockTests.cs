@@ -69,7 +69,7 @@ namespace Uceme.Foundation.Tests
             var sut = new EmailSender(options, smtpClientMock.Object);
             var emails = new List<string>() {
                 this.emailTo,
-                "test.uceme+test@gmail.com"
+                "test.uceme+test@gmail.com",
             };
             var subject = "BB";
             var htmlMessage = "CC";
@@ -136,7 +136,7 @@ namespace Uceme.Foundation.Tests
             var sut = new EmailSender(options, smtpClientMock.Object);
             var emails = new List<string>() {
                 this.emailTo,
-                "test.uceme+test@gmail.com"
+                "test.uceme+test@gmail.com",
             };
             var subject = "BB";
             var htmlMessage = "CC";

@@ -57,6 +57,6 @@
         // Summary:
         //     The provider returned an error that is not described by other System.Web.Security.MembershipCreateStatus
         //     enumeration values.
-        ProviderError = 11
+        ProviderError = 11,
     }
 }

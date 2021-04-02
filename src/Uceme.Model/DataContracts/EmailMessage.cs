@@ -1,7 +1,7 @@
-using System.Text.Json.Serialization;
-
-namespace Uceme.Model.DataContracts
+﻿namespace Uceme.Model.DataContracts
 {
+    using System.Text.Json.Serialization;
+
     public class EmailMessage
     {
         [JsonPropertyName("name")]
