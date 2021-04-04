@@ -78,44 +78,44 @@ const BlogPostComponent = (props: BlogPostProps) => {
           <div
             className={`section padding-top section--large section--grey section--in-view article-list article-list--page-1`}
           >
-        <Helmet>
-          <title>{data.post.seoTitle}</title>
-          <meta name="description" content={data.post.metaDescription} />
-          <meta name="og:image" content={data.post.featuredImage} />
-          <meta property="og:url" content={data.post.link} />
-          <meta property="og:type" content="article" />
-          <meta property="og:title" content={data.post.title} />
-          <meta property="og:description" content={data.post.metaDescription} />
-        </Helmet>
+            <Helmet>
+              <title>{data.post.seoTitle}</title>
+              <meta name="description" content={data.post.metaDescription} />
+              <meta name="og:image" content={data.post.featuredImage} />
+              <meta property="og:url" content={data.post.link} />
+              <meta property="og:type" content="article" />
+              <meta property="og:title" content={data.post.title} />
+              <meta
+                property="og:description"
+                content={data.post.metaDescription}
+              />
+            </Helmet>
 
-        <article
-          className={`article article--list article--blog article--1`}
-        >
-          <a
-            href={`/post/${data.post.slug}`}
-            className="article__image article__image--thumb"
-          >
-            <img src={data.post.imageSrc} alt={data.post.caption}></img>
-          </a>
-          <div className="article__inner">
-            <h2 className="article__title">
-              <a href={`/post/${data.post.slug}`} rel="bookmark">
-                {data.post.title}
+            <article
+              className={`article article--list article--blog article--1`}
+            >
+              <a
+                href={`/post/${data.post.slug}`}
+                className="article__image article__image--thumb"
+              >
+                <img src={data.post.imageSrc} alt={data.post.caption}></img>
               </a>
-            </h2>
+              <div className="article__inner">
+                <h2 className="article__title">
+                  <a href={`/post/${data.post.slug}`} rel="bookmark">
+                    {data.post.title}
+                  </a>
+                </h2>
 
-            <div dangerouslySetInnerHTML={{ __html: data.post.text }} />
-            <div className="article__meta">
-              <p className="article__date">{data.post.date}</p>
-              <p className="article__author">
-                {data.post.metaDescription}
-              </p>
-            </div>
+                <div dangerouslySetInnerHTML={{ __html: data.post.text }} />
+                <div className="article__meta">
+                  <p className="article__date">{data.post.date}</p>
+                  <p className="article__author">{data.post.metaDescription}</p>
+                </div>
+              </div>
+            </article>
           </div>
-
-        </article>
-      </div>
-      </div>
+        </div>
       </div>
     );
   }

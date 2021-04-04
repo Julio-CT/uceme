@@ -153,9 +153,8 @@
                 };
 
                 var weekday = Convert.ToInt32(appointmentRequest.WeekDay, CultureInfo.CurrentCulture);
-                var hospitalId = Convert.ToInt32(appointmentRequest.HospitalId, CultureInfo.CurrentCulture);
 
-                var turno = this.context.Turno.FirstOrDefault(o => o.idHospital == hospitalId && o.dia == weekday);
+                var turno = this.context.Turno.FirstOrDefault(o => o.idHospital == appointmentRequest.HospitalId && o.dia == weekday);
                 cita.idTurno = turno.idTurno;
                 if (!string.IsNullOrEmpty(appointmentRequest.Email))
                 {

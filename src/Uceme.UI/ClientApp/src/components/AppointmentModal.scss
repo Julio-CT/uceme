@@ -25,7 +25,7 @@ html {
   width: 100%;
   min-width: 450px;
   min-height: 50px;
-  opacity: 70%;
+  opacity: 0.7;
 }
 
 .Aligner-item {
@@ -134,4 +134,21 @@ html {
 .submit-form-button:hover {
   background: $uceme-green;
   border-color: $uceme-green;
+}
+
+.hospital-name {
+  display: inline-block;
+  width: 150px;
+  height: 100%;
+  padding: 0.5em 1em;
+  box-sizing: border-box;
+  color: rgb(67, 113, 50);
+  background-color: rgb(232, 240, 229);
+  box-shadow: rgb(67, 113, 50) 0 0 0 1px inset;
+
+  &.active {
+    box-shadow: border-box;
+    color: rgb(255, 255, 255);
+    background-color: rgb(88, 148, 66);
+  }
 }

@@ -7,28 +7,36 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  ButtonGroup,
 } from 'reactstrap';
 import AppointmentHours from './appointment-sections/AppointmentHours';
 import DatePicker from 'reactstrap-date-picker2';
 import SettingsContext from '../SettingsContext';
 import './AppointmentModal.scss';
 
+type Hospital = {
+  idDatosPro: any;
+  nombre?: any;
+};
+
 const AppointmentModal = (props: any): JSX.Element => {
   const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
-  const [showDays, setShowDays] = React.useState<boolean>(true);
+  const [showHospitals, setShowHospitals] = React.useState<boolean>(true);
+  const [showDays, setShowDays] = React.useState<boolean>(false);
   const [showHours, setShowHours] = React.useState<boolean>(false);
   const [sendEnabled, setSendEnabled] = React.useState<boolean>(false);
-  const [disabledDays, setDisabledDays] = React.useState<number[]>([
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-  ]);
+  const defaultDisabledDays = [0, 1, 2, 3, 4, 5, 6];
+  const [disabledDays, setDisabledDays] = React.useState<number[]>(
+    defaultDisabledDays
+  );
+
+  const [hospitalsFetched, setHospitalsFetched] = React.useState<boolean>(
+    false
+  );
   const [daysFetched, setDaysFetched] = React.useState<boolean>(false);
+  const [hospitalId, setHospitalId] = React.useState<string>();
+  const [hospitals, setHospitals] = React.useState<Hospital[]>();
   const [selectedDay, setDay] = React.useState<string>(
     `${new Date().toISOString().slice(0, 10)}T00:00:00.000Z`
   );
@@ -40,7 +48,6 @@ const AppointmentModal = (props: any): JSX.Element => {
   const [extraInfo, setExtraInfo] = React.useState<string>();
   const [acceptTC, setAcceptTC] = React.useState<boolean>(false);
   const weekStart = 1;
-  const hospitalId = '1';
   const hospital = 'Beata María Ana';
 
   const resetForm = () => {
@@ -53,16 +60,35 @@ const AppointmentModal = (props: any): JSX.Element => {
     setExtraInfo(undefined);
   };
 
+  const fetchHospitals = React.useCallback(
+    (baseHref: string) => {
+      if (!hospitalsFetched) {
+        fetch(`${baseHref}api/hospital/gethospitals`)
+          .then((response: { json: () => any }) => response.json())
+          .then(async (resp: any) => {
+            resetForm();
+            setHospitals(resp);
+            setShowHospitals(true);
+            setDisabledDays(defaultDisabledDays);
+            setHospitalsFetched(true);
+          })
+          .catch((error: any) => {
+            console.log(error);
+          });
+      }
+    },
+    [disabledDays, hospitalsFetched]
+  );
+
   const fetchDays = React.useCallback(
-    (hospital: string, baseHref: string) => {
-      if (!daysFetched) {
+    (hospital: string, baseHref: string, forceFetch: boolean) => {
+      if (!daysFetched || forceFetch) {
         fetch(`${baseHref}api/appointment/getdays?hospitalId=${hospital}`)
           .then((response: { json: () => any }) => response.json())
           .then(async (resp: any) => {
             setDisabledDays(
-              disabledDays.filter((el) => !resp.includes(el + 1))
+              defaultDisabledDays.filter((el) => !resp.includes(el + 1))
             );
-            resetForm();
             setShowDays(true);
             setDaysFetched(true);
           })
@@ -78,7 +104,7 @@ const AppointmentModal = (props: any): JSX.Element => {
     const day = new Date(date);
     const data = {
       weekDay: day.getDay(),
-      hospitalId: hospitalId,
+      hospitalId: hospitalId?.toString(),
       day: day.getDate(),
       month: day.getMonth() + 1,
       year: day.getFullYear(),
@@ -108,6 +134,13 @@ const AppointmentModal = (props: any): JSX.Element => {
         setHours([]);
         setSendEnabled(false);
       });
+  };
+
+  const selectHospital = (hospital: string, forceFetch: boolean) => {
+    if (settings) {
+      setHospitalId(hospital);
+      fetchDays(hospital, settings.baseHref, forceFetch);
+    }
   };
 
   const selectHour = (hour: string) => {
@@ -229,9 +262,9 @@ const AppointmentModal = (props: any): JSX.Element => {
 
   React.useEffect(() => {
     if (settings) {
-      fetchDays(hospitalId, settings.baseHref);
+      fetchHospitals(settings.baseHref);
     }
-  }, [settings, fetchDays]);
+  }, [settings, fetchHospitals]);
 
   return (
     <Modal isOpen={props.modal} toggle={props.toggle}>
@@ -247,8 +280,32 @@ const AppointmentModal = (props: any): JSX.Element => {
           <div className="row justify-content-md-center">
             <form className="col-12">
               <span className="field-margin">Hospital {hospital}</span>
-              {showDays && (
+              {showHospitals && hospitals && (
                 <div className="extra-padding field-margin">
+                  <Label for="dateForm" className="field-label">
+                    Servicio
+                  </Label>
+                  <br />
+                  <ButtonGroup id="serviceForm">
+                    {hospitals.map((hospital: Hospital) => {
+                      return (
+                        <Button
+                          key={hospital.idDatosPro}
+                          active={hospitalId === hospital.idDatosPro}
+                          onClick={() =>
+                            selectHospital(hospital.idDatosPro, true)
+                          }
+                          className="hospital-name"
+                        >
+                          {hospital.nombre}
+                        </Button>
+                      );
+                    })}
+                  </ButtonGroup>
+                </div>
+              )}
+              {showDays && (
+                <div className="field-margin">
                   <Label for="dateForm" className="field-label">
                     Fecha
                   </Label>

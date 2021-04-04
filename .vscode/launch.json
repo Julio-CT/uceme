@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Uceme.UI/bin/Debug/netcoreapp3.1/Uceme.UI.dll",
+            "program": "${workspaceFolder}/src/Uceme.UI/bin/Debug/net5.0/Uceme.UI.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Uceme.UI",
             "stopAtEntry": false,
@@ -32,7 +32,7 @@
             "request": "launch",
             "preLaunchTask": "buildAPI",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Uceme.API/bin/Debug/netcoreapp3.1/Uceme.API.dll",
+            "program": "${workspaceFolder}/src/Uceme.API/bin/Debug/net5.0/Uceme.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Uceme.API",
             "stopAtEntry": false,

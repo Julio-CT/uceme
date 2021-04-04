@@ -149,7 +149,7 @@ class AppointmentHours extends React.Component<AppointmentHoursProps, Appointmen
                                     className="scrollable-item">
                                     {hour}
                                 </Button>)
-                        })
+                            })
                         }
                     </MyButtonGroup>
                 </div>
