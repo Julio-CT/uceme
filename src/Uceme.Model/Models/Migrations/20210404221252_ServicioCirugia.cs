@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace Uceme.UI.Data.Migrations
+﻿namespace Uceme.UI.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class ServicioCirugia : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

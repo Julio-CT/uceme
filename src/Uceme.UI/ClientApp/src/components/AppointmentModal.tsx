@@ -30,7 +30,6 @@ const AppointmentModal = (props: any): JSX.Element => {
   const [disabledDays, setDisabledDays] = React.useState<number[]>(
     defaultDisabledDays
   );
-
   const [hospitalsFetched, setHospitalsFetched] = React.useState<boolean>(
     false
   );
@@ -69,7 +68,7 @@ const AppointmentModal = (props: any): JSX.Element => {
             resetForm();
             setHospitals(resp);
             setShowHospitals(true);
-            setDisabledDays(defaultDisabledDays);
+            setDisabledDays([0, 1, 2, 3, 4, 5, 6]);
             setHospitalsFetched(true);
           })
           .catch((error: any) => {
@@ -77,7 +76,7 @@ const AppointmentModal = (props: any): JSX.Element => {
           });
       }
     },
-    [disabledDays, hospitalsFetched]
+    [hospitalsFetched]
   );
 
   const fetchDays = React.useCallback(
@@ -87,7 +86,7 @@ const AppointmentModal = (props: any): JSX.Element => {
           .then((response: { json: () => any }) => response.json())
           .then(async (resp: any) => {
             setDisabledDays(
-              defaultDisabledDays.filter((el) => !resp.includes(el + 1))
+              disabledDays.filter((el) => !resp.includes(el + 1))
             );
             setShowDays(true);
             setDaysFetched(true);
@@ -97,7 +96,7 @@ const AppointmentModal = (props: any): JSX.Element => {
           });
       }
     },
-    [disabledDays, daysFetched]
+    [daysFetched, disabledDays]
   );
 
   const fetchHours = (date: string, baseHref: string) => {
