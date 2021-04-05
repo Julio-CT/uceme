@@ -16,7 +16,6 @@
         public EmailService(
             IOptions<AuthMessageSenderSettings> optionsAccessor,
             ILogger<EmailService> logger,
-            ApplicationDbContext context,
             IEmailSender emailSender)
         {
             if (optionsAccessor == null)
@@ -25,16 +24,13 @@
             }
 
             this.logger = logger;
-            this.dbContext = context;
             this.EmailSender = emailSender;
             this.Options = optionsAccessor.Value;
         }
 
-        private readonly ApplicationDbContext dbContext;
-
         public IEmailSender EmailSender { get; }
 
-        public AuthMessageSenderSettings Options { get; } //set only via Secret Manager
+        public AuthMessageSenderSettings Options { get; } // set only via Secret Manager
 
         public async Task<bool> SendEmailToManagementAsync(string fromAddress, string subject, string body)
         {
@@ -94,7 +90,7 @@
                     this.Options.EmailFrom,
                 };
 
-                await EmailSender.SendEmailAsync(toAddresses, subject, body).ConfigureAwait(false);
+                await this.EmailSender.SendEmailAsync(toAddresses, subject, body).ConfigureAwait(false);
                 return true;
             }
             catch (Exception e)

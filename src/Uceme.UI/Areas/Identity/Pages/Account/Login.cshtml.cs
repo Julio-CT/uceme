@@ -1,4 +1,4 @@
-namespace Uceme.UI.Areas.Identity.Pages.Account
+﻿namespace Uceme.UI.Areas.Identity.Pages.Account
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -14,19 +14,20 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
-        private readonly ILogger<LoginModel> _logger;
+        private readonly ILogger<LoginModel> logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager,
+        public LoginModel(
+            SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager)
         {
-            this._userManager = userManager;
-            this._signInManager = signInManager;
-            this._logger = logger;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.logger = logger;
         }
 
         [BindProperty]
@@ -52,7 +53,7 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
             // Clear the existing external cookie to ensure a clean login process
             await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme).ConfigureAwait(false);
 
-            foreach (var login in (await this._signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+            foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
             {
                 this.ExternalLogins.Add(login);
             }
@@ -66,10 +67,10 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await this._signInManager.PasswordSignInAsync(this.Input.Email, this.Input.Password, this.Input.RememberMe, lockoutOnFailure: false).ConfigureAwait(false);
+                var result = await this.signInManager.PasswordSignInAsync(this.Input.Email, this.Input.Password, this.Input.RememberMe, lockoutOnFailure: false).ConfigureAwait(false);
                 if (result.Succeeded)
                 {
-                    this._logger.LogInformation("User logged in.");
+                    this.logger.LogInformation("User logged in.");
                     return this.LocalRedirect(returnUrl);
                 }
 
@@ -80,7 +81,7 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
 
                 if (result.IsLockedOut)
                 {
-                    this._logger.LogWarning("User account locked out.");
+                    this.logger.LogWarning("User account locked out.");
                     return this.RedirectToPage("./Lockout");
                 }
                 else

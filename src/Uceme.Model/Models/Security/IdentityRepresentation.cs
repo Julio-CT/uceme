@@ -2,7 +2,6 @@
 {
     public class IdentityRepresentation
     {
-        //la vamos a usar para serializar los datos de usuario.
         public bool IsAuthenticated
         {
             get;

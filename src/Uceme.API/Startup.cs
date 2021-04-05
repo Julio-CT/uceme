@@ -29,7 +29,7 @@ namespace Uceme.Api
     public class Startup
     {
         private readonly string relaxedPolicy = "RelaxedCorsPolicy";
-    
+
         private readonly string strictPolicy = "StrictCorsPolicy";
 
         public Startup(IConfiguration configuration)
@@ -111,7 +111,8 @@ namespace Uceme.Api
             services.AddAuthorization();
             services.AddControllers();
 
-            services.AddCors(o => {
+            services.AddCors(o =>
+            {
                 o.AddPolicy(this.relaxedPolicy, builder =>
                 {
                     builder.AllowAnyOrigin()
@@ -178,7 +179,7 @@ namespace Uceme.Api
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                //// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

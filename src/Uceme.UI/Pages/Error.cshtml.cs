@@ -1,4 +1,4 @@
-namespace Uceme.UI.Pages
+﻿namespace Uceme.UI.Pages
 {
     using System.Diagnostics;
     using Microsoft.AspNetCore.Mvc;
@@ -8,11 +8,11 @@ namespace Uceme.UI.Pages
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ErrorModel : PageModel
     {
-        private readonly ILogger<ErrorModel> _logger;
+        private readonly ILogger<ErrorModel> logger;
 
         public ErrorModel(ILogger<ErrorModel> logger)
         {
-            this._logger = logger;
+            this.logger = logger;
         }
 
         public string RequestId { get; set; }

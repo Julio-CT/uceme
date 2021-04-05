@@ -1,4 +1,4 @@
-namespace Uceme.UI
+﻿namespace Uceme.UI
 {
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Builder;
@@ -44,7 +44,8 @@ namespace Uceme.UI
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
-            services.AddCors(o => {
+            services.AddCors(o =>
+            {
                 o.AddPolicy(this.relaxedPolicy, builder =>
                 {
                     builder.AllowAnyOrigin()
@@ -57,7 +58,7 @@ namespace Uceme.UI
                     builder.WithOrigins("http://localhost:3000")
                             .WithMethods("PUT", "DELETE", "GET", "POST");
                 });
-             });
+            });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -106,7 +107,7 @@ namespace Uceme.UI
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                //// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

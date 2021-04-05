@@ -14,7 +14,7 @@
     public class BlogController : Controller
     {
         private readonly ILogger<BlogController> logger;
-    
+
         private readonly IBlogService blogService;
 
         public BlogController(IBlogService blogService, ILogger<BlogController> logger)

@@ -1,7 +1,6 @@
 ﻿namespace Uceme.Library.Services
 {
     using System.Threading.Tasks;
-    using Uceme.Model.Data;
 
     public interface IEmailService
     {

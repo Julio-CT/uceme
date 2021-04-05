@@ -1,4 +1,4 @@
-namespace Uceme.Foundation.Tests
+﻿namespace Uceme.Foundation.Tests
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -32,7 +32,7 @@ namespace Uceme.Foundation.Tests
             var subject = "Integration Test";
             var htmlMessage = "<p>test</p>";
 
-            /// ACT
+            //// ACT
             await sut.SendEmailAsync(email, subject, htmlMessage).ConfigureAwait(false);
 
             //// ASSERT
@@ -54,19 +54,21 @@ namespace Uceme.Foundation.Tests
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
             var sut = new EmailSender(options);
-            var emails = new List<string>() {
+            var emails = new List<string>()
+            {
                 this.emailTo,
-                "test.uceme+test@gmail.com"
+                "test.uceme+test@gmail.com",
             };
 
             var subject = "Integration Test";
             var htmlMessage = "<p>test</p>";
 
-            /// ACT
+            //// ACT
             await sut.SendEmailAsync(emails, subject, htmlMessage).ConfigureAwait(false);
 
             //// ASSERT
         }
+
         [TestMethod]
         [TestCategory("IntegrationTests")]
         public void SendEmailToOneAddress()
@@ -87,7 +89,7 @@ namespace Uceme.Foundation.Tests
             var subject = "Integration Test";
             var htmlMessage = "<p>test</p>";
 
-            /// ACT
+            //// ACT
             sut.SendEmail(email, subject, htmlMessage);
 
             //// ASSERT
@@ -109,15 +111,16 @@ namespace Uceme.Foundation.Tests
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
             var sut = new EmailSender(options);
-            var emails = new List<string>() {
+            var emails = new List<string>()
+            {
                 this.emailTo,
-                "test.uceme+test@gmail.com"
+                "test.uceme+test@gmail.com",
             };
 
             var subject = "Integration Test";
             var htmlMessage = "<p>test</p>";
 
-            /// ACT
+            //// ACT
             sut.SendEmail(emails, subject, htmlMessage);
 
             //// ASSERT

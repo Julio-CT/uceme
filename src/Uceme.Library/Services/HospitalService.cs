@@ -12,19 +12,19 @@
     {
         private readonly ILogger<HospitalService> logger;
 
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext context;
 
         public HospitalService(ILogger<HospitalService> logger, ApplicationDbContext context)
         {
             this.logger = logger;
-            this.dbContext = context;
+            this.context = context;
         }
 
         public IEnumerable<DatosProfesionales> GetHospitals()
         {
             try
             {
-                var data = this.dbContext.DatosProfesionales.Where(x => x.activo != null && x.activo.Value);
+                var data = this.context.DatosProfesionales.Where(x => x.activo != null && x.activo.Value);
 
                 return data;
             }
@@ -39,8 +39,7 @@
         {
             try
             {
-                return this.dbContext.DatosProfesionales.FirstOrDefault(x => x.idDatosPro == hospitalId);
-
+                return this.context.DatosProfesionales.FirstOrDefault(x => x.idDatosPro == hospitalId);
             }
             catch (Exception e)
             {

@@ -10,38 +10,38 @@
 
         ~SmtpClientWrapper()
         {
-            Dispose(false);
+            this.Dispose(false);
         }
 
         public new void Send(MailMessage mailMessage)
         {
-            CheckDisposed();
+            this.CheckDisposed();
             base.Send(mailMessage);
         }
 
         public new async Task SendMailAsync(MailMessage mailMessage)
         {
-            CheckDisposed();
+            this.CheckDisposed();
             await base.SendMailAsync(mailMessage).ConfigureAwait(false);
         }
 
         public new void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected new virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!this.disposed)
             {
-                disposed = true;
+                this.disposed = true;
             }
         }
 
         protected void CheckDisposed()
         {
-            if (disposed)
+            if (this.disposed)
             {
                 throw new ObjectDisposedException(nameof(SmtpClientWrapper));
             }

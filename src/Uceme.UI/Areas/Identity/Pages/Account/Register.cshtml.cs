@@ -1,4 +1,4 @@
-namespace Uceme.UI.Areas.Identity.Pages.Account
+﻿namespace Uceme.UI.Areas.Identity.Pages.Account
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -18,10 +18,10 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<RegisterModel> logger;
+        private readonly IEmailSender emailSender;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -29,10 +29,10 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
-            this._userManager = userManager;
-            this._signInManager = signInManager;
-            this._logger = logger;
-            this._emailSender = emailSender;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.logger = logger;
+            this.emailSender = emailSender;
         }
 
         [BindProperty]
@@ -45,7 +45,7 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             this.ReturnUrl = returnUrl;
-            foreach (var login in (await this._signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+            foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
             {
                 this.ExternalLogins.Add(login);
             }
@@ -54,7 +54,7 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? this.Url.Content("~/");
-            foreach (var login in (await this._signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+            foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
             {
                 this.ExternalLogins.Add(login);
             }
@@ -62,12 +62,12 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
             if (this.ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
-                var result = await this._userManager.CreateAsync(user, this.Input.Password).ConfigureAwait(false);
+                var result = await this.userManager.CreateAsync(user, this.Input.Password).ConfigureAwait(false);
                 if (result.Succeeded)
                 {
-                    this._logger.LogInformation("User created a new account with password.");
+                    this.logger.LogInformation("User created a new account with password.");
 
-                    var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user).ConfigureAwait(false);
+                    var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user).ConfigureAwait(false);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = this.Url.Page(
                         "/Account/ConfirmEmail",
@@ -75,16 +75,18 @@ namespace Uceme.UI.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code },
                         protocol: this.Request.Scheme);
 
-                    await this._emailSender.SendEmailAsync(this.Input.Email, "Confirm your email",
+                    await this.emailSender.SendEmailAsync(
+                        this.Input.Email,
+                        "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.").ConfigureAwait(false);
 
-                    if (this._userManager.Options.SignIn.RequireConfirmedAccount)
+                    if (this.userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return this.RedirectToPage("RegisterConfirmation", new { email = this.Input.Email });
                     }
                     else
                     {
-                        await this._signInManager.SignInAsync(user, isPersistent: false).ConfigureAwait(false);
+                        await this.signInManager.SignInAsync(user, isPersistent: false).ConfigureAwait(false);
                         return this.LocalRedirect(returnUrl);
                     }
                 }

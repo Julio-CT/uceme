@@ -6,12 +6,12 @@
 
     public class OidcConfigurationController : Controller
     {
-        private readonly ILogger<OidcConfigurationController> _logger;
+        private readonly ILogger<OidcConfigurationController> logger;
 
         public OidcConfigurationController(IClientRequestParametersProvider clientRequestParametersProvider, ILogger<OidcConfigurationController> logger)
         {
             this.ClientRequestParametersProvider = clientRequestParametersProvider;
-            this._logger = logger;
+            this.logger = logger;
         }
 
         public IClientRequestParametersProvider ClientRequestParametersProvider { get; }

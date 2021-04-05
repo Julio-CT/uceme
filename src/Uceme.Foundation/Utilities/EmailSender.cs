@@ -31,9 +31,9 @@
             this.SmtpClient = smtpClient;
         }
 
-        public AuthMessageSenderSettings Options { get; } //set only via Secret Manager
+        public AuthMessageSenderSettings Options { get; } // set only via Secret Manager
 
-        public ISmtpClient SmtpClient { get; } //set only via Secret Manager
+        public ISmtpClient SmtpClient { get; } // set only via Secret Manager
 
         public async Task SendEmailAsync(string toEmail, string subject, string htmlMessage)
         {
@@ -52,7 +52,7 @@
                 throw new ArgumentNullException(nameof(htmlMessage));
             }
 
-            await ExecuteAsync(subject, htmlMessage, new List<string> { toEmail }).ConfigureAwait(false);
+            await this.ExecuteAsync(subject, htmlMessage, new List<string> { toEmail }).ConfigureAwait(false);
         }
 
         public async Task SendEmailAsync(IEnumerable<string> toEmails, string subject, string htmlMessage)
