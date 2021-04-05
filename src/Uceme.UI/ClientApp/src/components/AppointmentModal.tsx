@@ -86,7 +86,7 @@ const AppointmentModal = (props: any): JSX.Element => {
           .then((response: { json: () => any }) => response.json())
           .then(async (resp: any) => {
             setDisabledDays(
-              disabledDays.filter((el) => !resp.includes(el + 1))
+              [0, 1, 2, 3, 4, 5, 6].filter((el) => !resp.includes(el + 1))
             );
             setShowDays(true);
             setDaysFetched(true);
@@ -96,7 +96,7 @@ const AppointmentModal = (props: any): JSX.Element => {
           });
       }
     },
-    [daysFetched, disabledDays]
+    [daysFetched]
   );
 
   const fetchHours = (date: string, baseHref: string) => {
@@ -139,6 +139,8 @@ const AppointmentModal = (props: any): JSX.Element => {
     if (settings) {
       setHospitalId(hospital);
       fetchDays(hospital, settings.baseHref, forceFetch);
+      setShowHours(false);
+      setSendEnabled(false);
     }
   };
 
