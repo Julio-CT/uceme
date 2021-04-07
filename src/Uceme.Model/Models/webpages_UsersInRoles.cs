@@ -9,9 +9,6 @@
 
 namespace Uceme.Model.Models
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class webpages_UsersInRoles
     {
         public webpages_UsersInRoles()
