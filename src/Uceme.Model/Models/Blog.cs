@@ -25,7 +25,7 @@ namespace Uceme.Model.Models
         public string seoTitle { get; set; }
         public string metaDescription { get; set; }
 
-        public int idUsuario { get; set; }
+        ////public int idUsuario { get; set; }
         ////public virtual Usuario Usuario { get; set; }
     }
 }

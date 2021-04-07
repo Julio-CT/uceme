@@ -9,20 +9,19 @@
 
 namespace Uceme.Model.Models
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Rol
     {
         public Rol()
         {
-            this.Usuario = new HashSet<Usuario>();
+            ////this.Usuario = new HashSet<Usuario>();
         }
 
         [Key]
         public int idRol { get; set; }
         public string nombre { get; set; }
     
-        public virtual ICollection<Usuario> Usuario { get; set; }
+        ////public virtual ICollection<Usuario> Usuario { get; set; }
     }
 }

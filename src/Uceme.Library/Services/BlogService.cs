@@ -46,6 +46,30 @@
             }
         }
 
+        public IEnumerable<Blog> GetAllPosts()
+        {
+            try
+            {
+                var data = this.context.Blog.Select(x => new Blog()
+                {
+                    idBlog = x.idBlog,
+                    titulo = x.titulo,
+                    fecha = x.fecha,
+                    foto = x.foto,
+                    texto = x.texto,
+                    slug = x.slug,
+                    metaDescription = x.metaDescription,
+                });
+
+                return data;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error retrieving Posts {e.Message}");
+                throw new DataException("Error retrieving Posts", e);
+            }
+        }
+
         public Blog GetPost(string slug)
         {
             try
@@ -67,6 +91,49 @@
             {
                 this.logger.LogError($"Error retrieving Blogs {e.Message}");
                 throw new DataException("Error retrieving Blogs", e);
+            }
+        }
+
+        public bool DeletePost(int postId)
+        {
+            try
+            {
+                var post = this.context.Blog.FirstOrDefault(post => post.idBlog == postId);
+                var result = this.context.Blog.Remove(post);
+                this.context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error deleting post {e.Message}");
+                throw new DataException("Error deleting post", e);
+            }
+        }
+
+        public Blog UpdatePost(Blog blog)
+        {
+            try
+            {
+                var post = this.context.Blog.FirstOrDefault(post => post.idBlog == blog.idBlog);
+
+                post.titulo = blog.titulo;
+                post.fecha = blog.fecha;
+                post.foto = blog.foto;
+                post.texto = blog.texto;
+                post.slug = blog.slug;
+                post.seoTitle = blog.seoTitle;
+                post.metaDescription = blog.metaDescription;
+
+                var result = this.context.Blog.Update(post);
+                this.context.SaveChanges();
+
+                return result.Entity;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error updating post {e.Message}");
+                throw new DataException("Error updating post", e);
             }
         }
     }

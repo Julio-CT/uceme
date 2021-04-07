@@ -10,7 +10,6 @@
 namespace Uceme.Model.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Usuario
@@ -28,14 +27,14 @@ namespace Uceme.Model.Models
         public string linkedin { get; set; }
         public Nullable<int> display_order { get; set; }
     
-        public ICollection<Blog> Blog { get; set; }
-        public ICollection<Documento> Documento { get; set; }
+        ////public ICollection<Blog> Blog { get; set; }
+        ////public ICollection<Documento> Documento { get; set; }
 
         public int idCurriculum { get; set; }
         ////public virtual Curriculum Curriculum { get; set; }
         public int idDatosContacto { get; set; }
         ////public virtual DatosContacto DatosContacto { get; set; }
         public int idRol { get; set; }
-        public Rol Rol { get; set; }
+        ////public Rol Rol { get; set; }
     }
 }

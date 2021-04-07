@@ -12,10 +12,7 @@ type BlogHomeState = {
 };
 
 type BlogHomeProps = {
-  children: React.ReactElement[];
   params?: any;
-  history?: any;
-  location?: any;
   match?: any;
 };
 
@@ -37,10 +34,9 @@ const BlogHome = (props: BlogHomeProps) => {
 
         await Promise.all(
           resp.map(async (obj: any) => {
-            const image =
-              process.env.PUBLIC_URL +
-              '/uploads/' +
-              obj.foto.slice(obj.foto.lastIndexOf('/') + 1);
+            const image = `${process.env.PUBLIC_URL}/uploads/${obj.foto.slice(
+              obj.foto.lastIndexOf('/') + 1
+            )}`;
             retrievedBlogs.push({
               id: obj.idBlog,
               title: obj.titulo,
@@ -63,7 +59,7 @@ const BlogHome = (props: BlogHomeProps) => {
         setData({
           loaded: true,
           resp: retrievedBlogs,
-          page: page,
+          page,
         });
       })
       .catch((error: any) => {
@@ -71,7 +67,7 @@ const BlogHome = (props: BlogHomeProps) => {
         setData({
           loaded: false,
           resp: null,
-          page: page,
+          page,
         });
       });
   };
@@ -87,7 +83,7 @@ const BlogHome = (props: BlogHomeProps) => {
         return;
       }
 
-      setData({ loaded: false, page: page });
+      setData({ loaded: false, page });
       fetchPosts(page, settings.baseHref);
     }
   }, [props?.match?.params?.page, props?.params?.page, settings]);
@@ -115,7 +111,7 @@ const BlogHome = (props: BlogHomeProps) => {
                       href={`/post/${post.slug}`}
                       className="article__image article__image--thumb"
                     >
-                      <img src={post.imageSrc} alt={post.caption}></img>
+                      <img src={post.imageSrc} alt={post.caption} />
                     </a>
                     <div className="article__inner">
                       <h2 className="article__title">

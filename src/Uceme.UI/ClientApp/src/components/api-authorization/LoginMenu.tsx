@@ -49,7 +49,7 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
     ]);
     this.setState({
       isAuthenticated,
-      userName: user && user.name,
+      userName: user && user.name?.substring(0, user.name.indexOf("@")),
     });
   }
 
@@ -64,7 +64,10 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
           Hola {userName}
         </Nav.Link>
         <Nav.Link className="text-dark" href="/appointmentmanager">
-          Gestión citas
+          Citas
+        </Nav.Link>
+        <Nav.Link className="text-dark" href="/postmanager">
+          Posts
         </Nav.Link>
         <Nav.Link className="text-dark" href={logoutPath.pathname}>
           Salir
