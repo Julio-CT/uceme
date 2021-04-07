@@ -9,8 +9,8 @@ import {
   ModalHeader,
   ButtonGroup,
 } from 'reactstrap';
-import AppointmentHours from './appointment-sections/AppointmentHours';
 import DatePicker from 'reactstrap-date-picker2';
+import AppointmentHours from './appointment-sections/AppointmentHours';
 import SettingsContext from '../SettingsContext';
 import './AppointmentModal.scss';
 
@@ -19,7 +19,12 @@ type Hospital = {
   nombre?: any;
 };
 
-const AppointmentModal = (props: any): JSX.Element => {
+type AppointmentModalProps = {
+  toggle: any;
+  modal?: any;
+};
+
+const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
   const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
   const [showHospitals, setShowHospitals] = React.useState<boolean>(true);
@@ -47,7 +52,7 @@ const AppointmentModal = (props: any): JSX.Element => {
   const [extraInfo, setExtraInfo] = React.useState<string>();
   const [acceptTC, setAcceptTC] = React.useState<boolean>(false);
   const weekStart = 1;
-  const hospital = 'Beata María Ana';
+  const hospitalName = 'Beata María Ana';
 
   const resetForm = () => {
     setShowHours(false);
@@ -157,27 +162,27 @@ const AppointmentModal = (props: any): JSX.Element => {
   };
 
   const handleValidation = () => {
-    let errors: any = {};
+    const errors: any = {};
     let formIsValid = true;
 
     if (!selectedDay) {
       formIsValid = false;
-      errors['day'] = 'Cannot be empty';
+      errors.day = 'Cannot be empty';
     }
 
     if (!selectedHour) {
       formIsValid = false;
-      errors['hour'] = 'Cannot be empty';
+      errors.hour = 'Cannot be empty';
     }
 
     if (!email) {
       formIsValid = false;
-      errors['email'] = 'Cannot be empty';
+      errors.email = 'Cannot be empty';
     }
 
     if (typeof email !== 'undefined') {
-      let lastAtPos = email.lastIndexOf('@');
-      let lastDotPos = email.lastIndexOf('.');
+      const lastAtPos = email.lastIndexOf('@');
+      const lastDotPos = email.lastIndexOf('.');
 
       if (
         !(
@@ -189,23 +194,23 @@ const AppointmentModal = (props: any): JSX.Element => {
         )
       ) {
         formIsValid = false;
-        errors['email'] = 'Email is not valid';
+        errors.email = 'Email is not valid';
       }
     }
 
     if (!name) {
       formIsValid = false;
-      errors['name'] = 'Cannot be empty';
+      errors.name = 'Cannot be empty';
     }
 
     if (!phone) {
       formIsValid = false;
-      errors['phone'] = 'Cannot be empty';
+      errors.phone = 'Cannot be empty';
     }
 
     if (!acceptTC) {
       formIsValid = false;
-      errors['acceptTC'] = 'Cannot be empty';
+      errors.acceptTC = 'Cannot be empty';
     }
 
     return formIsValid;
@@ -216,15 +221,15 @@ const AppointmentModal = (props: any): JSX.Element => {
       const day = new Date(selectedDay);
       const data = {
         weekDay: day.getDay(),
-        hospitalId: hospitalId,
+        hospitalId,
         day: day.getDate(),
         month: day.getMonth() + 1,
         year: day.getFullYear(),
         hour: selectedHour,
-        name: name,
-        phone: phone,
-        email: email,
-        extraInfo: extraInfo,
+        name,
+        phone,
+        email,
+        extraInfo,
       };
 
       fetch(`${settings.baseHref}api/appointment/addappointment`, {
@@ -271,16 +276,16 @@ const AppointmentModal = (props: any): JSX.Element => {
     <Modal isOpen={props.modal} toggle={props.toggle}>
       <ModalHeader toggle={props.toggle} className="beatabg">
         <div className="Aligner">
-          <div className="Aligner-item Aligner-item--top"></div>
+          <div className="Aligner-item Aligner-item--top" />
           <div className="Aligner-item">Reserve cita</div>
-          <div className="Aligner-item Aligner-item--bottom"></div>
+          <div className="Aligner-item Aligner-item--bottom" />
         </div>
       </ModalHeader>
       <ModalBody>
         <section id="section-contact_form" className="container">
           <div className="row justify-content-md-center">
             <form className="col-12">
-              <span className="field-margin">Hospital {hospital}</span>
+              <span className="field-margin">Hospital {hospitalName}</span>
               {showHospitals && hospitals && (
                 <div className="extra-padding field-margin">
                   <Label for="dateForm" className="field-label">

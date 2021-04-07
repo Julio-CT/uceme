@@ -175,6 +175,63 @@
             }
         }
 
+        Cita IAppointmentService.GetAppointment(int appointmentId)
+        {
+            try
+            {
+                var cita = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointmentId);
+
+                return cita;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error finding appointment {e.Message}");
+                throw new DataException("Error finding appointment", e);
+            }
+        }
+
+        bool IAppointmentService.DeleteAppointment(int appointmentId)
+        {
+            try
+            {
+                var cita = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointmentId);
+                var result = this.context.Cita.Remove(cita);
+                this.context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error deleting appointment {e.Message}");
+                throw new DataException("Error deleting appointment", e);
+            }
+        }
+
+        Cita IAppointmentService.UpdateAppointment(Cita appointment)
+        {
+            try
+            {
+                var cita = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointment.idCita);
+
+                cita.dia = appointment.dia;
+                cita.email = appointment.email;
+                cita.hora = appointment.hora;
+                cita.idTurno = cita.idTurno;
+                cita.nombre = cita.nombre;
+                cita.telefono = cita.telefono;
+
+                var result = this.context.Cita.Update(cita);
+                this.context.SaveChanges();
+
+                return result.Entity;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error updating appointment {e.Message}");
+                throw new DataException("Error updating appointment", e);
+            }
+        }
+
         private async Task<bool> SendAppointmentEmailAsync(AppointmentRequest appointmentRequest, Cita cita)
         {
             var emailMessage = new StringBuilder();

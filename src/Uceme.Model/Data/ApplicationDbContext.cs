@@ -7,7 +7,7 @@
     using Microsoft.Extensions.Options;
     using Uceme.Model.Models;
 
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
+    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
     {
         public ApplicationDbContext(
             DbContextOptions options,

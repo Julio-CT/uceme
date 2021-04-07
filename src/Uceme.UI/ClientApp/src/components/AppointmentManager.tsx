@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Appointment from '../library/Appointment';
 import { DateTimeUtils } from '../library/DateTimeUtils';
 import './AppointmentManager.scss';
@@ -14,14 +15,11 @@ type AppointmentManagerState = {
 };
 
 type AppointmentManagerProps = {
-  children: React.ReactElement[];
   params?: any;
-  history?: any;
-  location?: any;
   match?: any;
 };
 
-const AppointmentManager = (props: AppointmentManagerProps) => {
+const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
   const [modal, setModal] = React.useState(false);
   const toggle = () => setModal(!modal);
   const settings = React.useContext(SettingsContext());
@@ -70,7 +68,7 @@ const AppointmentManager = (props: AppointmentManagerProps) => {
         setAppointmentData({
           loaded: true,
           appointments: retrievedAppointments,
-          page: page,
+          page,
         });
       })
       .catch((error: any) => {
@@ -78,7 +76,7 @@ const AppointmentManager = (props: AppointmentManagerProps) => {
         setAppointmentData({
           loaded: false,
           appointments: null,
-          page: page,
+          page,
         });
       });
   };
@@ -118,9 +116,41 @@ const AppointmentManager = (props: AppointmentManagerProps) => {
         setAppointmentData({
           loaded: false,
           appointments: null,
-          page: page,
+          page,
         });
       });
+  };
+
+  const deleteAppointment = async (id: string) => {
+    if (settings) {
+      const token = await authService.getAccessToken();
+      fetch(`clientapi/appointment/deleteappointment?appointmentid=${+id}`, {
+        headers: !token ? {} : { Authorization: `Bearer ${token}` },
+      })
+        .then((response: { json: () => any }) => response.json())
+        .then(async (resp: any) => {
+          if (resp === true) {
+            alert('Cita previa borrada correctamente. Muchas gracias.');
+            setAppointmentData({
+              loaded: true,
+              appointments: appointmentData.appointments.filter(
+                (obj: Appointment) => obj.id !== id
+              ),
+              page: appointmentData.page,
+            });
+          } else {
+            alert(
+              'Lo sentimos, ha ocurrido un error borrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+            );
+          }
+        })
+        .catch((error: any) => {
+          console.log(error);
+          alert(
+            'Lo sentimos, ha ocurrido un error borrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+          );
+        });
+    }
   };
 
   React.useEffect(() => {
@@ -135,7 +165,7 @@ const AppointmentManager = (props: AppointmentManagerProps) => {
         return;
       }
 
-      setAppointmentData({ loaded: false, page: page });
+      setAppointmentData({ loaded: false, page });
       fetchCloseAppointments(page, settings.baseHref);
       fetchAppointments(page, settings.baseHref);
     }
@@ -147,9 +177,9 @@ const AppointmentManager = (props: AppointmentManagerProps) => {
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader toggle={toggle} className="beatabg">
             <div className="Aligner">
-              <div className="Aligner-item Aligner-item--top"></div>
+              <div className="Aligner-item Aligner-item--top" />
               <div className="Aligner-item">Citas en los próximos 2 días</div>
-              <div className="Aligner-item Aligner-item--bottom"></div>
+              <div className="Aligner-item Aligner-item--bottom" />
             </div>
           </ModalHeader>
           <ModalBody>
@@ -201,6 +231,7 @@ const AppointmentManager = (props: AppointmentManagerProps) => {
                 <th scope="col">Paciente</th>
                 <th scope="col">Email</th>
                 <th scope="col">Teléfono</th>
+                <th scope="col">Borrar</th>
               </tr>
             </thead>
             <tbody>
@@ -214,6 +245,11 @@ const AppointmentManager = (props: AppointmentManagerProps) => {
                       <td>{appointment.name}</td>
                       <td>{appointment.email}</td>
                       <td>{appointment.phone}</td>
+                      <td>
+                        <DeleteIcon
+                          onClick={() => deleteAppointment(appointment.id)}
+                        />
+                      </td>
                     </tr>
                   );
                 }
