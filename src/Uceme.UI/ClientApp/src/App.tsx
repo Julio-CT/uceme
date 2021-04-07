@@ -13,6 +13,7 @@ import ApplicationPaths from './components/api-authorization/ApiAuthorizationCon
 import './App.scss';
 import './custom.scss';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
+import PostManager from './components/PostManager';
 
 function App(): JSX.Element {
   return (
@@ -25,6 +26,7 @@ function App(): JSX.Element {
       <Route path="/post/:slug" component={BlogPostComponent} />
       <Route path="/contacto" component={ContactUsComponent} />
       <AuthorizeRoute path='/appointmentmanager' component={AppointmentManager} />
+      <AuthorizeRoute path='/postmanager' component={PostManager} />
       <Route
         path={ApplicationPaths.ApiAuthorizationPrefix}
         component={ApiAuthorizationRoutes}

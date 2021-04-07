@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import BlogPost from '../library/BlogPost';
 import parse from 'html-react-parser';
+import BlogPost from '../library/BlogPost';
 import SettingsContext from '../SettingsContext';
 import './BlogHome.scss';
 
@@ -11,10 +11,7 @@ type BlogPostState = {
 };
 
 type BlogPostProps = {
-  children: React.ReactElement[];
   params?: any;
-  history?: any;
-  location?: any;
   match?: any;
 };
 
@@ -28,12 +25,10 @@ const BlogPostComponent = (props: BlogPostProps) => {
     fetch(`${baseHref}api/blog/getpost?slug=${slug}`)
       .then((response: { json: () => any }) => response.json())
       .then(async (resp: any) => {
-        let retrievedBlog: BlogPost;
-        const image =
-          process.env.PUBLIC_URL +
-          '/uploads/' +
-          resp.foto.slice(resp.foto.lastIndexOf('/') + 1);
-        retrievedBlog = {
+        const image = `${process.env.PUBLIC_URL}/uploads/${resp.foto.slice(
+          resp.foto.lastIndexOf('/') + 1
+        )}`;
+        const retrievedBlog: BlogPost = {
           id: resp.idBlog,
           title: resp.titulo,
           imageSrc: image,
@@ -75,9 +70,7 @@ const BlogPostComponent = (props: BlogPostProps) => {
     return (
       <div className="App-home header-distance">
         <div className="container">
-          <div
-            className={`section padding-top section--large section--grey section--in-view article-list article-list--page-1`}
-          >
+          <div className="section padding-top section--large section--grey section--in-view article-list article-list--page-1">
             <Helmet>
               <title>{data.post.seoTitle}</title>
               <meta name="description" content={data.post.metaDescription} />
@@ -91,14 +84,12 @@ const BlogPostComponent = (props: BlogPostProps) => {
               />
             </Helmet>
 
-            <article
-              className={`article article--list article--blog article--1`}
-            >
+            <article className="article article--list article--blog article--1">
               <a
                 href={`/post/${data.post.slug}`}
                 className="article__image article__image--thumb"
               >
-                <img src={data.post.imageSrc} alt={data.post.caption}></img>
+                <img src={data.post.imageSrc} alt={data.post.caption} />
               </a>
               <div className="article__inner">
                 <h2 className="article__title">

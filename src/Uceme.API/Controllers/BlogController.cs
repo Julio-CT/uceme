@@ -57,6 +57,23 @@
             return result.ToList();
         }
 
+        [HttpGet("getallposts")]
+        [AllowAnonymous]
+        public ActionResult<IEnumerable<Blog>> GetAllPosts()
+        {
+            IEnumerable<Blog> result;
+            try
+            {
+                result = this.blogService.GetAllPosts();
+            }
+            catch (DataException)
+            {
+                return this.BadRequest();
+            }
+
+            return result.ToList();
+        }
+
         [HttpGet("getpost")]
         [AllowAnonymous]
         public ActionResult<Blog> GetPost(string slug)

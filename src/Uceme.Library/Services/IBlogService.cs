@@ -8,5 +8,11 @@
         IEnumerable<Blog> GetBlogSubset(int amount, int page = 1);
 
         Blog GetPost(string slug);
+
+        IEnumerable<Blog> GetAllPosts();
+
+        bool DeletePost(int postId);
+
+        Blog UpdatePost(Blog blog);
     }
 }
