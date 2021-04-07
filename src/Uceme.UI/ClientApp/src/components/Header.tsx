@@ -33,7 +33,13 @@ const Header = (): JSX.Element => {
 
         <NavMenu />
       </Container>
-      <div className="fixedButton" onClick={toggle}>
+      <div
+        className="fixedButton"
+        onClick={toggle}
+        onKeyDown={toggle}
+        role="button"
+        tabIndex={0}
+      >
         <div className="roundedFixedBtn">
           <span>Reserve cita</span>
           <img

@@ -16,5 +16,11 @@
         IEnumerable<Cita> GetAppointments();
 
         IEnumerable<Cita> GetCloseAppointments();
+
+        Cita GetAppointment(int appointmentId);
+
+        bool DeleteAppointment(int appointmentId);
+
+        Cita UpdateAppointment(Cita appointment);
     }
 }

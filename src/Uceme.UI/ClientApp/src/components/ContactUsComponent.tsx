@@ -13,6 +13,7 @@ type contactUsState = {
 const ContactUsComponent: () => JSX.Element = () => {
   const history = useHistory();
   const settings = React.useContext(SettingsContext());
+  const nameId = 'name';
   const [data, setData] = React.useState<contactUsState>({
     loaded: false,
     name: '',
@@ -21,7 +22,7 @@ const ContactUsComponent: () => JSX.Element = () => {
   });
 
   const handleChange = (event: any) => {
-    const name = event.target.name;
+    const { name } = event.target;
     setData({ ...data, [name]: event.target.value });
   };
 
@@ -66,10 +67,11 @@ const ContactUsComponent: () => JSX.Element = () => {
               Sus mensajes serán atendidos lo antes posible.
             </h4>
             <div className="line" />
-            <label className="contactItem col-9 color-orange">
+            <label htmlFor={nameId} className="contactItem col-9 color-orange">
               Nombre y apellidos*
             </label>
             <input
+              id={nameId}
               type="text"
               value={data.name}
               name="name"
@@ -81,10 +83,11 @@ const ContactUsComponent: () => JSX.Element = () => {
               autoCapitalize="none"
               spellCheck="false"
             />
-            <label className="contactItem col-9 color-orange">
+            <label htmlFor="email" className="contactItem col-9 color-orange">
               Dirección de correo electrónico*
             </label>
             <input
+              id="email"
               type="email"
               value={data.email}
               name="email"
@@ -96,8 +99,11 @@ const ContactUsComponent: () => JSX.Element = () => {
               autoCapitalize="none"
               spellCheck="false"
             />
-            <label className="contactItem col-9 color-orange">Mensaje*</label>
+            <label htmlFor="message" className="contactItem col-9 color-orange">
+              Mensaje*
+            </label>
             <textarea
+              id="message"
               value={data.message}
               name="message"
               onChange={handleChange}
@@ -130,7 +136,7 @@ const ContactUsComponent: () => JSX.Element = () => {
                 <p className="uppercase color-orange">Correo electrónico</p>
                 <a
                   className="color-gray"
-                  href={'mailto:' + settings.contactEmail}
+                  href={`mailto:${settings.contactEmail}`}
                   title="email"
                 >
                   {settings.contactEmail}
@@ -147,7 +153,7 @@ const ContactUsComponent: () => JSX.Element = () => {
                 <a
                   className="color-gray"
                   title="telefono"
-                  href={'tel:' + settings.telephone}
+                  href={`tel:${settings.telephone}`}
                 >
                   {settings.telephone}
                 </a>

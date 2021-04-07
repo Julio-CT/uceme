@@ -57,5 +57,53 @@
 
             return result.ToList();
         }
+
+        [HttpGet("getappointment")]
+        public ActionResult<Cita> GetAppointment(int appointmentId)
+        {
+            Cita result = null;
+            try
+            {
+                result = this.appointmentService.GetAppointment(appointmentId);
+            }
+            catch (DataException)
+            {
+                return this.BadRequest();
+            }
+
+            return result;
+        }
+
+        [HttpGet("deleteappointment")]
+        public ActionResult<bool> DeleteAppointment(int appointmentId)
+        {
+            bool result = false;
+            try
+            {
+                result = this.appointmentService.DeleteAppointment(appointmentId);
+            }
+            catch (DataException)
+            {
+                return this.BadRequest();
+            }
+
+            return result;
+        }
+
+        [HttpGet("updateappointment")]
+        public ActionResult<Cita> UpdateAppointment(Cita appointment)
+        {
+            Cita result = null;
+            try
+            {
+                result = this.appointmentService.UpdateAppointment(appointment);
+            }
+            catch (DataException)
+            {
+                return this.BadRequest();
+            }
+
+            return result;
+        }
     }
 }
