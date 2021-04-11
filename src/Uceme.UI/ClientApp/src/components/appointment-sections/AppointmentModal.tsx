@@ -10,8 +10,8 @@ import {
   ButtonGroup,
 } from 'reactstrap';
 import DatePicker from 'reactstrap-date-picker2';
-import AppointmentHours from './appointment-sections/AppointmentHours';
-import SettingsContext from '../SettingsContext';
+import AppointmentHours from './AppointmentHours';
+import SettingsContext from '../../SettingsContext';
 import './AppointmentModal.scss';
 
 type Hospital = {

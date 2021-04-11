@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
+import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@material-ui/icons/Delete';
 import parse from 'html-react-parser';
-import BlogPost from '../library/BlogPost';
+import BlogPost from '../../library/BlogPost';
 import './AppointmentManager.scss';
-import SettingsContext from '../SettingsContext';
-import authService from './api-authorization/AuthorizeService';
+import SettingsContext from '../../SettingsContext';
+import authService from '../api-authorization/AuthorizeService';
 
 type PostManagerState = {
   loaded: boolean;
@@ -18,6 +19,9 @@ type PostManagerProps = {
 };
 
 const PostManager = (props: PostManagerProps): JSX.Element => {
+  const [confirmModal, setConfirmModal] = React.useState(false);
+  const confirmToggle = () => setConfirmModal(!confirmModal);
+  const [markedPost, setMarkedPost] = React.useState<BlogPost>();
   const settings = React.useContext(SettingsContext());
   const [postData, setPostData] = React.useState<PostManagerState>({
     loaded: false,
@@ -73,10 +77,16 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
       });
   };
 
-  const deletePost = async (id: string) => {
-    if (settings) {
+  const deletePost = (post: BlogPost) => {
+    setMarkedPost(post);
+    setConfirmModal(true);
+  };
+
+  const deleteMarkedPost = async () => {
+    if (settings && markedPost) {
+      setConfirmModal(false);
       const token = await authService.getAccessToken();
-      fetch(`clientapi/blog/deletepost?postid=${+id}`, {
+      fetch(`clientapi/blog/deletepost?postid=${+markedPost.id}`, {
         headers: !token ? {} : { Authorization: `Bearer ${token}` },
       })
         .then((response: { json: () => any }) => response.json())
@@ -85,7 +95,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
             alert('Post borrado correctamente. Muchas gracias.');
             setPostData({
               loaded: true,
-              posts: postData.posts.filter((obj: BlogPost) => obj.id !== id),
+              posts: postData.posts.filter((obj: BlogPost) => obj.id !== markedPost.id),
               page: postData.page,
             });
           } else {
@@ -122,6 +132,24 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
   if (postData.loaded) {
     return (
       <div className="App App-home header-distance">
+      <Modal isOpen={confirmModal} toggle={confirmToggle}>
+        <ModalBody>
+          <section id="section-contact_form" className="container">
+            <div className="row justify-content-md-center">
+              ¿Está seguro de borrar el post {markedPost?.title}?
+            </div>
+          </section>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={() => deleteMarkedPost()}>
+            Borrar
+          </Button>
+          {' '}
+          <Button color="secondary" onClick={confirmToggle}>
+            Cerrar
+          </Button>
+        </ModalFooter>
+      </Modal>
         <div className="container">
           <table className="table">
             <thead>
@@ -138,7 +166,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
                     <td className="col-md-2">{post.date}</td>
                     <td className="col-md-3">{post.title}</td>
                     <td className="col-md-1">
-                      <DeleteIcon onClick={() => deletePost(post.id)} />
+                      <DeleteIcon onClick={() => deletePost(post)} />
                     </td>
                   </tr>
                 );

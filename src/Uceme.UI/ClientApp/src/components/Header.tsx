@@ -4,7 +4,7 @@ import './Header.scss';
 import NavMenu from './NavMenu';
 import logo from '../resources/images/ucemelogobl.png';
 import citaPreviaLogo from '../resources/images/icono-cita-previa.webp';
-import AppointmentModal from './AppointmentModal';
+import AppointmentModal from './appointment-sections/AppointmentModal';
 
 const Header = (): JSX.Element => {
   const [modal, setModal] = React.useState(false);

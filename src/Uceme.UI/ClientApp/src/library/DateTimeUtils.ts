@@ -4,7 +4,7 @@ export class DateTimeUtils {
       return dateAsInt;
     }
 
-    let hours = parseInt(dateAsInt);
+    let hours = parseInt(dateAsInt, 10);
     let minutes = Math.ceil((parseFloat(dateAsInt) - hours) * 60);
 
     hours = minutes === 60 ? hours + 1 : hours;
@@ -23,9 +23,9 @@ export class DateTimeUtils {
 
     try {
       const dateString = inputDate.toString();
-      const year = parseInt(dateString.substring(0, 4));
-      const month = parseInt(dateString.substring(4, 6));
-      const day = parseInt(dateString.substring(6, 8));
+      const year = parseInt(dateString.substring(0, 4), 10);
+      const month = parseInt(dateString.substring(4, 6), 10);
+      const day = parseInt(dateString.substring(6, 8), 10);
 
       const today = new Date(year, month - 1, day);
       /* var options = {

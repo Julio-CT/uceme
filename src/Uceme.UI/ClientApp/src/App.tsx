@@ -7,13 +7,13 @@ import ConditionsComponent from './components/ConditionsComponent';
 import BlogPostComponent from './components/BlogPostComponent';
 import SpecialitiesComponent from './components/SpecialitiesComponent';
 import ContactUsComponent from './components/ContactUsComponent';
-import AppointmentManager from './components/AppointmentManager';
+import AppointmentManager from './components/admin/AppointmentManager';
+import PostManager from './components/admin/PostManager';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import ApplicationPaths from './components/api-authorization/ApiAuthorizationConstants';
-import './App.scss';
 import './custom.scss';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
-import PostManager from './components/PostManager';
+import './App.scss';
 
 function App(): JSX.Element {
   return (

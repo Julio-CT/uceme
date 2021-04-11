@@ -16,12 +16,13 @@ type BlogHomeProps = {
   match?: any;
 };
 
-const BlogHome = (props: BlogHomeProps) => {
+const BlogHome = (props: BlogHomeProps): JSX.Element => {
   const settings = React.useContext(SettingsContext());
+  const { params, match } = props;
   const [data, setData] = React.useState<BlogHomeState>({
     loaded: false,
     resp: null,
-    page: props?.params?.page ?? props?.match?.params?.page ?? 1,
+    page: params?.page ?? match?.params?.page ?? 1,
   });
 
   const isFirstRun = useRef(true);
@@ -63,7 +64,6 @@ const BlogHome = (props: BlogHomeProps) => {
         });
       })
       .catch((error: any) => {
-        console.log(error);
         setData({
           loaded: false,
           resp: null,
@@ -74,7 +74,7 @@ const BlogHome = (props: BlogHomeProps) => {
 
   React.useEffect(() => {
     if (settings) {
-      const page = props?.params?.page || props?.match?.params?.page || 1;
+      const page = params?.page || match?.params?.page || 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
@@ -86,7 +86,7 @@ const BlogHome = (props: BlogHomeProps) => {
       setData({ loaded: false, page });
       fetchPosts(page, settings.baseHref);
     }
-  }, [props?.match?.params?.page, props?.params?.page, settings]);
+  }, [match?.params?.page, params?.page, settings]);
 
   if (data.loaded) {
     const nextPage: number = data.page ? +data.page + 1 : 2;
@@ -134,10 +134,12 @@ const BlogHome = (props: BlogHomeProps) => {
             <br />
             <div>
               {previousPage && (
-                <Link to={`/blog/${previousPage}`}>Anterior</Link>
+                <Link to={`/blog/${previousPage}`}>{'<<'} Anterior</Link>
               )}
-
-              {nextPage && <Link to={`/blog/${nextPage}`}>Siguiente</Link>}
+              {' | '}
+              {nextPage && (
+                <Link to={`/blog/${nextPage}`}>Siguiente {'>>'} </Link>
+              )}
             </div>
           </div>
         </div>
