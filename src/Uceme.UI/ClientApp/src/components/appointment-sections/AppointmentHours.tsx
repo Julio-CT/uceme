@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
-import '../AppointmentModal.scss';
+import './AppointmentModal.scss';
 
 type AppointmentHoursProps = {
     hours: string[];

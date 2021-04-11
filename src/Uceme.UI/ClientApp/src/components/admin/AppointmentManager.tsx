@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Appointment from '../library/Appointment';
-import { DateTimeUtils } from '../library/DateTimeUtils';
+import Appointment from '../../library/Appointment';
+import { DateTimeUtils } from '../../library/DateTimeUtils';
 import './AppointmentManager.scss';
-import './AppointmentModal.scss';
-import SettingsContext from '../SettingsContext';
-import authService from './api-authorization/AuthorizeService';
+import '../appointment-sections/AppointmentModal.scss';
+import SettingsContext from '../../SettingsContext';
+import authService from '../api-authorization/AuthorizeService';
 
 type AppointmentManagerState = {
   loaded: boolean;
@@ -22,6 +22,9 @@ type AppointmentManagerProps = {
 const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
   const [modal, setModal] = React.useState(false);
   const toggle = () => setModal(!modal);
+  const [confirmModal, setConfirmModal] = React.useState(false);
+  const confirmToggle = () => setConfirmModal(!confirmModal);
+  const [markedAppointment, setMarkedAppointment] = React.useState<Appointment>();
   const settings = React.useContext(SettingsContext());
   const [
     appointmentData,
@@ -121,10 +124,16 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
       });
   };
 
-  const deleteAppointment = async (id: string) => {
-    if (settings) {
+  const deleteAppointment = (appointment: Appointment) => {
+    setMarkedAppointment(appointment);
+    setConfirmModal(true);
+  };
+
+  const deleteMarkedAppointment = async () => {
+    if (settings && markedAppointment) {
+      setConfirmModal(false);
       const token = await authService.getAccessToken();
-      fetch(`clientapi/appointment/deleteappointment?appointmentid=${+id}`, {
+      fetch(`clientapi/appointment/deleteappointment?appointmentid=${+markedAppointment?.id}`, {
         headers: !token ? {} : { Authorization: `Bearer ${token}` },
       })
         .then((response: { json: () => any }) => response.json())
@@ -134,7 +143,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
             setAppointmentData({
               loaded: true,
               appointments: appointmentData.appointments.filter(
-                (obj: Appointment) => obj.id !== id
+                (obj: Appointment) => obj.id !== markedAppointment?.id
               ),
               page: appointmentData.page,
             });
@@ -174,6 +183,24 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
   if (appointmentData.loaded && closeAppointmentData.loaded) {
     return (
       <div className="App App-home header-distance">
+        <Modal isOpen={confirmModal} toggle={confirmToggle}>
+          <ModalBody>
+            <section id="section-contact_form" className="container">
+              <div className="row justify-content-md-center">
+                ¿Está seguro de borrar la cita con {markedAppointment?.name}?
+              </div>
+            </section>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => deleteMarkedAppointment()}>
+              Borrar
+            </Button>
+            {' '}
+            <Button color="secondary" onClick={confirmToggle}>
+              Cerrar
+            </Button>
+          </ModalFooter>
+        </Modal>
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader toggle={toggle} className="beatabg">
             <div className="Aligner">
@@ -247,7 +274,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
                       <td>{appointment.phone}</td>
                       <td>
                         <DeleteIcon
-                          onClick={() => deleteAppointment(appointment.id)}
+                          onClick={() => deleteAppointment(appointment)}
                         />
                       </td>
                     </tr>

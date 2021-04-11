@@ -67,7 +67,8 @@
     <None Remove="ClientApp\src\components\Layout.tsx" />
     <None Remove="ClientApp\src\components\NavMenu.tsx" />
     <None Remove="ClientApp\src\index.tsx" />
-    <None Remove="ClientApp\src\serviceWorker.ts" />
+    <None Remove="ClientApp\src\service-worker.ts" />
+    <None Remove="ClientApp\src\serviceworkerRegistration.ts" />
     <None Remove="ClientApp\src\setupTests.ts" />
   </ItemGroup>
 
@@ -89,7 +90,8 @@
     <TypeScriptCompile Include="ClientApp\src\components\NavMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\src\index.tsx" />
     <TypeScriptCompile Include="ClientApp\src\setupTests.ts" />
-    <TypeScriptCompile Include="ClientApp\src\serviceWorker.ts" />
+    <TypeScriptCompile Include="ClientApp\src\service-worker.ts" />
+    <TypeScriptCompile Include="ClientApp\src\serviceWorkerRegistration.ts" />
   </ItemGroup>
 
   <ItemGroup>

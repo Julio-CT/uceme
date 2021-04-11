@@ -15,8 +15,9 @@ type BlogPostProps = {
   match?: any;
 };
 
-const BlogPostComponent = (props: BlogPostProps) => {
+const BlogPostComponent = (props: BlogPostProps): JSX.Element => {
   const settings = React.useContext(SettingsContext());
+  const { params, match } = props;
   const [data, setData] = React.useState<BlogPostState>({
     loaded: false,
   });
@@ -51,7 +52,6 @@ const BlogPostComponent = (props: BlogPostProps) => {
         });
       })
       .catch((error: any) => {
-        console.log(error);
         setData({
           loaded: false,
           post: undefined,
@@ -61,10 +61,10 @@ const BlogPostComponent = (props: BlogPostProps) => {
 
   React.useEffect(() => {
     if (settings) {
-      const slug = props?.params?.slug ?? props?.match?.params?.slug ?? 1;
+      const slug = params?.slug ?? match?.params?.slug ?? 1;
       fetchPosts(slug, settings.baseHref);
     }
-  }, [props?.match?.params?.slug, props?.params?.slug, settings]);
+  }, [match?.params?.slug, params?.slug, settings]);
 
   if (data.loaded && data.post) {
     return (
