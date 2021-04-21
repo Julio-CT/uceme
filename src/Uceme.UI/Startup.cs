@@ -31,6 +31,11 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var appSettingsSection = this.Configuration.GetSection("AppSettings");
+            services.Configure<AuthMessageSenderSettings>(this.Configuration.GetSection("EmailSettings"));
+
+            services.Configure<AppSettings>(appSettingsSection);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     this.Configuration.GetConnectionString("UcemeConnection")));
@@ -69,7 +74,6 @@
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IHospitalService, HospitalService>();
             services.AddSingleton<IConfiguration>(this.Configuration);
-            services.Configure<AuthMessageSenderSettings>(this.Configuration);
 
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IEmailSender, EmailSender>();

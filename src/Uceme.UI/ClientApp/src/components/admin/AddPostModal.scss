@@ -1,0 +1,155 @@
+@import '../../variables.scss';
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 450px;
+  min-height: 50px;
+  opacity: 0.7;
+}
+
+.Aligner-item {
+  max-width: 50%;
+  color: black;
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
+
+.beatabg {
+  background: url(../../resources/images/cita-previa.png) no-repeat left 0;
+}
+
+.scrollable-wrapper {
+  position: relative;
+  max-width: 500px;
+  margin: 1em auto;
+  border: 1px solid black;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.scrollable {
+  background: #f3f3f3;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 3em 0 3em;
+
+  .scrollable-item {
+    display: inline-block;
+    width: 100px;
+    height: 100%;
+    outline: 1px dotted gray;
+    padding: 0.5em 1em;
+    box-sizing: border-box;
+    color: rgb(67, 113, 50);
+    background-color: rgb(232, 240, 229);
+    box-shadow: rgb(67, 113, 50) 0 0 0 1px inset;
+
+    &.active {
+      box-shadow: none;
+      color: rgb(255, 255, 255);
+      background-color: rgb(88, 148, 66);
+    }
+  }
+}
+
+.paddle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3em;
+  border: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.left-paddle {
+  left: 0;
+}
+
+.right-paddle {
+  right: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.print {
+  margin: auto;
+  max-width: 500px;
+
+  span {
+    display: inline-block;
+    width: 100px;
+  }
+}
+
+.field-label {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  font-family: RalewayX, arial, sans-serif;
+  font-style: normal;
+  line-height: 1.38462;
+}
+
+.field-margin {
+  margin: 0 3em 0 3em;
+}
+
+.submit-form-button,
+.submit-form-button:hover {
+  background: $uceme-green;
+  border-color: $uceme-green;
+  color: white;
+}
+
+.hospital-name {
+  display: inline-block;
+  width: 150px;
+  height: 100%;
+  padding: 0.5em 1em;
+  box-sizing: border-box;
+  color: rgb(67, 113, 50);
+  background-color: rgb(232, 240, 229);
+  box-shadow: rgb(67, 113, 50) 0 0 0 1px inset;
+
+  &.active {
+    box-shadow: border-box;
+    color: rgb(255, 255, 255);
+    background-color: rgb(88, 148, 66);
+  }
+}

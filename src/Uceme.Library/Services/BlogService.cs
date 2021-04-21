@@ -6,6 +6,7 @@
     using System.Linq;
     using Microsoft.Extensions.Logging;
     using Uceme.Model.Data;
+    using Uceme.Model.DataContracts;
     using Uceme.Model.Models;
 
     public class BlogService : IBlogService
@@ -135,6 +136,45 @@
                 this.logger.LogError($"Error updating post {e.Message}");
                 throw new DataException("Error updating post", e);
             }
+        }
+
+        public bool AddPost(PostRequest blog)
+        {
+            if (blog == null)
+            {
+                throw new ArgumentNullException(nameof(blog));
+            }
+
+            try
+            {
+                var post = new Blog
+                {
+                    titulo = blog.Titulo,
+                    fecha = string.IsNullOrEmpty(blog.Fecha) ? DateTime.Now : DateTime.Parse(blog.Fecha),
+                    foto = blog.Foto,
+                    texto = blog.Texto,
+                    slug = blog.Slug,
+                    seoTitle = blog.SeoTitle,
+                    metaDescription = blog.MetaDescription,
+                    idUsuario = 16,
+                };
+
+                this.context.Blog.Add(post);
+                var result = this.context.SaveChanges();
+
+                return result == 1;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error adding post {e.Message}");
+                throw new DataException("Error adding post", e);
+            }
+        }
+
+        public string GetNextPostImage()
+        {
+            var lastPhoto = this.context.Blog.OrderByDescending(post => post.idBlog).First().idBlog;
+            return (lastPhoto + 1).ToString();
         }
     }
 }

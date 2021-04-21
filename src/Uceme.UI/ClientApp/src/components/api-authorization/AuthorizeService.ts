@@ -222,13 +222,16 @@ export class AuthorizeService {
   }
 
   async ensureUserManagerInitialized(): Promise<void> {
-    if (this.userManager !== undefined) {
+      if (this.userManager !== undefined) {
+          console.log('usermanager existed');
       return;
     }
 
+      console.log('usermanager not existed');
     const response: Response = await fetch(
       ApplicationPaths.ApiAuthorizationClientConfigurationUrl
     );
+
     if (!response.ok) {
       throw new Error(`Could not load settings for '${ApplicationName}'`);
     }

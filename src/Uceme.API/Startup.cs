@@ -51,8 +51,9 @@ namespace Uceme.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var appSettingsSection = this.Configuration.GetSection("AppSettings");
+            var swaggerSettings = this.Configuration.GetSection("SwaggerSettings");
+
             services.Configure<AppSettings>(appSettingsSection);
-            services.Configure<SwaggerSettings>(this.Configuration.GetSection("SwaggerSettings"));
             services.Configure<AuthMessageSenderSettings>(this.Configuration.GetSection("EmailSettings"));
 
             var appSettings = new AppSettings();
@@ -140,12 +141,11 @@ namespace Uceme.Api
             services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddSingleton<IConfiguration>(this.Configuration);
-            services.Configure<AuthMessageSenderSettings>(this.Configuration);
 
-            var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
+            var swaggerSettingSettings = swaggerSettings.Get<SwaggerSettings>();
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc(swaggerSettings.SwaggerVersion, new OpenApiInfo { Title = swaggerSettings.SwaggerApp, Version = swaggerSettings.SwaggerVersion });
+                options.SwaggerDoc(swaggerSettingSettings.SwaggerVersion, new OpenApiInfo { Title = swaggerSettingSettings.SwaggerApp, Version = swaggerSettingSettings.SwaggerVersion });
             });
         }
 
@@ -198,9 +198,6 @@ namespace Uceme.Api
             {
                 endpoints.MapControllers();
             });
-
-            var appSettings = new AppSettings();
-            this.Configuration.GetSection("AppSettings").Bind(appSettings);
         }
     }
 }

@@ -1,10 +1,17 @@
 ﻿namespace Uceme.UI.Controllers
 {
+    using System;
     using System.Data;
+    using System.IO;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Uceme.Library.Services;
+    using Uceme.Model.DataContracts;
     using Uceme.Model.Models;
+    using Uceme.Model.Settings;
 
     [Route("clientapi/[controller]")]
     [ApiController]
@@ -14,10 +21,16 @@
 
         private readonly IBlogService blogService;
 
-        public BlogController(IBlogService blogService, ILogger<BlogController> logger)
+        private readonly IOptions<AppSettings> configuration;
+
+        public BlogController(
+            IBlogService blogService,
+            IOptions<AppSettings> configuration,
+            ILogger<BlogController> logger)
         {
             this.blogService = blogService;
             this.logger = logger;
+            this.configuration = configuration;
         }
 
         [HttpGet("deletepost")]
@@ -50,6 +63,50 @@
             }
 
             return result;
+        }
+
+        [HttpPost("addpost")]
+        public ActionResult<bool> AddPost([FromBody] PostRequest postRequest)
+        {
+            bool result;
+            try
+            {
+                result = this.blogService.AddPost(postRequest);
+            }
+            catch (DataException)
+            {
+                return this.BadRequest();
+            }
+
+            return result;
+        }
+
+        [HttpPost("onpostuploadasync")]
+        public async Task<ActionResult<string>> OnPostUploadAsync([FromForm] IFormFile file)
+        {
+            string filename = null;
+
+            try
+            {
+                if (file.Length > 0)
+                {
+                    filename = "Blog" + this.blogService.GetNextPostImage() + Path.GetExtension(file.FileName);
+                    var filePath = Path.Combine(
+                        this.configuration.Value.BlogImagesDir,
+                        filename);
+
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return this.BadRequest();
+            }
+
+            return filename;
         }
     }
 }

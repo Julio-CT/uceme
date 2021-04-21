@@ -39,6 +39,7 @@ const BlogPostComponent = (props: BlogPostProps): JSX.Element => {
           caption: resp.titulo,
           link: `/post/${resp.slug}`,
           slug: resp.slug,
+          seoTitle: resp.seoTitle,
           date: new Intl.DateTimeFormat('en-GB', {
             year: 'numeric',
             month: 'long',

@@ -201,9 +201,9 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
             </Button>
           </ModalFooter>
         </Modal>
-        <Modal isOpen={modal} toggle={toggle}>
-          <ModalHeader toggle={toggle} className="beatabg">
-            <div className="Aligner">
+        <Modal isOpen={modal} toggle={toggle} className="next-dates-modal">
+          <ModalHeader toggle={toggle} className="beatabg next-dates-modal">
+            <div className="Aligner next-dates-modal">
               <div className="Aligner-item Aligner-item--top" />
               <div className="Aligner-item">Citas en los próximos 2 días</div>
               <div className="Aligner-item Aligner-item--bottom" />
