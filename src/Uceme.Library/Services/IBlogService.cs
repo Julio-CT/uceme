@@ -1,6 +1,7 @@
 ﻿namespace Uceme.Library.Services
 {
     using System.Collections.Generic;
+    using Uceme.Model.DataContracts;
     using Uceme.Model.Models;
 
     public interface IBlogService
@@ -14,5 +15,9 @@
         bool DeletePost(int postId);
 
         Blog UpdatePost(Blog blog);
+
+        bool AddPost(PostRequest blog);
+
+        string GetNextPostImage();
     }
 }
