@@ -153,3 +153,23 @@ html {
     background-color: rgb(88, 148, 66);
   }
 }
+
+.wrapper-class {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  height: 400px;
+}
+
+.editor-class {
+  background-color:lightgray;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+
+.toolbar-class {
+  border: 1px solid #ccc;
+}
+
+.rdw-editor-main {
+  height: 250px !important;
+}

@@ -11,7 +11,11 @@ import {
 import DatePicker from 'reactstrap-date-picker2';
 import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
+import { ContentState, convertToRaw, RawDraftContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
 import './AddPostModal.scss';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 type AddPostModalProps = {
   toggle: any;
@@ -19,6 +23,9 @@ type AddPostModalProps = {
 };
 
 const AddPostModal = (props: AddPostModalProps): JSX.Element => {
+  let _contentState = ContentState.createFromText('');
+  const raw = convertToRaw(_contentState)
+  
   const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
   const [photo, setPhoto] = React.useState<any>(null);
@@ -27,7 +34,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
   );
   const [title, setTitle] = React.useState<string>();
   const [slug, setSlug] = React.useState<string>();
-  const [text, setText] = React.useState<string>();
+  const [text, setText] = React.useState<RawDraftContentState>(raw);
   const [caption, setCaption] = React.useState<string>();
   const [metadescription, setMetadescription] = React.useState<string>();
   const [seoTitle, setSeoTitle] = React.useState<string>();
@@ -38,7 +45,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
   const resetForm = () => {
     setTitle(undefined);
     setSlug(undefined);
-    setText(undefined);
+    setText(raw);
     setCaption(undefined);
   };
 
@@ -125,7 +132,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
       const data = {
         titulo: title,
         slug: slug,
-        texto: text,
+        texto: draftToHtml(text),
         caption: caption,
         fecha: day,
         seoTitle: seoTitle,
@@ -234,11 +241,12 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
                   <Label for="textForm" className="field-label">
                     Texto
                   </Label>
-                  <Input
-                    type="textarea"
-                    name="textForm"
-                    id="textForm"
-                    onChange={(evt) => setText(evt.target.value)}
+                  <Editor
+                    defaultContentState={text}
+                    onContentStateChange={setText}
+                    wrapperClassName="wrapper-class"
+                    editorClassName="editor-class"
+                    toolbarClassName="toolbar-class"
                   />
                   <Label for="captionForm" className="field-label">
                     Caption (descripción de la imagen)
