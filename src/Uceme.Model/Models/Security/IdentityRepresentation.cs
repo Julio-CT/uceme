@@ -1,4 +1,4 @@
-﻿namespace UCEME.Seguridad
+﻿namespace Uceme.Seguridad
 {
     public class IdentityRepresentation
     {

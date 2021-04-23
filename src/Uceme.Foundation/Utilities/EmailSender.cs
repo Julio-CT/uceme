@@ -35,11 +35,11 @@
 
         public ISmtpClient SmtpClient { get; } // set only via Secret Manager
 
-        public async Task SendEmailAsync(string toEmail, string subject, string htmlMessage)
+        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            if (string.IsNullOrEmpty(toEmail))
+            if (string.IsNullOrEmpty(email))
             {
-                throw new ArgumentNullException(nameof(toEmail));
+                throw new ArgumentNullException(nameof(email));
             }
 
             if (string.IsNullOrEmpty(subject))
@@ -52,14 +52,14 @@
                 throw new ArgumentNullException(nameof(htmlMessage));
             }
 
-            await this.ExecuteAsync(subject, htmlMessage, new List<string> { toEmail }).ConfigureAwait(false);
+            await this.ExecuteAsync(subject, htmlMessage, new List<string> { email }).ConfigureAwait(false);
         }
 
-        public async Task SendEmailAsync(IEnumerable<string> toEmails, string subject, string htmlMessage)
+        public async Task SendEmailAsync(IEnumerable<string> email, string subject, string htmlMessage)
         {
-            if (toEmails == null)
+            if (email == null)
             {
-                throw new ArgumentNullException(nameof(toEmails));
+                throw new ArgumentNullException(nameof(email));
             }
 
             if (string.IsNullOrEmpty(subject))
@@ -72,14 +72,14 @@
                 throw new ArgumentNullException(nameof(htmlMessage));
             }
 
-            await this.ExecuteAsync(subject, htmlMessage, toEmails).ConfigureAwait(false);
+            await this.ExecuteAsync(subject, htmlMessage, email).ConfigureAwait(false);
         }
 
-        public void SendEmail(string toEmail, string subject, string htmlMessage)
+        public void SendEmail(string email, string subject, string htmlMessage)
         {
-            if (string.IsNullOrEmpty(toEmail))
+            if (string.IsNullOrEmpty(email))
             {
-                throw new ArgumentNullException(nameof(toEmail));
+                throw new ArgumentNullException(nameof(email));
             }
 
             if (string.IsNullOrEmpty(subject))
@@ -92,14 +92,14 @@
                 throw new ArgumentNullException(nameof(htmlMessage));
             }
 
-            this.Execute(subject, htmlMessage, new List<string> { toEmail });
+            this.Execute(subject, htmlMessage, new List<string> { email });
         }
 
-        public void SendEmail(IEnumerable<string> toEmails, string subject, string htmlMessage)
+        public void SendEmail(IEnumerable<string> email, string subject, string htmlMessage)
         {
-            if (toEmails == null)
+            if (email == null)
             {
-                throw new ArgumentNullException(nameof(toEmails));
+                throw new ArgumentNullException(nameof(email));
             }
 
             if (string.IsNullOrEmpty(subject))
@@ -112,7 +112,7 @@
                 throw new ArgumentNullException(nameof(htmlMessage));
             }
 
-            this.Execute(subject, htmlMessage, toEmails);
+            this.Execute(subject, htmlMessage, email);
         }
 
         private async Task ExecuteAsync(string subject, string message, IEnumerable<string> toEmails)

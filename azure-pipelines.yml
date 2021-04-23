@@ -36,3 +36,4 @@ steps:
   inputs:
     command: 'test'
     projects: '**/Uceme.API.csproj'
+

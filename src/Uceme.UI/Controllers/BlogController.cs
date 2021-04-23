@@ -84,6 +84,11 @@
         [HttpPost("onpostuploadasync")]
         public async Task<ActionResult<string>> OnPostUploadAsync([FromForm] IFormFile file)
         {
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
             string filename = null;
 
             try
@@ -97,7 +102,7 @@
 
                     using (var stream = System.IO.File.Create(filePath))
                     {
-                        await file.CopyToAsync(stream);
+                        await file.CopyToAsync(stream).ConfigureAwait(false);
                     }
                 }
             }

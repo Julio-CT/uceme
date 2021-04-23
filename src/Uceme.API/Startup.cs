@@ -51,7 +51,6 @@ namespace Uceme.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var appSettingsSection = this.Configuration.GetSection("AppSettings");
-            var swaggerSettings = this.Configuration.GetSection("SwaggerSettings");
 
             services.Configure<AppSettings>(appSettingsSection);
             services.Configure<AuthMessageSenderSettings>(this.Configuration.GetSection("EmailSettings"));
@@ -63,53 +62,6 @@ namespace Uceme.Api
                 options.UseSqlServer(
                     this.Configuration.GetConnectionString("UcemeConnection")).EnableSensitiveDataLogging());
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(Convert.ToDouble(
-                        this.Configuration.GetSection("LoginExpirationTimeout").Value,
-                        CultureInfo.CurrentCulture));
-                    ////options.Cookie.Expiration = TimeSpan.FromMinutes(Convert.ToDouble(
-                    ////    this.Configuration.GetSection("LoginExpirationTimeout").Value));
-                    options.SlidingExpiration = true;
-                    options.Events.OnRedirectToLogin = context =>
-                    {
-                        context.Response.StatusCode = 401;
-                        return Task.CompletedTask;
-                    };
-
-                    options.Events.OnSignedIn = context =>
-                    {
-                        if ((this.Configuration.GetSection("ModifyCookieDomain").Value.ToLower(CultureInfo.CurrentCulture) == "true") &&
-                            (context.Request.Headers["Referer"].Count != 0))
-                        {
-                            options.Cookie.Domain = this.Configuration.GetSection("UseRefererForCookie").Value.ToLower(CultureInfo.CurrentCulture) == "true" ?
-                                context.Request.Headers["Referer"][0].Substring(
-                                    context.Request.Headers["Referer"][0].IndexOf("//", StringComparison.CurrentCulture) + 2,
-                                    context.Request.Headers["Referer"][0].Length - context.Request.Headers["Referer"][0].IndexOf("//", StringComparison.CurrentCulture) - 3).Split(':')[0]
-                                : context.Request.Headers["Host"][0].Split(':')[0];
-
-                            options.Cookie.HttpOnly = false;
-                        }
-                        else
-                        {
-                            options.Cookie.Domain = null;
-                        }
-
-                        return Task.CompletedTask;
-                    };
-                });
-
-            services.AddAuthorization();
             services.AddControllers();
 
             services.AddCors(o =>
@@ -142,10 +94,10 @@ namespace Uceme.Api
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddSingleton<IConfiguration>(this.Configuration);
 
-            var swaggerSettingSettings = swaggerSettings.Get<SwaggerSettings>();
+            var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc(swaggerSettingSettings.SwaggerVersion, new OpenApiInfo { Title = swaggerSettingSettings.SwaggerApp, Version = swaggerSettingSettings.SwaggerVersion });
+                options.SwaggerDoc(swaggerSettings.SwaggerVersion, new OpenApiInfo { Title = swaggerSettings.SwaggerApp, Version = swaggerSettings.SwaggerVersion });
             });
         }
 

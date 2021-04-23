@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Globalization;
     using System.Linq;
     using Microsoft.Extensions.Logging;
     using Uceme.Model.Data;
@@ -100,7 +101,7 @@
             try
             {
                 var post = this.context.Blog.FirstOrDefault(post => post.idBlog == postId);
-                var result = this.context.Blog.Remove(post);
+                this.context.Blog.Remove(post);
                 this.context.SaveChanges();
 
                 return true;
@@ -114,6 +115,11 @@
 
         public Blog UpdatePost(Blog blog)
         {
+            if (blog is null)
+            {
+                throw new ArgumentNullException(nameof(blog));
+            }
+
             try
             {
                 var post = this.context.Blog.FirstOrDefault(post => post.idBlog == blog.idBlog);
@@ -150,7 +156,7 @@
                 var post = new Blog
                 {
                     titulo = blog.Titulo,
-                    fecha = string.IsNullOrEmpty(blog.Fecha) ? DateTime.Now : DateTime.Parse(blog.Fecha),
+                    fecha = string.IsNullOrEmpty(blog.Fecha) ? DateTime.Now : DateTime.Parse(blog.Fecha, CultureInfo.InvariantCulture),
                     foto = blog.Foto,
                     texto = blog.Texto,
                     slug = blog.Slug,
@@ -174,7 +180,7 @@
         public string GetNextPostImage()
         {
             var lastPhoto = this.context.Blog.OrderByDescending(post => post.idBlog).First().idBlog;
-            return (lastPhoto + 1).ToString();
+            return (lastPhoto + 1).ToString(CultureInfo.InvariantCulture);
         }
     }
 }
