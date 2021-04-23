@@ -6,7 +6,6 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Uceme.Foundation.Utilities;
-    using Uceme.Model.Data;
     using Uceme.Model.Settings;
 
     public class EmailService : IEmailService

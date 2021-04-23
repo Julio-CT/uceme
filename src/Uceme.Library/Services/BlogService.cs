@@ -3,9 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Globalization;
     using System.Linq;
     using Microsoft.Extensions.Logging;
     using Uceme.Model.Data;
+    using Uceme.Model.DataContracts;
     using Uceme.Model.Models;
 
     public class BlogService : IBlogService
@@ -59,7 +61,7 @@
                     texto = x.texto,
                     slug = x.slug,
                     metaDescription = x.metaDescription,
-                });
+                }).OrderByDescending(x => x.fecha);
 
                 return data;
             }
@@ -99,7 +101,7 @@
             try
             {
                 var post = this.context.Blog.FirstOrDefault(post => post.idBlog == postId);
-                var result = this.context.Blog.Remove(post);
+                this.context.Blog.Remove(post);
                 this.context.SaveChanges();
 
                 return true;
@@ -113,6 +115,11 @@
 
         public Blog UpdatePost(Blog blog)
         {
+            if (blog is null)
+            {
+                throw new ArgumentNullException(nameof(blog));
+            }
+
             try
             {
                 var post = this.context.Blog.FirstOrDefault(post => post.idBlog == blog.idBlog);
@@ -135,6 +142,45 @@
                 this.logger.LogError($"Error updating post {e.Message}");
                 throw new DataException("Error updating post", e);
             }
+        }
+
+        public bool AddPost(PostRequest blog)
+        {
+            if (blog == null)
+            {
+                throw new ArgumentNullException(nameof(blog));
+            }
+
+            try
+            {
+                var post = new Blog
+                {
+                    titulo = blog.Titulo,
+                    fecha = string.IsNullOrEmpty(blog.Fecha) ? DateTime.Now : DateTime.Parse(blog.Fecha, CultureInfo.InvariantCulture),
+                    foto = blog.Foto,
+                    texto = blog.Texto,
+                    slug = blog.Slug,
+                    seoTitle = blog.SeoTitle,
+                    metaDescription = blog.MetaDescription,
+                    idUsuario = 16,
+                };
+
+                this.context.Blog.Add(post);
+                var result = this.context.SaveChanges();
+
+                return result == 1;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error adding post {e.Message}");
+                throw new DataException("Error adding post", e);
+            }
+        }
+
+        public string GetNextPostImage()
+        {
+            var lastPhoto = this.context.Blog.OrderByDescending(post => post.idBlog).First().idBlog;
+            return (lastPhoto + 1).ToString(CultureInfo.InvariantCulture);
         }
     }
 }

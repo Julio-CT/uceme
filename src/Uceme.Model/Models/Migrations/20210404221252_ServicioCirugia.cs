@@ -6,6 +6,11 @@
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            if (migrationBuilder is null)
+            {
+                throw new System.ArgumentNullException(nameof(migrationBuilder));
+            }
+
             /* migrationBuilder.DropForeignKey(
                 name: "FK_Cita_Turno_TurnoidTurno",
                 table: "Cita");

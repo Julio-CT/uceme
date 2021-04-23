@@ -19,7 +19,10 @@
 
         private readonly IFotosService fotosService;
 
-        public HomeController(IMedicoService medicoService, IFotosService fotosService, ILogger<HomeController> logger)
+        public HomeController(
+            IMedicoService medicoService,
+            IFotosService fotosService,
+            ILogger<HomeController> logger)
         {
             this.medicoService = medicoService;
             this.fotosService = fotosService;

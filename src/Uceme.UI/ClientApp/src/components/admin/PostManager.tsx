@@ -6,6 +6,7 @@ import BlogPost from '../../library/BlogPost';
 import './AppointmentManager.scss';
 import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
+import AddPostModal from './AddPostModal'
 
 type PostManagerState = {
   loaded: boolean;
@@ -19,6 +20,8 @@ type PostManagerProps = {
 };
 
 const PostManager = (props: PostManagerProps): JSX.Element => {
+  const [modal, setModal] = React.useState(false);
+  const toggle = () => setModal(!modal);
   const [confirmModal, setConfirmModal] = React.useState(false);
   const confirmToggle = () => setConfirmModal(!confirmModal);
   const [markedPost, setMarkedPost] = React.useState<BlogPost>();
@@ -131,25 +134,34 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
 
   if (postData.loaded) {
     return (
-      <div className="App App-home header-distance">
-      <Modal isOpen={confirmModal} toggle={confirmToggle}>
-        <ModalBody>
-          <section id="section-contact_form" className="container">
-            <div className="row justify-content-md-center">
-              ¿Está seguro de borrar el post {markedPost?.title}?
-            </div>
-          </section>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={() => deleteMarkedPost()}>
-            Borrar
-          </Button>
-          {' '}
-          <Button color="secondary" onClick={confirmToggle}>
-            Cerrar
-          </Button>
-        </ModalFooter>
-      </Modal>
+        <div className="App App-home header-distance">
+        <p>
+            <br />
+            <Button color="primary" onClick={toggle}
+                onKeyDown={toggle} tabIndex={0}>
+                    Añadir Post
+            </Button>
+        </p>
+
+        <AddPostModal modal={modal} toggle={toggle} />
+        <Modal isOpen={confirmModal} toggle={confirmToggle}>
+          <ModalBody>
+            <section id="section-contact_form" className="container">
+              <div className="row justify-content-md-center">
+                ¿Está seguro de borrar el post {markedPost?.title}?
+              </div>
+            </section>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => deleteMarkedPost()}>
+              Borrar
+            </Button>
+            {' '}
+            <Button color="secondary" onClick={confirmToggle}>
+              Cerrar
+            </Button>
+          </ModalFooter>
+        </Modal>
         <div className="container">
           <table className="table">
             <thead>

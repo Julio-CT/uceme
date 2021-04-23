@@ -57,13 +57,13 @@ const Footer = (): JSX.Element => {
             <br />
           </p>
           <a
-            href="http://validator.w3.org/check?uri=http%3A%2F%2Fwww.uceme.es%2F"
+            href="https://validator.w3.org/check?uri=http%3A%2F%2Fwww.uceme.es%2F"
             target="_blank"
             className="float-right"
             rel="noreferrer"
           >
             <img
-              src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-semantics.png"
+              src="https://www.w3.org/html/logo/badge/html5-badge-h-css3-semantics.png"
               width="65px"
               alt="HTML5 Powered with CSS3 / Styling, and Semantics"
               title="HTML5 Powered with CSS3 / Styling, and Semantics"

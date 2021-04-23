@@ -8,7 +8,9 @@
     {
         private readonly ILogger<OidcConfigurationController> logger;
 
-        public OidcConfigurationController(IClientRequestParametersProvider clientRequestParametersProvider, ILogger<OidcConfigurationController> logger)
+        public OidcConfigurationController(
+            IClientRequestParametersProvider clientRequestParametersProvider,
+            ILogger<OidcConfigurationController> logger)
         {
             this.ClientRequestParametersProvider = clientRequestParametersProvider;
             this.logger = logger;
