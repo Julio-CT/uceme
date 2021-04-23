@@ -61,7 +61,7 @@
                     texto = x.texto,
                     slug = x.slug,
                     metaDescription = x.metaDescription,
-                });
+                }).OrderByDescending(x => x.fecha);
 
                 return data;
             }

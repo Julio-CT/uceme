@@ -29,34 +29,5 @@
 
             return hours.ToString("00", CultureInfo.CurrentCulture) + ":" + minutes.ToString("00", CultureInfo.CurrentCulture);
         }
-
-        public static string WeekDayName(int dia)
-        {
-            var days = new Dictionary<int, string> { { 1, "Lunes" }, { 2, "Martes" }, { 3, "Miercoles" }, { 4, "Jueves" }, { 5, "Viernes" }, { 6, "Sabado" }, { 7, "Domingo" } };
-
-            return days[dia];
-        }
-
-        public static string MonthName(int dia)
-        {
-            var months = new Dictionary<int, string> { { 1, "Ene" }, { 2, "Feb" }, { 3, "Marzo" }, { 4, "Abr" }, { 5, "May" }, { 6, "Jun" }, { 7, "Jul" }, { 8, "Ago" }, { 9, "Sept" }, { 10, "Oct" }, { 11, "Nov" }, { 12, "Dic" } };
-
-            return months[dia];
-        }
-
-        public static string EuropeanDay(int dia)
-        {
-            var date = dia.ToString(CultureInfo.CurrentCulture);
-            if (date.Length == 8)
-            {
-                date = date.Substring(6, 2) + "-" + date.Substring(4, 2) + "-" + date.Substring(0, 4);
-            }
-            else
-            {
-                date = "fecha invalida";
-            }
-
-            return date;
-        }
     }
 }
