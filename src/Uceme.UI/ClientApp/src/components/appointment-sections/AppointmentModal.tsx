@@ -20,8 +20,8 @@ type Hospital = {
 };
 
 type AppointmentModalProps = {
-  toggle: any;
-  modal?: any;
+  toggle: () => void;
+  modal?: boolean;
 };
 
 const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
@@ -84,8 +84,7 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
     [hospitalsFetched]
   );
 
-  const fetchDays = React.useCallback(
-    (hospital: string, baseHref: string, forceFetch: boolean) => {
+  const fetchDays = (hospital: string, baseHref: string, forceFetch: boolean) => {
       if (!daysFetched || forceFetch) {
         fetch(`${baseHref}api/appointment/getdays?hospitalId=${hospital}`)
           .then((response: { json: () => any }) => response.json())
@@ -100,9 +99,7 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
             console.log(error);
           });
       }
-    },
-    [daysFetched]
-  );
+    };
 
   const fetchHours = (date: string, baseHref: string) => {
     const day = new Date(date);
@@ -267,14 +264,14 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
   };
 
   React.useEffect(() => {
-    if (settings) {
+    if (settings && props.modal) {
       fetchHospitals(settings.baseHref);
     }
-  }, [settings, fetchHospitals]);
+  }, [settings, props.modal, fetchHospitals]);
 
   return (
     <Modal isOpen={props.modal} toggle={props.toggle}>
-      <ModalHeader toggle={props.toggle} className="beatabg">
+      <ModalHeader className="beatabg">
         <div className="Aligner">
           <div className="Aligner-item Aligner-item--top" />
           <div className="Aligner-item">Reserve cita</div>

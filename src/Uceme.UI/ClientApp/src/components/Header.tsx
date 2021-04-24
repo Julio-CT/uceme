@@ -7,8 +7,8 @@ import citaPreviaLogo from '../resources/images/icono-cita-previa.webp';
 import AppointmentModal from './appointment-sections/AppointmentModal';
 
 const Header = (): JSX.Element => {
-  const [modal, setModal] = React.useState(false);
-  const toggle = () => setModal(!modal);
+  const [modal, setModal] = React.useState<boolean>(false);
+  const toggle: () => void = () => setModal(!modal);
 
   return (
     <header className="uceme-header">
