@@ -239,9 +239,9 @@
             emailMessage.Append("<br />");
             emailMessage.Append("Hay una nueva cita de UCEME: ");
             emailMessage.Append("<br />");
-            emailMessage.Append("El paciente " + cita.nombre + " tiene una cita el dia " + appointmentRequest.Day +
-                    "/" + (appointmentRequest.Month + 1) +
-                    "/" + appointmentRequest.Year + " a las " + appointmentRequest.Hour);
+            emailMessage.Append("El paciente " + cita.nombre + " tiene una cita el dia "
+                + appointmentRequest.Day + "/" + appointmentRequest.Month + "/" + appointmentRequest.Year
+                + " a las " + appointmentRequest.Hour);
             emailMessage.Append("<br />");
             emailMessage.Append("Su telefono es : " + cita.telefono);
             emailMessage.Append("<br />");
