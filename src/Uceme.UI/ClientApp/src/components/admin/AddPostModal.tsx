@@ -18,8 +18,8 @@ import './AddPostModal.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 type AddPostModalProps = {
-  toggle: any;
-  modal?: any;
+  toggle: () => void;
+  modal?: boolean;
 };
 
 const AddPostModal = (props: AddPostModalProps): JSX.Element => {
