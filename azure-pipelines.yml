@@ -45,17 +45,17 @@ steps:
 - task: Npm@1
   inputs:
     command: 'install'
-    workingDir: '/src/Uceme.UI/ClientApp'
+    workingDir: 'src/Uceme.UI/ClientApp'
 
 - task: Npm@1
   inputs:
     command: 'custom'
-    workingDir: '/src/Uceme.UI/ClientApp'
+    workingDir: 'src/Uceme.UI/ClientApp'
     customCommand: 'run build'
 
 - task: Npm@1
   inputs:
     command: 'custom'
-    workingDir: '/src/Uceme.UI/ClientApp'
+    workingDir: 'src/Uceme.UI/ClientApp'
     customCommand: 'run test:coverage'
 
