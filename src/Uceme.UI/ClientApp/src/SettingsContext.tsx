@@ -17,13 +17,14 @@ const SettingsContext = (): React.Context<Settings> => {
 
   React.useEffect(() => {
     fetch(`${baseHref}api/settings/getsettings`)
-      .then((response: { json: () => any }) => response.json())
+      .then((response: Response) => response.json())
       .then(async (data: Settings) => {
-        if (data) {
-          data.baseHref = baseHref;
+        const settings = data;
+        if (settings) {
+          settings.baseHref = baseHref;
         }
 
-        setContext(React.createContext(data));
+        setContext(React.createContext(settings));
       })
       .catch((error: any) => {
         console.log(error);

@@ -9,11 +9,11 @@ import {
   ModalHeader,
 } from 'reactstrap';
 import DatePicker from 'reactstrap-date-picker2';
-import SettingsContext from '../../SettingsContext';
-import authService from '../api-authorization/AuthorizeService';
 import { ContentState, convertToRaw, RawDraftContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
+import SettingsContext from '../../SettingsContext';
+import authService from '../api-authorization/AuthorizeService';
 import './AddPostModal.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
@@ -23,9 +23,9 @@ type AddPostModalProps = {
 };
 
 const AddPostModal = (props: AddPostModalProps): JSX.Element => {
-  let _contentState = ContentState.createFromText('');
-  const raw = convertToRaw(_contentState)
-  
+  const contentState = ContentState.createFromText('');
+  const raw = convertToRaw(contentState);
+
   const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
   const [photo, setPhoto] = React.useState<any>(null);
@@ -39,7 +39,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
   const [metadescription, setMetadescription] = React.useState<string>();
   const [seoTitle, setSeoTitle] = React.useState<string>();
   const [imgSrc, setImgSrc] = React.useState<string>();
-  
+
   const weekStart = 1;
 
   const resetForm = () => {
@@ -83,13 +83,13 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
 
   const setFile = (e: any) => {
     setPhoto(e.target.files[0]);
-  }
+  };
 
   const uploadfile = async (evt: any) => {
     evt.preventDefault();
     const formData = new FormData();
     formData.append('file', photo);
-    
+
     const token = await authService.getAccessToken();
 
     try {
@@ -97,46 +97,45 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
         method: 'POST',
         mode: 'cors',
         body: formData,
-        headers: !token ?
-        { 'Accept': 'application/json', } :
-        { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` },
+        headers: !token
+          ? { Accept: 'application/json' }
+          : { Accept: 'application/json', Authorization: `Bearer ${token}` },
       })
-      .then((response: { json: () => any }) => response.json())
-      .then(async (resp: string) => {
-        if (resp) {
-          setImgSrc(resp);
-          alert(`Imagen subida correctamente.`);
-        } else {
+        .then((response: { json: () => any }) => response.json())
+        .then(async (resp: string) => {
+          if (resp) {
+            setImgSrc(resp);
+            alert(`Imagen subida correctamente.`);
+          } else {
+            alert(
+              'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
+            );
+          }
+        })
+        .catch((error: any) => {
           alert(
             'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
           );
-        }
-      })
-      .catch((error: any) => {
-        alert(
-          'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
-        );
 
-        console.log(error);
-      });
+          console.log(error);
+        });
     } catch (error) {
       console.error('Error:', error);
     }
-  }
+  };
 
   const submitForm = (evt: any) => {
     evt.preventDefault();
-    debugger;
     if (handleValidation() && settings) {
       const day = new Date(selectedDay);
       const data = {
         titulo: title,
-        slug: slug,
+        slug,
         texto: draftToHtml(text),
-        caption: caption,
+        caption,
         fecha: day,
-        seoTitle: seoTitle,
-        metadescription: metadescription,
+        seoTitle,
+        metadescription,
         foto: imgSrc,
       };
 
@@ -174,9 +173,10 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
     }
   };
 
+  const { modal, toggle } = props;
   return (
-    <Modal isOpen={props.modal} toggle={props.toggle}>
-      <ModalHeader toggle={props.toggle} className="beatabg">
+    <Modal isOpen={modal} toggle={toggle}>
+      <ModalHeader toggle={toggle} className="beatabg">
         <div className="Aligner">
           <div className="Aligner-item Aligner-item--top" />
           <div className="Aligner-item">Nuevo Post</div>
@@ -189,110 +189,118 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
             <form className="col-12">
               <div className="extra-padding field-margin">
                 <Label for="FileUpload_FormFile">Foto</Label>
-                <Input id="FileUpload_FormFile" type="file" 
-                    name="FileUpload.FormFile"
-                    onChange={(e) => setFile(e)} />
-                <Button className="submit-form-button" onClick={e => uploadfile(e)} value="Subir">
+                <Input
+                  id="FileUpload_FormFile"
+                  type="file"
+                  name="FileUpload.FormFile"
+                  onChange={(e) => setFile(e)}
+                />
+                <Button
+                  className="submit-form-button"
+                  onClick={(e) => uploadfile(e)}
+                  value="Subir"
+                >
                   Subir foto
                 </Button>
               </div>
             </form>
             <form className="col-12">
-                <div className="extra-padding field-margin">
-                  <Label for="titleForm" className="field-label">
-                    Título
-                  </Label>
-                  <Input
-                    type="text"
-                    name="titleForm"
-                    id="titleForm"
-                    placeholder="Campo requerido"
-                    onChange={(evt) => setTitle(evt.target.value)}
-                    required
-                  />
-                </div>
-                <div className="field-margin">
-                  <Label for="dateForm" className="field-label">
-                    Fecha de publicación
-                  </Label>
-                  <DatePicker
-                    id="dateForm"
-                    name={inputName}
-                    value={selectedDay}
-                    onChange={(v: any) => {
-                      setDay(v);
-                    }}
-                    weekStartsOn={weekStart}
-                    minDate={`${new Date()
-                      .toISOString()
-                      .slice(0, 10)}T00:00:00.000Z`}
-                  />
-                  <Label for="slugForm" className="field-label">
-                    Slug (link)
-                  </Label>
-                  <Input
-                    type="text"
-                    name="slugForm"
-                    id="slugForm"
-                    placeholder="Campo requerido"
-                    onChange={(evt) => setSlug(evt.target.value)}
-                    required
-                  />
-                  <Label for="textForm" className="field-label">
-                    Texto
-                  </Label>
-                  <Editor
-                    defaultContentState={text}
-                    onContentStateChange={setText}
-                    wrapperClassName="wrapper-class"
-                    editorClassName="editor-class"
-                    toolbarClassName="toolbar-class"
-                  />
-                  <Label for="captionForm" className="field-label">
-                    Caption (descripción de la imagen)
-                  </Label>
-                  <Input
-                    type="textarea"
-                    name="captionForm"
-                    id="captionForm"
-                    onChange={(evt) => setCaption(evt.target.value)}
-                  />
-                  <Label for="metaForm" className="field-label">
-                    Meta - description
-                  </Label>
-                  <Input
-                    type="textarea"
-                    name="metaForm"
-                    id="metaForm"
-                    onChange={(evt) => setMetadescription(evt.target.value)}
-                  />
-                  <Label for="seoForm" className="field-label">
-                    Titulo para SEO
-                  </Label>
-                  <Input
-                    type="textarea"
-                    name="seoForm"
-                    id="seoForm"
-                    onChange={(evt) => setSeoTitle(evt.target.value)}
-                  />
-                </div>
+              <div className="extra-padding field-margin">
+                <Label for="titleForm" className="field-label">
+                  Título
+                </Label>
+                <Input
+                  type="text"
+                  name="titleForm"
+                  id="titleForm"
+                  placeholder="Campo requerido"
+                  onChange={(evt) => setTitle(evt.target.value)}
+                  required
+                />
+              </div>
+              <div className="field-margin">
+                <Label for="dateForm" className="field-label">
+                  Fecha de publicación
+                </Label>
+                <DatePicker
+                  id="dateForm"
+                  name={inputName}
+                  value={selectedDay}
+                  onChange={(v: any) => {
+                    setDay(v);
+                  }}
+                  weekStartsOn={weekStart}
+                  minDate={`${new Date()
+                    .toISOString()
+                    .slice(0, 10)}T00:00:00.000Z`}
+                />
+                <Label for="slugForm" className="field-label">
+                  Slug (link)
+                </Label>
+                <Input
+                  type="text"
+                  name="slugForm"
+                  id="slugForm"
+                  placeholder="Campo requerido"
+                  onChange={(evt) => setSlug(evt.target.value)}
+                  required
+                />
+                <Label for="textForm" className="field-label">
+                  Texto
+                </Label>
+                <Editor
+                  defaultContentState={text}
+                  onContentStateChange={setText}
+                  wrapperClassName="wrapper-class"
+                  editorClassName="editor-class"
+                  toolbarClassName="toolbar-class"
+                />
+                <Label for="captionForm" className="field-label">
+                  Caption (descripción de la imagen)
+                </Label>
+                <Input
+                  type="textarea"
+                  name="captionForm"
+                  id="captionForm"
+                  onChange={(evt) => setCaption(evt.target.value)}
+                />
+                <Label for="metaForm" className="field-label">
+                  Meta - description
+                </Label>
+                <Input
+                  type="textarea"
+                  name="metaForm"
+                  id="metaForm"
+                  onChange={(evt) => setMetadescription(evt.target.value)}
+                />
+                <Label for="seoForm" className="field-label">
+                  Titulo para SEO
+                </Label>
+                <Input
+                  type="textarea"
+                  name="seoForm"
+                  id="seoForm"
+                  onChange={(evt) => setSeoTitle(evt.target.value)}
+                />
+              </div>
             </form>
           </div>
         </section>
       </ModalBody>
       <ModalFooter>
-        <Button
-          className="submit-form-button"
-          onClick={(e) => submitForm(e)}
-        >
+        <Button className="submit-form-button" onClick={(e) => submitForm(e)}>
           Publicar
         </Button>{' '}
-        <Button color="secondary" onClick={props.toggle}>
+        <Button color="secondary" onClick={toggle}>
           Cancelar
         </Button>
       </ModalFooter>
     </Modal>
   );
+};
+
+AddPostModal.defaultProps = {
+  modal: false,
 };
 
 export default AddPostModal;

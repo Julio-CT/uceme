@@ -25,16 +25,16 @@ function App(): JSX.Element {
       <Route path="/blog/:page?" component={BlogHome} />
       <Route path="/post/:slug" component={BlogPostComponent} />
       <Route path="/contacto" component={ContactUsComponent} />
-      <AuthorizeRoute path='/appointmentmanager' component={AppointmentManager} />
-      <AuthorizeRoute path='/postmanager' component={PostManager} />
+      <AuthorizeRoute
+        path="/appointmentmanager"
+        component={AppointmentManager}
+      />
+      <AuthorizeRoute path="/postmanager" component={PostManager} />
       <Route
         path={ApplicationPaths.ApiAuthorizationPrefix}
         component={ApiAuthorizationRoutes}
       />
-      <Route
-        path="/adminlogin"
-        component={ApiAuthorizationRoutes}
-      />
+      <Route path="/adminlogin" component={ApiAuthorizationRoutes} />
     </Layout>
   );
 }

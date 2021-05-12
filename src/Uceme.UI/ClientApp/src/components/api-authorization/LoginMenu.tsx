@@ -20,6 +20,29 @@ type LogoutPath = {
 type LoginMenuProps = Record<string, unknown>;
 
 class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
+  static authenticatedView(
+    userName: string | undefined,
+    profilePath: string | undefined,
+    logoutPath: LogoutPath
+  ): JSX.Element {
+    return (
+      <>
+        <Nav.Link className="text-dark" href={profilePath}>
+          Hola {userName}
+        </Nav.Link>
+        <Nav.Link className="text-dark" href="/appointmentmanager">
+          Citas
+        </Nav.Link>
+        <Nav.Link className="text-dark" href="/postmanager">
+          Posts
+        </Nav.Link>
+        <Nav.Link className="text-dark" href={logoutPath.pathname}>
+          Salir
+        </Nav.Link>
+      </>
+    );
+  }
+
   subscription: number;
 
   constructor(props: LoginMenuProps) {
@@ -49,37 +72,14 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
     ]);
     this.setState({
       isAuthenticated,
-      userName: user && user.name?.substring(0, user.name.indexOf("@")),
+      userName: user && user.name?.substring(0, user.name.indexOf('@')),
     });
-  }
-
-  static authenticatedView(
-    userName: string | undefined,
-    profilePath: string | undefined,
-    logoutPath: LogoutPath
-  ): JSX.Element {
-    return (
-      <>
-        <Nav.Link className="text-dark" href={profilePath}>
-          Hola {userName}
-        </Nav.Link>
-        <Nav.Link className="text-dark" href="/appointmentmanager">
-          Citas
-        </Nav.Link>
-        <Nav.Link className="text-dark" href="/postmanager">
-          Posts
-        </Nav.Link>
-        <Nav.Link className="text-dark" href={logoutPath.pathname}>
-          Salir
-        </Nav.Link>
-      </>
-    );
   }
 
   render(): JSX.Element {
     const { isAuthenticated, userName } = this.state;
     if (!isAuthenticated) {
-      return (<></>);
+      return <></>;
     }
 
     const profilePath = `${ApplicationPaths.Profile}`;

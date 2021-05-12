@@ -13,7 +13,6 @@ import ApplicationPaths, {
 type LogoutState = {
   message: string | undefined | null;
   isReady: boolean;
-  authenticated: boolean;
 };
 
 type LogoutProps = {
@@ -65,8 +64,7 @@ class Logout extends React.Component<LogoutProps, LogoutState> {
   }
 
   async populateAuthenticationState(): Promise<void> {
-    const authenticated = await authService.isAuthenticated();
-    this.setState({ isReady: true, authenticated: authenticated });
+    this.setState({ isReady: true });
   }
 
   async processLogoutCallback(): Promise<void> {
@@ -90,8 +88,8 @@ class Logout extends React.Component<LogoutProps, LogoutState> {
 
   async logout(returnUrl: string): Promise<void> {
     const state = { returnUrl };
-    const isauthenticated = await authService.isAuthenticated();
-    if (isauthenticated) {
+    const authenticated = await authService.isAuthenticated();
+    if (authenticated) {
       const result = await authService.signOut(state);
       switch (result.status) {
         case AuthenticationResultStatus.Redirect:
