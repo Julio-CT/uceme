@@ -15,13 +15,17 @@ import SettingsContext from '../../SettingsContext';
 import './AppointmentModal.scss';
 
 type Hospital = {
-  idDatosPro: any;
-  nombre?: any;
+  idDatosPro: string;
+  nombre?: string;
 };
 
 type AppointmentModalProps = {
   toggle: () => void;
   modal?: boolean;
+};
+
+type AppointmentHoursResponse = {
+  hours: string[];
 };
 
 const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
@@ -69,7 +73,7 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
       if (!hospitalsFetched) {
         fetch(`${baseHref}api/hospital/gethospitals`)
           .then((response: { json: () => any }) => response.json())
-          .then(async (resp: any) => {
+          .then(async (resp: Hospital[]) => {
             resetForm();
             setHospitals(resp);
             setShowHospitals(true);
@@ -84,22 +88,26 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
     [hospitalsFetched]
   );
 
-  const fetchDays = (hospital: string, baseHref: string, forceFetch: boolean) => {
-      if (!daysFetched || forceFetch) {
-        fetch(`${baseHref}api/appointment/getdays?hospitalId=${hospital}`)
-          .then((response: { json: () => any }) => response.json())
-          .then(async (resp: any) => {
-            setDisabledDays(
-              [0, 1, 2, 3, 4, 5, 6].filter((el) => !resp.includes(el + 1))
-            );
-            setShowDays(true);
-            setDaysFetched(true);
-          })
-          .catch((error: any) => {
-            console.log(error);
-          });
-      }
-    };
+  const fetchDays = (
+    hospital: string,
+    baseHref: string,
+    forceFetch: boolean
+  ) => {
+    if (!daysFetched || forceFetch) {
+      fetch(`${baseHref}api/appointment/getdays?hospitalId=${hospital}`)
+        .then((response: { json: () => any }) => response.json())
+        .then(async (resp: number[]) => {
+          setDisabledDays(
+            [0, 1, 2, 3, 4, 5, 6].filter((el) => !resp.includes(el + 1))
+          );
+          setShowDays(true);
+          setDaysFetched(true);
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+    }
+  };
 
   const fetchHours = (date: string, baseHref: string) => {
     const day = new Date(date);
@@ -125,14 +133,14 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     })
       .then((response: { json: () => any }) => response.json())
-      .then(async (resp: any) => {
-        setShowHours(true);
+      .then(async (resp: AppointmentHoursResponse) => {
         setHours(resp.hours);
         setSendEnabled(false);
+        setShowHours(true);
       })
-      .catch((error: any) => {
-        console.log(error);
+      .catch(() => {
         setHours([]);
+        setShowHours(false);
         setSendEnabled(false);
       });
   };
@@ -151,7 +159,7 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
     setSendEnabled(true);
   };
 
-  const selectDay = (value: any, frmValue: any) => {
+  const selectDay = (value: string) => {
     if (settings) {
       fetchHours(value, settings.baseHref);
       setDay(value);
@@ -263,14 +271,16 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
     }
   };
 
+  const { modal, toggle } = props;
+
   React.useEffect(() => {
-    if (settings && props.modal) {
+    if (settings && modal) {
       fetchHospitals(settings.baseHref);
     }
-  }, [settings, props.modal, fetchHospitals]);
+  }, [settings, modal, fetchHospitals]);
 
   return (
-    <Modal isOpen={props.modal} toggle={props.toggle}>
+    <Modal isOpen={modal} toggle={toggle}>
       <ModalHeader className="beatabg">
         <div className="Aligner">
           <div className="Aligner-item Aligner-item--top" />
@@ -316,8 +326,8 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
                     id="dateForm"
                     name={inputName}
                     value={selectedDay}
-                    onChange={(v: any, f: any) => {
-                      selectDay(v, f);
+                    onChange={(v: string) => {
+                      selectDay(v);
                     }}
                     disabledWeekDays={disabledDays}
                     weekStartsOn={weekStart}
@@ -334,7 +344,7 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
                   </Label>
                   <AppointmentHours
                     hours={hours}
-                    onSelectedHour={(v: any) => selectHour(v)}
+                    onSelectedHour={(v: string) => selectHour(v)}
                   />
                 </div>
               )}
@@ -415,12 +425,16 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
         >
           Confirmar cita
         </Button>{' '}
-        <Button color="secondary" onClick={props.toggle}>
+        <Button color="secondary" onClick={toggle}>
           Cancelar
         </Button>
       </ModalFooter>
     </Modal>
   );
+};
+
+AppointmentModal.defaultProps = {
+  modal: false,
 };
 
 export default AppointmentModal;

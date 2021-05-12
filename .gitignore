@@ -341,3 +341,4 @@ src/UI/OC/npm-debug.log
 # junit folders
 **/junit/
 src/Uceme.UI/ClientApp/.eslintcache
+**/coverage/

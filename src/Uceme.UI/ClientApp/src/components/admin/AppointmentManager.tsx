@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { RouteComponentProps } from 'react-router';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Appointment from '../../library/Appointment';
@@ -14,17 +15,22 @@ type AppointmentManagerState = {
   page?: number;
 };
 
-type AppointmentManagerProps = {
-  params?: any;
-  match?: any;
-};
+interface MatchParams {
+  page: string;
+}
+
+type AppointmentManagerProps = RouteComponentProps<MatchParams>;
 
 const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
+  const { match } = props;
   const [modal, setModal] = React.useState(false);
   const toggle = () => setModal(!modal);
   const [confirmModal, setConfirmModal] = React.useState(false);
   const confirmToggle = () => setConfirmModal(!confirmModal);
-  const [markedAppointment, setMarkedAppointment] = React.useState<Appointment>();
+  const [
+    markedAppointment,
+    setMarkedAppointment,
+  ] = React.useState<Appointment>();
   const settings = React.useContext(SettingsContext());
   const [
     appointmentData,
@@ -32,7 +38,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
   ] = React.useState<AppointmentManagerState>({
     loaded: false,
     appointments: null,
-    page: props?.params?.page ?? props?.match?.params?.page ?? 1,
+    page: +match?.params?.page ?? 1,
   });
   const [
     closeAppointmentData,
@@ -40,12 +46,12 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
   ] = React.useState<AppointmentManagerState>({
     loaded: false,
     appointments: null,
-    page: props?.params?.page ?? props?.match?.params?.page ?? 1,
+    page: +match.params?.page ?? 1,
   });
 
   const isFirstRun = useRef(true);
 
-  const fetchAppointments = async (page: number, baseHref: string) => {
+  const fetchAppointments = async (page: number) => {
     const token = await authService.getAccessToken();
     fetch(`clientapi/appointment/appointmentlist`, {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },
@@ -74,8 +80,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
           page,
         });
       })
-      .catch((error: any) => {
-        console.log(error);
+      .catch(() => {
         setAppointmentData({
           loaded: false,
           appointments: null,
@@ -84,7 +89,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
       });
   };
 
-  const fetchCloseAppointments = async (page: number, baseHref: string) => {
+  const fetchCloseAppointments = async (page: number) => {
     const token = await authService.getAccessToken();
     fetch(`clientapi/appointment/closeappointmentlist`, {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },
@@ -133,9 +138,12 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
     if (settings && markedAppointment) {
       setConfirmModal(false);
       const token = await authService.getAccessToken();
-      fetch(`clientapi/appointment/deleteappointment?appointmentid=${+markedAppointment?.id}`, {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` },
-      })
+      fetch(
+        `clientapi/appointment/deleteappointment?appointmentid=${+markedAppointment?.id}`,
+        {
+          headers: !token ? {} : { Authorization: `Bearer ${token}` },
+        }
+      )
         .then((response: { json: () => any }) => response.json())
         .then(async (resp: any) => {
           if (resp === true) {
@@ -164,21 +172,21 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
 
   React.useEffect(() => {
     if (settings) {
-      const page = props?.params?.page || props?.match?.params?.page || 1;
+      const page = +match.params?.page || 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
 
-        fetchCloseAppointments(page, settings.baseHref);
-        fetchAppointments(page, settings.baseHref);
+        fetchCloseAppointments(page);
+        fetchAppointments(page);
         return;
       }
 
       setAppointmentData({ loaded: false, page });
-      fetchCloseAppointments(page, settings.baseHref);
-      fetchAppointments(page, settings.baseHref);
+      fetchCloseAppointments(page);
+      fetchAppointments(page);
     }
-  }, [props?.match?.params?.page, props?.params?.page, settings]);
+  }, [match?.params?.page, settings]);
 
   if (appointmentData.loaded && closeAppointmentData.loaded) {
     return (
@@ -194,8 +202,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
           <ModalFooter>
             <Button color="primary" onClick={() => deleteMarkedAppointment()}>
               Borrar
-            </Button>
-            {' '}
+            </Button>{' '}
             <Button color="secondary" onClick={confirmToggle}>
               Cerrar
             </Button>
@@ -224,7 +231,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
                   </thead>
                   <tbody>
                     {closeAppointmentData.appointments.map(
-                      (appointment: Appointment, index: number) => {
+                      (appointment: Appointment) => {
                         return (
                           <tr key={appointment.id}>
                             <td>{appointment.date}</td>

@@ -35,7 +35,7 @@ export type Arguments = {
 };
 
 export type Callback = {
-  callback: Function;
+  callback: () => Promise<void>;
   subscription: number;
 };
 

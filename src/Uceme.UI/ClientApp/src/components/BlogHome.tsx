@@ -1,40 +1,42 @@
-import React, { Fragment, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import parse from 'html-react-parser';
 import BlogPost from '../library/BlogPost';
 import './BlogHome.scss';
 import SettingsContext from '../SettingsContext';
+import BlogPostResponse from '../library/BlogPostResponse';
 
 type BlogHomeState = {
   loaded: boolean;
-  resp?: any;
+  resp?: BlogPost[] | null;
   page?: number;
 };
 
-type BlogHomeProps = {
-  params?: any;
-  match?: any;
-};
+interface MatchParams {
+  page: string;
+}
+
+type BlogHomeProps = RouteComponentProps<MatchParams>;
 
 const BlogHome = (props: BlogHomeProps): JSX.Element => {
   const settings = React.useContext(SettingsContext());
-  const { params, match } = props;
+  const { match } = props;
   const [data, setData] = React.useState<BlogHomeState>({
     loaded: false,
     resp: null,
-    page: params?.page ?? match?.params?.page ?? 1,
+    page: +match?.params?.page ?? 1,
   });
 
-  const isFirstRun = useRef(true);
+  const isFirstRun = React.useRef(true);
 
   const fetchPosts = (page: number, baseHref: string) => {
     fetch(`${baseHref}api/blog/getbloglist?page=${page}`)
-      .then((response: { json: () => any }) => response.json())
-      .then(async (resp: any) => {
+      .then((response: Response) => response.json())
+      .then(async (resp: BlogPostResponse[]) => {
         const retrievedBlogs: BlogPost[] = [];
 
         await Promise.all(
-          resp.map(async (obj: any) => {
+          resp.map(async (obj: BlogPostResponse) => {
             const image = `${process.env.PUBLIC_URL}/uploads/${obj.foto.slice(
               obj.foto.lastIndexOf('/') + 1
             )}`;
@@ -63,7 +65,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
           page,
         });
       })
-      .catch((error: any) => {
+      .catch(() => {
         setData({
           loaded: false,
           resp: null,
@@ -74,7 +76,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
 
   React.useEffect(() => {
     if (settings) {
-      const page = params?.page || match?.params?.page || 1;
+      const page = +match?.params?.page || 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
@@ -86,7 +88,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
       setData({ loaded: false, page });
       fetchPosts(page, settings.baseHref);
     }
-  }, [match?.params?.page, params?.page, settings]);
+  }, [match?.params?.page, settings]);
 
   if (data.loaded) {
     const nextPage: number = data.page ? +data.page + 1 : 2;
@@ -99,9 +101,9 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
           <div
             className={`section padding-top section--large section--grey section--in-view article-list article-list--page-${data.page}`}
           >
-            {data.resp.map((post: BlogPost, index: number) => {
+            {data.resp?.map((post: BlogPost, index: number) => {
               return (
-                <Fragment key={post.slug}>
+                <React.Fragment key={post.slug}>
                   <article
                     className={`article article--list article--blog article--${
                       +index + 1
@@ -128,7 +130,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
                       </div>
                     </div>
                   </article>
-                </Fragment>
+                </React.Fragment>
               );
             })}
             <br />

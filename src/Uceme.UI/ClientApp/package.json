@@ -6,19 +6,13 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "babel-eslint": "^10.1.0",
     "bootstrap": "^4.1.3",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "html-react-parser": "^0.14.2",
     "http-proxy-middleware": "^1.0.6",
     "jquery": "^3.4.1",
-    "merge": "^1.2.1",
     "morgan": "^1.10.0",
-    "node-sass": "^4.14.1",
     "oidc-client": "^1.9.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
@@ -26,7 +20,6 @@
     "react-draft-wysiwyg": "^1.14.6",
     "react-helmet": "^6.1.0",
     "react-router": "^5.2.0",
-    "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^4.0.0",
     "reactstrap": "^8.4.1",
@@ -34,13 +27,14 @@
     "rimraf": "^2.6.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
     "@types/draft-js": "^0.11.1",
     "@types/draftjs-to-html": "^0.8.0",
     "@types/enzyme": "3.10.8",
     "@types/enzyme-adapter-react-16": "1.0.6",
     "@types/jest": "^24.9.1",
-    "@types/jsdom": "^16.2.3",
-    "@types/node": "^12.12.42",
     "@types/react": "^16.9.25",
     "@types/react-bootstrap": "^1.0.1",
     "@types/react-dom": "^16.9.5",
@@ -49,8 +43,6 @@
     "@types/react-router-dom": "^5.1.5",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
-    "ajv": "^6.9.1",
-    "cross-env": "^5.2.0",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.5",
     "enzyme-to-json": "3.6.1",
@@ -59,14 +51,13 @@
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "identity-obj-proxy": "3.0.0",
     "jest": "^26.6.0",
-    "jest-fetch-mock": "^3.0.3",
     "json-server": "^0.16.3",
-    "parse5": "^5.1.1",
+    "node-sass": "^4.14.1",
     "prettier": "^2.2.1",
     "stylelint": "^13.8.0",
     "stylelint-config-standard": "^20.0.0",
@@ -78,13 +69,23 @@
     "extends": "react-app"
   },
   "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/ts-jest",
+      "\\.css$": "<rootDir>/node_modules/razzle/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/node_modules/razzle/config/jest/fileTransform.js"
+    },
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.(ts|js)?(x)",
+      "<rootDir>/src/**/?(*.)(spec|test).(ts|js)?(x)"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ],
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts",
-      "!src/index.tsx",
-      "!src/service-worker.ts",
-      "!src/serviceWorkerRegistration.ts",
-      "!src/reportWebVitals.ts"
+      "src/**/*.{js,jsx,ts,tsx}"
     ],
     "coveragePathIgnorePatterns": [
       "./src/*/*.types.{ts,tsx}",
@@ -109,9 +110,6 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/ts-jest"
-    },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
       "^.+\\.module\\.(css|sass|scss)$"
@@ -128,8 +126,8 @@
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/**/*.{js,ts,tsx,scss}",
-    "lint": "eslint --fix src/**/*.{js,ts,tsx} -c test.eslintrc.js",
+    "format": "prettier --write 'src/**/*.{js,ts,tsx,scss}'",
+    "lint": "eslint --fix 'src/**/*.{ts,tsx}' -c .eslintrc.json",
     "stylelint": "stylelint '**/*.scss' --fix",
     "start-other": "react-scripts start",
     "test-other": "react-scripts test",
@@ -137,7 +135,7 @@
     "build-r": "react-scripts build",
     "test-r": "react-scripts test",
     "eject-r": "react-scripts eject",
-    "stubapi": "json-server  --watch --port 4155 --routes routes.json db.json",
+    "stubapi": "json-server --watch --port 4155 --routes routes.json db.json",
     "test:coverage": "react-scripts test --coverage --runInBand --watchAll=false",
     "isready": "npm run format && npm run lint && npm run test:coverage && npm run build"
   },

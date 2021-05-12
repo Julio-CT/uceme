@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import ApplicationPaths, {
   QueryParameterNames,
@@ -10,7 +11,10 @@ type AuthRouteState = {
   authenticated: boolean;
 };
 
-export default class AuthorizeRoute extends Component<any, AuthRouteState> {
+export default class AuthorizeRoute extends React.Component<
+  any,
+  AuthRouteState
+> {
   subscription: number;
 
   constructor(props: any) {
@@ -47,9 +51,10 @@ export default class AuthorizeRoute extends Component<any, AuthRouteState> {
   }
 
   render(): JSX.Element {
+    const { path } = this.props;
     const { isReady, authenticated } = this.state;
     const link = document.createElement('a');
-    link.href = this.props.path;
+    link.href = path;
     const returnUrl = `${link.protocol}//${link.host}${link.pathname}${link.search}${link.hash}`;
     const redirectUrl = `${ApplicationPaths.Login}?${
       QueryParameterNames.ReturnUrl
@@ -67,6 +72,7 @@ export default class AuthorizeRoute extends Component<any, AuthRouteState> {
           if (authenticated) {
             return <Component {...props} />;
           }
+
           return <Redirect to={redirectUrl} />;
         }}
       />

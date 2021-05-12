@@ -13,7 +13,6 @@ type contactUsState = {
 const ContactUsComponent: () => JSX.Element = () => {
   const history = useHistory();
   const settings = React.useContext(SettingsContext());
-  const nameId = 'name';
   const [data, setData] = React.useState<contactUsState>({
     loaded: false,
     name: '',
@@ -21,12 +20,17 @@ const ContactUsComponent: () => JSX.Element = () => {
     message: '',
   });
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = event.target;
     setData({ ...data, [name]: event.target.value });
   };
 
-  const handleSubmit = (event: any) => {
+  const handleChangeText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name } = event.target;
+    setData({ ...data, [name]: event.target.value });
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     fetch(`${settings?.baseHref}api/contact/contactemail`, {
       method: 'POST',
@@ -67,52 +71,52 @@ const ContactUsComponent: () => JSX.Element = () => {
               Sus mensajes serán atendidos lo antes posible.
             </h4>
             <div className="line" />
-            <label htmlFor={nameId} className="contactItem col-9 color-orange">
+            <label htmlFor="name" className="contactItem col-9 color-orange">
               Nombre y apellidos*
+              <input
+                id="name"
+                type="text"
+                value={data.name}
+                name="name"
+                onChange={handleChange}
+                className="contactItem col-12"
+                placeholder="Nombre y apellidos"
+                autoComplete="nombre"
+                autoCorrect="off"
+                autoCapitalize="none"
+                spellCheck="false"
+              />
             </label>
-            <input
-              id={nameId}
-              type="text"
-              value={data.name}
-              name="name"
-              onChange={handleChange}
-              className="contactItem col-9"
-              placeholder="Nombre y apellidos"
-              autoComplete="nombre"
-              autoCorrect="off"
-              autoCapitalize="none"
-              spellCheck="false"
-            />
             <label htmlFor="email" className="contactItem col-9 color-orange">
               Dirección de correo electrónico*
+              <input
+                id="email"
+                type="email"
+                value={data.email}
+                name="email"
+                onChange={handleChange}
+                className="contactItem col-12"
+                placeholder="Dirección de correo electrónico"
+                autoComplete="email"
+                autoCorrect="off"
+                autoCapitalize="none"
+                spellCheck="false"
+              />
             </label>
-            <input
-              id="email"
-              type="email"
-              value={data.email}
-              name="email"
-              onChange={handleChange}
-              className="contactItem col-9"
-              placeholder="Dirección de correo electrónico"
-              autoComplete="email"
-              autoCorrect="off"
-              autoCapitalize="none"
-              spellCheck="false"
-            />
             <label htmlFor="message" className="contactItem col-9 color-orange">
               Mensaje*
+              <textarea
+                id="message"
+                value={data.message}
+                name="message"
+                onChange={handleChangeText}
+                className="contactItem col-12"
+                placeholder="Escriba su mensaje"
+                autoCorrect="on"
+                autoCapitalize="none"
+                spellCheck="true"
+              />
             </label>
-            <textarea
-              id="message"
-              value={data.message}
-              name="message"
-              onChange={handleChange}
-              className="contactItem col-9"
-              placeholder="Escriba su mensaje"
-              autoCorrect="on"
-              autoCapitalize="none"
-              spellCheck="true"
-            />
             <button
               className="col-9 btn btn-success extra-margin submit-button"
               type="submit"

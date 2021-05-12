@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { RouteComponentProps } from 'react-router';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@material-ui/icons/Delete';
 import parse from 'html-react-parser';
@@ -6,7 +7,7 @@ import BlogPost from '../../library/BlogPost';
 import './AppointmentManager.scss';
 import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
-import AddPostModal from './AddPostModal'
+import AddPostModal from './AddPostModal';
 
 type PostManagerState = {
   loaded: boolean;
@@ -14,12 +15,14 @@ type PostManagerState = {
   page?: number;
 };
 
-type PostManagerProps = {
-  params?: any;
-  match?: any;
-};
+interface MatchParams {
+  page: string;
+}
+
+type PostManagerProps = RouteComponentProps<MatchParams>;
 
 const PostManager = (props: PostManagerProps): JSX.Element => {
+  const { match } = props;
   const [modal, setModal] = React.useState(false);
   const toggle = () => setModal(!modal);
   const [confirmModal, setConfirmModal] = React.useState(false);
@@ -29,7 +32,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
   const [postData, setPostData] = React.useState<PostManagerState>({
     loaded: false,
     posts: null,
-    page: props?.params?.page ?? props?.match?.params?.page ?? 1,
+    page: +match?.params?.page ?? 1,
   });
 
   const isFirstRun = useRef(true);
@@ -98,7 +101,9 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
             alert('Post borrado correctamente. Muchas gracias.');
             setPostData({
               loaded: true,
-              posts: postData.posts.filter((obj: BlogPost) => obj.id !== markedPost.id),
+              posts: postData.posts.filter(
+                (obj: BlogPost) => obj.id !== markedPost.id
+              ),
               page: postData.page,
             });
           } else {
@@ -118,7 +123,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
 
   React.useEffect(() => {
     if (settings) {
-      const page = props?.params?.page || props?.match?.params?.page || 1;
+      const page = +match?.params?.page || 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
@@ -130,17 +135,21 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
       setPostData({ loaded: false, page });
       fetchPosts(page, settings.baseHref);
     }
-  }, [props?.match?.params?.page, props?.params?.page, settings]);
+  }, [match?.params?.page, settings]);
 
   if (postData.loaded) {
     return (
-        <div className="App App-home header-distance">
+      <div className="App App-home header-distance">
         <p>
-            <br />
-            <Button color="primary" onClick={toggle}
-                onKeyDown={toggle} tabIndex={0}>
-                    Añadir Post
-            </Button>
+          <br />
+          <Button
+            color="primary"
+            onClick={toggle}
+            onKeyDown={toggle}
+            tabIndex={0}
+          >
+            Añadir Post
+          </Button>
         </p>
 
         <AddPostModal modal={modal} toggle={toggle} />
@@ -155,8 +164,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
           <ModalFooter>
             <Button color="primary" onClick={() => deleteMarkedPost()}>
               Borrar
-            </Button>
-            {' '}
+            </Button>{' '}
             <Button color="secondary" onClick={confirmToggle}>
               Cerrar
             </Button>
@@ -172,7 +180,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
               </tr>
             </thead>
             <tbody>
-              {postData.posts.map((post: BlogPost, index: number) => {
+              {postData.posts.map((post: BlogPost) => {
                 return (
                   <tr key={post.id}>
                     <td className="col-md-2">{post.date}</td>
