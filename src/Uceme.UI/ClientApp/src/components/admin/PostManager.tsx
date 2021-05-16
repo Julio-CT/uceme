@@ -2,16 +2,18 @@ import React, { useRef } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import parse from 'html-react-parser';
 import BlogPost from '../../library/BlogPost';
 import './AppointmentManager.scss';
 import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
 import AddPostModal from './AddPostModal';
+import BlogPostResponse from '../../library/BlogPostResponse';
 
 type PostManagerState = {
   loaded: boolean;
-  posts?: any;
+  posts?: BlogPost[] | null;
   page?: number;
 };
 
@@ -40,11 +42,11 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
   const fetchPosts = async (page: number, baseHref: string) => {
     fetch(`${baseHref}api/blog/getallposts`)
       .then((response: { json: () => any }) => response.json())
-      .then(async (resp: any) => {
+      .then(async (resp: BlogPostResponse[]) => {
         const retrievedPosts: BlogPost[] = [];
 
         await Promise.all(
-          resp.map(async (obj: any) => {
+          resp.map(async (obj: BlogPostResponse) => {
             const image = `${process.env.PUBLIC_URL}/uploads/${obj.foto.slice(
               obj.foto.lastIndexOf('/') + 1
             )}`;
@@ -73,14 +75,18 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
           page,
         });
       })
-      .catch((error: any) => {
-        console.log(error);
+      .catch(() => {
         setPostData({
           loaded: false,
           posts: null,
           page,
         });
       });
+  };
+
+  const editPost = (post: BlogPost) => {
+    setMarkedPost(post);
+    setModal(true);
   };
 
   const deletePost = (post: BlogPost) => {
@@ -96,12 +102,12 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
         headers: !token ? {} : { Authorization: `Bearer ${token}` },
       })
         .then((response: { json: () => any }) => response.json())
-        .then(async (resp: any) => {
+        .then(async (resp: boolean) => {
           if (resp === true) {
             alert('Post borrado correctamente. Muchas gracias.');
             setPostData({
               loaded: true,
-              posts: postData.posts.filter(
+              posts: postData.posts?.filter(
                 (obj: BlogPost) => obj.id !== markedPost.id
               ),
               page: postData.page,
@@ -152,7 +158,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
           </Button>
         </p>
 
-        <AddPostModal modal={modal} toggle={toggle} />
+        <AddPostModal modal={modal} toggle={toggle} post={markedPost} />
         <Modal isOpen={confirmModal} toggle={confirmToggle}>
           <ModalBody>
             <section id="section-contact_form" className="container">
@@ -176,15 +182,19 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
               <tr>
                 <th scope="col">Fecha</th>
                 <th scope="col">Título</th>
+                <th scope="col">Editar</th>
                 <th scope="col">Borrar</th>
               </tr>
             </thead>
             <tbody>
-              {postData.posts.map((post: BlogPost) => {
+              {postData.posts?.map((post: BlogPost) => {
                 return (
                   <tr key={post.id}>
                     <td className="col-md-2">{post.date}</td>
                     <td className="col-md-3">{post.title}</td>
+                    <td className="col-md-1">
+                      <EditIcon onClick={() => editPost(post)} />
+                    </td>
                     <td className="col-md-1">
                       <DeleteIcon onClick={() => deletePost(post)} />
                     </td>

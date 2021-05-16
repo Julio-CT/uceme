@@ -11,7 +11,7 @@ import authService from '../api-authorization/AuthorizeService';
 
 type AppointmentManagerState = {
   loaded: boolean;
-  appointments?: any;
+  appointments?: Appointment[] | null;
   page?: number;
 };
 
@@ -119,8 +119,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
 
         setModal(true);
       })
-      .catch((error: any) => {
-        console.log(error);
+      .catch(() => {
         setAppointmentData({
           loaded: false,
           appointments: null,
@@ -145,12 +144,12 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
         }
       )
         .then((response: { json: () => any }) => response.json())
-        .then(async (resp: any) => {
+        .then(async (resp: boolean) => {
           if (resp === true) {
             alert('Cita previa borrada correctamente. Muchas gracias.');
             setAppointmentData({
               loaded: true,
-              appointments: appointmentData.appointments.filter(
+              appointments: appointmentData.appointments?.filter(
                 (obj: Appointment) => obj.id !== markedAppointment?.id
               ),
               page: appointmentData.page,
@@ -230,7 +229,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
                     </tr>
                   </thead>
                   <tbody>
-                    {closeAppointmentData.appointments.map(
+                    {closeAppointmentData.appointments?.map(
                       (appointment: Appointment) => {
                         return (
                           <tr key={appointment.id}>
@@ -269,7 +268,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
               </tr>
             </thead>
             <tbody>
-              {appointmentData.appointments.map(
+              {appointmentData.appointments?.map(
                 (appointment: Appointment, index: number) => {
                   return (
                     <tr key={appointment.id}>
