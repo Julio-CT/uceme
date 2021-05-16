@@ -16,41 +16,59 @@ import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
 import './AddPostModal.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import BlogPost from '../../library/BlogPost';
 
 type AddPostModalProps = {
   toggle: () => void;
   modal?: boolean;
+  post?: BlogPost;
 };
 
 const AddPostModal = (props: AddPostModalProps): JSX.Element => {
-  const contentState = ContentState.createFromText('');
+  const { modal, toggle, post } = props;
+
+  const contentState = ContentState.createFromText(post ? post.text : '');
   const raw = convertToRaw(contentState);
 
   const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
-  const [photo, setPhoto] = React.useState<any>(null);
-  const [selectedDay, setDay] = React.useState<string>(
-    `${new Date().toISOString().slice(0, 10)}T00:00:00.000Z`
+  const [photo, setPhoto] = React.useState<string | Blob>(
+    post ? post.imageSrc : ''
   );
-  const [title, setTitle] = React.useState<string>();
-  const [slug, setSlug] = React.useState<string>();
+  const [selectedDay, setDay] = React.useState<string>(
+    post ? post.date : `${new Date().toISOString().slice(0, 10)}T00:00:00.000Z`
+  );
+  const [title, setTitle] = React.useState<string>(
+    post && post.title ? post.title : ''
+  );
+  const [slug, setSlug] = React.useState<string>(
+    post && post.slug ? post.slug : ''
+  );
   const [text, setText] = React.useState<RawDraftContentState>(raw);
-  const [caption, setCaption] = React.useState<string>();
-  const [metadescription, setMetadescription] = React.useState<string>();
-  const [seoTitle, setSeoTitle] = React.useState<string>();
-  const [imgSrc, setImgSrc] = React.useState<string>();
+  const [caption, setCaption] = React.useState<string>(
+    post && post.caption ? post.caption : ''
+  );
+  const [metaDescription, setMetaDescription] = React.useState<string>(
+    post && post.metaDescription ? post.metaDescription : ''
+  );
+  const [seoTitle, setSeoTitle] = React.useState<string>(
+    post && post.seoTitle ? post.seoTitle : ''
+  );
+  const [imgSrc, setImgSrc] = React.useState<string>(
+    post && post.imageSrc ? post.imageSrc : ''
+  );
 
   const weekStart = 1;
 
   const resetForm = () => {
-    setTitle(undefined);
-    setSlug(undefined);
+    setTitle('');
+    setSlug('');
     setText(raw);
-    setCaption(undefined);
+    setCaption('');
   };
 
   const handleValidation = () => {
-    const errors: any = {};
+    const errors: Record<string, string> = {};
     let formIsValid = true;
 
     if (!selectedDay) {
@@ -81,11 +99,15 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
     return formIsValid;
   };
 
-  const setFile = (e: any) => {
-    setPhoto(e.target.files[0]);
+  const setFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target?.files) {
+      setPhoto(e.target?.files[0]);
+    }
   };
 
-  const uploadfile = async (evt: any) => {
+  const uploadfile = async (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     evt.preventDefault();
     const formData = new FormData();
     formData.append('file', photo);
@@ -112,19 +134,17 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
             );
           }
         })
-        .catch((error: any) => {
+        .catch(() => {
           alert(
             'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
           );
-
-          console.log(error);
         });
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  const submitForm = (evt: any) => {
+  const submitForm = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     evt.preventDefault();
     if (handleValidation() && settings) {
       const day = new Date(selectedDay);
@@ -135,7 +155,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
         caption,
         fecha: day,
         seoTitle,
-        metadescription,
+        metadescription: metaDescription,
         foto: imgSrc,
       };
 
@@ -153,7 +173,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
         body: JSON.stringify(data), // body data type must match "Content-Type" header
       })
         .then((response: { json: () => any }) => response.json())
-        .then(async (resp: any) => {
+        .then(async (resp: boolean) => {
           if (resp === true) {
             alert('Post registrado correctamente. Muchas gracias.');
             resetForm();
@@ -164,16 +184,14 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
             );
           }
         })
-        .catch((error: any) => {
+        .catch(() => {
           alert(
             'Lo sentimos, ha ocurrido un error registrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
           );
-          console.log(error);
         });
     }
   };
 
-  const { modal, toggle } = props;
   return (
     <Modal isOpen={modal} toggle={toggle}>
       <ModalHeader toggle={toggle} className="beatabg">
@@ -226,7 +244,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
                   id="dateForm"
                   name={inputName}
                   value={selectedDay}
-                  onChange={(v: any) => {
+                  onChange={(v: React.SetStateAction<string>) => {
                     setDay(v);
                   }}
                   weekStartsOn={weekStart}
@@ -271,7 +289,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
                   type="textarea"
                   name="metaForm"
                   id="metaForm"
-                  onChange={(evt) => setMetadescription(evt.target.value)}
+                  onChange={(evt) => setMetaDescription(evt.target.value)}
                 />
                 <Label for="seoForm" className="field-label">
                   Titulo para SEO
@@ -301,6 +319,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
 
 AddPostModal.defaultProps = {
   modal: false,
+  post: null,
 };
 
 export default AddPostModal;
