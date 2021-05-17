@@ -36,12 +36,10 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
   const [showHours, setShowHours] = React.useState<boolean>(false);
   const [sendEnabled, setSendEnabled] = React.useState<boolean>(false);
   const defaultDisabledDays = [0, 1, 2, 3, 4, 5, 6];
-  const [disabledDays, setDisabledDays] = React.useState<number[]>(
-    defaultDisabledDays
-  );
-  const [hospitalsFetched, setHospitalsFetched] = React.useState<boolean>(
-    false
-  );
+  const [disabledDays, setDisabledDays] =
+    React.useState<number[]>(defaultDisabledDays);
+  const [hospitalsFetched, setHospitalsFetched] =
+    React.useState<boolean>(false);
   const [daysFetched, setDaysFetched] = React.useState<boolean>(false);
   const [hospitalId, setHospitalId] = React.useState<string>();
   const [hospitals, setHospitals] = React.useState<Hospital[]>();

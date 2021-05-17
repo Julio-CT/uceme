@@ -76,10 +76,10 @@ class AppointmentHours extends React.Component<
     const { hours } = this.state;
     if (hours.length > 0) {
       // get items dimensions
-      const itemsLength = document.getElementsByClassName('scrollable-item')
-        .length;
-      const itemSize = document.getElementsByClassName('scrollable-item')[0]
-        .clientWidth;
+      const itemsLength =
+        document.getElementsByClassName('scrollable-item').length;
+      const itemSize =
+        document.getElementsByClassName('scrollable-item')[0].clientWidth;
       // get some relevant size for the paddle triggering point
       const paddleMargin = 20;
 
@@ -158,12 +158,8 @@ class AppointmentHours extends React.Component<
   };
 
   render(): JSX.Element {
-    const {
-      hours,
-      selectedHour,
-      leftPaddleEnabled,
-      rightPaddleEnabled,
-    } = this.state;
+    const { hours, selectedHour, leftPaddleEnabled, rightPaddleEnabled } =
+      this.state;
     return (
       <div className="scrollable-wrapper">
         <div className="scrollable" ref={this.refScrollable}>

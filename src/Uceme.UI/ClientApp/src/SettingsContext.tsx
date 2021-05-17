@@ -9,9 +9,8 @@ export type Settings = {
 
 const SettingsContext = (): React.Context<Settings> => {
   const defaultSettings: React.Context<any> = React.createContext(null);
-  const [context, setContext] = React.useState<React.Context<Settings>>(
-    defaultSettings
-  );
+  const [context, setContext] =
+    React.useState<React.Context<Settings>>(defaultSettings);
   const baseHref: string =
     process.env.NODE_ENV === 'development' ? '' : 'ucemeapi/';
 

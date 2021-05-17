@@ -15,7 +15,7 @@ const localStorageMock = {
 
 // Mock the request issued by the react app to get the client configuration parameters.
 window.fetch = () => {
-  return Promise.resolve(({
+  return Promise.resolve({
     ok: true,
     json: () =>
       Promise.resolve({
@@ -41,5 +41,5 @@ window.fetch = () => {
     text: null,
     arrayBuffer: null,
     formData: null,
-  } as unknown) as Response);
+  } as unknown as Response);
 };
