@@ -27,27 +27,21 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
   const toggle = () => setModal(!modal);
   const [confirmModal, setConfirmModal] = React.useState(false);
   const confirmToggle = () => setConfirmModal(!confirmModal);
-  const [
-    markedAppointment,
-    setMarkedAppointment,
-  ] = React.useState<Appointment>();
+  const [markedAppointment, setMarkedAppointment] =
+    React.useState<Appointment>();
   const settings = React.useContext(SettingsContext());
-  const [
-    appointmentData,
-    setAppointmentData,
-  ] = React.useState<AppointmentManagerState>({
-    loaded: false,
-    appointments: null,
-    page: +match?.params?.page ?? 1,
-  });
-  const [
-    closeAppointmentData,
-    setCloseAppointmentData,
-  ] = React.useState<AppointmentManagerState>({
-    loaded: false,
-    appointments: null,
-    page: +match.params?.page ?? 1,
-  });
+  const [appointmentData, setAppointmentData] =
+    React.useState<AppointmentManagerState>({
+      loaded: false,
+      appointments: null,
+      page: +match?.params?.page ?? 1,
+    });
+  const [closeAppointmentData, setCloseAppointmentData] =
+    React.useState<AppointmentManagerState>({
+      loaded: false,
+      appointments: null,
+      page: +match.params?.page ?? 1,
+    });
 
   const isFirstRun = useRef(true);
 
