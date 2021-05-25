@@ -4,6 +4,9 @@
 
     public class PostRequest
     {
+        [JsonPropertyName("idBlog")]
+        public int IdBlog { get; set; }
+
         [JsonPropertyName("titulo")]
         public string Titulo { get; set; }
 

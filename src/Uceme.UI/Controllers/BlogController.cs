@@ -68,10 +68,22 @@
         [HttpPost("addpost")]
         public ActionResult<bool> AddPost([FromBody] PostRequest postRequest)
         {
+            if (postRequest == null)
+            {
+                return this.BadRequest();
+            }
+
             bool result;
             try
             {
-                result = this.blogService.AddPost(postRequest);
+                if (postRequest.IdBlog != 0)
+                {
+                    result = this.blogService.UpdatePost(postRequest);
+                }
+                else
+                {
+                    result = this.blogService.AddPost(postRequest);
+                }
             }
             catch (DataException)
             {

@@ -22,16 +22,20 @@ type AddPostModalProps = {
   toggle: () => void;
   modal?: boolean;
   post?: BlogPost;
+  headerTitle: string;
 };
 
 const AddPostModal = (props: AddPostModalProps): JSX.Element => {
-  const { modal, toggle, post } = props;
+  const { modal, toggle, post, headerTitle } = props;
 
-  const contentState = ContentState.createFromText(post ? post.text : '');
-  const raw = convertToRaw(contentState);
+  let contentState = ContentState.createFromText(post ? post.text : '');
+  let raw = convertToRaw(contentState);
 
   const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
+  const [currentPost, setCurrentPost] = React.useState<BlogPost | undefined>(
+    post
+  );
   const [photo, setPhoto] = React.useState<string | Blob>(
     post ? post.imageSrc : ''
   );
@@ -57,6 +61,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
   const [imgSrc, setImgSrc] = React.useState<string>(
     post && post.imageSrc ? post.imageSrc : ''
   );
+  const [id, setId] = React.useState<number>(post && post.id ? +post.id : 0);
 
   const weekStart = 1;
 
@@ -149,6 +154,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
     if (handleValidation() && settings) {
       const day = new Date(selectedDay);
       const data = {
+        idBlog: id,
         titulo: title,
         slug,
         texto: draftToHtml(text),
@@ -192,12 +198,31 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
     }
   };
 
+  if (post !== currentPost) {
+    setCurrentPost(post);
+    contentState = ContentState.createFromText(post ? post.text : '');
+    raw = convertToRaw(contentState);
+    setPhoto(post ? post.imageSrc : '');
+    // setDay(post ? post.date : '');
+    const t = post && post.title ? post.title : '';
+    setTitle(t);
+    setSlug(post && post.slug ? post.slug : '');
+    setText(raw);
+    setCaption(post ? post.caption : '');
+    setMetaDescription(
+      post && post.metaDescription ? post.metaDescription : ''
+    );
+    setSeoTitle(post && post.seoTitle ? post.seoTitle : '');
+    setImgSrc(post ? post.imageSrc : '');
+    setId(post ? +post.id : 0);
+  }
+
   return (
     <Modal isOpen={modal} toggle={toggle}>
       <ModalHeader toggle={toggle} className="beatabg">
         <div className="Aligner">
           <div className="Aligner-item Aligner-item--top" />
-          <div className="Aligner-item">Nuevo Post</div>
+          <div className="Aligner-item">{headerTitle}</div>
           <div className="Aligner-item Aligner-item--bottom" />
         </div>
       </ModalHeader>
@@ -232,6 +257,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
                   name="titleForm"
                   id="titleForm"
                   placeholder="Campo requerido"
+                  value={title}
                   onChange={(evt) => setTitle(evt.target.value)}
                   required
                 />
@@ -260,6 +286,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
                   name="slugForm"
                   id="slugForm"
                   placeholder="Campo requerido"
+                  value={slug}
                   onChange={(evt) => setSlug(evt.target.value)}
                   required
                 />
@@ -280,6 +307,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
                   type="textarea"
                   name="captionForm"
                   id="captionForm"
+                  value={caption}
                   onChange={(evt) => setCaption(evt.target.value)}
                 />
                 <Label for="metaForm" className="field-label">
@@ -289,6 +317,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
                   type="textarea"
                   name="metaForm"
                   id="metaForm"
+                  value={metaDescription}
                   onChange={(evt) => setMetaDescription(evt.target.value)}
                 />
                 <Label for="seoForm" className="field-label">
@@ -298,6 +327,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
                   type="textarea"
                   name="seoForm"
                   id="seoForm"
+                  value={seoTitle}
                   onChange={(evt) => setSeoTitle(evt.target.value)}
                 />
               </div>

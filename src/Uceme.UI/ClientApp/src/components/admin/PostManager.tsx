@@ -25,8 +25,10 @@ type PostManagerProps = RouteComponentProps<MatchParams>;
 
 const PostManager = (props: PostManagerProps): JSX.Element => {
   const { match } = props;
-  const [modal, setModal] = React.useState(false);
-  const toggle = () => setModal(!modal);
+  const [addModal, setAddModal] = React.useState(false);
+  const addToggle = () => setAddModal(!addModal);
+  const [editModal, setEditModal] = React.useState(false);
+  const editToggle = () => setEditModal(!editModal);
   const [confirmModal, setConfirmModal] = React.useState(false);
   const confirmToggle = () => setConfirmModal(!confirmModal);
   const [markedPost, setMarkedPost] = React.useState<BlogPost>();
@@ -86,7 +88,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
 
   const editPost = (post: BlogPost) => {
     setMarkedPost(post);
-    setModal(true);
+    setEditModal(true);
   };
 
   const deletePost = (post: BlogPost) => {
@@ -150,16 +152,28 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
           <br />
           <Button
             color="primary"
-            onClick={toggle}
-            onKeyDown={toggle}
+            onClick={addToggle}
+            onKeyDown={addToggle}
             tabIndex={0}
           >
             Añadir Post
           </Button>
         </p>
 
-        <AddPostModal modal={modal} toggle={toggle} post={markedPost} />
-        <Modal isOpen={confirmModal} toggle={confirmToggle}>
+        <AddPostModal
+          key="editModal"
+          modal={editModal}
+          toggle={editToggle}
+          post={markedPost}
+          headerTitle="Editar Post"
+        />
+        <AddPostModal
+          key="addModal"
+          modal={addModal}
+          toggle={addToggle}
+          headerTitle="Nuevo Post"
+        />
+        <Modal key="confirmModal" isOpen={confirmModal} toggle={confirmToggle}>
           <ModalBody>
             <section id="section-contact_form" className="container">
               <div className="row justify-content-md-center">
@@ -193,10 +207,16 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
                     <td className="col-md-2">{post.date}</td>
                     <td className="col-md-3">{post.title}</td>
                     <td className="col-md-1">
-                      <EditIcon onClick={() => editPost(post)} />
+                      <EditIcon
+                        className="clickable"
+                        onClick={() => editPost(post)}
+                      />
                     </td>
                     <td className="col-md-1">
-                      <DeleteIcon onClick={() => deletePost(post)} />
+                      <DeleteIcon
+                        className="clickable"
+                        onClick={() => deletePost(post)}
+                      />
                     </td>
                   </tr>
                 );
