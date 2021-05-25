@@ -27,6 +27,9 @@ jobs:
       uses: actions/setup-node@v2.1.5
       with:
         node-version: ${{ matrix.node-version }}
+    - name: install
+      working-directory: ./src/Uceme.UI/ClientApp
+      run: npm install
     - name: ci
       working-directory: ./src/Uceme.UI/ClientApp
       run: npm ci
