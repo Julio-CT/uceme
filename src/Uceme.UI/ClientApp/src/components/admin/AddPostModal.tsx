@@ -33,9 +33,8 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
 
   const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
-  const [currentPost, setCurrentPost] = React.useState<BlogPost | undefined>(
-    post
-  );
+  const [currentPost, setCurrentPost] =
+    React.useState<BlogPost | undefined>(post);
   const [photo, setPhoto] = React.useState<string | Blob>(
     post ? post.imageSrc : ''
   );
