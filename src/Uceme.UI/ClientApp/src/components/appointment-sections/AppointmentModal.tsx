@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import * as React from 'react';
 import {
   Button,
