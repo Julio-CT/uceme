@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import * as React from 'react';
 import {
   Button,
@@ -15,13 +16,17 @@ import SettingsContext from '../../SettingsContext';
 import './AppointmentModal.scss';
 
 type Hospital = {
-  idDatosPro: any;
-  nombre?: any;
+  idDatosPro: string;
+  nombre?: string;
 };
 
 type AppointmentModalProps = {
   toggle: () => void;
   modal?: boolean;
+};
+
+type AppointmentHoursResponse = {
+  hours: string[];
 };
 
 const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
@@ -32,12 +37,10 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
   const [showHours, setShowHours] = React.useState<boolean>(false);
   const [sendEnabled, setSendEnabled] = React.useState<boolean>(false);
   const defaultDisabledDays = [0, 1, 2, 3, 4, 5, 6];
-  const [disabledDays, setDisabledDays] = React.useState<number[]>(
-    defaultDisabledDays
-  );
-  const [hospitalsFetched, setHospitalsFetched] = React.useState<boolean>(
-    false
-  );
+  const [disabledDays, setDisabledDays] =
+    React.useState<number[]>(defaultDisabledDays);
+  const [hospitalsFetched, setHospitalsFetched] =
+    React.useState<boolean>(false);
   const [daysFetched, setDaysFetched] = React.useState<boolean>(false);
   const [hospitalId, setHospitalId] = React.useState<string>();
   const [hospitals, setHospitals] = React.useState<Hospital[]>();
@@ -68,38 +71,38 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
     (baseHref: string) => {
       if (!hospitalsFetched) {
         fetch(`${baseHref}api/hospital/gethospitals`)
-          .then((response: { json: () => any }) => response.json())
-          .then(async (resp: any) => {
+          .then((response: { json: () => Promise<Hospital[]> }) =>
+            response.json()
+          )
+          .then(async (resp: Hospital[]) => {
             resetForm();
             setHospitals(resp);
             setShowHospitals(true);
             setDisabledDays([0, 1, 2, 3, 4, 5, 6]);
             setHospitalsFetched(true);
-          })
-          .catch((error: any) => {
-            console.log(error);
           });
       }
     },
     [hospitalsFetched]
   );
 
-  const fetchDays = (hospital: string, baseHref: string, forceFetch: boolean) => {
-      if (!daysFetched || forceFetch) {
-        fetch(`${baseHref}api/appointment/getdays?hospitalId=${hospital}`)
-          .then((response: { json: () => any }) => response.json())
-          .then(async (resp: any) => {
-            setDisabledDays(
-              [0, 1, 2, 3, 4, 5, 6].filter((el) => !resp.includes(el + 1))
-            );
-            setShowDays(true);
-            setDaysFetched(true);
-          })
-          .catch((error: any) => {
-            console.log(error);
-          });
-      }
-    };
+  const fetchDays = (
+    hospital: string,
+    baseHref: string,
+    forceFetch: boolean
+  ) => {
+    if (!daysFetched || forceFetch) {
+      fetch(`${baseHref}api/appointment/getdays?hospitalId=${hospital}`)
+        .then((response: { json: () => Promise<number[]> }) => response.json())
+        .then(async (resp: number[]) => {
+          setDisabledDays(
+            [0, 1, 2, 3, 4, 5, 6].filter((el) => !resp.includes(el + 1))
+          );
+          setShowDays(true);
+          setDaysFetched(true);
+        });
+    }
+  };
 
   const fetchHours = (date: string, baseHref: string) => {
     const day = new Date(date);
@@ -124,15 +127,17 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
       referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     })
-      .then((response: { json: () => any }) => response.json())
-      .then(async (resp: any) => {
-        setShowHours(true);
+      .then((response: { json: () => Promise<AppointmentHoursResponse> }) =>
+        response.json()
+      )
+      .then(async (resp: AppointmentHoursResponse) => {
         setHours(resp.hours);
         setSendEnabled(false);
+        setShowHours(true);
       })
-      .catch((error: any) => {
-        console.log(error);
+      .catch(() => {
         setHours([]);
+        setShowHours(false);
         setSendEnabled(false);
       });
   };
@@ -151,7 +156,7 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
     setSendEnabled(true);
   };
 
-  const selectDay = (value: any, frmValue: any) => {
+  const selectDay = (value: string) => {
     if (settings) {
       fetchHours(value, settings.baseHref);
       setDay(value);
@@ -159,7 +164,15 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
   };
 
   const handleValidation = () => {
-    const errors: any = {};
+    const errors = {
+      day: '',
+      hour: '',
+      email: '',
+      name: '',
+      phone: '',
+      acceptTC: '',
+    };
+
     let formIsValid = true;
 
     if (!selectedDay) {
@@ -242,8 +255,8 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(data), // body data type must match "Content-Type" header
       })
-        .then((response: { json: () => any }) => response.json())
-        .then(async (resp: any) => {
+        .then((response: { json: () => Promise<boolean> }) => response.json())
+        .then(async (resp: boolean) => {
           if (resp === true) {
             alert('Cita previa registrada correctamente. Muchas gracias.');
             resetForm();
@@ -254,23 +267,24 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
             );
           }
         })
-        .catch((error: any) => {
+        .catch(() => {
           alert(
             'Lo sentimos, ha ocurrido un error registrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
           );
-          console.log(error);
         });
     }
   };
 
+  const { modal, toggle } = props;
+
   React.useEffect(() => {
-    if (settings && props.modal) {
+    if (settings && modal) {
       fetchHospitals(settings.baseHref);
     }
-  }, [settings, props.modal, fetchHospitals]);
+  }, [settings, modal, fetchHospitals]);
 
   return (
-    <Modal isOpen={props.modal} toggle={props.toggle}>
+    <Modal isOpen={modal} toggle={toggle}>
       <ModalHeader className="beatabg">
         <div className="Aligner">
           <div className="Aligner-item Aligner-item--top" />
@@ -316,8 +330,8 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
                     id="dateForm"
                     name={inputName}
                     value={selectedDay}
-                    onChange={(v: any, f: any) => {
-                      selectDay(v, f);
+                    onChange={(v: string) => {
+                      selectDay(v);
                     }}
                     disabledWeekDays={disabledDays}
                     weekStartsOn={weekStart}
@@ -334,7 +348,7 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
                   </Label>
                   <AppointmentHours
                     hours={hours}
-                    onSelectedHour={(v: any) => selectHour(v)}
+                    onSelectedHour={(v: string) => selectHour(v)}
                   />
                 </div>
               )}
@@ -415,12 +429,16 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
         >
           Confirmar cita
         </Button>{' '}
-        <Button color="secondary" onClick={props.toggle}>
+        <Button color="secondary" onClick={toggle}>
           Cancelar
         </Button>
       </ModalFooter>
     </Modal>
   );
+};
+
+AppointmentModal.defaultProps = {
+  modal: false,
 };
 
 export default AppointmentModal;

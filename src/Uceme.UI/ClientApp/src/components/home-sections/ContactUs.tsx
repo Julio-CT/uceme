@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './ContactUs.scss';
 import SettingsContext from '../../SettingsContext';
 
 const ContactUs: () => JSX.Element = () => {

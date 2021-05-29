@@ -144,6 +144,42 @@
             }
         }
 
+        public bool UpdatePost(PostRequest blog)
+        {
+            if (blog is null)
+            {
+                throw new ArgumentNullException(nameof(blog));
+            }
+
+            try
+            {
+                var post = this.context.Blog.FirstOrDefault(post => post.idBlog == blog.IdBlog);
+
+                post.titulo = blog.Titulo;
+                post.fecha = string.IsNullOrEmpty(blog.Fecha) ? DateTime.Now : DateTime.Parse(blog.Fecha, CultureInfo.InvariantCulture);
+                post.foto = blog.Foto;
+                post.texto = blog.Texto;
+                post.slug = blog.Slug;
+                post.seoTitle = blog.SeoTitle;
+                post.metaDescription = blog.MetaDescription;
+
+                var updatedPost = this.context.Blog.Update(post);
+                if (updatedPost.Entity.idBlog == post.idBlog)
+                {
+                    var result = this.context.SaveChanges();
+
+                    return result == 1;
+                }
+
+                throw new DataException("Updated post Id doesn´t match the original one - it was not saved");
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error updating post {e.Message}");
+                throw new DataException("Error updating post", e);
+            }
+        }
+
         public bool AddPost(PostRequest blog)
         {
             if (blog == null)

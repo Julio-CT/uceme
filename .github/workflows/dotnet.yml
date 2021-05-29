@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore src/UCEME.sln
     - name: Test
-      run: dotnet test --no-build --verbosity normal src/UCEME.sln
+      run: dotnet test --no-build --verbosity normal src/UCEME.sln --filter TestCategory=MockTests

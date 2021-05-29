@@ -1,47 +1,59 @@
 import React, { useRef } from 'react';
+import { RouteComponentProps } from 'react-router';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import parse from 'html-react-parser';
 import BlogPost from '../../library/BlogPost';
 import './AppointmentManager.scss';
 import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
-import AddPostModal from './AddPostModal'
+import AddPostModal from './AddPostModal';
+import BlogPostResponse from '../../library/BlogPostResponse';
 
 type PostManagerState = {
   loaded: boolean;
-  posts?: any;
+  posts?: BlogPost[] | null;
   page?: number;
 };
 
-type PostManagerProps = {
-  params?: any;
-  match?: any;
-};
+interface MatchParams {
+  page: string;
+}
+
+type PostManagerProps = RouteComponentProps<MatchParams>;
 
 const PostManager = (props: PostManagerProps): JSX.Element => {
-  const [modal, setModal] = React.useState(false);
-  const toggle = () => setModal(!modal);
+  const { match } = props;
+  const [addModal, setAddModal] = React.useState(false);
+  const addToggle = () => setAddModal(!addModal);
+  const [editModal, setEditModal] = React.useState(false);
+  const editToggle = () => setEditModal(!editModal);
   const [confirmModal, setConfirmModal] = React.useState(false);
   const confirmToggle = () => setConfirmModal(!confirmModal);
+  const [alertModal, setAlertModal] = React.useState<boolean>(false);
+  const alertToggle = () => setAlertModal(!alertModal);
+  const [alertMessage, setAlertMessage] = React.useState<string>('');
   const [markedPost, setMarkedPost] = React.useState<BlogPost>();
   const settings = React.useContext(SettingsContext());
   const [postData, setPostData] = React.useState<PostManagerState>({
     loaded: false,
     posts: null,
-    page: props?.params?.page ?? props?.match?.params?.page ?? 1,
+    page: +match?.params?.page ?? 1,
   });
 
   const isFirstRun = useRef(true);
 
   const fetchPosts = async (page: number, baseHref: string) => {
     fetch(`${baseHref}api/blog/getallposts`)
-      .then((response: { json: () => any }) => response.json())
-      .then(async (resp: any) => {
+      .then((response: { json: () => Promise<BlogPostResponse[]> }) =>
+        response.json()
+      )
+      .then(async (resp: BlogPostResponse[]) => {
         const retrievedPosts: BlogPost[] = [];
 
         await Promise.all(
-          resp.map(async (obj: any) => {
+          resp.map(async (obj: BlogPostResponse) => {
             const image = `${process.env.PUBLIC_URL}/uploads/${obj.foto.slice(
               obj.foto.lastIndexOf('/') + 1
             )}`;
@@ -70,14 +82,18 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
           page,
         });
       })
-      .catch((error: any) => {
-        console.log(error);
+      .catch(() => {
         setPostData({
           loaded: false,
           posts: null,
           page,
         });
       });
+  };
+
+  const editPost = (post: BlogPost) => {
+    setMarkedPost(post);
+    setEditModal(true);
   };
 
   const deletePost = (post: BlogPost) => {
@@ -92,24 +108,26 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
       fetch(`clientapi/blog/deletepost?postid=${+markedPost.id}`, {
         headers: !token ? {} : { Authorization: `Bearer ${token}` },
       })
-        .then((response: { json: () => any }) => response.json())
-        .then(async (resp: any) => {
+        .then((response: { json: () => Promise<boolean> }) => response.json())
+        .then(async (resp: boolean) => {
           if (resp === true) {
-            alert('Post borrado correctamente. Muchas gracias.');
+            setAlertMessage('Post borrado correctamente. Muchas gracias.');
+            alertToggle();
             setPostData({
               loaded: true,
-              posts: postData.posts.filter((obj: BlogPost) => obj.id !== markedPost.id),
+              posts: postData.posts?.filter(
+                (obj: BlogPost) => obj.id !== markedPost.id
+              ),
               page: postData.page,
             });
           } else {
-            alert(
+            setAlertMessage(
               'Lo sentimos, ha ocurrido un error borrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
             );
           }
         })
-        .catch((error: any) => {
-          console.log(error);
-          alert(
+        .catch(() => {
+          setAlertMessage(
             'Lo sentimos, ha ocurrido un error borrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
           );
         });
@@ -118,7 +136,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
 
   React.useEffect(() => {
     if (settings) {
-      const page = props?.params?.page || props?.match?.params?.page || 1;
+      const page = +match?.params?.page || 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
@@ -130,21 +148,50 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
       setPostData({ loaded: false, page });
       fetchPosts(page, settings.baseHref);
     }
-  }, [props?.match?.params?.page, props?.params?.page, settings]);
+  }, [match?.params?.page, settings]);
 
   if (postData.loaded) {
     return (
-        <div className="App App-home header-distance">
+      <div className="App App-home header-distance">
         <p>
-            <br />
-            <Button color="primary" onClick={toggle}
-                onKeyDown={toggle} tabIndex={0}>
-                    Añadir Post
-            </Button>
+          <br />
+          <Button
+            color="primary"
+            onClick={addToggle}
+            onKeyDown={addToggle}
+            tabIndex={0}
+          >
+            Añadir Post
+          </Button>
         </p>
-
-        <AddPostModal modal={modal} toggle={toggle} />
-        <Modal isOpen={confirmModal} toggle={confirmToggle}>
+        <Modal isOpen={alertModal} toggle={alertToggle}>
+          <ModalBody>
+            <section id="section-contact_form" className="container">
+              <div className="row justify-content-md-center">
+                {alertMessage}
+              </div>
+            </section>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={alertToggle}>
+              Cerrar
+            </Button>
+          </ModalFooter>
+        </Modal>
+        <AddPostModal
+          key="editModal"
+          modal={editModal}
+          toggle={editToggle}
+          post={markedPost}
+          headerTitle="Editar Post"
+        />
+        <AddPostModal
+          key="addModal"
+          modal={addModal}
+          toggle={addToggle}
+          headerTitle="Nuevo Post"
+        />
+        <Modal key="confirmModal" isOpen={confirmModal} toggle={confirmToggle}>
           <ModalBody>
             <section id="section-contact_form" className="container">
               <div className="row justify-content-md-center">
@@ -155,8 +202,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
           <ModalFooter>
             <Button color="primary" onClick={() => deleteMarkedPost()}>
               Borrar
-            </Button>
-            {' '}
+            </Button>{' '}
             <Button color="secondary" onClick={confirmToggle}>
               Cerrar
             </Button>
@@ -168,17 +214,27 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
               <tr>
                 <th scope="col">Fecha</th>
                 <th scope="col">Título</th>
+                <th scope="col">Editar</th>
                 <th scope="col">Borrar</th>
               </tr>
             </thead>
             <tbody>
-              {postData.posts.map((post: BlogPost, index: number) => {
+              {postData.posts?.map((post: BlogPost) => {
                 return (
                   <tr key={post.id}>
                     <td className="col-md-2">{post.date}</td>
                     <td className="col-md-3">{post.title}</td>
                     <td className="col-md-1">
-                      <DeleteIcon onClick={() => deletePost(post)} />
+                      <EditIcon
+                        className="clickable"
+                        onClick={() => editPost(post)}
+                      />
+                    </td>
+                    <td className="col-md-1">
+                      <DeleteIcon
+                        className="clickable"
+                        onClick={() => deletePost(post)}
+                      />
                     </td>
                   </tr>
                 );

@@ -5,28 +5,33 @@ export type Settings = {
   address: string;
   contactEmail: string;
   baseHref: string;
-} | null;
+};
+
+const defaults: Settings = {
+  telephone: '',
+  address: '',
+  contactEmail: '',
+  baseHref: '',
+};
 
 const SettingsContext = (): React.Context<Settings> => {
-  const defaultSettings: React.Context<any> = React.createContext(null);
-  const [context, setContext] = React.useState<React.Context<Settings>>(
-    defaultSettings
-  );
+  const defaultSettings: React.Context<Settings> =
+    React.createContext(defaults);
+  const [context, setContext] =
+    React.useState<React.Context<Settings>>(defaultSettings);
   const baseHref: string =
     process.env.NODE_ENV === 'development' ? '' : 'ucemeapi/';
 
   React.useEffect(() => {
     fetch(`${baseHref}api/settings/getsettings`)
-      .then((response: { json: () => any }) => response.json())
+      .then((response: Response) => response.json())
       .then(async (data: Settings) => {
-        if (data) {
-          data.baseHref = baseHref;
+        const settings = data;
+        if (settings) {
+          settings.baseHref = baseHref;
         }
 
-        setContext(React.createContext(data));
-      })
-      .catch((error: any) => {
-        console.log(error);
+        setContext(React.createContext(settings));
       });
   }, [baseHref]);
 
