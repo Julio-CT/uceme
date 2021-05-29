@@ -5,10 +5,18 @@ export type Settings = {
   address: string;
   contactEmail: string;
   baseHref: string;
-} | null;
+};
+
+const defaults: Settings = {
+  telephone: '',
+  address: '',
+  contactEmail: '',
+  baseHref: '',
+};
 
 const SettingsContext = (): React.Context<Settings> => {
-  const defaultSettings: React.Context<any> = React.createContext(null);
+  const defaultSettings: React.Context<Settings> =
+    React.createContext(defaults);
   const [context, setContext] =
     React.useState<React.Context<Settings>>(defaultSettings);
   const baseHref: string =
@@ -24,9 +32,6 @@ const SettingsContext = (): React.Context<Settings> => {
         }
 
         setContext(React.createContext(settings));
-      })
-      .catch((error: any) => {
-        console.log(error);
       });
   }, [baseHref]);
 

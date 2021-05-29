@@ -7,10 +7,6 @@ type AppointmentHoursProps = {
   selectedHour?: string;
   onSelectedHour: (v: string) => void;
   children?: React.ReactElement[];
-  params?: any;
-  history?: any;
-  location?: any;
-  match?: any;
 };
 
 type AppointmentHoursState = {
@@ -26,7 +22,7 @@ type MyButtonGroupProps = {
 };
 
 export const MyButtonGroup = React.forwardRef(
-  (props: MyButtonGroupProps, ref: React.Ref<any>) => {
+  (props: MyButtonGroupProps, ref: React.LegacyRef<ButtonGroup>) => {
     return (
       <>
         <ButtonGroup id={props.id} ref={ref}>
@@ -41,11 +37,11 @@ class AppointmentHours extends React.Component<
   AppointmentHoursProps,
   AppointmentHoursState
 > {
-  refScrollable: React.RefObject<any>;
+  refScrollable: React.RefObject<HTMLDivElement>;
 
-  leftPaddle: React.RefObject<any>;
+  leftPaddle: React.RefObject<HTMLButtonElement>;
 
-  rightPaddle: React.RefObject<any>;
+  rightPaddle: React.RefObject<HTMLButtonElement>;
 
   // duration of scroll animation
   scrollDuration = 300;
@@ -68,8 +64,8 @@ class AppointmentHours extends React.Component<
   }
 
   // get how much have we scrolled to the left
-  getMenuPosition: () => number = () => {
-    return this.refScrollable.current.scrollLeft;
+  getMenuPosition: () => number | undefined = () => {
+    return this.refScrollable.current?.scrollLeft;
   };
 
   setSideScroll: () => void = () => {
@@ -106,11 +102,11 @@ class AppointmentHours extends React.Component<
       let menuInvisibleSize = menuSize - menuWrapperSize;
 
       // finally, what happens when we are actually scrolling the menu
-      this.refScrollable.current.addEventListener('scroll', () => {
+      this.refScrollable.current?.addEventListener('scroll', () => {
         // get how much of menu is invisible
         menuInvisibleSize = menuSize - menuWrapperSize;
         // get how much have we scrolled so far
-        const menuPosition = this.getMenuPosition();
+        const menuPosition = this.getMenuPosition() ?? 0;
 
         const menuEndOffset = menuInvisibleSize - paddleMargin;
 
@@ -134,15 +130,16 @@ class AppointmentHours extends React.Component<
     }
   };
 
-  handleRightPaddleClick: (amount: number, e: any) => void = (
+  handleRightPaddleClick: (
     amount: number,
-    e: any
-  ) => {
+    e: React.MouseEvent<HTMLElement>
+  ) => void = (amount: number, e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (this.refScrollable.current != null) {
       this.refScrollable.current.scrollLeft += amount;
+      const menuPosition = this.getMenuPosition() ?? 0;
       this.refScrollable.current.animate(
-        { scrollLeft: this.getMenuPosition() + amount },
+        { scrollLeft: menuPosition + amount },
         this.scrollDuration
       );
     }

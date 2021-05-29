@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Appointment from '../../library/Appointment';
+import AppointmentResponse from '../../library/AppointmentResponse';
 import { DateTimeUtils } from '../../library/DateTimeUtils';
 import './AppointmentManager.scss';
 import '../appointment-sections/AppointmentModal.scss';
@@ -23,10 +24,13 @@ type AppointmentManagerProps = RouteComponentProps<MatchParams>;
 
 const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
   const { match } = props;
-  const [modal, setModal] = React.useState(false);
+  const [modal, setModal] = React.useState<boolean>(false);
   const toggle = () => setModal(!modal);
-  const [confirmModal, setConfirmModal] = React.useState(false);
+  const [confirmModal, setConfirmModal] = React.useState<boolean>(false);
   const confirmToggle = () => setConfirmModal(!confirmModal);
+  const [alertModal, setAlertModal] = React.useState(false);
+  const alertToggle = () => setAlertModal(!alertModal);
+  const [alertMessage, setAlertMessage] = React.useState<string>('');
   const [markedAppointment, setMarkedAppointment] =
     React.useState<Appointment>();
   const settings = React.useContext(SettingsContext());
@@ -50,12 +54,14 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
     fetch(`clientapi/appointment/appointmentlist`, {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },
     })
-      .then((response: { json: () => any }) => response.json())
-      .then(async (resp: any) => {
+      .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
+        response.json()
+      )
+      .then(async (resp: AppointmentResponse[]) => {
         const retrievedAppointments: Appointment[] = [];
 
         await Promise.all(
-          resp.map(async (obj: any) => {
+          resp.map(async (obj: AppointmentResponse) => {
             retrievedAppointments.push({
               id: obj.idCita,
               date: DateTimeUtils.FormatDate(obj.dia),
@@ -88,12 +94,14 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
     fetch(`clientapi/appointment/closeappointmentlist`, {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },
     })
-      .then((response: { json: () => any }) => response.json())
-      .then(async (resp: any) => {
+      .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
+        response.json()
+      )
+      .then(async (resp: AppointmentResponse[]) => {
         const retrievedAppointments: Appointment[] = [];
 
         await Promise.all(
-          resp.map(async (obj: any) => {
+          resp.map(async (obj: AppointmentResponse) => {
             retrievedAppointments.push({
               id: obj.idCita,
               date: DateTimeUtils.FormatDate(obj.dia),
@@ -137,10 +145,13 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
           headers: !token ? {} : { Authorization: `Bearer ${token}` },
         }
       )
-        .then((response: { json: () => any }) => response.json())
+        .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
           if (resp === true) {
-            alert('Cita previa borrada correctamente. Muchas gracias.');
+            setAlertMessage(
+              'Cita previa borrada correctamente. Muchas gracias.'
+            );
+            alertToggle();
             setAppointmentData({
               loaded: true,
               appointments: appointmentData.appointments?.filter(
@@ -149,16 +160,17 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
               page: appointmentData.page,
             });
           } else {
-            alert(
+            setAlertMessage(
               'Lo sentimos, ha ocurrido un error borrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
             );
+            alertToggle();
           }
         })
-        .catch((error: any) => {
-          console.log(error);
-          alert(
+        .catch(() => {
+          setAlertMessage(
             'Lo sentimos, ha ocurrido un error borrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
           );
+          alertToggle();
         });
     }
   };
@@ -184,6 +196,20 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
   if (appointmentData.loaded && closeAppointmentData.loaded) {
     return (
       <div className="App App-home header-distance">
+        <Modal isOpen={alertModal} toggle={alertToggle}>
+          <ModalBody>
+            <section id="section-contact_form" className="container">
+              <div className="row justify-content-md-center">
+                {alertMessage}
+              </div>
+            </section>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={alertToggle}>
+              Cerrar
+            </Button>
+          </ModalFooter>
+        </Modal>
         <Modal isOpen={confirmModal} toggle={confirmToggle}>
           <ModalBody>
             <section id="section-contact_form" className="container">

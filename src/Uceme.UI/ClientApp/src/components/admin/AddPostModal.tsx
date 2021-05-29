@@ -127,7 +127,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
           ? { Accept: 'application/json' }
           : { Accept: 'application/json', Authorization: `Bearer ${token}` },
       })
-        .then((response: { json: () => any }) => response.json())
+        .then((response: { json: () => Promise<string> }) => response.json())
         .then(async (resp: string) => {
           if (resp) {
             setImgSrc(resp);
@@ -177,7 +177,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(data), // body data type must match "Content-Type" header
       })
-        .then((response: { json: () => any }) => response.json())
+        .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
           if (resp === true) {
             alert('Post registrado correctamente. Muchas gracias.');

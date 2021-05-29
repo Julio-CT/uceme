@@ -101,8 +101,7 @@ const BlogPostComponent = (props: BlogPostProps): JSX.Element => {
                     {data.post.title}
                   </a>
                 </h2>
-
-                <div dangerouslySetInnerHTML={{ __html: data.post.text }} />
+                <div>{data.post.altText}</div>
                 <div className="article__meta">
                   <p className="article__date">{data.post.date}</p>
                   <p className="article__author">{data.post.metaDescription}</p>

@@ -43,7 +43,9 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
 
   const fetchPosts = async (page: number, baseHref: string) => {
     fetch(`${baseHref}api/blog/getallposts`)
-      .then((response: { json: () => any }) => response.json())
+      .then((response: { json: () => Promise<BlogPostResponse[]> }) =>
+        response.json()
+      )
       .then(async (resp: BlogPostResponse[]) => {
         const retrievedPosts: BlogPost[] = [];
 
@@ -103,7 +105,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
       fetch(`clientapi/blog/deletepost?postid=${+markedPost.id}`, {
         headers: !token ? {} : { Authorization: `Bearer ${token}` },
       })
-        .then((response: { json: () => any }) => response.json())
+        .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
           if (resp === true) {
             alert('Post borrado correctamente. Muchas gracias.');
@@ -120,8 +122,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
             );
           }
         })
-        .catch((error: any) => {
-          console.log(error);
+        .catch(() => {
           alert(
             'Lo sentimos, ha ocurrido un error borrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
           );

@@ -70,16 +70,15 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
     (baseHref: string) => {
       if (!hospitalsFetched) {
         fetch(`${baseHref}api/hospital/gethospitals`)
-          .then((response: { json: () => any }) => response.json())
+          .then((response: { json: () => Promise<Hospital[]> }) =>
+            response.json()
+          )
           .then(async (resp: Hospital[]) => {
             resetForm();
             setHospitals(resp);
             setShowHospitals(true);
             setDisabledDays([0, 1, 2, 3, 4, 5, 6]);
             setHospitalsFetched(true);
-          })
-          .catch((error: any) => {
-            console.log(error);
           });
       }
     },
@@ -93,16 +92,13 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
   ) => {
     if (!daysFetched || forceFetch) {
       fetch(`${baseHref}api/appointment/getdays?hospitalId=${hospital}`)
-        .then((response: { json: () => any }) => response.json())
+        .then((response: { json: () => Promise<number[]> }) => response.json())
         .then(async (resp: number[]) => {
           setDisabledDays(
             [0, 1, 2, 3, 4, 5, 6].filter((el) => !resp.includes(el + 1))
           );
           setShowDays(true);
           setDaysFetched(true);
-        })
-        .catch((error: any) => {
-          console.log(error);
         });
     }
   };
@@ -130,7 +126,9 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
       referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     })
-      .then((response: { json: () => any }) => response.json())
+      .then((response: { json: () => Promise<AppointmentHoursResponse> }) =>
+        response.json()
+      )
       .then(async (resp: AppointmentHoursResponse) => {
         setHours(resp.hours);
         setSendEnabled(false);
@@ -165,7 +163,15 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
   };
 
   const handleValidation = () => {
-    const errors: any = {};
+    const errors = {
+      day: '',
+      hour: '',
+      email: '',
+      name: '',
+      phone: '',
+      acceptTC: '',
+    };
+
     let formIsValid = true;
 
     if (!selectedDay) {
@@ -248,8 +254,8 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(data), // body data type must match "Content-Type" header
       })
-        .then((response: { json: () => any }) => response.json())
-        .then(async (resp: any) => {
+        .then((response: { json: () => Promise<boolean> }) => response.json())
+        .then(async (resp: boolean) => {
           if (resp === true) {
             alert('Cita previa registrada correctamente. Muchas gracias.');
             resetForm();
@@ -260,11 +266,10 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
             );
           }
         })
-        .catch((error: any) => {
+        .catch(() => {
           alert(
             'Lo sentimos, ha ocurrido un error registrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
           );
-          console.log(error);
         });
     }
   };

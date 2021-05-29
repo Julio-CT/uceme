@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import './ContactUsComponent.scss';
 import SettingsContext from '../SettingsContext';
@@ -11,6 +12,9 @@ type contactUsState = {
 };
 
 const ContactUsComponent: () => JSX.Element = () => {
+  const [modal, setModal] = React.useState(false);
+  const toggle = () => setModal(!modal);
+  const [modalMessage, setModaleMessage] = React.useState<string>('');
   const history = useHistory();
   const settings = React.useContext(SettingsContext());
   const [data, setData] = React.useState<contactUsState>({
@@ -30,7 +34,19 @@ const ContactUsComponent: () => JSX.Element = () => {
     setData({ ...data, [name]: event.target.value });
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const showAlert: (message: string) => void = (message: string) => {
+    setModaleMessage(message);
+    setModal(true);
+  };
+
+  const closeAlert: () => void = () => {
+    toggle();
+    history.push('/#home');
+  };
+
+  const handleSubmit: (event: React.FormEvent) => void = (
+    event: React.FormEvent
+  ) => {
     event.preventDefault();
     fetch(`${settings?.baseHref}api/contact/contactemail`, {
       method: 'POST',
@@ -41,7 +57,7 @@ const ContactUsComponent: () => JSX.Element = () => {
       body: JSON.stringify(data),
     }).then((response) => {
       if (response && response.status === 200) {
-        alert(
+        showAlert(
           'Correo electrónico enviado. Nuestro equipo se pondrá en contacto lo antes posible. Muchas gracias.'
         );
 
@@ -51,10 +67,8 @@ const ContactUsComponent: () => JSX.Element = () => {
           email: '',
           message: '',
         });
-
-        history.push('/#home');
       } else {
-        alert(
+        showAlert(
           'Lo sentimos, el envío del correo electrónico ha fallado, por favor inténtelo en unos minutos.'
         );
       }
@@ -64,6 +78,28 @@ const ContactUsComponent: () => JSX.Element = () => {
   if (settings) {
     return (
       <section id="section-contact_form" className="container">
+        <Modal isOpen={modal} toggle={toggle} className="next-dates-modal">
+          <ModalHeader toggle={toggle} className="beatabg next-dates-modal">
+            <div className="Aligner next-dates-modal">
+              <div className="Aligner-item Aligner-item--top" />
+              <div className="Aligner-item" />
+              <div className="Aligner-item Aligner-item--bottom" />
+            </div>
+          </ModalHeader>
+          <ModalBody>
+            <section id="section-contact_form" className="container">
+              <div className="row justify-content-md-center">
+                {modalMessage}
+              </div>
+            </section>
+          </ModalBody>
+          <ModalFooter>
+            {' '}
+            <Button color="secondary" onClick={closeAlert}>
+              Cerrar
+            </Button>
+          </ModalFooter>
+        </Modal>
         <div className="App header-distance extra-padding row justify-content-md-center">
           <form onSubmit={handleSubmit} className="col-12 col-md-6">
             <h3 className="uppercase">Envíenos un mensaje</h3>
