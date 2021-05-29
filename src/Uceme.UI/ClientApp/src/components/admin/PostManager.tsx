@@ -31,6 +31,9 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
   const editToggle = () => setEditModal(!editModal);
   const [confirmModal, setConfirmModal] = React.useState(false);
   const confirmToggle = () => setConfirmModal(!confirmModal);
+  const [alertModal, setAlertModal] = React.useState<boolean>(false);
+  const alertToggle = () => setAlertModal(!alertModal);
+  const [alertMessage, setAlertMessage] = React.useState<string>('');
   const [markedPost, setMarkedPost] = React.useState<BlogPost>();
   const settings = React.useContext(SettingsContext());
   const [postData, setPostData] = React.useState<PostManagerState>({
@@ -108,7 +111,8 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
         .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
           if (resp === true) {
-            alert('Post borrado correctamente. Muchas gracias.');
+            setAlertMessage('Post borrado correctamente. Muchas gracias.');
+            alertToggle();
             setPostData({
               loaded: true,
               posts: postData.posts?.filter(
@@ -117,13 +121,13 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
               page: postData.page,
             });
           } else {
-            alert(
+            setAlertMessage(
               'Lo sentimos, ha ocurrido un error borrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
             );
           }
         })
         .catch(() => {
-          alert(
+          setAlertMessage(
             'Lo sentimos, ha ocurrido un error borrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
           );
         });
@@ -160,7 +164,20 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
             Añadir Post
           </Button>
         </p>
-
+        <Modal isOpen={alertModal} toggle={alertToggle}>
+          <ModalBody>
+            <section id="section-contact_form" className="container">
+              <div className="row justify-content-md-center">
+                {alertMessage}
+              </div>
+            </section>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={alertToggle}>
+              Cerrar
+            </Button>
+          </ModalFooter>
+        </Modal>
         <AddPostModal
           key="editModal"
           modal={editModal}

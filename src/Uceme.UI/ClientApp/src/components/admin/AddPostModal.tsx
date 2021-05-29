@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import * as React from 'react';
 import {
   Button,
@@ -118,34 +119,25 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
 
     const token = await authService.getAccessToken();
 
-    try {
-      fetch(`clientapi/blog/onpostuploadasync`, {
-        method: 'POST',
-        mode: 'cors',
-        body: formData,
-        headers: !token
-          ? { Accept: 'application/json' }
-          : { Accept: 'application/json', Authorization: `Bearer ${token}` },
-      })
-        .then((response: { json: () => Promise<string> }) => response.json())
-        .then(async (resp: string) => {
-          if (resp) {
-            setImgSrc(resp);
-            alert(`Imagen subida correctamente.`);
-          } else {
-            alert(
-              'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
-            );
-          }
-        })
-        .catch(() => {
+    fetch(`clientapi/blog/onpostuploadasync`, {
+      method: 'POST',
+      mode: 'cors',
+      body: formData,
+      headers: !token
+        ? { Accept: 'application/json' }
+        : { Accept: 'application/json', Authorization: `Bearer ${token}` },
+    })
+      .then((response: { json: () => Promise<string> }) => response.json())
+      .then(async (resp: string) => {
+        if (resp) {
+          setImgSrc(resp);
+          alert(`Imagen subida correctamente.`);
+        } else {
           alert(
             'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
           );
-        });
-    } catch (error) {
-      console.error('Error:', error);
-    }
+        }
+      });
   };
 
   const submitForm = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

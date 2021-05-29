@@ -28,7 +28,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
   const toggle = () => setModal(!modal);
   const [confirmModal, setConfirmModal] = React.useState<boolean>(false);
   const confirmToggle = () => setConfirmModal(!confirmModal);
-  const [alertModal, setAlertModal] = React.useState(false);
+  const [alertModal, setAlertModal] = React.useState<boolean>(false);
   const alertToggle = () => setAlertModal(!alertModal);
   const [alertMessage, setAlertMessage] = React.useState<string>('');
   const [markedAppointment, setMarkedAppointment] =
