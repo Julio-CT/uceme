@@ -1,7 +1,9 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
 import BlogPost from '../library/BlogPost';
+import BlogPostResponse from '../library/BlogPostResponse';
 import SettingsContext from '../SettingsContext';
 import './BlogHome.scss';
 
@@ -10,22 +12,23 @@ type BlogPostState = {
   post?: BlogPost;
 };
 
-type BlogPostProps = {
-  params?: any;
-  match?: any;
-};
+interface MatchParams {
+  slug: string;
+}
+
+type BlogPostProps = RouteComponentProps<MatchParams>;
 
 const BlogPostComponent = (props: BlogPostProps): JSX.Element => {
   const settings = React.useContext(SettingsContext());
-  const { params, match } = props;
+  const { match } = props;
   const [data, setData] = React.useState<BlogPostState>({
     loaded: false,
   });
 
   const fetchPosts = (slug: string, baseHref: string) => {
     fetch(`${baseHref}api/blog/getpost?slug=${slug}`)
-      .then((response: { json: () => any }) => response.json())
-      .then(async (resp: any) => {
+      .then((response: Response) => response.json())
+      .then(async (resp: BlogPostResponse) => {
         const image = `${process.env.PUBLIC_URL}/uploads/${resp.foto.slice(
           resp.foto.lastIndexOf('/') + 1
         )}`;
@@ -52,7 +55,7 @@ const BlogPostComponent = (props: BlogPostProps): JSX.Element => {
           post: retrievedBlog,
         });
       })
-      .catch((error: any) => {
+      .catch(() => {
         setData({
           loaded: false,
           post: undefined,
@@ -62,10 +65,10 @@ const BlogPostComponent = (props: BlogPostProps): JSX.Element => {
 
   React.useEffect(() => {
     if (settings) {
-      const slug = params?.slug ?? match?.params?.slug ?? 1;
+      const slug = match?.params?.slug ?? '';
       fetchPosts(slug, settings.baseHref);
     }
-  }, [match?.params?.slug, params?.slug, settings]);
+  }, [match?.params?.slug, settings]);
 
   if (data.loaded && data.post) {
     return (
@@ -98,8 +101,7 @@ const BlogPostComponent = (props: BlogPostProps): JSX.Element => {
                     {data.post.title}
                   </a>
                 </h2>
-
-                <div dangerouslySetInnerHTML={{ __html: data.post.text }} />
+                <div>{data.post.altText}</div>
                 <div className="article__meta">
                   <p className="article__date">{data.post.date}</p>
                   <p className="article__author">{data.post.metaDescription}</p>

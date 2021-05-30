@@ -33,6 +33,3 @@ jobs:
     - name: build
       working-directory: ./src/Uceme.UI/ClientApp
       run: npm run build --if-present
-    - name: test
-      working-directory: ./src/Uceme.UI/ClientApp
-      run: npm test

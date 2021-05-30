@@ -8,7 +8,6 @@ type BlogPost = {
   link: string;
   date: string;
   slug?: string;
-  fields?: any;
   seoTitle?: string;
   metaDescription?: string;
   featuredImage?: string;

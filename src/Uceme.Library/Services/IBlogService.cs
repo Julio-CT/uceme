@@ -16,6 +16,8 @@
 
         Blog UpdatePost(Blog blog);
 
+        bool UpdatePost(PostRequest blog);
+
         bool AddPost(PostRequest blog);
 
         string GetNextPostImage();

@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
+import { RouteComponentProps } from 'react-router';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Appointment from '../../library/Appointment';
+import AppointmentResponse from '../../library/AppointmentResponse';
 import { DateTimeUtils } from '../../library/DateTimeUtils';
 import './AppointmentManager.scss';
 import '../appointment-sections/AppointmentModal.scss';
@@ -10,52 +12,56 @@ import authService from '../api-authorization/AuthorizeService';
 
 type AppointmentManagerState = {
   loaded: boolean;
-  appointments?: any;
+  appointments?: Appointment[] | null;
   page?: number;
 };
 
-type AppointmentManagerProps = {
-  params?: any;
-  match?: any;
-};
+interface MatchParams {
+  page: string;
+}
+
+type AppointmentManagerProps = RouteComponentProps<MatchParams>;
 
 const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
-  const [modal, setModal] = React.useState(false);
+  const { match } = props;
+  const [modal, setModal] = React.useState<boolean>(false);
   const toggle = () => setModal(!modal);
-  const [confirmModal, setConfirmModal] = React.useState(false);
+  const [confirmModal, setConfirmModal] = React.useState<boolean>(false);
   const confirmToggle = () => setConfirmModal(!confirmModal);
-  const [markedAppointment, setMarkedAppointment] = React.useState<Appointment>();
+  const [alertModal, setAlertModal] = React.useState<boolean>(false);
+  const alertToggle = () => setAlertModal(!alertModal);
+  const [alertMessage, setAlertMessage] = React.useState<string>('');
+  const [markedAppointment, setMarkedAppointment] =
+    React.useState<Appointment>();
   const settings = React.useContext(SettingsContext());
-  const [
-    appointmentData,
-    setAppointmentData,
-  ] = React.useState<AppointmentManagerState>({
-    loaded: false,
-    appointments: null,
-    page: props?.params?.page ?? props?.match?.params?.page ?? 1,
-  });
-  const [
-    closeAppointmentData,
-    setCloseAppointmentData,
-  ] = React.useState<AppointmentManagerState>({
-    loaded: false,
-    appointments: null,
-    page: props?.params?.page ?? props?.match?.params?.page ?? 1,
-  });
+  const [appointmentData, setAppointmentData] =
+    React.useState<AppointmentManagerState>({
+      loaded: false,
+      appointments: null,
+      page: +match?.params?.page ?? 1,
+    });
+  const [closeAppointmentData, setCloseAppointmentData] =
+    React.useState<AppointmentManagerState>({
+      loaded: false,
+      appointments: null,
+      page: +match.params?.page ?? 1,
+    });
 
   const isFirstRun = useRef(true);
 
-  const fetchAppointments = async (page: number, baseHref: string) => {
+  const fetchAppointments = async (page: number) => {
     const token = await authService.getAccessToken();
     fetch(`clientapi/appointment/appointmentlist`, {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },
     })
-      .then((response: { json: () => any }) => response.json())
-      .then(async (resp: any) => {
+      .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
+        response.json()
+      )
+      .then(async (resp: AppointmentResponse[]) => {
         const retrievedAppointments: Appointment[] = [];
 
         await Promise.all(
-          resp.map(async (obj: any) => {
+          resp.map(async (obj: AppointmentResponse) => {
             retrievedAppointments.push({
               id: obj.idCita,
               date: DateTimeUtils.FormatDate(obj.dia),
@@ -74,8 +80,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
           page,
         });
       })
-      .catch((error: any) => {
-        console.log(error);
+      .catch(() => {
         setAppointmentData({
           loaded: false,
           appointments: null,
@@ -84,17 +89,19 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
       });
   };
 
-  const fetchCloseAppointments = async (page: number, baseHref: string) => {
+  const fetchCloseAppointments = async (page: number) => {
     const token = await authService.getAccessToken();
     fetch(`clientapi/appointment/closeappointmentlist`, {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },
     })
-      .then((response: { json: () => any }) => response.json())
-      .then(async (resp: any) => {
+      .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
+        response.json()
+      )
+      .then(async (resp: AppointmentResponse[]) => {
         const retrievedAppointments: Appointment[] = [];
 
         await Promise.all(
-          resp.map(async (obj: any) => {
+          resp.map(async (obj: AppointmentResponse) => {
             retrievedAppointments.push({
               id: obj.idCita,
               date: DateTimeUtils.FormatDate(obj.dia),
@@ -114,8 +121,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
 
         setModal(true);
       })
-      .catch((error: any) => {
-        console.log(error);
+      .catch(() => {
         setAppointmentData({
           loaded: false,
           appointments: null,
@@ -133,56 +139,77 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
     if (settings && markedAppointment) {
       setConfirmModal(false);
       const token = await authService.getAccessToken();
-      fetch(`clientapi/appointment/deleteappointment?appointmentid=${+markedAppointment?.id}`, {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` },
-      })
-        .then((response: { json: () => any }) => response.json())
-        .then(async (resp: any) => {
+      fetch(
+        `clientapi/appointment/deleteappointment?appointmentid=${+markedAppointment?.id}`,
+        {
+          headers: !token ? {} : { Authorization: `Bearer ${token}` },
+        }
+      )
+        .then((response: { json: () => Promise<boolean> }) => response.json())
+        .then(async (resp: boolean) => {
           if (resp === true) {
-            alert('Cita previa borrada correctamente. Muchas gracias.');
+            setAlertMessage(
+              'Cita previa borrada correctamente. Muchas gracias.'
+            );
+            alertToggle();
             setAppointmentData({
               loaded: true,
-              appointments: appointmentData.appointments.filter(
+              appointments: appointmentData.appointments?.filter(
                 (obj: Appointment) => obj.id !== markedAppointment?.id
               ),
               page: appointmentData.page,
             });
           } else {
-            alert(
+            setAlertMessage(
               'Lo sentimos, ha ocurrido un error borrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
             );
+            alertToggle();
           }
         })
-        .catch((error: any) => {
-          console.log(error);
-          alert(
+        .catch(() => {
+          setAlertMessage(
             'Lo sentimos, ha ocurrido un error borrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
           );
+          alertToggle();
         });
     }
   };
 
   React.useEffect(() => {
     if (settings) {
-      const page = props?.params?.page || props?.match?.params?.page || 1;
+      const page = +match.params?.page || 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
 
-        fetchCloseAppointments(page, settings.baseHref);
-        fetchAppointments(page, settings.baseHref);
+        fetchCloseAppointments(page);
+        fetchAppointments(page);
         return;
       }
 
       setAppointmentData({ loaded: false, page });
-      fetchCloseAppointments(page, settings.baseHref);
-      fetchAppointments(page, settings.baseHref);
+      fetchCloseAppointments(page);
+      fetchAppointments(page);
     }
-  }, [props?.match?.params?.page, props?.params?.page, settings]);
+  }, [match?.params?.page, settings]);
 
   if (appointmentData.loaded && closeAppointmentData.loaded) {
     return (
       <div className="App App-home header-distance">
+        <Modal isOpen={alertModal} toggle={alertToggle}>
+          <ModalBody>
+            <section id="section-contact_form" className="container">
+              <div className="row justify-content-md-center">
+                {alertMessage}
+              </div>
+            </section>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={alertToggle}>
+              Cerrar
+            </Button>
+          </ModalFooter>
+        </Modal>
         <Modal isOpen={confirmModal} toggle={confirmToggle}>
           <ModalBody>
             <section id="section-contact_form" className="container">
@@ -194,8 +221,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
           <ModalFooter>
             <Button color="primary" onClick={() => deleteMarkedAppointment()}>
               Borrar
-            </Button>
-            {' '}
+            </Button>{' '}
             <Button color="secondary" onClick={confirmToggle}>
               Cerrar
             </Button>
@@ -223,8 +249,8 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
                     </tr>
                   </thead>
                   <tbody>
-                    {closeAppointmentData.appointments.map(
-                      (appointment: Appointment, index: number) => {
+                    {closeAppointmentData.appointments?.map(
+                      (appointment: Appointment) => {
                         return (
                           <tr key={appointment.id}>
                             <td>{appointment.date}</td>
@@ -262,7 +288,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
               </tr>
             </thead>
             <tbody>
-              {appointmentData.appointments.map(
+              {appointmentData.appointments?.map(
                 (appointment: Appointment, index: number) => {
                   return (
                     <tr key={appointment.id}>

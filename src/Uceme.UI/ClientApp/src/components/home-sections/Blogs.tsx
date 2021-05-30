@@ -7,13 +7,14 @@ import tinyDate from '../../resources/images/tinydate.png';
 import photoIcon from '../../resources/images/photoicon.png';
 import BlogPost from '../../library/BlogPost';
 import SettingsContext from '../../SettingsContext';
+import BlogPostResponse from '../../library/BlogPostResponse';
 
 type BlogState = {
   items: BlogPost[];
   isFetching: boolean;
 };
 
-const Blogs = () => {
+const Blogs: () => JSX.Element = () => {
   const settings = React.useContext(SettingsContext());
   const [data, setData] = React.useState<BlogState>({
     items: [] as Array<BlogPost>,
@@ -23,13 +24,15 @@ const Blogs = () => {
   React.useEffect(() => {
     if (settings) {
       fetch(`${settings.baseHref}api/blog/getblogsubset?amount=3`)
-        .then((response: { json: () => any }) => response.json())
-        .then(async (data: any[]) => {
+        .then((response: Response) => response.json())
+        .then(async (posts: BlogPostResponse[]) => {
           const retrievedBlogs: BlogPost[] = [];
 
           await Promise.all(
-            data.map(async (obj: any) => {
-              const image = process.env.PUBLIC_URL + '/uploads/' + obj.foto.slice(obj.foto.lastIndexOf('/') + 1);
+            posts.map(async (obj: BlogPostResponse) => {
+              const image = `${process.env.PUBLIC_URL}/uploads/${obj.foto.slice(
+                obj.foto.lastIndexOf('/') + 1
+              )}`;
               retrievedBlogs.push({
                 id: obj.idBlog,
                 title: obj.titulo,
@@ -50,8 +53,7 @@ const Blogs = () => {
 
           setData({ items: retrievedBlogs, isFetching: false });
         })
-        .catch((error: any) => {
-          console.log(error);
+        .catch(() => {
           setData({ items: [] as Array<BlogPost>, isFetching: false });
         });
     }

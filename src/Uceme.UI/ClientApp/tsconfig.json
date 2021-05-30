@@ -30,7 +30,8 @@
   "include": [
     "src",
     "src/components",
-    "src/components/api-authorization"
+    "src/components/api-authorization",
+    "src/library"
   ],
   "exclude": [
     "node_modules",

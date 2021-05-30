@@ -68,9 +68,6 @@ export class AuthorizeService {
       this.updateState(silentUser);
       return AuthorizeService.success(state);
     } catch (silentError) {
-      // User might not be authenticated, fallback to popup authentication
-      console.log('Silent authentication error: ', silentError);
-
       try {
         if (this.popUpDisabled) {
           throw new Error(
@@ -88,9 +85,6 @@ export class AuthorizeService {
           // The user explicitly cancelled the login action by closing an opened popup.
           return AuthorizeService.error('The user closed the window.');
         }
-        if (!this.popUpDisabled) {
-          console.log('Popup authentication error: ', popUpError);
-        }
 
         // PopUps might be blocked by the user, fallback to redirect
         try {
@@ -99,7 +93,6 @@ export class AuthorizeService {
           );
           return AuthorizeService.redirect();
         } catch (redirectError) {
-          console.log('Redirect authentication error: ', redirectError);
           return AuthorizeService.error(redirectError);
         }
       }
@@ -113,7 +106,6 @@ export class AuthorizeService {
       this.updateState(user);
       return AuthorizeService.success(user && user.state);
     } catch (error) {
-      console.log('There was an error signing in: ', error);
       return AuthorizeService.error('There was an error signing in.');
     }
   }
@@ -138,14 +130,12 @@ export class AuthorizeService {
       this.updateState(undefined);
       return AuthorizeService.success(state);
     } catch (popupSignOutError) {
-      console.log('Popup signout error: ', popupSignOutError);
       try {
         await this.userManager?.signoutRedirect(
           AuthorizeService.createArguments(state)
         );
         return AuthorizeService.redirect();
       } catch (redirectSignOutError) {
-        console.log('Redirect signout error: ', redirectSignOutError);
         return AuthorizeService.error(redirectSignOutError);
       }
     }
@@ -158,7 +148,6 @@ export class AuthorizeService {
       this.updateState(null);
       return AuthorizeService.success(response && response.state);
     } catch (error) {
-      console.log(`There was an error trying to log out '${error}'.`);
       return AuthorizeService.error(error);
     }
   }
@@ -168,7 +157,7 @@ export class AuthorizeService {
     this.notifySubscribers();
   }
 
-  subscribe(callback: Function): number {
+  subscribe(callback: () => Promise<void>): number {
     this.callbacks.push({
       callback,
       subscription: this.nextSubscriptionId,
@@ -222,12 +211,10 @@ export class AuthorizeService {
   }
 
   async ensureUserManagerInitialized(): Promise<void> {
-      if (this.userManager !== undefined) {
-          console.log('usermanager existed');
+    if (this.userManager !== undefined) {
       return;
     }
 
-      console.log('usermanager not existed');
     const response: Response = await fetch(
       ApplicationPaths.ApiAuthorizationClientConfigurationUrl
     );
@@ -249,10 +236,6 @@ export class AuthorizeService {
       await this.userManager?.removeUser();
       this.updateState(undefined);
     });
-  }
-
-  static get instance(): AuthorizeService {
-    return authService;
   }
 }
 
