@@ -67,6 +67,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
               caption: obj.titulo,
               link: `/post/${obj.slug}`,
               slug: obj.slug,
+              seoTitle: obj.seoTitle,
               date: new Intl.DateTimeFormat('en-GB', {
                 year: 'numeric',
                 month: 'long',

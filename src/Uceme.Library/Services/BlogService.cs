@@ -34,6 +34,7 @@
                     foto = x.foto,
                     texto = x.texto,
                     slug = x.slug,
+                    seoTitle = x.seoTitle,
                     metaDescription = x.metaDescription,
                 });
 
@@ -60,6 +61,7 @@
                     foto = x.foto,
                     texto = x.texto,
                     slug = x.slug,
+                    seoTitle = x.seoTitle,
                     metaDescription = x.metaDescription,
                 }).OrderByDescending(x => x.fecha);
 
@@ -84,6 +86,7 @@
                     foto = x.foto,
                     texto = x.texto,
                     slug = x.slug,
+                    seoTitle = x.seoTitle,
                     metaDescription = x.metaDescription,
                 }).First(x => x.slug == slug);
 
