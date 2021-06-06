@@ -31,7 +31,8 @@
                 "plugin:prettier/recommended"
             ],
             "rules": {
-                "no-restricted-globals": "off"
+                "no-restricted-globals": "off",
+                "prettier/prettier": ["error", { "endOfLine": "auto" }] 
             }
         },
         {
