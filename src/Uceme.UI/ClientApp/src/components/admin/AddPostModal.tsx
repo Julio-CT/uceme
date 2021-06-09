@@ -13,6 +13,7 @@ import DatePicker from 'reactstrap-date-picker2';
 import { ContentState, convertToRaw, RawDraftContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
 import './AddPostModal.scss';
@@ -30,7 +31,6 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
   const { modal, toggle, post, headerTitle } = props;
 
   let contentState = ContentState.createFromText(post ? post.text : '');
-  let raw = convertToRaw(contentState);
 
   const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
@@ -48,7 +48,9 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
   const [slug, setSlug] = React.useState<string>(
     post && post.slug ? post.slug : ''
   );
-  const [text, setText] = React.useState<RawDraftContentState>(raw);
+  const [text, setText] = React.useState<RawDraftContentState>(
+    convertToRaw(contentState)
+  );
   const [caption, setCaption] = React.useState<string>(
     post && post.caption ? post.caption : ''
   );
@@ -68,7 +70,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
   const resetForm = () => {
     setTitle('');
     setSlug('');
-    setText(raw);
+    setText(convertToRaw(contentState));
     setCaption('');
   };
 
@@ -191,14 +193,15 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
 
   if (post !== currentPost) {
     setCurrentPost(post);
-    contentState = ContentState.createFromText(post ? post.text : '');
-    raw = convertToRaw(contentState);
+    contentState = ContentState.createFromBlockArray(
+      post ? htmlToDraft(post.text).contentBlocks : []
+    );
     setPhoto(post ? post.imageSrc : '');
     // setDay(post ? post.date : '');
     const t = post && post.title ? post.title : '';
     setTitle(t);
     setSlug(post && post.slug ? post.slug : '');
-    setText(raw);
+    setText(convertToRaw(contentState));
     setCaption(post ? post.caption : '');
     setMetaDescription(
       post && post.metaDescription ? post.metaDescription : ''
