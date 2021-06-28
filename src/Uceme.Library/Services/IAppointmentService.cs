@@ -22,5 +22,7 @@
         bool DeleteAppointment(int appointmentId);
 
         Cita UpdateAppointment(Cita appointment);
+
+        bool UpdatePastAppointmentsData();
     }
 }

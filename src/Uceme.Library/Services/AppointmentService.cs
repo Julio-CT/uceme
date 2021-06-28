@@ -175,6 +175,37 @@
             }
         }
 
+        public bool UpdatePastAppointmentsData()
+        {
+            try
+            {
+                var todaysYear = DateTime.Now.AddDays(-7).Year.ToString(CultureInfo.CurrentCulture);
+                var todaysMonth = DateTime.Now.AddDays(-7).Month.ToString(CultureInfo.CurrentCulture);
+                todaysMonth = todaysMonth.Length > 1 ? todaysMonth : "0" + todaysMonth;
+                var todaysDay = DateTime.Now.AddDays(-7).Day.ToString(CultureInfo.CurrentCulture);
+                var todaysDate = Convert.ToUInt32(todaysYear + todaysMonth + todaysDay, CultureInfo.CurrentCulture);
+
+                var existingAppointments = this.context.Cita.Where(a => a.dia < todaysDate);
+
+                foreach (var existingAppointment in existingAppointments.ToList())
+                {
+                    existingAppointment.email = "eliminado";
+                    existingAppointment.telefono = "eliminado";
+
+                    this.context.Cita.Update(existingAppointment);
+                }
+
+                this.context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Error retrieving appointments {e.Message}");
+                throw new DataException("Error retrieving appointments", e);
+            }
+        }
+
         Cita IAppointmentService.GetAppointment(int appointmentId)
         {
             try
@@ -194,8 +225,8 @@
         {
             try
             {
-                var cita = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointmentId);
-                var result = this.context.Cita.Remove(cita);
+                var appointment = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointmentId);
+                var result = this.context.Cita.Remove(appointment);
                 this.context.SaveChanges();
 
                 return true;
@@ -211,16 +242,16 @@
         {
             try
             {
-                var cita = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointment.idCita);
+                var existingAppointment = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointment.idCita);
 
-                cita.dia = appointment.dia;
-                cita.email = appointment.email;
-                cita.hora = appointment.hora;
-                cita.idTurno = cita.idTurno;
-                cita.nombre = cita.nombre;
-                cita.telefono = cita.telefono;
+                existingAppointment.dia = appointment.dia;
+                existingAppointment.email = appointment.email;
+                existingAppointment.hora = appointment.hora;
+                existingAppointment.idTurno = appointment.idTurno;
+                existingAppointment.nombre = appointment.nombre;
+                existingAppointment.telefono = appointment.telefono;
 
-                var result = this.context.Cita.Update(cita);
+                var result = this.context.Cita.Update((Cita)existingAppointment);
                 this.context.SaveChanges();
 
                 return result.Entity;
