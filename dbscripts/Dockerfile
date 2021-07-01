@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/mssql/server
+FROM mcr.microsoft.com/azure-sql-edge
 
 ENV SA_PASSWORD Ch4mp10ns
 ENV ACCEPT_EULA Y

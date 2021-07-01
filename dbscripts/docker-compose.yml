@@ -1,7 +1,7 @@
 version: "3.8"
 services:
     db:
-        image: "mcr.microsoft.com/mssql/server"
+        image: "mcr.microsoft.com/azure-sql-edge"
         environment:
             SA_PASSWORD: "Ch4mp10ns"
             ACCEPT_EULA: "Y"

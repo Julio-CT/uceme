@@ -105,5 +105,21 @@
 
             return result;
         }
+
+        [HttpGet("updatepastappointmentsdata")]
+        public ActionResult<bool> UpdatePastAppointmentsData()
+        {
+            bool result;
+            try
+            {
+                result = this.appointmentService.UpdatePastAppointmentsData();
+            }
+            catch (DataException)
+            {
+                return this.BadRequest();
+            }
+
+            return result;
+        }
     }
 }

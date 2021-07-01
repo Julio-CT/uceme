@@ -130,6 +130,13 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
       });
   };
 
+  const updatePastAppointmentsData = async () => {
+    const token = await authService.getAccessToken();
+    fetch(`clientapi/appointment/updatepastappointmentsData`, {
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+    }).then((response: { json: () => Promise<boolean> }) => response.json());
+  };
+
   const deleteAppointment = (appointment: Appointment) => {
     setMarkedAppointment(appointment);
     setConfirmModal(true);
@@ -184,6 +191,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
 
         fetchCloseAppointments(page);
         fetchAppointments(page);
+        updatePastAppointmentsData();
         return;
       }
 
