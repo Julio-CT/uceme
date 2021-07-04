@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 .line {
   width: 120px;
   height: 3px;
@@ -21,7 +23,7 @@
 
 .specialities {
   p a {
-    color: #555;
+    color: $uceme-text;
     text-align: center;
     text-decoration: none;
   }

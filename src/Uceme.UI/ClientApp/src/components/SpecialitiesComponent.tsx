@@ -58,17 +58,9 @@ const items: JSX.Element[] = specials.map((item) => {
           height="80"
         />
       </a>
-      <h4 className="uppercase">
-        <a href={item.link} title={item.title}>
-          {item.caption}
-        </a>
-      </h4>
+      <h4 className="uppercase">{item.caption}</h4>
       <div className="line-small" />
-      <p>
-        <a href={item.link} title={item.title}>
-          {item.altText}
-        </a>
-      </p>
+      <p>{item.altText}</p>
     </div>
   );
 });
