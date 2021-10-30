@@ -18,12 +18,12 @@ import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
 import './AddPostModal.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import BlogPost from '../../library/BlogPost';
+import BlogItem from '../../library/BlogItem';
 
 type AddPostModalProps = {
   toggle: () => void;
   modal?: boolean;
-  post?: BlogPost;
+  post?: BlogItem;
   headerTitle: string;
 };
 
@@ -35,7 +35,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
   const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
   const [currentPost, setCurrentPost] =
-    React.useState<BlogPost | undefined>(post);
+    React.useState<BlogItem | undefined>(post);
   const [photo, setPhoto] = React.useState<string | Blob>(
     post ? post.imageSrc : ''
   );

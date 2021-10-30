@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './SpecialitiesComponent.scss';
+import './Specialities.scss';
 import slide1 from '../resources/images/cirugia-tiroidea.png';
 import slide2 from '../resources/images/cirugia-paratiroidea.png';
 import slide3 from '../resources/images/obesidad-morbida.png';
@@ -65,7 +65,7 @@ const items: JSX.Element[] = specials.map((item) => {
   );
 });
 
-const SpecialitiesComponent: () => JSX.Element = () => {
+const Specialities: () => JSX.Element = () => {
   return (
     <div className="App App-home header-distance">
       <section id="section-specialities" className="clearfix">
@@ -82,4 +82,4 @@ const SpecialitiesComponent: () => JSX.Element = () => {
   );
 };
 
-export default SpecialitiesComponent;
+export default Specialities;

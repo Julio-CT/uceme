@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import parse from 'html-react-parser';
-import BlogPost from '../library/BlogPost';
+import BlogItem from '../library/BlogItem';
 import './BlogHome.scss';
 import SettingsContext from '../SettingsContext';
 import BlogPostResponse from '../library/BlogPostResponse';
 
 type BlogHomeState = {
   loaded: boolean;
-  resp?: BlogPost[] | null;
+  resp?: BlogItem[] | null;
   page?: number;
 };
 
@@ -33,7 +33,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
     fetch(`${baseHref}api/blog/getbloglist?page=${page}`)
       .then((response: Response) => response.json())
       .then(async (resp: BlogPostResponse[]) => {
-        const retrievedBlogs: BlogPost[] = [];
+        const retrievedBlogs: BlogItem[] = [];
 
         await Promise.all(
           resp.map(async (obj: BlogPostResponse) => {
@@ -101,7 +101,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
           <div
             className={`section padding-top section--large section--grey section--in-view article-list article-list--page-${data.page}`}
           >
-            {data.resp?.map((post: BlogPost, index: number) => {
+            {data.resp?.map((post: BlogItem, index: number) => {
               return (
                 <React.Fragment key={post.slug}>
                   <article

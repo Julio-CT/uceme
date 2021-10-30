@@ -62,7 +62,7 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
   }
 
   componentWillUnmount(): void {
-    authService.unsubscribe(this.subscription);
+    authService.unsubscribe(this.subscription, 'LoginMenu');
   }
 
   async populateState(): Promise<void> {

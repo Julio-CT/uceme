@@ -4,7 +4,7 @@ import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import parse from 'html-react-parser';
-import BlogPost from '../../library/BlogPost';
+import BlogItem from '../../library/BlogItem';
 import './AppointmentManager.scss';
 import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
@@ -13,7 +13,7 @@ import BlogPostResponse from '../../library/BlogPostResponse';
 
 type PostManagerState = {
   loaded: boolean;
-  posts?: BlogPost[] | null;
+  posts?: BlogItem[] | null;
   page?: number;
 };
 
@@ -34,7 +34,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
   const [alertModal, setAlertModal] = React.useState<boolean>(false);
   const alertToggle = () => setAlertModal(!alertModal);
   const [alertMessage, setAlertMessage] = React.useState<string>('');
-  const [markedPost, setMarkedPost] = React.useState<BlogPost>();
+  const [markedPost, setMarkedPost] = React.useState<BlogItem>();
   const settings = React.useContext(SettingsContext());
   const [postData, setPostData] = React.useState<PostManagerState>({
     loaded: false,
@@ -50,7 +50,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
         response.json()
       )
       .then(async (resp: BlogPostResponse[]) => {
-        const retrievedPosts: BlogPost[] = [];
+        const retrievedPosts: BlogItem[] = [];
 
         await Promise.all(
           resp.map(async (obj: BlogPostResponse) => {
@@ -92,12 +92,12 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
       });
   };
 
-  const editPost = (post: BlogPost) => {
+  const editPost = (post: BlogItem) => {
     setMarkedPost(post);
     setEditModal(true);
   };
 
-  const deletePost = (post: BlogPost) => {
+  const deletePost = (post: BlogItem) => {
     setMarkedPost(post);
     setConfirmModal(true);
   };
@@ -117,7 +117,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
             setPostData({
               loaded: true,
               posts: postData.posts?.filter(
-                (obj: BlogPost) => obj.id !== markedPost.id
+                (obj: BlogItem) => obj.id !== markedPost.id
               ),
               page: postData.page,
             });
@@ -220,7 +220,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
               </tr>
             </thead>
             <tbody>
-              {postData.posts?.map((post: BlogPost) => {
+              {postData.posts?.map((post: BlogItem) => {
                 return (
                   <tr key={post.id}>
                     <td className="col-md-2">{post.date}</td>

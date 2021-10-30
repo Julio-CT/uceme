@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Component } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import './NavMenu.scss';
@@ -11,7 +10,10 @@ type NavMenuState = {
 
 type NavMenuProps = Record<string, unknown>;
 
-export default class NavMenu extends Component<NavMenuProps, NavMenuState> {
+export default class NavMenu extends React.Component<
+  NavMenuProps,
+  NavMenuState
+> {
   constructor(props: NavMenuProps) {
     super(props);
 

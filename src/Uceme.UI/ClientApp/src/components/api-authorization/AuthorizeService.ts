@@ -162,10 +162,11 @@ export class AuthorizeService {
       callback,
       subscription: this.nextSubscriptionId,
     });
+    this.nextSubscriptionId += 1;
     return this.nextSubscriptionId - 1;
   }
 
-  unsubscribe(subscriptionId: number): void {
+  unsubscribe(subscriptionId: number, caller: string): void {
     const subscriptionIndex = this.callbacks
       .map((element, index) =>
         element.subscription === subscriptionId
@@ -174,9 +175,7 @@ export class AuthorizeService {
       )
       .filter((element) => element.found === true);
     if (subscriptionIndex.length !== 1) {
-      throw new Error(
-        `Found an invalid number of subscriptions ${subscriptionIndex.length}`
-      );
+      throw new Error(`Unable to unsusbcribe for ${caller}`);
     }
 
     const callbackIndex: number = subscriptionIndex[0].index as number;

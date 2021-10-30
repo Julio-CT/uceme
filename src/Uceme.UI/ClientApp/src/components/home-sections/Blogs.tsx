@@ -5,19 +5,19 @@ import './Blogs.scss';
 import { Link } from 'react-router-dom';
 import tinyDate from '../../resources/images/tinydate.png';
 import photoIcon from '../../resources/images/photoicon.png';
-import BlogPost from '../../library/BlogPost';
+import BlogItem from '../../library/BlogItem';
 import SettingsContext from '../../SettingsContext';
 import BlogPostResponse from '../../library/BlogPostResponse';
 
 type BlogState = {
-  items: BlogPost[];
+  items: BlogItem[];
   isFetching: boolean;
 };
 
 const Blogs: () => JSX.Element = () => {
   const settings = React.useContext(SettingsContext());
   const [data, setData] = React.useState<BlogState>({
-    items: [] as Array<BlogPost>,
+    items: [] as Array<BlogItem>,
     isFetching: false,
   });
 
@@ -26,7 +26,7 @@ const Blogs: () => JSX.Element = () => {
       fetch(`${settings.baseHref}api/blog/getblogsubset?amount=3`)
         .then((response: Response) => response.json())
         .then(async (posts: BlogPostResponse[]) => {
-          const retrievedBlogs: BlogPost[] = [];
+          const retrievedBlogs: BlogItem[] = [];
 
           await Promise.all(
             posts.map(async (obj: BlogPostResponse) => {
@@ -54,7 +54,7 @@ const Blogs: () => JSX.Element = () => {
           setData({ items: retrievedBlogs, isFetching: false });
         })
         .catch(() => {
-          setData({ items: [] as Array<BlogPost>, isFetching: false });
+          setData({ items: [] as Array<BlogItem>, isFetching: false });
         });
     }
   }, [settings]);

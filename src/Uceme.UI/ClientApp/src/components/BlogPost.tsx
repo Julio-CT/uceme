@@ -2,14 +2,14 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
-import BlogPost from '../library/BlogPost';
+import BlogItem from '../library/BlogItem';
 import BlogPostResponse from '../library/BlogPostResponse';
 import SettingsContext from '../SettingsContext';
 import './BlogHome.scss';
 
 type BlogPostState = {
   loaded: boolean;
-  post?: BlogPost;
+  post?: BlogItem;
 };
 
 interface MatchParams {
@@ -18,7 +18,7 @@ interface MatchParams {
 
 type BlogPostProps = RouteComponentProps<MatchParams>;
 
-const BlogPostComponent = (props: BlogPostProps): JSX.Element => {
+const BlogPost = (props: BlogPostProps): JSX.Element => {
   const settings = React.useContext(SettingsContext());
   const { match } = props;
   const [data, setData] = React.useState<BlogPostState>({
@@ -32,7 +32,7 @@ const BlogPostComponent = (props: BlogPostProps): JSX.Element => {
         const image = `${process.env.PUBLIC_URL}/uploads/${resp.foto.slice(
           resp.foto.lastIndexOf('/') + 1
         )}`;
-        const retrievedBlog: BlogPost = {
+        const retrievedBlog: BlogItem = {
           id: resp.idBlog,
           title: resp.titulo,
           imageSrc: image,
@@ -117,4 +117,4 @@ const BlogPostComponent = (props: BlogPostProps): JSX.Element => {
   return <div>Loading...</div>;
 };
 
-export default BlogPostComponent;
+export default BlogPost;
