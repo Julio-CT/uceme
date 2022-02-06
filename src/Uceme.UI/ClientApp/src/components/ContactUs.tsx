@@ -1,7 +1,7 @@
+/* eslint-disable react/function-component-definition */
 import * as React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import './ContactUsComponent.scss';
 import SettingsContext from '../SettingsContext';
 
 type contactUsState = {
@@ -11,7 +11,7 @@ type contactUsState = {
   message: string;
 };
 
-const ContactUsComponent: () => JSX.Element = () => {
+const ContactUs: () => JSX.Element = () => {
   const [modal, setModal] = React.useState(false);
   const toggle = () => setModal(!modal);
   const [modalMessage, setModaleMessage] = React.useState<string>('');
@@ -218,4 +218,4 @@ const ContactUsComponent: () => JSX.Element = () => {
   );
 };
 
-export default ContactUsComponent;
+export default ContactUs;

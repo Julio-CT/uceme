@@ -1,4 +1,4 @@
-type BlogPost = {
+type BlogItem = {
   id: string;
   title?: string;
   imageSrc: string;
@@ -13,4 +13,4 @@ type BlogPost = {
   featuredImage?: string;
 };
 
-export default BlogPost;
+export default BlogItem;

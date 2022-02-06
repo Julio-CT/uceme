@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import parse from 'html-react-parser';
-import BlogPost from '../library/BlogPost';
+import BlogItem from '../library/BlogItem';
 import './BlogHome.scss';
 import SettingsContext from '../SettingsContext';
 import BlogPostResponse from '../library/BlogPostResponse';
 
 type BlogHomeState = {
   loaded: boolean;
-  resp?: BlogPost[] | null;
+  resp?: BlogItem[] | null;
   page?: number;
 };
 
@@ -18,13 +18,14 @@ interface MatchParams {
 
 type BlogHomeProps = RouteComponentProps<MatchParams>;
 
-const BlogHome = (props: BlogHomeProps): JSX.Element => {
+function BlogHome(props: BlogHomeProps): JSX.Element {
   const settings = React.useContext(SettingsContext());
   const { match } = props;
+  const params = match?.params ?? { page: 1 };
   const [data, setData] = React.useState<BlogHomeState>({
     loaded: false,
     resp: null,
-    page: +match?.params?.page ?? 1,
+    page: +params.page ?? 1,
   });
 
   const isFirstRun = React.useRef(true);
@@ -33,7 +34,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
     fetch(`${baseHref}api/blog/getbloglist?page=${page}`)
       .then((response: Response) => response.json())
       .then(async (resp: BlogPostResponse[]) => {
-        const retrievedBlogs: BlogPost[] = [];
+        const retrievedBlogs: BlogItem[] = [];
 
         await Promise.all(
           resp.map(async (obj: BlogPostResponse) => {
@@ -76,7 +77,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
 
   React.useEffect(() => {
     if (settings) {
-      const page = +match?.params?.page || 1;
+      const page = +params.page || 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
@@ -88,7 +89,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
       setData({ loaded: false, page });
       fetchPosts(page, settings.baseHref);
     }
-  }, [match?.params?.page, settings]);
+  }, [match.params.page, params.page, settings]);
 
   if (data.loaded) {
     const nextPage: number = data.page ? +data.page + 1 : 2;
@@ -101,7 +102,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
           <div
             className={`section padding-top section--large section--grey section--in-view article-list article-list--page-${data.page}`}
           >
-            {data.resp?.map((post: BlogPost, index: number) => {
+            {data.resp?.map((post: BlogItem, index: number) => {
               return (
                 <React.Fragment key={post.slug}>
                   <article
@@ -150,6 +151,6 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
   }
 
   return <div className="App App-home header-distance">Loading...</div>;
-};
+}
 
 export default BlogHome;

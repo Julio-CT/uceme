@@ -22,8 +22,9 @@ interface MatchParams {
 
 type AppointmentManagerProps = RouteComponentProps<MatchParams>;
 
-const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
+function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
   const { match } = props;
+  const params = match?.params ?? { page: 1 };
   const [modal, setModal] = React.useState<boolean>(false);
   const toggle = () => setModal(!modal);
   const [confirmModal, setConfirmModal] = React.useState<boolean>(false);
@@ -38,13 +39,13 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
     React.useState<AppointmentManagerState>({
       loaded: false,
       appointments: null,
-      page: +match?.params?.page ?? 1,
+      page: +params.page ?? 1,
     });
   const [closeAppointmentData, setCloseAppointmentData] =
     React.useState<AppointmentManagerState>({
       loaded: false,
       appointments: null,
-      page: +match.params?.page ?? 1,
+      page: +params.page ?? 1,
     });
 
   const isFirstRun = useRef(true);
@@ -147,7 +148,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
       setConfirmModal(false);
       const token = await authService.getAccessToken();
       fetch(
-        `clientapi/appointment/deleteappointment?appointmentid=${+markedAppointment?.id}`,
+        `clientapi/appointment/deleteappointment?appointmentid=${+markedAppointment.id}`,
         {
           headers: !token ? {} : { Authorization: `Bearer ${token}` },
         }
@@ -184,7 +185,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
 
   React.useEffect(() => {
     if (settings) {
-      const page = +match.params?.page || 1;
+      const page = +params.page || 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
@@ -199,7 +200,7 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
       fetchCloseAppointments(page);
       fetchAppointments(page);
     }
-  }, [match?.params?.page, settings]);
+  }, [match.params.page, params.page, settings]);
 
   if (appointmentData.loaded && closeAppointmentData.loaded) {
     return (
@@ -323,6 +324,6 @@ const AppointmentManager = (props: AppointmentManagerProps): JSX.Element => {
   }
 
   return <div className="App App-home header-distance">Loading...</div>;
-};
+}
 
 export default AppointmentManager;

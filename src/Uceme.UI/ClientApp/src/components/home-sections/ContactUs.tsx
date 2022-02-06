@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import * as React from 'react';
 import SettingsContext from '../../SettingsContext';
 

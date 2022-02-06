@@ -18,24 +18,25 @@ import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
 import './AddPostModal.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import BlogPost from '../../library/BlogPost';
+import BlogItem from '../../library/BlogItem';
 
 type AddPostModalProps = {
   toggle: () => void;
   modal?: boolean;
-  post?: BlogPost;
+  post?: BlogItem;
   headerTitle: string;
 };
 
-const AddPostModal = (props: AddPostModalProps): JSX.Element => {
+function AddPostModal(props: AddPostModalProps): JSX.Element {
   const { modal, toggle, post, headerTitle } = props;
 
   let contentState = ContentState.createFromText(post ? post.text : '');
 
   const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
-  const [currentPost, setCurrentPost] =
-    React.useState<BlogPost | undefined>(post);
+  const [currentPost, setCurrentPost] = React.useState<BlogItem | undefined>(
+    post
+  );
   const [photo, setPhoto] = React.useState<string | Blob>(
     post ? post.imageSrc : ''
   );
@@ -176,7 +177,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
           if (resp === true) {
             alert('Post registrado correctamente. Muchas gracias.');
             resetForm();
-            props.toggle();
+            toggle();
           } else {
             alert(
               'Lo sentimos, ha ocurrido un error registrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
@@ -339,7 +340,7 @@ const AddPostModal = (props: AddPostModalProps): JSX.Element => {
       </ModalFooter>
     </Modal>
   );
-};
+}
 
 AddPostModal.defaultProps = {
   modal: false,

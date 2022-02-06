@@ -85,6 +85,8 @@ namespace Uceme.Api
                 config.Filters.Add(new AuthorizeFilter());
             });
 
+            services.AddSingleton<IConfiguration>(this.Configuration);
+
             services.AddTransient<IMedicoService, MedicoService>();
             services.AddTransient<IFotosService, FotosService>();
             services.AddTransient<IBlogService, BlogService>();
@@ -92,7 +94,6 @@ namespace Uceme.Api
             services.AddTransient<IHospitalService, HospitalService>();
             services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddSingleton<IConfiguration>(this.Configuration);
 
             var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
             services.AddSwaggerGen(options =>

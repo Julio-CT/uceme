@@ -65,21 +65,21 @@
                 });
             });
 
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddSingleton<IConfiguration>(this.Configuration);
 
             services.AddTransient<IMedicoService, MedicoService>();
             services.AddTransient<IFotosService, FotosService>();
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IHospitalService, HospitalService>();
-            services.AddSingleton<IConfiguration>(this.Configuration);
 
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IAppointmentService, AppointmentService>();
 
             // In production, the React files will be served from this directory
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";

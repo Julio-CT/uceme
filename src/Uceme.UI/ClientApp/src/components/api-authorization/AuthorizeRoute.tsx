@@ -39,7 +39,7 @@ export default class AuthorizeRoute extends React.Component<
   }
 
   componentWillUnmount(): void {
-    authService.unsubscribe(this.subscription);
+    authService.unsubscribe(this.subscription, 'AuthorizeRoute');
   }
 
   async populateAuthenticationState(): Promise<void> {

@@ -1,10 +1,17 @@
+@import url('http://fonts.cdnfonts.com/css/diablo');
+
 body {
   margin: 0;
+  //font-family: 'Diablo', Calibri, Candara, Segoe, Segoe UI, Optima, Arial, -apple-system,
+  //  BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+  //  'Droid Sans', 'Helvetica Neue', sans-serif;
   font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, -apple-system,
     BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  //-webkit-filter: invert(1);
+  //filter: invert(1);
 }
 
 code {

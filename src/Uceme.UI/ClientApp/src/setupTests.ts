@@ -1,8 +1,7 @@
-import '@testing-library/jest-dom/extend-expect';
 import Enzyme from 'enzyme';
-import ReactSixteenAdapter from 'enzyme-adapter-react-16';
+import ReactSeventeenAdapter from '@wojtekmaj/enzyme-adapter-react-17';
 
-Enzyme.configure({ adapter: new ReactSixteenAdapter() });
+Enzyme.configure({ adapter: new ReactSeventeenAdapter() });
 
 const localStorageMock = {
   getItem: jest.fn(),

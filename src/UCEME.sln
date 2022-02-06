@@ -79,6 +79,22 @@ Global
 		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
 		$0.StandardHeader = $2
 		$0.VersionControlPolicy = $3
+		$0.TextStylePolicy = $4
+		$4.FileWidth = 80
+		$4.TabsToSpaces = True
+		$4.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $5
+		$5.scope = text/x-csharp
+		$0.TextStylePolicy = $6
+		$6.FileWidth = 80
+		$6.TabsToSpaces = True
+		$6.scope = text/plain
+		$0.TextStylePolicy = $7
+		$7.TabWidth = 2
+		$7.TabsToSpaces = True
+		$7.IndentWidth = 2
+		$7.NoTabsAfterNonTabs = True
+		$7.scope = text/x-json
 		version = 0.3
 	EndGlobalSection
 EndGlobal

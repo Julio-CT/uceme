@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container } from 'reactstrap';
 import './Home.scss';
 
-const Conditions = (): JSX.Element => {
+function Conditions(): JSX.Element {
   return (
     <Container className="App header-distance">
       <div>
@@ -33,6 +33,6 @@ const Conditions = (): JSX.Element => {
       </div>
     </Container>
   );
-};
+}
 
 export default Conditions;

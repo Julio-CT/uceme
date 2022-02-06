@@ -5,7 +5,7 @@ import Specialities from './home-sections/Specialities';
 import Blogs from './home-sections/Blogs';
 import ContactUs from './home-sections/ContactUs';
 
-const Home = (): JSX.Element => {
+function Home(): JSX.Element {
   return (
     <div className="App App-home header-distance">
       <Slider />
@@ -14,6 +14,6 @@ const Home = (): JSX.Element => {
       <ContactUs />
     </div>
   );
-};
+}
 
 export default Home;

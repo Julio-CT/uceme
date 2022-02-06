@@ -29,7 +29,8 @@ type AppointmentHoursResponse = {
   hours: string[];
 };
 
-const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
+function AppointmentModal(props: AppointmentModalProps): JSX.Element {
+  const { modal, toggle } = props;
   const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
   const [showHospitals, setShowHospitals] = React.useState<boolean>(true);
@@ -260,7 +261,7 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
           if (resp === true) {
             alert('Cita previa registrada correctamente. Muchas gracias.');
             resetForm();
-            props.toggle();
+            toggle();
           } else {
             alert(
               'Lo sentimos, ha ocurrido un error registrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
@@ -274,8 +275,6 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
         });
     }
   };
-
-  const { modal, toggle } = props;
 
   React.useEffect(() => {
     if (settings && modal) {
@@ -435,7 +434,7 @@ const AppointmentModal = (props: AppointmentModalProps): JSX.Element => {
       </ModalFooter>
     </Modal>
   );
-};
+}
 
 AppointmentModal.defaultProps = {
   modal: false,
