@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import * as React from 'react';
 import parse from 'html-react-parser';
 import { Container } from 'reactstrap';

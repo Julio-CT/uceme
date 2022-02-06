@@ -18,13 +18,14 @@ interface MatchParams {
 
 type BlogHomeProps = RouteComponentProps<MatchParams>;
 
-const BlogHome = (props: BlogHomeProps): JSX.Element => {
+function BlogHome(props: BlogHomeProps): JSX.Element {
   const settings = React.useContext(SettingsContext());
   const { match } = props;
+  const params = match?.params ?? { page: 1 };
   const [data, setData] = React.useState<BlogHomeState>({
     loaded: false,
     resp: null,
-    page: +match?.params?.page ?? 1,
+    page: +params.page ?? 1,
   });
 
   const isFirstRun = React.useRef(true);
@@ -76,7 +77,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
 
   React.useEffect(() => {
     if (settings) {
-      const page = +match?.params?.page || 1;
+      const page = +params.page || 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
@@ -88,7 +89,7 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
       setData({ loaded: false, page });
       fetchPosts(page, settings.baseHref);
     }
-  }, [match?.params?.page, settings]);
+  }, [match.params.page, params.page, settings]);
 
   if (data.loaded) {
     const nextPage: number = data.page ? +data.page + 1 : 2;
@@ -150,6 +151,6 @@ const BlogHome = (props: BlogHomeProps): JSX.Element => {
   }
 
   return <div className="App App-home header-distance">Loading...</div>;
-};
+}
 
 export default BlogHome;

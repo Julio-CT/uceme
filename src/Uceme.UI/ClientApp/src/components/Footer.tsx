@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container } from 'reactstrap';
 import './Footer.scss';
 
-const Footer = (): JSX.Element => {
+function Footer(): JSX.Element {
   const year = new Date().getFullYear();
 
   return (
@@ -73,6 +73,6 @@ const Footer = (): JSX.Element => {
       </Container>
     </footer>
   );
-};
+}
 
 export default Footer;

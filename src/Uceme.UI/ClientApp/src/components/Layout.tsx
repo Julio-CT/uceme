@@ -56,7 +56,7 @@ export default class Layout extends React.Component<LayoutProps, LayoutState> {
     return (
       <>
         <Header />
-        <>{children}</>
+        {children}
         <Footer />
       </>
     );

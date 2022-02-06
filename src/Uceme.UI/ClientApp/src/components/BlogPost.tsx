@@ -18,7 +18,7 @@ interface MatchParams {
 
 type BlogPostProps = RouteComponentProps<MatchParams>;
 
-const BlogPost = (props: BlogPostProps): JSX.Element => {
+function BlogPost(props: BlogPostProps): JSX.Element {
   const settings = React.useContext(SettingsContext());
   const { match } = props;
   const [data, setData] = React.useState<BlogPostState>({
@@ -115,6 +115,6 @@ const BlogPost = (props: BlogPostProps): JSX.Element => {
   }
 
   return <div>Loading...</div>;
-};
+}
 
 export default BlogPost;

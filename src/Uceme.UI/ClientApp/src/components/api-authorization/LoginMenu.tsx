@@ -79,7 +79,7 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
   render(): JSX.Element {
     const { isAuthenticated, userName } = this.state;
     if (!isAuthenticated) {
-      return <></>;
+      return <div />;
     }
 
     const profilePath = `${ApplicationPaths.Profile}`;

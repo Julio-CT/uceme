@@ -17,7 +17,7 @@ describe('(Component)) App', () => {
           <App />
         </MemoryRouter>
       );
-    })
+    });
     expect(screen.queryAllByText('Uceme', { exact: false })).toHaveLength(2);
   });
 });

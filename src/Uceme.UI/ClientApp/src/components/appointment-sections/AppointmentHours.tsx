@@ -24,11 +24,9 @@ type MyButtonGroupProps = {
 export const MyButtonGroup = React.forwardRef(
   (props: MyButtonGroupProps, ref: React.LegacyRef<ButtonGroup>) => {
     return (
-      <>
-        <ButtonGroup id={props.id} ref={ref}>
-          {props.children}
-        </ButtonGroup>
-      </>
+      <ButtonGroup id={props.id} ref={ref}>
+        {props.children}
+      </ButtonGroup>
     );
   }
 );
@@ -61,6 +59,10 @@ class AppointmentHours extends React.Component<
     this.refScrollable = React.createRef();
     this.leftPaddle = React.createRef();
     this.rightPaddle = React.createRef();
+  }
+
+  componentDidMount(): void {
+    this.setSideScroll();
   }
 
   // get how much have we scrolled to the left

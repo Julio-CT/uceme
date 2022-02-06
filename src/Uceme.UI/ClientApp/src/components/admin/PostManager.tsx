@@ -23,8 +23,9 @@ interface MatchParams {
 
 type PostManagerProps = RouteComponentProps<MatchParams>;
 
-const PostManager = (props: PostManagerProps): JSX.Element => {
+function PostManager(props: PostManagerProps): JSX.Element {
   const { match } = props;
+  const params = match?.params ?? { page: 1 };
   const [addModal, setAddModal] = React.useState(false);
   const addToggle = () => setAddModal(!addModal);
   const [editModal, setEditModal] = React.useState(false);
@@ -39,7 +40,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
   const [postData, setPostData] = React.useState<PostManagerState>({
     loaded: false,
     posts: null,
-    page: +match?.params?.page ?? 1,
+    page: +params.page ?? 1,
   });
 
   const isFirstRun = useRef(true);
@@ -137,7 +138,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
 
   React.useEffect(() => {
     if (settings) {
-      const page = +match?.params?.page || 1;
+      const page = +params.page || 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
@@ -149,7 +150,7 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
       setPostData({ loaded: false, page });
       fetchPosts(page, settings.baseHref);
     }
-  }, [match?.params?.page, settings]);
+  }, [match.params.page, params.page, settings]);
 
   if (postData.loaded) {
     return (
@@ -248,6 +249,6 @@ const PostManager = (props: PostManagerProps): JSX.Element => {
   }
 
   return <div className="App App-home header-distance">Loading...</div>;
-};
+}
 
 export default PostManager;

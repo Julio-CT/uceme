@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import * as React from 'react';
 import './Specialities.scss';
 import slide1 from '../../resources/images/cirugia-tiroidea.png';
