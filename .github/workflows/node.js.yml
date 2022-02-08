@@ -30,6 +30,9 @@ jobs:
     - name: ci
       working-directory: ./src/Uceme.UI/ClientApp
       run: npm ci
+    - name: install
+      working-directory: ./src/Uceme.UI/ClientApp
+      run: npm install
     - name: build
       working-directory: ./src/Uceme.UI/ClientApp
       run: npm run build --if-present
