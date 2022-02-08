@@ -6,11 +6,6 @@
 
 namespace Uceme.Api
 {
-    using System;
-    using System.Globalization;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Authorization;
@@ -23,7 +18,6 @@ namespace Uceme.Api
     using Uceme.Foundation.Utilities;
     using Uceme.Library.Services;
     using Uceme.Model.Data;
-    using Uceme.Model.Models;
     using Uceme.Model.Settings;
 
     public class Startup

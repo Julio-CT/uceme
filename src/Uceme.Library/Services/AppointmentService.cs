@@ -195,7 +195,7 @@
             try
             {
                 var cita = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointmentId);
-                var result = this.context.Cita.Remove(cita);
+                _ = this.context.Cita.Remove(cita);
                 this.context.SaveChanges();
 
                 return true;
@@ -216,9 +216,9 @@
                 cita.dia = appointment.dia;
                 cita.email = appointment.email;
                 cita.hora = appointment.hora;
-                cita.idTurno = cita.idTurno;
-                cita.nombre = cita.nombre;
-                cita.telefono = cita.telefono;
+                cita.idTurno = appointment.idTurno;
+                cita.nombre = appointment.nombre;
+                cita.telefono = appointment.telefono;
 
                 var result = this.context.Cita.Update(cita);
                 this.context.SaveChanges();

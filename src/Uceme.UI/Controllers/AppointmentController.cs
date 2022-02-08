@@ -32,7 +32,7 @@
             IEnumerable<Cita> result = null;
             try
             {
-               result = this.appointmentService.GetAppointments();
+                result = this.appointmentService.GetAppointments();
             }
             catch (DataException)
             {

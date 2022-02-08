@@ -36,7 +36,7 @@
         [HttpGet("deletepost")]
         public ActionResult<bool> DeletePost(int postId)
         {
-            bool result = false;
+            bool result;
             try
             {
                 result = this.blogService.DeletePost(postId);
@@ -52,7 +52,7 @@
         [HttpGet("updatepost")]
         public ActionResult<Blog> UpdatePost(Blog post)
         {
-            Blog result = null;
+            Blog result;
             try
             {
                 result = this.blogService.UpdatePost(post);
