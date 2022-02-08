@@ -251,7 +251,7 @@
                 existingAppointment.nombre = appointment.nombre;
                 existingAppointment.telefono = appointment.telefono;
 
-                var result = this.context.Cita.Update((Cita)existingAppointment);
+                var result = this.context.Cita.Update(existingAppointment);
                 this.context.SaveChanges();
 
                 return result.Entity;

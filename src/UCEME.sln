@@ -16,25 +16,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.API.Test", "Uceme.API.Test\Uceme.API.Test.csproj", "{9411817A-BDA1-47FA-9329-8A41425CB40A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.API.Test", "Uceme.API.Test\Uceme.API.Test.csproj", "{9411817A-BDA1-47FA-9329-8A41425CB40A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.API", "Uceme.API\Uceme.API.csproj", "{2608C7CB-95DE-4BF4-A1AE-7ECEB76D95EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.API", "Uceme.API\Uceme.API.csproj", "{2608C7CB-95DE-4BF4-A1AE-7ECEB76D95EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.Foundation.Tests", "Uceme.Foundation.Tests\Uceme.Foundation.Tests.csproj", "{25F62FAA-AFB1-4B42-AE3A-22923F7BEA9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Foundation.Tests", "Uceme.Foundation.Tests\Uceme.Foundation.Tests.csproj", "{25F62FAA-AFB1-4B42-AE3A-22923F7BEA9C}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Uceme.Library", "Uceme.Library\Uceme.Library.shproj", "{80C3E890-A796-4B55-91BE-3ED5C51B9779}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.UI", "Uceme.UI\Uceme.UI.csproj", "{2B7BDEF7-73E7-4266-9938-93F951F052AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.UI", "Uceme.UI\Uceme.UI.csproj", "{2B7BDEF7-73E7-4266-9938-93F951F052AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.Foundation", "Uceme.Foundation\Uceme.Foundation.csproj", "{B44156CD-8D7A-4F6F-9DED-CC4A07C78170}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Foundation", "Uceme.Foundation\Uceme.Foundation.csproj", "{B44156CD-8D7A-4F6F-9DED-CC4A07C78170}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.Model", "Uceme.Model\Uceme.Model.csproj", "{2EC76AED-3F5D-45B0-803F-94C49EA32158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Model", "Uceme.Model\Uceme.Model.csproj", "{2EC76AED-3F5D-45B0-803F-94C49EA32158}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Uceme.Library\Uceme.Library.projitems*{2608c7cb-95de-4bf4-a1ae-7eceb76d95ec}*SharedItemsImports = 5
+		Uceme.Library\Uceme.Library.projitems*{2b7bdef7-73e7-4266-9938-93f951f052af}*SharedItemsImports = 5
 		Uceme.Library\Uceme.Library.projitems*{80c3e890-a796-4b55-91be-3ed5c51b9779}*SharedItemsImports = 13
-		Uceme.Library\Uceme.Library.projitems*{c5d4ac8a-7922-4702-92a5-9da3c2e5da90}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,8 +70,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		SolutionGuid = {1EFEFCA7-59F4-4F5C-A092-B7ABE99A76EE}
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
@@ -79,17 +79,15 @@ Global
 		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
 		$0.StandardHeader = $2
 		$0.VersionControlPolicy = $3
-		$0.TextStylePolicy = $4
+		$0.TextStylePolicy = $7
 		$4.FileWidth = 80
 		$4.TabsToSpaces = True
 		$4.scope = text/x-csharp
 		$0.CSharpFormattingPolicy = $5
 		$5.scope = text/x-csharp
-		$0.TextStylePolicy = $6
 		$6.FileWidth = 80
 		$6.TabsToSpaces = True
 		$6.scope = text/plain
-		$0.TextStylePolicy = $7
 		$7.TabWidth = 2
 		$7.TabsToSpaces = True
 		$7.IndentWidth = 2
