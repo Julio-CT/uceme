@@ -226,7 +226,7 @@
             try
             {
                 var appointment = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointmentId);
-                var result = this.context.Cita.Remove(appointment);
+                _ = this.context.Cita.Remove(appointment);
                 this.context.SaveChanges();
 
                 return true;

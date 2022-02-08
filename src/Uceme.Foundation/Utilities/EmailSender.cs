@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Mail;
     using System.Threading.Tasks;
@@ -55,11 +56,11 @@
             await this.ExecuteAsync(subject, htmlMessage, new List<string> { email }).ConfigureAwait(false);
         }
 
-        public async Task SendEmailAsync(IEnumerable<string> email, string subject, string htmlMessage)
+        public async Task SendEmailAsync(IEnumerable<string> emails, string subject, string htmlMessage)
         {
-            if (email == null)
+            if (emails == null || !emails.Any())
             {
-                throw new ArgumentNullException(nameof(email));
+                throw new ArgumentNullException(nameof(emails));
             }
 
             if (string.IsNullOrEmpty(subject))
@@ -72,7 +73,7 @@
                 throw new ArgumentNullException(nameof(htmlMessage));
             }
 
-            await this.ExecuteAsync(subject, htmlMessage, email).ConfigureAwait(false);
+            await this.ExecuteAsync(subject, htmlMessage, emails).ConfigureAwait(false);
         }
 
         public void SendEmail(string email, string subject, string htmlMessage)
@@ -95,11 +96,11 @@
             this.Execute(subject, htmlMessage, new List<string> { email });
         }
 
-        public void SendEmail(IEnumerable<string> email, string subject, string htmlMessage)
+        public void SendEmail(IEnumerable<string> emails, string subject, string htmlMessage)
         {
-            if (email == null)
+            if (emails == null || !emails.Any())
             {
-                throw new ArgumentNullException(nameof(email));
+                throw new ArgumentNullException(nameof(emails));
             }
 
             if (string.IsNullOrEmpty(subject))
@@ -112,7 +113,7 @@
                 throw new ArgumentNullException(nameof(htmlMessage));
             }
 
-            this.Execute(subject, htmlMessage, email);
+            this.Execute(subject, htmlMessage, emails);
         }
 
         private async Task ExecuteAsync(string subject, string message, IEnumerable<string> toEmails)
