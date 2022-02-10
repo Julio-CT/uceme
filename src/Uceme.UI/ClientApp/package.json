@@ -147,7 +147,7 @@
     "start-r": "react-scripts start",
     "test-r": "react-scripts test",
     "stubapi": "json-server --watch --port 4155 --routes routes.json db.json",
-    "test:coverage": "react-scripts test --coverage --runInBand --watchAll=false",
+    "test:coverage": "jest --coverage --runInBand --watchAll=false",
     "isready": "npm run format && npm run lint && npm run test:coverage && npm run build"
   },
   "browserslist": {
