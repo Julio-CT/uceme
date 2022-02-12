@@ -11,14 +11,15 @@ const specials = [
   {
     title: 'cirugia',
     src: slide1,
-    altText: 'Unidad de Cirugía Endocrinometabólica Especializada',
+    altText:
+      'Abordaje de bocio multinodular, cáncer de tiroides e hipertiroidismo, entre otras.',
     caption: 'Cirugía Tiroidea',
     link: 'Cirugía de Glándulas Suprarrenales',
   },
   {
     title: 'Paratiroidea',
     src: slide2,
-    altText: 'Pioneros en España en Tiroidectomía por Abordaje Extracervical',
+    altText: 'Técnicas mínimamente invasivas.',
     caption: 'Cirugía Paratiroidea',
     link: 'Cirugía de Glándulas Suprarrenales',
   },
@@ -26,21 +27,23 @@ const specials = [
     title: 'Obesidad',
     src: slide3,
     altText:
-      'Ofrecemos un trato personalizado en enfermedades de tiroides, paratiroides, glándula suprarrenal y obesidad mórbida.',
+      'Amplia experiencia en cirugía laparoscópica con técnicas personalizadas a cada paciente.',
     caption: 'Obesidad mórbida',
     link: 'Cirugía de Glándulas Suprarrenales',
   },
   {
     title: 'Suprarrenales',
     src: slide4,
-    altText: 'Sistema de cita previa online',
+    altText:
+      'Abordaje multidisciplinar con estudio funcional completo y cirugía mínimamente invasiva.',
     caption: 'Cirugía de Glándulas Suprarrenales',
     link: 'Cirugía de Glándulas Suprarrenales',
   },
   {
     title: 'tiroidectomia',
     src: slide5,
-    altText: 'Sistema de cita previa online',
+    altText:
+      'Abordaje multidisciplinar con estudio funcional completo y cirugía mínimamente invasiva.',
     caption: 'Tiroidectomía sin cicatriz',
     link: 'Cirugía de Glándulas Suprarrenales',
   },
