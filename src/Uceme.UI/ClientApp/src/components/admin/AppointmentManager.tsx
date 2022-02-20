@@ -7,7 +7,6 @@ import AppointmentResponse from '../../library/AppointmentResponse';
 import { DateTimeUtils } from '../../library/DateTimeUtils';
 import './AppointmentManager.scss';
 import '../appointment-sections/AppointmentModal.scss';
-import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
 
 type AppointmentManagerState = {
@@ -34,7 +33,6 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
   const [alertMessage, setAlertMessage] = React.useState<string>('');
   const [markedAppointment, setMarkedAppointment] =
     React.useState<Appointment>();
-  const settings = React.useContext(SettingsContext());
   const [appointmentData, setAppointmentData] =
     React.useState<AppointmentManagerState>({
       loaded: false,
@@ -144,7 +142,7 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
   };
 
   const deleteMarkedAppointment = async () => {
-    if (settings && markedAppointment) {
+    if (markedAppointment) {
       setConfirmModal(false);
       const token = await authService.getAccessToken();
       fetch(
@@ -184,23 +182,21 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
   };
 
   React.useEffect(() => {
-    if (settings) {
-      const page = +params.page || 1;
+    const page = +params.page || 1;
 
-      if (isFirstRun.current) {
-        isFirstRun.current = false;
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
 
-        fetchCloseAppointments(page);
-        fetchAppointments(page);
-        updatePastAppointmentsData();
-        return;
-      }
-
-      setAppointmentData({ loaded: false, page });
       fetchCloseAppointments(page);
       fetchAppointments(page);
+      updatePastAppointmentsData();
+      return;
     }
-  }, [match.params.page, params.page, settings]);
+
+    setAppointmentData({ loaded: false, page });
+    fetchCloseAppointments(page);
+    fetchAppointments(page);
+  }, [match.params.page, params.page]);
 
   if (appointmentData.loaded && closeAppointmentData.loaded) {
     return (

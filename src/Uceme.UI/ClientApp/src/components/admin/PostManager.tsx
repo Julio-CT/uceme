@@ -224,15 +224,15 @@ function PostManager(props: PostManagerProps): JSX.Element {
               {postData.posts?.map((post: BlogItem) => {
                 return (
                   <tr key={post.id}>
-                    <td className="col-md-2">{post.date}</td>
-                    <td className="col-md-3">{post.title}</td>
-                    <td className="col-md-1">
+                    <td>{post.date}</td>
+                    <td>{post.title}</td>
+                    <td>
                       <EditIcon
                         className="clickable"
                         onClick={() => editPost(post)}
                       />
                     </td>
-                    <td className="col-md-1">
+                    <td>
                       <DeleteIcon
                         className="clickable"
                         onClick={() => deletePost(post)}

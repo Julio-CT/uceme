@@ -64,7 +64,7 @@ const Slider: () => JSX.Element = () => {
       <CarouselItem
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
-        key={item.src}
+        key={item.caption}
       >
         <img src={item.src} alt={item.altText} />
         <CarouselCaption

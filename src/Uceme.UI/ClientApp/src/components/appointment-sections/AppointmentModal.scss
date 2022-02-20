@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 html {
   font-size: 14px;
@@ -44,7 +44,7 @@ html {
 }
 
 .beatabg {
-  background: url(../../resources/images/cita-previa.png) no-repeat left 0;
+  background: url("../../resources/images/cita-previa.png") no-repeat left 0;
 }
 
 .scrollable-wrapper {
@@ -63,7 +63,7 @@ html {
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  margin: 0 3em 0 3em;
+  margin: 0 3em;
 
   .scrollable-item {
     display: inline-block;
@@ -72,14 +72,14 @@ html {
     outline: 1px dotted gray;
     padding: 0.5em 1em;
     box-sizing: border-box;
-    color: rgb(67, 113, 50);
-    background-color: rgb(232, 240, 229);
-    box-shadow: rgb(67, 113, 50) 0 0 0 1px inset;
+    color: rgb(67 113 50);
+    background-color: rgb(232 240 229);
+    box-shadow: rgb(67 113 50) 0 0 0 1px inset;
 
     &.active {
       box-shadow: none;
-      color: rgb(255, 255, 255);
-      background-color: rgb(88, 148, 66);
+      color: rgb(255 255 255);
+      background-color: rgb(88 148 66);
     }
   }
 }
@@ -123,11 +123,11 @@ html {
   font-weight: 400;
   font-family: RalewayX, arial, sans-serif;
   font-style: normal;
-  line-height: 1.38462;
+  line-height: 1.3846;
 }
 
 .field-margin {
-  margin: 0 3em 0 3em;
+  margin: 0 3em;
 }
 
 .submit-form-button,
@@ -142,13 +142,13 @@ html {
   height: 100%;
   padding: 0.5em 1em;
   box-sizing: border-box;
-  color: rgb(67, 113, 50);
-  background-color: rgb(232, 240, 229);
-  box-shadow: rgb(67, 113, 50) 0 0 0 1px inset;
+  color: rgb(67 113 50);
+  background-color: rgb(232 240 229);
+  box-shadow: rgb(67 113 50) 0 0 0 1px inset;
 
   &.active {
     box-shadow: border-box;
-    color: rgb(255, 255, 255);
-    background-color: rgb(88, 148, 66);
+    color: rgb(255 255 255);
+    background-color: rgb(88 148 66);
   }
 }
