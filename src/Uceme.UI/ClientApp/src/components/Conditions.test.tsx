@@ -1,14 +1,25 @@
 import * as React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, RenderOptions, screen } from '@testing-library/react';
 import Conditions from './Conditions';
+import { unmountComponentAtNode } from 'react-dom';
 
-beforeAll(() => {});
+let container: any;
+beforeEach(() => {
+  // setup a DOM element as a render target
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
 
-afterAll(() => {});
+afterEach(() => {
+  // cleanup on exiting
+  unmountComponentAtNode(container);
+  container.remove();
+  container = null;
+});
 
 describe('(Component)) Conditions', () => {
   it('renders without exploding', () => {
-    render(<Conditions />);
+    render(<Conditions />, container);
     expect(screen.queryAllByText('informamos', { exact: false })).toHaveLength(
       1
     );
