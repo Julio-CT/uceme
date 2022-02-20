@@ -14,7 +14,6 @@ import { ContentState, convertToRaw, RawDraftContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
-import SettingsContext from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
 import './AddPostModal.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -31,8 +30,6 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
   const { modal, toggle, post, headerTitle } = props;
 
   let contentState = ContentState.createFromText(post ? post.text : '');
-
-  const settings = React.useContext(SettingsContext());
   const inputName = 'reactstrap_date_picker_basic';
   const [currentPost, setCurrentPost] = React.useState<BlogItem | undefined>(
     post
@@ -145,7 +142,7 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
 
   const submitForm = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     evt.preventDefault();
-    if (handleValidation() && settings) {
+    if (handleValidation()) {
       const day = new Date(selectedDay);
       const data = {
         idBlog: id,

@@ -9,7 +9,7 @@ import slide5 from '../../resources/images/tiroidectomia-sin-cicatriz.png';
 
 const specials = [
   {
-    title: 'cirugia',
+    title: 'Cirugia',
     src: slide1,
     altText:
       'Abordaje de bocio multinodular, cáncer de tiroides e hipertiroidismo, entre otras.',
@@ -40,7 +40,7 @@ const specials = [
     link: 'Cirugía de Glándulas Suprarrenales',
   },
   {
-    title: 'tiroidectomia',
+    title: 'Tiroidectomia',
     src: slide5,
     altText:
       'Abordaje multidisciplinar con estudio funcional completo y cirugía mínimamente invasiva.',

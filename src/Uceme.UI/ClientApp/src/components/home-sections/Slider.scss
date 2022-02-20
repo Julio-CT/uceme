@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .carousel {
   width: 100%;
@@ -16,7 +16,7 @@
 
 .carousel-caption {
   color: black;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 40%);
   background: white;
   width: 100%;
   text-align: center;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container } from 'reactstrap';
 import './Header.scss';
 import NavMenu from './NavMenu';
-import logo from '../resources/images/ucemelogobl.png';
+import logo from '../resources/images/logo-uceme-nuevo.png';
 import citaPreviaLogo from '../resources/images/icono-cita-previa.webp';
 import AppointmentModal from './appointment-sections/AppointmentModal';
 
@@ -13,7 +13,7 @@ function Header(): JSX.Element {
   return (
     <header className="uceme-header">
       <Container>
-        <div className="col-md-10">
+        <div className="col-md-12">
           <a className="container big-logo" href="/" id="headerLogo">
             <img
               alt="logo"

@@ -1,4 +1,4 @@
-@import '../variables.scss';
+@import "../variables.scss";
 
 html {
   font-size: 14px;
@@ -29,18 +29,10 @@ a.navbar-brand {
 .site-title-div {
   display: table-cell;
   top: 100px;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
   transition: all 0.3s;
 }
 
 .site-title-div-small {
   top: 50px !important;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
   transition: all 0.3s;
 }
