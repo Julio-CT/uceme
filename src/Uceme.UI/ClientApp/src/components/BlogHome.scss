@@ -246,9 +246,6 @@ h6 {
 @media screen and (min-width: 48em) {
   .test--flexbox .article-list--page-1 .article--1,
   .test--flexbox .article-list--page-0 .article--1 {
-    display: box;
-    display: flex;
-    display: flexbox;
     display: flex;
   }
 }
@@ -256,9 +253,6 @@ h6 {
 @media screen and (min-width: 48em) {
   .article-list {
     display: table;
-    display: box;
-    display: flex;
-    display: flexbox;
     display: flex;
     flex-wrap: wrap;
   }
