@@ -79,7 +79,7 @@ const items: JSX.Element[] = specials.map((item) => {
 
 const Specialities: () => JSX.Element = () => {
   return (
-    <div className="app app-home header-distance">
+    <div className="app app-home header-distance header-distance-l">
       <section id="section-specialities" className="clearfix">
         <div className="specialities container clearfix extra-margin">
           <h3 className="uppercase">Especialidades</h3>

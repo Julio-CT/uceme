@@ -107,7 +107,7 @@ function Speciality(props: SpecialityProps): JSX.Element {
 
   if (data.loaded && data.speciality) {
     return (
-      <div className="app-home">
+      <div className="app-home header-distance header-distance-l">
         <div className="container">
           <div className="section padding-top section-large section-grey section-in-view article-list-container article-list-page-1">
             <Helmet>
@@ -133,6 +133,12 @@ function Speciality(props: SpecialityProps): JSX.Element {
                 <h2 className="article-title">{data.speciality.caption}</h2>
                 <div>{parse(data.speciality.src)}</div>
               </div>
+              <a
+                href="/especialidades"
+                className="uppercase color-orange app all-especialities"
+              >
+                Todas las especialidades
+              </a>
             </article>
           </div>
         </div>

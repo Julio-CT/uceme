@@ -124,13 +124,13 @@ function PostManager(props: PostManagerProps): JSX.Element {
             });
           } else {
             setAlertMessage(
-              'Lo sentimos, ha ocurrido un error borrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+              'Lo sentimos, ha ocurrido un error borrando el post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
             );
           }
         })
         .catch(() => {
           setAlertMessage(
-            'Lo sentimos, ha ocurrido un error borrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+            'Lo sentimos, ha ocurrido un error borrando el post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
           );
         });
     }

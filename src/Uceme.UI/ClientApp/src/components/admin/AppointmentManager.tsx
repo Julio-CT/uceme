@@ -169,14 +169,14 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
             });
           } else {
             setAlertMessage(
-              'Lo sentimos, ha ocurrido un error borrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+              'Lo sentimos, ha ocurrido un error borrando la cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
             );
             alertToggle();
           }
         })
         .catch(() => {
           setAlertMessage(
-            'Lo sentimos, ha ocurrido un error borrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+            'Lo sentimos, ha ocurrido un error borrando la cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
           );
           alertToggle();
         });

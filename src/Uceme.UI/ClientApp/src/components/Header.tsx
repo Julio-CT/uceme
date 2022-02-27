@@ -41,7 +41,7 @@ function Header(): JSX.Element {
         tabIndex={0}
       >
         <div className="rounded-fixed-btn">
-          <span>Reserve cita</span>
+          <span>Reserva cita</span>
           <img
             alt="citaprevia"
             src={citaPreviaLogo}
