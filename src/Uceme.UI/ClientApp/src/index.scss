@@ -2,24 +2,18 @@
 
 body {
   margin: 0;
-  // font-family:
-  //   "Diablo",
-  //   calibri,
-  //   candara,
-  //   segoe,
-  //   segoe ui,
-  //   optima,
-  //   arial,
-  //   -apple-system,
-  //   blinkmacsystemfont, "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-  //   "Droid Sans", "Helvetica Neue", sans-serif;
-  font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, -apple-system,
-    BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+  font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, -apple-system,
+    BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans',
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  //-webkit-filter: invert(1);
-  //filter: invert(1);
+}
+
+body-invert {
+  font-family: Diablo, Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial,
+    -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell,
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  filter: invert(1);
 }
 
 code {

@@ -80,10 +80,10 @@ const ContactUs: () => JSX.Element = () => {
       <section id="section-contact_form" className="container">
         <Modal isOpen={modal} toggle={toggle} className="next-dates-modal">
           <ModalHeader toggle={toggle} className="beatabg next-dates-modal">
-            <div className="Aligner next-dates-modal">
-              <div className="Aligner-item Aligner-item--top" />
-              <div className="Aligner-item" />
-              <div className="Aligner-item Aligner-item--bottom" />
+            <div className="aligner next-dates-modal">
+              <div className="aligner-item aligner-item-top" />
+              <div className="aligner-item" />
+              <div className="aligner-item aligner-item-bottom" />
             </div>
           </ModalHeader>
           <ModalBody>
@@ -100,7 +100,7 @@ const ContactUs: () => JSX.Element = () => {
             </Button>
           </ModalFooter>
         </Modal>
-        <div className="App header-distance extra-padding row justify-content-md-center">
+        <div className="app header-distance extra-padding row justify-content-md-center">
           <form onSubmit={handleSubmit} className="col-12 col-md-6">
             <h3 className="uppercase">Envíenos un mensaje</h3>
             <h4 className="padding-y-medium uppercase spacing">

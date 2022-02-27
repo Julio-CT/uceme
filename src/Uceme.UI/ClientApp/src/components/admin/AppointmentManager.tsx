@@ -133,7 +133,9 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
     const token = await authService.getAccessToken();
     fetch(`clientapi/appointment/updatepastappointmentsData`, {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },
-    }).then((response: { json: () => Promise<boolean> }) => response.json());
+    })
+      .then((response: { json: () => Promise<boolean> }) => response.json())
+      .catch();
   };
 
   const deleteAppointment = (appointment: Appointment) => {
@@ -200,7 +202,7 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
 
   if (appointmentData.loaded && closeAppointmentData.loaded) {
     return (
-      <div className="App App-home header-distance">
+      <div className="app app-home header-distance">
         <Modal isOpen={alertModal} toggle={alertToggle}>
           <ModalBody>
             <section id="section-contact_form" className="container">
@@ -234,10 +236,10 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
         </Modal>
         <Modal isOpen={modal} toggle={toggle} className="next-dates-modal">
           <ModalHeader toggle={toggle} className="beatabg next-dates-modal">
-            <div className="Aligner next-dates-modal">
-              <div className="Aligner-item Aligner-item--top" />
-              <div className="Aligner-item">Citas en los próximos 2 días</div>
-              <div className="Aligner-item Aligner-item--bottom" />
+            <div className="aligner next-dates-modal">
+              <div className="aligner-item aligner-item-top" />
+              <div className="aligner-item">Citas en los próximos 2 días</div>
+              <div className="aligner-item aligner-item-bottom" />
             </div>
           </ModalHeader>
           <ModalBody>
@@ -319,7 +321,7 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
     );
   }
 
-  return <div className="App App-home header-distance">Loading...</div>;
+  return <div className="app app-home header-distance">Loading...</div>;
 }
 
 export default AppointmentManager;

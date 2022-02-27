@@ -7,7 +7,7 @@ import ContactUs from './home-sections/ContactUs';
 
 function Home(): JSX.Element {
   return (
-    <div className="App App-home header-distance">
+    <div className="app app-home header-distance">
       <Slider />
       <Specialities />
       <Blogs />

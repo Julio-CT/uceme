@@ -144,7 +144,7 @@
     "eject": "react-scripts eject",
     "format": "prettier --write 'src/**/*.{js,ts,tsx,scss}'",
     "lint": "eslint --fix 'src/**/*.{ts,tsx}' -c .eslintrc.json",
-    "stylelint": "stylelint '**/*.scss' --fix",
+    "stylelint": "stylelint '**/*.scss' --customSyntax 'postcss-scss' --fix",
     "start-r": "react-scripts start",
     "test-r": "react-scripts test",
     "stubapi": "json-server --watch --port 4155 --routes routes.json db.json",

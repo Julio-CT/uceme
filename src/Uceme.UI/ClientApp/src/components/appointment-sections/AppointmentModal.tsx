@@ -285,10 +285,10 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
   return (
     <Modal isOpen={modal} toggle={toggle}>
       <ModalHeader className="beatabg">
-        <div className="Aligner">
-          <div className="Aligner-item Aligner-item--top" />
-          <div className="Aligner-item">Reserve cita</div>
-          <div className="Aligner-item Aligner-item--bottom" />
+        <div className="aligner">
+          <div className="aligner-item aligner-item-top" />
+          <div className="aligner-item">Reserve cita</div>
+          <div className="aligner-item aligner-item-bottom" />
         </div>
       </ModalHeader>
       <ModalBody>

@@ -97,37 +97,35 @@ function BlogHome(props: BlogHomeProps): JSX.Element {
       data.page && +data.page !== 1 ? +data.page - 1 : undefined;
 
     return (
-      <div className="App App-home header-distance">
+      <div className="app app-home header-distance">
         <div className="container">
           <div
-            className={`section padding-top section--large section--grey section--in-view article-list article-list--page-${data.page}`}
+            className={`section padding-top section-large section-grey section-in-view article-list-container article-list-page-${data.page}`}
           >
             {data.resp?.map((post: BlogItem, index: number) => {
               return (
                 <React.Fragment key={post.slug}>
                   <article
-                    className={`article article--list article--blog article--${
+                    className={`article article-list article-blog article-${
                       +index + 1
                     }`}
                   >
                     <a
                       href={`/post/${post.slug}`}
-                      className="article__image article__image--thumb"
+                      className="article-image article-image-thumb"
                     >
                       <img src={post.imageSrc} alt={post.caption} />
                     </a>
-                    <div className="article__inner">
-                      <h2 className="article__title">
+                    <div className="article-inner">
+                      <h2 className="article-title">
                         <a href={`/post/${post.slug}`} rel="bookmark">
                           {post.title}
                         </a>
                       </h2>
 
-                      <div className="article__meta">
-                        <p className="article__date">{post.date}</p>
-                        <p className="article__author">
-                          {post.metaDescription}
-                        </p>
+                      <div className="article-meta">
+                        <p className="article-date">{post.date}</p>
+                        <p className="article-author">{post.metaDescription}</p>
                       </div>
                     </div>
                   </article>
@@ -150,7 +148,7 @@ function BlogHome(props: BlogHomeProps): JSX.Element {
     );
   }
 
-  return <div className="App App-home header-distance">Loading...</div>;
+  return <div className="app app-home header-distance">Loading...</div>;
 }
 
 export default BlogHome;

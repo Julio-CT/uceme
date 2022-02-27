@@ -4,7 +4,7 @@ import './Home.scss';
 
 function Conditions(): JSX.Element {
   return (
-    <Container className="App header-distance">
+    <Container className="app header-distance">
       <div>
         De conformidad con lo establecido en el Art. 5 de la Ley Orgánica
         15/1999 de diciembre de Protección de Datos de Carácter Personal, por el

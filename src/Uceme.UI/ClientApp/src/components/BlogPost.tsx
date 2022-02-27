@@ -25,7 +25,7 @@ function BlogPost(props: BlogPostProps): JSX.Element {
     loaded: false,
   });
 
-  const fetchPosts = (slug: string, baseHref: string) => {
+  const fetchPost = (slug: string, baseHref: string) => {
     fetch(`${baseHref}api/blog/getpost?slug=${slug}`)
       .then((response: Response) => response.json())
       .then(async (resp: BlogPostResponse) => {
@@ -66,15 +66,15 @@ function BlogPost(props: BlogPostProps): JSX.Element {
   React.useEffect(() => {
     if (settings) {
       const slug = match?.params?.slug ?? '';
-      fetchPosts(slug, settings.baseHref);
+      fetchPost(slug, settings.baseHref);
     }
   }, [match?.params?.slug, settings]);
 
   if (data.loaded && data.post) {
     return (
-      <div className="App-home header-distance">
+      <div className="app-home header-distance">
         <div className="container">
-          <div className="section padding-top section--large section--grey section--in-view article-list article-list--page-1">
+          <div className="section padding-top section-large section-grey section-in-view article-list-container article-list-page-1">
             <Helmet>
               <title>{data.post.seoTitle}</title>
               <meta name="description" content={data.post.metaDescription} />
@@ -88,23 +88,23 @@ function BlogPost(props: BlogPostProps): JSX.Element {
               />
             </Helmet>
 
-            <article className="article article--list article--blog article--1">
+            <article className="article article-list article-blog article-1">
               <a
                 href={`/post/${data.post.slug}`}
-                className="article__image article__image--thumb"
+                className="article-image article-image-thumb"
               >
                 <img src={data.post.imageSrc} alt={data.post.caption} />
               </a>
-              <div className="article__inner">
-                <h2 className="article__title">
+              <div className="article-inner">
+                <h2 className="article-title">
                   <a href={`/post/${data.post.slug}`} rel="bookmark">
                     {data.post.title}
                   </a>
                 </h2>
                 <div>{data.post.altText}</div>
-                <div className="article__meta">
-                  <p className="article__date">{data.post.date}</p>
-                  <p className="article__author">{data.post.metaDescription}</p>
+                <div className="article-meta">
+                  <p className="article-date">{data.post.date}</p>
+                  <p className="article-author">{data.post.metaDescription}</p>
                 </div>
               </div>
             </article>

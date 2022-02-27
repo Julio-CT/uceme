@@ -154,7 +154,7 @@ function PostManager(props: PostManagerProps): JSX.Element {
 
   if (postData.loaded) {
     return (
-      <div className="App App-home header-distance">
+      <div className="app app-home header-distance">
         <p>
           <br />
           <Button
@@ -248,7 +248,7 @@ function PostManager(props: PostManagerProps): JSX.Element {
     );
   }
 
-  return <div className="App App-home header-distance">Loading...</div>;
+  return <div className="app app-home header-distance">Loading...</div>;
 }
 
 export default PostManager;

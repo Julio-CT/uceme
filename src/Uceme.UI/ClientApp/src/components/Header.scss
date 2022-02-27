@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@import '../variables.scss';
 
 html {
   font-size: 14px;
@@ -77,7 +77,7 @@ a.small-logo {
   padding-left: 30px;
 }
 
-.fixedButton {
+.fixed-button {
   position: fixed;
   bottom: 0;
   right: 0;
@@ -85,7 +85,7 @@ a.small-logo {
   cursor: pointer;
 }
 
-.roundedFixedBtn {
+.rounded-fixed-btn {
   height: 2em;
   width: 9em;
   font-size: 1.6em;
@@ -101,7 +101,7 @@ a.small-logo {
 }
 
 @media (max-width: 768px) {
-  .roundedFixedBtn > span {
+  .rounded-fixed-btn > span {
     line-height: 1.7em;
   }
 }

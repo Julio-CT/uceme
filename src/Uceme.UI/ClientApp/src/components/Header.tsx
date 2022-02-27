@@ -34,13 +34,13 @@ function Header(): JSX.Element {
         <NavMenu />
       </Container>
       <div
-        className="fixedButton"
+        className="fixed-button"
         onClick={toggle}
         onKeyDown={toggle}
         role="button"
         tabIndex={0}
       >
-        <div className="roundedFixedBtn">
+        <div className="rounded-fixed-btn">
           <span>Reserve cita</span>
           <img
             alt="citaprevia"
