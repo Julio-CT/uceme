@@ -264,13 +264,13 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
             toggle();
           } else {
             alert(
-              'Lo sentimos, ha ocurrido un error registrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+              'Lo sentimos, ha ocurrido un error registrando tu cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
             );
           }
         })
         .catch(() => {
           alert(
-            'Lo sentimos, ha ocurrido un error registrando su cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
+            'Lo sentimos, ha ocurrido un error registrando tu cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
           );
         });
     }
@@ -285,10 +285,10 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
   return (
     <Modal isOpen={modal} toggle={toggle}>
       <ModalHeader className="beatabg">
-        <div className="Aligner">
-          <div className="Aligner-item Aligner-item--top" />
-          <div className="Aligner-item">Reserve cita</div>
-          <div className="Aligner-item Aligner-item--bottom" />
+        <div className="aligner">
+          <div className="aligner-item aligner-item-top" />
+          <div className="aligner-item">Reserva cita</div>
+          <div className="aligner-item aligner-item-bottom" />
         </div>
       </ModalHeader>
       <ModalBody>

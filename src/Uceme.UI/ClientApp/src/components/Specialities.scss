@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@import '../variables.scss';
 
 .line {
   width: 120px;
@@ -39,4 +39,14 @@
   h4 a:hover {
     color: #61dafb;
   }
+}
+
+.article-title {
+  color: $uceme-green;
+}
+
+.all-especialities {
+  width: 100%;
+  padding-left: 165px;
+  padding-top: 25px;
 }

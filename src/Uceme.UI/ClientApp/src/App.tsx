@@ -6,6 +6,7 @@ import BlogHome from './components/BlogHome';
 import Conditions from './components/Conditions';
 import BlogItem from './components/BlogPost';
 import Specialities from './components/Specialities';
+import Speciality from './components/Speciality';
 import ContactUs from './components/ContactUs';
 import AppointmentManager from './components/admin/AppointmentManager';
 import PostManager from './components/admin/PostManager';
@@ -15,7 +16,7 @@ import './custom.scss';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import './App.scss';
 
-function App(): JSX.Element {
+function app(): JSX.Element {
   return (
     <Layout>
       <Route exact path="/" component={Home} />
@@ -24,6 +25,7 @@ function App(): JSX.Element {
       <Route path="/innovaciones" component={Home} />
       <Route path="/blog/:page?" component={BlogHome} />
       <Route path="/post/:slug" component={BlogItem} />
+      <Route path="/especialidad/:esp" component={Speciality} />
       <Route path="/contacto" component={ContactUs} />
       <AuthorizeRoute
         path="/appointmentmanager"
@@ -39,4 +41,4 @@ function App(): JSX.Element {
   );
 }
 
-export default App;
+export default app;

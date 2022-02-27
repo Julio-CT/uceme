@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@import '../variables.scss';
 
 .padding-top {
   padding-top: 1.5em;
@@ -35,28 +35,28 @@ h6 {
   line-height: 1.2;
 }
 
-.section--centered {
+.section-centered {
   display: table;
   width: 100%;
 }
 
-.section--centered > .section__container {
+.section-centered > .section-container {
   display: table-cell;
   vertical-align: middle;
 }
 
-.section--cover {
+.section-cover {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 @media screen and (min-width: 62em) {
-  .test--csstransforms .section__content--animated {
+  .test-csstransforms .section-content-animated {
     opacity: 0;
   }
 
-  .test--csstransforms .section--in-view .section__content--animated {
+  .test-csstransforms .section-in-view .section-content-animated {
     animation-name: fadein;
     animation-duration: 500ms;
     animation-fill-mode: both;
@@ -65,64 +65,64 @@ h6 {
 }
 
 @media screen and (min-width: 62em) {
-  .test--csstransforms3d .section--in-view .feature__icon {
+  .test-csstransforms3d .section-in-view .feature-icon {
     animation-name: pulse;
     animation-duration: 750ms;
     animation-fill-mode: both;
   }
 
-  .test--csstransforms3d .section--in-view .feature--1 .feature__icon {
+  .test-csstransforms3d .section-in-view .feature-1 .feature-icon {
     animation-delay: 1000ms;
   }
 
-  .test--csstransforms3d .section--in-view .feature--2 .feature__icon {
+  .test-csstransforms3d .section-in-view .feature-2 .feature-icon {
     animation-delay: 2000ms;
   }
 
-  .test--csstransforms3d .section--in-view .feature--3 .feature__icon {
+  .test-csstransforms3d .section-in-view .feature-3 .feature-icon {
     animation-delay: 3000ms;
   }
 
-  .test--csstransforms3d .section--in-view .feature--4 .feature__icon {
+  .test-csstransforms3d .section-in-view .feature-4 .feature-icon {
     animation-delay: 4000ms;
   }
 }
 
 @media screen and (min-width: 62em) {
-  .test--csstransforms .listing__image img,
-  .test--csstransforms .listing__container {
+  .test-csstransforms .listing-image img,
+  .test-csstransforms .listing-container {
     opacity: 0;
   }
 
-  .test--csstransforms .section--in-view .listing__image img,
-  .test--csstransforms .section--in-view .listing__container {
+  .test-csstransforms .section-in-view .listing-image img,
+  .test-csstransforms .section-in-view .listing-container {
     animation-duration: 500ms;
     animation-fill-mode: both;
   }
 
-  .test--csstransforms .section--in-view .listing__image--left img,
-  .test--csstransforms .section--in-view .listing__container--left {
+  .test-csstransforms .section-in-view .listing-image-left img,
+  .test-csstransforms .section-in-view .listing-container-left {
     animation-name: fadeinleft;
   }
 
-  .test--csstransforms .section--in-view .listing__image--right img,
-  .test--csstransforms .section--in-view .listing__container--right {
+  .test-csstransforms .section-in-view .listing-image-right img,
+  .test-csstransforms .section-in-view .listing-container-right {
     animation-name: fadeinright;
   }
 
-  .test--csstransforms .section--out-of-view .listing__image img,
-  .test--csstransforms .section--out-of-view .listing__container {
+  .test-csstransforms .section-out-of-view .listing-image img,
+  .test-csstransforms .section-out-of-view .listing-container {
     animation-duration: 500ms;
     animation-fill-mode: both;
   }
 
-  .test--csstransforms .section--out-of-view .listing__image--left img,
-  .test--csstransforms .section--out-of-view .listing__container--left {
+  .test-csstransforms .section-out-of-view .listing-image-left img,
+  .test-csstransforms .section-out-of-view .listing-container-left {
     animation-name: fadeoutleft;
   }
 
-  .test--csstransforms .section--out-of-view .listing__image--right img,
-  .test--csstransforms .section--out-of-view .listing__container--right {
+  .test-csstransforms .section-out-of-view .listing-image-right img,
+  .test-csstransforms .section-out-of-view .listing-container-right {
     animation-name: fadeoutright;
   }
 }
@@ -132,37 +132,37 @@ h6 {
   background-color: #fff;
 }
 
-.article--blog {
+.article-blog {
   margin-bottom: 1.5em;
 }
 
-.article__title {
+.article-title {
   padding-bottom: 3em;
   line-height: 1.125;
   font-size: 1.25em;
 }
 
-.article__title a {
+.article-title a {
   color: #000;
 }
 
-.article__inner {
+.article-inner {
   padding: 1em;
 }
 
-.article__excerpt {
+.article-excerpt {
   margin: 0;
   font-size: 0.875em;
 }
 
-.article__meta {
+.article-meta {
   position: absolute;
   bottom: 0.5em;
   left: 1em;
 }
 
 @media screen and (min-width: 48em) {
-  .article--list {
+  .article-list {
     width: calc(50% - 1.5em);
     margin-left: 0.7em;
     margin-right: 0.7em;
@@ -170,96 +170,96 @@ h6 {
 }
 
 @media screen and (min-width: 78em) {
-  .article--list {
+  .article-list {
     width: calc(33.3333% - 1.5em);
     margin-left: 0.7em;
     margin-right: 0.7em;
   }
 }
 
-.article-list--page-1 .article--1 .article__title,
-.article-list--page-0 .article--1 .article__title {
+.article-list-page-1 .article-1 .article-title,
+.article-list-page-0 .article-1 .article-title {
   padding-bottom: 0;
 }
 
-.article-list--page-1 .article--1 .article__inner,
-.article-list--page-0 .article--1 .article__inner {
+.article-list-page-1 .article-1 .article-inner,
+.article-list-page-0 .article-1 .article-inner {
   padding-bottom: 2.5em;
 }
 
 @media screen and (min-width: 48em) {
-  .article-list--page-1 .article--1,
-  .article-list--page-0 .article--1 {
+  .article-list-page-1 .article-1,
+  .article-list-page-0 .article-1 {
     width: calc(100% - 1.5em);
     display: table;
     background: white;
   }
 
-  .article-list--page-1 .article--1 .article__image,
-  .article-list--page-1 .article--1 .article__inner,
-  .article-list--page-0 .article--1 .article__image,
-  .article-list--page-0 .article--1 .article__inner {
+  .article-list-page-1 .article-1 .article-image,
+  .article-list-page-1 .article-1 .article-inner,
+  .article-list-page-0 .article-1 .article-image,
+  .article-list-page-0 .article-1 .article-inner {
     width: 50%;
     float: left;
   }
 
-  .article-list--page-1 .article--1 .article__title,
-  .article-list--page-0 .article--1 .article__title {
+  .article-list-page-1 .article-1 .article-title,
+  .article-list-page-0 .article-1 .article-title {
     font-size: 1.5em;
   }
 
-  .article-list--page-1 .article--1 .article__excerpt,
-  .article-list--page-0 .article--1 .article__excerpt {
+  .article-list-page-1 .article-1 .article-excerpt,
+  .article-list-page-0 .article-1 .article-excerpt {
     font-size: 1em;
   }
 }
 
 @media screen and (min-width: 62em) {
-  .article-list--page-1 .article--1 .article__title,
-  .article-list--page-0 .article--1 .article__title {
+  .article-list-page-1 .article-1 .article-title,
+  .article-list-page-0 .article-1 .article-title {
     font-size: 1.875em;
   }
 
-  .article-list--page-1 .article--1 .article__meta,
-  .article-list--page-0 .article--1 .article__meta {
+  .article-list-page-1 .article-1 .article-meta,
+  .article-list-page-0 .article-1 .article-meta {
     left: auto;
   }
 
-  .article-list--page-1 .article--1 .article__inner,
-  .article-list--page-0 .article--1 .article__inner {
+  .article-list-page-1 .article-1 .article-inner,
+  .article-list-page-0 .article-1 .article-inner {
     padding: 1.25em;
   }
 
-  .article-list--page-1 .article--1 .article__excerpt,
-  .article-list--page-0 .article--1 .article__excerpt {
+  .article-list-page-1 .article-1 .article-excerpt,
+  .article-list-page-0 .article-1 .article-excerpt {
     margin-top: 1em;
   }
 }
 
 @media screen and (min-width: 78em) {
-  .article-list--page-1 .article--1 .article__title,
-  .article-list--page-0 .article--1 .article__title {
+  .article-list-page-1 .article-1 .article-title,
+  .article-list-page-0 .article-1 .article-title {
     font-size: 2.25em;
   }
 }
 
 @media screen and (min-width: 48em) {
-  .test--flexbox .article-list--page-1 .article--1,
-  .test--flexbox .article-list--page-0 .article--1 {
+  .test-flexbox .article-list-page-1 .article-1,
+  .test-flexbox .article-list-page-0 .article-1 {
     display: flex;
   }
 }
 
 @media screen and (min-width: 48em) {
-  .article-list {
+  .article-list-container {
     display: table;
     display: flex;
     flex-wrap: wrap;
   }
 }
 
-.article__author,
-.article__date {
+.article-author,
+.article-date {
   margin-bottom: 0;
   font-weight: bold;
   line-height: 1.125;
@@ -267,26 +267,26 @@ h6 {
   display: inline-block;
 }
 
-.article__author {
+.article-author {
   color: #252525;
   margin-left: 0.25em;
   padding-left: 0.5em;
   border-left: 1px solid #888;
 }
 
-.article__date {
+.article-date {
   color: #888;
   letter-spacing: 0.125em;
 }
 
-.article--vacancy {
+.article-vacancy {
   background-color: transparent;
   margin-top: 2.5em;
   padding-top: 2.5em;
   border-top: 3px solid #e3e3e3;
 }
 
-.article--vacancy:first-child {
+.article-vacancy:first-child {
   margin-top: 0;
   padding-top: 0;
   border-top: 0;

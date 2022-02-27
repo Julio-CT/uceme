@@ -212,10 +212,10 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
   return (
     <Modal isOpen={modal} toggle={toggle}>
       <ModalHeader toggle={toggle} className="beatabg">
-        <div className="Aligner">
-          <div className="Aligner-item Aligner-item--top" />
-          <div className="Aligner-item">{headerTitle}</div>
-          <div className="Aligner-item Aligner-item--bottom" />
+        <div className="aligner">
+          <div className="aligner-item aligner-item-top" />
+          <div className="aligner-item">{headerTitle}</div>
+          <div className="aligner-item aligner-item-bottom" />
         </div>
       </ModalHeader>
       <ModalBody>

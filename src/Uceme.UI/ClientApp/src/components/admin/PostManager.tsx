@@ -124,13 +124,13 @@ function PostManager(props: PostManagerProps): JSX.Element {
             });
           } else {
             setAlertMessage(
-              'Lo sentimos, ha ocurrido un error borrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+              'Lo sentimos, ha ocurrido un error borrando el post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
             );
           }
         })
         .catch(() => {
           setAlertMessage(
-            'Lo sentimos, ha ocurrido un error borrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+            'Lo sentimos, ha ocurrido un error borrando el post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
           );
         });
     }
@@ -154,7 +154,7 @@ function PostManager(props: PostManagerProps): JSX.Element {
 
   if (postData.loaded) {
     return (
-      <div className="App App-home header-distance">
+      <div className="app app-home header-distance">
         <p>
           <br />
           <Button
@@ -248,7 +248,7 @@ function PostManager(props: PostManagerProps): JSX.Element {
     );
   }
 
-  return <div className="App App-home header-distance">Loading...</div>;
+  return <div className="app app-home header-distance">Loading...</div>;
 }
 
 export default PostManager;

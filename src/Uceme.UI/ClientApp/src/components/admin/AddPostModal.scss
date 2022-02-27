@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@import '../../variables.scss';
 
 html {
   font-size: 14px;
@@ -18,7 +18,7 @@ html {
   overflow: scroll;
 }
 
-.Aligner {
+.aligner {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,23 +28,23 @@ html {
   opacity: 0.7;
 }
 
-.Aligner-item {
+.aligner-item {
   max-width: 50%;
   color: black;
   font-weight: bold;
   font-size: x-large;
 }
 
-.Aligner-item--top {
+.aligner-item-top {
   align-self: flex-start;
 }
 
-.Aligner-item--bottom {
+.aligner-item-bottom {
   align-self: flex-end;
 }
 
 .beatabg {
-  background: url("../../resources/images/cita-previa.png") no-repeat left 0;
+  background: url('../../resources/images/cita-previa.png') no-repeat left 0;
 }
 
 .scrollable-wrapper {

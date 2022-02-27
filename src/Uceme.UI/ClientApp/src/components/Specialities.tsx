@@ -14,30 +14,30 @@ const specials = [
     altText:
       'Abordaje de bocio multinodular, cáncer de tiroides e hipertiroidismo, entre otras.',
     caption: 'Cirugía Tiroidea',
-    link: 'Cirugía de Glándulas Suprarrenales',
+    link: 'cirugia',
   },
   {
-    title: 'Paratiroidea',
+    title: 'paratiroidea',
     src: slide2,
     altText: 'Técnicas mínimamente invasivas.',
     caption: 'Cirugía Paratiroidea',
-    link: 'Cirugía de Glándulas Suprarrenales',
+    link: 'paratiroidea',
   },
   {
-    title: 'Obesidad',
+    title: 'obesidad',
     src: slide3,
     altText:
       'Amplia experiencia en cirugía laparoscópica con técnicas personalizadas a cada paciente.',
     caption: 'Obesidad mórbida',
-    link: 'Cirugía de Glándulas Suprarrenales',
+    link: 'obesidad',
   },
   {
-    title: 'Suprarrenales',
+    title: 'suprarrenales',
     src: slide4,
     altText:
       'Abordaje multidisciplinar con estudio funcional completo y cirugía mínimamente invasiva.',
     caption: 'Cirugía de Glándulas Suprarrenales',
-    link: 'Cirugía de Glándulas Suprarrenales',
+    link: 'suprarrenales',
   },
   {
     title: 'tiroidectomia',
@@ -45,14 +45,14 @@ const specials = [
     altText:
       'Abordaje multidisciplinar con estudio funcional completo y cirugía mínimamente invasiva.',
     caption: 'Tiroidectomía sin cicatriz',
-    link: 'Cirugía de Glándulas Suprarrenales',
+    link: 'tiroidectomia',
   },
 ];
 
 const items: JSX.Element[] = specials.map((item) => {
   return (
     <div className="col-12 col-md-4" key={item.title}>
-      <a href={item.link} title={item.title}>
+      <a href={`/especialidad/${item.link}`} title={item.title}>
         <img
           src={item.src}
           className="attachment- size-"
@@ -62,16 +62,24 @@ const items: JSX.Element[] = specials.map((item) => {
           height="80"
         />
       </a>
-      <h4 className="uppercase">{item.caption}</h4>
+      <h4 className="uppercase">
+        <a href={`/especialidad/${item.link}`} title={item.title}>
+          {item.caption}
+        </a>
+      </h4>
       <div className="line-small" />
-      <p>{item.altText}</p>
+      <p>
+        <a href={`/especialidad/${item.link}`} title={item.title}>
+          {item.altText}
+        </a>
+      </p>
     </div>
   );
 });
 
 const Specialities: () => JSX.Element = () => {
   return (
-    <div className="App App-home header-distance">
+    <div className="app app-home header-distance header-distance-l">
       <section id="section-specialities" className="clearfix">
         <div className="specialities container clearfix extra-margin">
           <h3 className="uppercase">Especialidades</h3>

@@ -14,14 +14,14 @@ const specials = [
     altText:
       'Abordaje de bocio multinodular, cáncer de tiroides e hipertiroidismo, entre otras.',
     caption: 'Cirugía Tiroidea',
-    link: 'Cirugía de Glándulas Suprarrenales',
+    link: 'cirugia',
   },
   {
     title: 'Paratiroidea',
     src: slide2,
     altText: 'Técnicas mínimamente invasivas.',
     caption: 'Cirugía Paratiroidea',
-    link: 'Cirugía de Glándulas Suprarrenales',
+    link: 'paratiroidea',
   },
   {
     title: 'Obesidad',
@@ -29,7 +29,7 @@ const specials = [
     altText:
       'Amplia experiencia en cirugía laparoscópica con técnicas personalizadas a cada paciente.',
     caption: 'Obesidad mórbida',
-    link: 'Cirugía de Glándulas Suprarrenales',
+    link: 'obesidad',
   },
   {
     title: 'Suprarrenales',
@@ -37,7 +37,7 @@ const specials = [
     altText:
       'Abordaje multidisciplinar con estudio funcional completo y cirugía mínimamente invasiva.',
     caption: 'Cirugía de Glándulas Suprarrenales',
-    link: 'Cirugía de Glándulas Suprarrenales',
+    link: 'suprarrenales',
   },
   {
     title: 'Tiroidectomia',
@@ -45,14 +45,14 @@ const specials = [
     altText:
       'Abordaje multidisciplinar con estudio funcional completo y cirugía mínimamente invasiva.',
     caption: 'Tiroidectomía sin cicatriz',
-    link: 'Cirugía de Glándulas Suprarrenales',
+    link: 'tiroidectomia',
   },
 ];
 
 const items: JSX.Element[] = specials.map((item) => {
   return (
     <div className="col-12 col-md-4" key={item.title}>
-      <a href={item.link} title={item.title}>
+      <a href={`/especialidad/${item.link}`} title={item.title}>
         <img
           src={item.src}
           className="attachment- size-"
@@ -63,13 +63,13 @@ const items: JSX.Element[] = specials.map((item) => {
         />
       </a>
       <h4 className="uppercase">
-        <a href={item.link} title={item.title}>
+        <a href={`/especialidad/${item.link}`} title={item.title}>
           {item.caption}
         </a>
       </h4>
       <div className="line-small" />
       <p>
-        <a href={item.link} title={item.title}>
+        <a href={`/especialidad/${item.link}`} title={item.title}>
           {item.altText}
         </a>
       </p>
