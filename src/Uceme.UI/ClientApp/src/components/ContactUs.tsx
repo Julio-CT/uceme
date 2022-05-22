@@ -102,7 +102,7 @@ const ContactUs: () => JSX.Element = () => {
         </Modal>
         <div className="app header-distance extra-padding row justify-content-md-center">
           <form onSubmit={handleSubmit} className="col-12 col-md-6">
-            <h3 className="uppercase">Envíenos un mensaje</h3>
+            <h3 className="uppercase">Envíanos un mensaje</h3>
             <h4 className="padding-y-medium uppercase spacing">
               Tu mensaje será atendido lo antes posible.
             </h4>

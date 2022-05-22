@@ -9,6 +9,7 @@
     using Uceme.Library.Services;
     using Uceme.Model.DataContracts;
 
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ContactController : Controller

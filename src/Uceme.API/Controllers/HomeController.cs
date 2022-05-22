@@ -9,6 +9,7 @@
     using Uceme.Library.Services;
     using Uceme.Model.Models;
 
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class HomeController : Controller

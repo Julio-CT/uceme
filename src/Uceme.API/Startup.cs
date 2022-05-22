@@ -6,6 +6,7 @@
 
 namespace Uceme.Api
 {
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Authorization;
@@ -74,6 +75,17 @@ namespace Uceme.Api
                 });
             });
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Audience = "Uceme.UIAPI";
+                options.Authority = "http://localhost:3000";
+                options.RequireHttpsMetadata = false;
+            });
+
             services.AddMvc(config =>
             {
                 config.Filters.Add(new AuthorizeFilter());
@@ -87,7 +99,9 @@ namespace Uceme.Api
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IHospitalService, HospitalService>();
             services.AddTransient<IAppointmentService, AppointmentService>();
+            services.AddTransient<ITechniqueService, TechniqueService>();
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
 
             var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
             services.AddSwaggerGen(options =>
@@ -138,6 +152,8 @@ namespace Uceme.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -20,5 +20,6 @@ namespace Uceme.Model.Models
         public DateTime fecha { get; set; }
         public string foto { get; set; }
         public string texto { get; set; }
+        public string nombre { get; set; }
     }
 }

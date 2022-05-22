@@ -16,10 +16,10 @@
 
         private readonly ApplicationDbContext context;
 
-        public BlogService(ILogger<FotosService> logger, ApplicationDbContext context)
+        public BlogService(ILogger<FotosService> logger, IApplicationDbContext context)
         {
             this.logger = logger;
-            this.context = context;
+            this.context = (ApplicationDbContext)context;
         }
 
         public IEnumerable<Blog> GetBlogSubset(int amount, int page = 1)

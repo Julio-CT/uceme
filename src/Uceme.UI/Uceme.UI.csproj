@@ -53,6 +53,7 @@
     <None Remove="ClientApp\public\favicon.png" />
     <None Remove="ClientApp\public\sitemap.xml" />
     <None Remove="ClientApp\.eslintcache" />
+    <Compile Remove="..\Uceme.Library\Services\ITechinqueService.cs" />
   </ItemGroup>
 
   <ItemGroup>
