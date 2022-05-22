@@ -22,11 +22,11 @@
 
         public AppointmentService(
             ILogger<HospitalService> logger,
-            ApplicationDbContext context,
+            IApplicationDbContext context,
             IEmailService emailService)
         {
             this.logger = logger;
-            this.context = context;
+            this.context = (ApplicationDbContext)context;
             this.emailService = emailService;
         }
 

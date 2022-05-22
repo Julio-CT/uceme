@@ -9,6 +9,7 @@ import photoIcon from '../../resources/images/photoicon.png';
 import BlogItem from '../../library/BlogItem';
 import SettingsContext from '../../SettingsContext';
 import BlogPostResponse from '../../library/BlogPostResponse';
+import authService from '../api-authorization/AuthorizeService';
 
 type BlogState = {
   items: BlogItem[];
@@ -23,41 +24,47 @@ const Blogs: () => JSX.Element = () => {
   });
 
   React.useEffect(() => {
-    if (settings) {
-      fetch(`${settings.baseHref}api/blog/getblogsubset?amount=3`)
-        .then((response: Response) => response.json())
-        .then(async (posts: BlogPostResponse[]) => {
-          const retrievedBlogs: BlogItem[] = [];
-
-          await Promise.all(
-            posts.map(async (obj: BlogPostResponse) => {
-              const image = `${process.env.PUBLIC_URL}/uploads/${obj.foto.slice(
-                obj.foto.lastIndexOf('/') + 1
-              )}`;
-              retrievedBlogs.push({
-                id: obj.idBlog,
-                title: obj.titulo,
-                imageSrc: image,
-                text: obj.texto,
-                altText: parse(obj.texto),
-                caption: obj.titulo,
-                link: `/post/${obj.slug}`,
-                slug: obj.slug,
-                date: new Intl.DateTimeFormat('en-GB', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: '2-digit',
-                }).format(new Date(obj.fecha)),
-              });
-            })
-          );
-
-          setData({ items: retrievedBlogs, isFetching: false });
+    async function fetchData() {
+      if (settings) {
+        const token = await authService.getAccessToken();
+        fetch(`${settings.baseHref}api/blog/getblogsubset?amount=3`, {
+          headers: !token ? {} : { Authorization: `Bearer ${token}` },
         })
-        .catch(() => {
-          setData({ items: [] as Array<BlogItem>, isFetching: false });
-        });
+          .then((response: Response) => response.json())
+          .then(async (posts: BlogPostResponse[]) => {
+            const retrievedBlogs: BlogItem[] = [];
+
+            await Promise.all(
+              posts.map(async (obj: BlogPostResponse) => {
+                const image = `${
+                  process.env.PUBLIC_URL
+                }/uploads/${obj.foto.slice(obj.foto.lastIndexOf('/') + 1)}`;
+                retrievedBlogs.push({
+                  id: obj.idBlog,
+                  title: obj.titulo,
+                  imageSrc: image,
+                  text: obj.texto,
+                  altText: parse(obj.texto),
+                  caption: obj.titulo,
+                  link: `/post/${obj.slug}`,
+                  slug: obj.slug,
+                  date: new Intl.DateTimeFormat('en-GB', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: '2-digit',
+                  }).format(new Date(obj.fecha)),
+                });
+              })
+            );
+
+            setData({ items: retrievedBlogs, isFetching: false });
+          })
+          .catch(() => {
+            setData({ items: [] as Array<BlogItem>, isFetching: false });
+          });
+      }
     }
+    fetchData();
   }, [settings]);
 
   const posts = data.items.map((post) => {

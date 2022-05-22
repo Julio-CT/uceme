@@ -1,4 +1,5 @@
 import React from 'react';
+import authService from './components/api-authorization/AuthorizeService';
 
 export type Settings = {
   telephone: string;
@@ -23,16 +24,22 @@ const SettingsContext = (): React.Context<Settings> => {
     process.env.NODE_ENV === 'development' ? '' : 'ucemeapi/';
 
   React.useEffect(() => {
-    fetch(`${baseHref}api/settings/getsettings`)
-      .then((response: Response) => response.json())
-      .then(async (data: Settings) => {
-        const settings = data;
-        if (settings) {
-          settings.baseHref = baseHref;
-        }
+    async function fetchData() {
+      const token = await authService.getAccessToken();
+      fetch(`${baseHref}api/settings/getsettings`, {
+        headers: !token ? {} : { Authorization: `Bearer ${token}` },
+      })
+        .then((response: Response) => response.json())
+        .then(async (data: Settings) => {
+          const settings = data;
+          if (settings) {
+            settings.baseHref = baseHref;
+          }
 
-        setContext(React.createContext(settings));
-      });
+          setContext(React.createContext(settings));
+        });
+    }
+    fetchData();
   }, [baseHref]);
 
   return context;

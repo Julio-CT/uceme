@@ -14,10 +14,10 @@
 
         private readonly ApplicationDbContext context;
 
-        public HospitalService(ILogger<HospitalService> logger, ApplicationDbContext context)
+        public HospitalService(ILogger<HospitalService> logger, IApplicationDbContext context)
         {
             this.logger = logger;
-            this.context = context;
+            this.context = (ApplicationDbContext)context;
         }
 
         public IEnumerable<DatosProfesionales> GetHospitals()

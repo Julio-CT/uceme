@@ -14,10 +14,10 @@
 
         private readonly ApplicationDbContext context;
 
-        public MedicoService(ILogger<FotosService> logger, ApplicationDbContext context)
+        public MedicoService(ILogger<FotosService> logger, IApplicationDbContext context)
         {
             this.logger = logger;
-            this.context = context;
+            this.context = (ApplicationDbContext)context;
         }
 
         public IEnumerable<Usuario> GetMedicoMinVista(bool hackOrder)

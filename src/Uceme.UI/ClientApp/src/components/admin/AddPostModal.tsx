@@ -18,6 +18,7 @@ import authService from '../api-authorization/AuthorizeService';
 import './AddPostModal.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import BlogItem from '../../library/BlogItem';
+import SettingsContext from '../../SettingsContext';
 
 type AddPostModalProps = {
   toggle: () => void;
@@ -28,6 +29,7 @@ type AddPostModalProps = {
 
 function AddPostModal(props: AddPostModalProps): JSX.Element {
   const { modal, toggle, post, headerTitle } = props;
+  const settings = React.useContext(SettingsContext());
 
   let contentState = ContentState.createFromText(post ? post.text : '');
   const inputName = 'reactstrap_date_picker_basic';
@@ -119,7 +121,7 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
 
     const token = await authService.getAccessToken();
 
-    fetch(`clientapi/blog/onpostuploadasync`, {
+    fetch(`${settings?.baseHref}api/blog/onpostuploadasync`, {
       method: 'POST',
       mode: 'cors',
       body: formData,
@@ -156,7 +158,7 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
         foto: imgSrc,
       };
 
-      fetch(`clientapi/blog/addpost`, {
+      fetch(`${settings?.baseHref}api/blog/addpost`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

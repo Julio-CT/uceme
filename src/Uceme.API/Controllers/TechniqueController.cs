@@ -19,30 +19,32 @@
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogController : Controller
+    public class TechniqueController : Controller
     {
         private readonly ILogger<BlogController> logger;
-        private readonly IOptions<AppSettings> configuration;
-        private readonly IBlogService blogService;
 
-        public BlogController(
-            IBlogService blogService,
+        private readonly ITechniqueService techniqueService;
+
+        private readonly IOptions<AppSettings> configuration;
+
+        public TechniqueController(
+            ITechniqueService techniqueService,
             IOptions<AppSettings> configuration,
             ILogger<BlogController> logger)
         {
-            this.blogService = blogService;
-            this.configuration = configuration;
+            this.techniqueService = techniqueService;
             this.logger = logger;
+            this.configuration = configuration;
         }
 
-        [HttpGet("getblogsubset")]
+        [HttpGet("gettechniques")]
         [AllowAnonymous]
-        public ActionResult<IEnumerable<Blog>> GetBlogSubset(int amount)
+        public ActionResult<IEnumerable<Tecnica>> GetTechniques()
         {
-            IEnumerable<Blog> result;
+            IEnumerable<Tecnica> result;
             try
             {
-                result = this.blogService.GetBlogSubset(amount);
+                result = this.techniqueService.GetTechniques();
             }
             catch (DataException)
             {
@@ -52,48 +54,14 @@
             return result.ToList();
         }
 
-        [HttpGet("getbloglist")]
+        [HttpGet("gettechnique")]
         [AllowAnonymous]
-        public ActionResult<IEnumerable<Blog>> GetBlogList(int page = 1)
+        public ActionResult<Tecnica> GetTechnique(int techinqueId)
         {
-            IEnumerable<Blog> result;
+            Tecnica result;
             try
             {
-                result = this.blogService.GetBlogSubset(page == 1 ? 10 : 12, page);
-            }
-            catch (DataException)
-            {
-                return this.BadRequest();
-            }
-
-            return result.ToList();
-        }
-
-        [HttpGet("getallposts")]
-        [AllowAnonymous]
-        public ActionResult<IEnumerable<Blog>> GetAllPosts()
-        {
-            IEnumerable<Blog> result;
-            try
-            {
-                result = this.blogService.GetAllPosts();
-            }
-            catch (DataException)
-            {
-                return this.BadRequest();
-            }
-
-            return result.ToList();
-        }
-
-        [HttpGet("getpost")]
-        [AllowAnonymous]
-        public ActionResult<Blog> GetPost(string slug)
-        {
-            Blog result;
-            try
-            {
-                result = this.blogService.GetPost(slug);
+                result = this.techniqueService.GetTechnique(techinqueId);
             }
             catch (DataException)
             {
@@ -103,42 +71,40 @@
             return result;
         }
 
-        [HttpGet("deletepost")]
-        public ActionResult<bool> DeletePost(int postId)
+        [HttpGet("deletetechnique")]
+        public ActionResult<bool> DeleteTech(int techId)
         {
             bool result;
             try
             {
-                result = this.blogService.DeletePost(postId);
+                result = this.techniqueService.DeleteTechnique(techId);
             }
-            catch (DataException ex)
+            catch (DataException)
             {
-                this.logger.LogError(ex.Message);
                 return this.BadRequest();
             }
 
             return result;
         }
 
-        [HttpGet("updatepost")]
-        public ActionResult<Blog> UpdatePost(Blog post)
+        [HttpGet("updatetech")]
+        public ActionResult<Tecnica> UpdateTech(Tecnica post)
         {
-            Blog result;
+            Tecnica result;
             try
             {
-                result = this.blogService.UpdatePost(post);
+                result = this.techniqueService.UpdateTechine(post);
             }
-            catch (DataException ex)
+            catch (DataException)
             {
-                this.logger.LogError(ex.Message);
                 return this.BadRequest();
             }
 
             return result;
         }
 
-        [HttpPost("addpost")]
-        public ActionResult<bool> AddPost([FromBody] PostRequest postRequest)
+        [HttpPost("addtech")]
+        public ActionResult<bool> AddTech([FromBody] TechniqueRequest postRequest)
         {
             if (postRequest == null)
             {
@@ -148,26 +114,25 @@
             bool result;
             try
             {
-                if (postRequest.IdBlog != 0)
+                if (postRequest.IdTech != 0)
                 {
-                    result = this.blogService.UpdatePost(postRequest);
+                    result = this.techniqueService.UpdateTechnique(postRequest);
                 }
                 else
                 {
-                    result = this.blogService.AddPost(postRequest);
+                    result = this.techniqueService.AddTechnique(postRequest);
                 }
             }
-            catch (DataException ex)
+            catch (DataException)
             {
-                this.logger.LogError(ex.Message);
                 return this.BadRequest();
             }
 
             return result;
         }
 
-        [HttpPost("onpostuploadasync")]
-        public async Task<ActionResult<string>> OnPostUploadAsync([FromForm] IFormFile file)
+        [HttpPost("ontechuploadasync")]
+        public async Task<ActionResult<string>> OnTechUploadAsync([FromForm] IFormFile file)
         {
             if (file is null)
             {
@@ -180,7 +145,7 @@
             {
                 if (file.Length > 0 && Path.GetExtension(file.FileName).Length < 5)
                 {
-                    filename = "Blog" + this.blogService.GetNextPostImage() + Path.GetExtension(file.FileName);
+                    filename = "Blog" + this.techniqueService.GetNextTechImage() + Path.GetExtension(file.FileName);
                     var filePath = Path.Combine(
                         this.configuration.Value.BlogImagesDir,
                         filename);
@@ -193,9 +158,8 @@
 #pragma warning restore CA3003 // Review code for file path injection vulnerabilities
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                this.logger.LogError(ex.Message);
                 return this.BadRequest();
             }
 

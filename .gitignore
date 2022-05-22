@@ -339,3 +339,4 @@ src/Uceme.UI/ClientApp/build/
 **/junit/
 src/Uceme.UI/ClientApp/.eslintcache
 **/coverage/
+**/.DS_Store

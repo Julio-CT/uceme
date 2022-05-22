@@ -24,5 +24,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\IHospitalService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IMedicoService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MedicoService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\TechniqueService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ITechniqueService.cs">
+      <Link>Services\ITechniqueService.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>
