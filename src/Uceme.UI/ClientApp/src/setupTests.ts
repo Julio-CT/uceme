@@ -1,8 +1,3 @@
-import Enzyme from 'enzyme';
-import ReactSeventeenAdapter from '@wojtekmaj/enzyme-adapter-react-17';
-
-Enzyme.configure({ adapter: new ReactSeventeenAdapter() });
-
 const localStorageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -42,3 +37,5 @@ window.fetch = () => {
     formData: null,
   } as unknown as Response);
 };
+
+export {};

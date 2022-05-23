@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import parse from 'html-react-parser';
 import BlogItem from '../../library/BlogItem';
 import './AppointmentManager.scss';

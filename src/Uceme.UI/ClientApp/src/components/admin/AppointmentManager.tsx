@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Appointment from '../../library/Appointment';
 import AppointmentResponse from '../../library/AppointmentResponse';
 import { DateTimeUtils } from '../../library/DateTimeUtils';
