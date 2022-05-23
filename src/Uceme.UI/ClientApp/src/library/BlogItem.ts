@@ -3,7 +3,7 @@ type BlogItem = {
   title?: string;
   imageSrc: string;
   text: string;
-  altText: JSX.Element | JSX.Element[];
+  altText: string | JSX.Element | JSX.Element[];
   caption: string;
   link: string;
   date: string;

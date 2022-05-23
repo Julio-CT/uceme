@@ -6,7 +6,6 @@ type AppointmentHoursProps = {
   hours: string[];
   selectedHour?: string;
   onSelectedHour: (v: string) => void;
-  children?: React.ReactElement[];
 };
 
 type AppointmentHoursState = {
@@ -35,6 +34,11 @@ class AppointmentHours extends React.Component<
   AppointmentHoursProps,
   AppointmentHoursState
 > {
+  // eslint-disable-next-line react/static-property-placement
+  static defaultProps = {
+    selectedHour: '',
+  };
+
   refScrollable: React.RefObject<HTMLDivElement>;
 
   leftPaddle: React.RefObject<HTMLButtonElement>;
