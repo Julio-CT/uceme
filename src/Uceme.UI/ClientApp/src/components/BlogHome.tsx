@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import BlogItem from '../library/BlogItem';
 import './BlogHome.scss';
@@ -16,80 +16,77 @@ interface MatchParams {
   page: string;
 }
 
-type BlogHomeProps = RouteComponentProps<MatchParams>;
-
-function BlogHome(props: BlogHomeProps): JSX.Element {
+function BlogHome(): JSX.Element {
   const settings = React.useContext(SettingsContext());
-  const { match } = props;
-  const params = match?.params ?? { page: 1 };
+  const { page } = useParams<MatchParams>();
   const [data, setData] = React.useState<BlogHomeState>({
     loaded: false,
     resp: null,
-    page: +params.page ?? 1,
+    page: +page ?? 1,
   });
 
   const isFirstRun = React.useRef(true);
 
-  const fetchPosts = (page: number, baseHref: string) => {
-    fetch(`${baseHref}api/blog/getbloglist?page=${page}`)
-      .then((response: Response) => response.json())
-      .then(async (resp: BlogPostResponse[]) => {
-        const retrievedBlogs: BlogItem[] = [];
-
-        await Promise.all(
-          resp.map(async (obj: BlogPostResponse) => {
-            const image = `${process.env.PUBLIC_URL}/uploads/${obj.foto.slice(
-              obj.foto.lastIndexOf('/') + 1
-            )}`;
-            retrievedBlogs.push({
-              id: obj.idBlog,
-              title: obj.titulo,
-              imageSrc: image,
-              text: obj.texto,
-              altText: parse(obj.texto),
-              metaDescription: obj.metaDescription,
-              caption: obj.titulo,
-              link: `/post/${obj.slug}`,
-              slug: obj.slug,
-              date: new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'long',
-                day: '2-digit',
-              }).format(new Date(obj.fecha)),
-            });
-          })
-        );
-
-        setData({
-          loaded: true,
-          resp: retrievedBlogs,
-          page,
-        });
-      })
-      .catch(() => {
-        setData({
-          loaded: false,
-          resp: null,
-          page,
-        });
-      });
-  };
-
   React.useEffect(() => {
+    const fetchPosts = (pageNumber: number, baseHref: string) => {
+      fetch(`${baseHref}api/blog/getbloglist?page=${pageNumber}`)
+        .then((response: Response) => response.json())
+        .then(async (resp: BlogPostResponse[]) => {
+          const retrievedBlogs: BlogItem[] = [];
+
+          await Promise.all(
+            resp.map(async (obj: BlogPostResponse) => {
+              const image = `${process.env.PUBLIC_URL}/uploads/${obj.foto.slice(
+                obj.foto.lastIndexOf('/') + 1
+              )}`;
+              retrievedBlogs.push({
+                id: obj.idBlog,
+                title: obj.titulo,
+                imageSrc: image,
+                text: obj.texto,
+                altText: parse(obj.texto),
+                metaDescription: obj.metaDescription,
+                caption: obj.titulo,
+                link: `/post/${obj.slug}`,
+                slug: obj.slug,
+                date: new Intl.DateTimeFormat('en-GB', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: '2-digit',
+                }).format(new Date(obj.fecha)),
+              });
+            })
+          );
+
+          setData({
+            loaded: true,
+            resp: retrievedBlogs,
+            page: +page,
+          });
+        })
+        .catch(() => {
+          setData({
+            loaded: false,
+            resp: null,
+            page: +page,
+          });
+        });
+    };
+
     if (settings) {
-      const page = +params.page || 1;
+      const pageNumber = +page || 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
 
-        fetchPosts(page, settings.baseHref);
+        fetchPosts(pageNumber, settings.baseHref);
         return;
       }
 
-      setData({ loaded: false, page });
-      fetchPosts(page, settings.baseHref);
+      setData({ loaded: false, page: pageNumber });
+      fetchPosts(pageNumber, settings.baseHref);
     }
-  }, [match.params.page, params.page, settings]);
+  }, [page, settings]);
 
   if (data.loaded) {
     const nextPage: number = data.page ? +data.page + 1 : 2;
@@ -98,7 +95,7 @@ function BlogHome(props: BlogHomeProps): JSX.Element {
 
     return (
       <div className="app app-home header-distance">
-        <div className="container">
+        <div className="container" data-testid="blogContainer">
           <div
             className={`section padding-top section-large section-grey section-in-view article-list-container article-list-page-${data.page}`}
           >

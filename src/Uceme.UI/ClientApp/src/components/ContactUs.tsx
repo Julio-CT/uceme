@@ -214,7 +214,9 @@ const ContactUs: () => JSX.Element = () => {
     <section
       id="section-contact_us"
       className="clearfix container extra-margin"
-    />
+    >
+      Loading...
+    </section>
   );
 };
 

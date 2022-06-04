@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import Conditions from './Conditions';
 import { unmountComponentAtNode } from 'react-dom';
+import NavMenu from './NavMenu';
 
 let container: any;
 beforeEach(() => {
@@ -17,16 +17,16 @@ afterEach(() => {
   container = null;
 });
 
-describe('(Component)) Conditions', () => {
+describe('(Component)) NavMenu', () => {
   it('renders without exploding', () => {
-    render(<Conditions />, container);
-    expect(screen.queryAllByText('informamos', { exact: false })).toHaveLength(
+    render(<NavMenu />, container);
+    expect(screen.queryAllByText('Uceme', { exact: false })).toHaveLength(
       1
     );
   });
 
-  it('renders no buttons', () => {
-    render(<Conditions />);
-    expect(screen.queryAllByRole('button')).toHaveLength(0);
+  it('renders 1 buttons', () => {
+    render(<NavMenu />);
+    expect(screen.queryAllByRole('button')).toHaveLength(1);
   });
 });

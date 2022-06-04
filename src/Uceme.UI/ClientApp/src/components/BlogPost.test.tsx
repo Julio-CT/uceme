@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import Conditions from './Conditions';
 import { unmountComponentAtNode } from 'react-dom';
+import BlogPost from './BlogPost';
+import { MemoryRouter, Route } from 'react-router';
 
 let container: any;
 beforeEach(() => {
@@ -17,16 +18,28 @@ afterEach(() => {
   container = null;
 });
 
-describe('(Component)) Conditions', () => {
+describe('(Component)) BlogPost', () => {
   it('renders without exploding', () => {
-    render(<Conditions />, container);
-    expect(screen.queryAllByText('informamos', { exact: false })).toHaveLength(
+    render(
+      <MemoryRouter initialEntries={['post/1']}>
+        <Route path='post/:slug'>
+          <BlogPost />
+        </Route>
+      </MemoryRouter>
+    );
+    expect(screen.queryAllByText('Loading', { exact: false })).toHaveLength(
       1
     );
   });
 
   it('renders no buttons', () => {
-    render(<Conditions />);
+    render(
+      <MemoryRouter initialEntries={['post/1']}>
+        <Route path='post/:slug'>
+          <BlogPost />
+        </Route>
+      </MemoryRouter>
+    );
     expect(screen.queryAllByRole('button')).toHaveLength(0);
   });
 });

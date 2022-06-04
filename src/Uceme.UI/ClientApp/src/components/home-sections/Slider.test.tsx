@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, RenderOptions, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Slider from './Slider';
 import { unmountComponentAtNode } from 'react-dom';
 
