@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
+import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
 import BlogItem from '../library/BlogItem';
@@ -16,17 +16,15 @@ interface MatchParams {
   slug: string;
 }
 
-type BlogPostProps = RouteComponentProps<MatchParams>;
-
-function BlogPost(props: BlogPostProps): JSX.Element {
+function BlogPost(): JSX.Element {
   const settings = React.useContext(SettingsContext());
-  const { match } = props;
+  const { slug } = useParams<MatchParams>();
   const [data, setData] = React.useState<BlogPostState>({
     loaded: false,
   });
 
-  const fetchPost = (slug: string, baseHref: string) => {
-    fetch(`${baseHref}api/blog/getpost?slug=${slug}`)
+  const fetchPost = (pageSlug: string, baseHref: string) => {
+    fetch(`${baseHref}api/blog/getpost?slug=${pageSlug}`)
       .then((response: Response) => response.json())
       .then(async (resp: BlogPostResponse) => {
         const image = `${process.env.PUBLIC_URL}/uploads/${resp.foto.slice(
@@ -65,10 +63,10 @@ function BlogPost(props: BlogPostProps): JSX.Element {
 
   React.useEffect(() => {
     if (settings) {
-      const slug = match?.params?.slug ?? '';
-      fetchPost(slug, settings.baseHref);
+      const pageSlug = slug ?? '';
+      fetchPost(pageSlug, settings.baseHref);
     }
-  }, [match?.params?.slug, settings]);
+  }, [settings, slug]);
 
   if (data.loaded && data.post) {
     return (

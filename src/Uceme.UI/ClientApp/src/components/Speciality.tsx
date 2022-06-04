@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
+import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
 import SettingsContext from '../SettingsContext';
@@ -24,13 +24,13 @@ const specials: Special[] = [
     caption: 'Cirugía Paratiroidea',
   },
   {
-    title: 'suprarrenales',
+    title: 'obesidad',
     img: slide3,
     src: 'Las glándulas adrenales se sitúan por encima del polo superior de ambos riñones y pueden presentar nódulos en su interior que asocien exceso en la secreción de determinadas hormonas. Su tratamiento suele ser quirúrgico, precisando extirpaciones parciales o completas de la glándula.<br/> <br/>En UCEME proponemos un abordaje multidisciplinar médico-quirúrgico con el fin de ajustar el estudio y preparación preoperatoria, así como la técnica quirúrgica y el manejo postoperatorio más adecuado en cada caso.',
     caption: 'Obesidad mórbida',
   },
   {
-    title: 'obesidad',
+    title: 'suprarrenales',
     img: slide4,
     src: 'La obesidad es una enfermedad muy frecuente en nuestra sociedad, que precisa de una atención especializada por equipos compuestos por médicos endocrinólogos y nutricionistas expertos en nutrición. Algunos de estos casos precisarán una intervención quirúrgica.<br/> <br/>En UCEME ofrecemos un equipo multidisciplinar que atienda al paciente en todos los aspectos de la enfermedad, incluyendo las diferentes técnicas quirúrgicas al alcance en el tratamiento de la obesidad',
     caption: 'Cirugía de Glándulas Suprarrenales',
@@ -72,11 +72,9 @@ interface MatchParams {
   esp: string;
 }
 
-type SpecialityProps = RouteComponentProps<MatchParams>;
-
-function Speciality(props: SpecialityProps): JSX.Element {
+function Speciality(): JSX.Element {
   const settings = React.useContext(SettingsContext());
-  const { match } = props;
+  const { esp } = useParams<MatchParams>();
   const [data, setData] = React.useState<SpecialityState>({
     loaded: false,
   });
@@ -100,10 +98,10 @@ function Speciality(props: SpecialityProps): JSX.Element {
 
   React.useEffect(() => {
     if (settings) {
-      const slug = match?.params?.esp ?? '';
+      const slug = esp ?? '';
       fetchPost(slug);
     }
-  }, [match?.params?.esp, settings]);
+  }, [esp, settings]);
 
   if (data.loaded && data.speciality) {
     return (

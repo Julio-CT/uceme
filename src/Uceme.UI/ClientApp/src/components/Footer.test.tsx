@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import Conditions from './Conditions';
 import { unmountComponentAtNode } from 'react-dom';
+import Footer from './Footer';
 
 let container: any;
 beforeEach(() => {
@@ -17,16 +17,16 @@ afterEach(() => {
   container = null;
 });
 
-describe('(Component)) Conditions', () => {
+describe('(Component)) Footer', () => {
   it('renders without exploding', () => {
-    render(<Conditions />, container);
-    expect(screen.queryAllByText('informamos', { exact: false })).toHaveLength(
+    render(<Footer />, container);
+    expect(screen.queryAllByText('facebook', { exact: false })).toHaveLength(
       1
     );
   });
 
   it('renders no buttons', () => {
-    render(<Conditions />);
+    render(<Footer />);
     expect(screen.queryAllByRole('button')).toHaveLength(0);
   });
 });

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import Conditions from './Conditions';
 import { unmountComponentAtNode } from 'react-dom';
+import Header from './Header';
 
 let container: any;
 beforeEach(() => {
@@ -17,16 +17,16 @@ afterEach(() => {
   container = null;
 });
 
-describe('(Component)) Conditions', () => {
+describe('(Component)) Header', () => {
   it('renders without exploding', () => {
-    render(<Conditions />, container);
-    expect(screen.queryAllByText('informamos', { exact: false })).toHaveLength(
+    render(<Header />, container);
+    expect(screen.queryAllByText('Unidad de Cirugía Endocrinometabólica Especializada', { exact: false })).toHaveLength(
       1
     );
   });
 
-  it('renders no buttons', () => {
-    render(<Conditions />);
-    expect(screen.queryAllByRole('button')).toHaveLength(0);
+  it('renders 2 buttons', () => {
+    render(<Header />);
+    expect(screen.queryAllByRole('button')).toHaveLength(2);
   });
 });

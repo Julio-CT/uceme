@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import Conditions from './Conditions';
 import { unmountComponentAtNode } from 'react-dom';
+import Specialities from './Specialities';
 
 let container: any;
 beforeEach(() => {
@@ -17,16 +17,16 @@ afterEach(() => {
   container = null;
 });
 
-describe('(Component)) Conditions', () => {
+describe('(Component)) Specialities', () => {
   it('renders without exploding', () => {
-    render(<Conditions />, container);
-    expect(screen.queryAllByText('informamos', { exact: false })).toHaveLength(
+    render(<Specialities />, container);
+    expect(screen.queryAllByText('Especialidades', { exact: false })).toHaveLength(
       1
     );
   });
 
   it('renders no buttons', () => {
-    render(<Conditions />);
+    render(<Specialities />);
     expect(screen.queryAllByRole('button')).toHaveLength(0);
   });
 });
