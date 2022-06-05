@@ -25,7 +25,7 @@
         {
         }
 
-        public async Task<IActionResult> OnPost(string returnUrl = null)
+        public async Task<IActionResult> OnPost(string? returnUrl = null)
         {
             await this.signInManager.SignOutAsync().ConfigureAwait(false);
             this.logger.LogInformation("User logged out.");

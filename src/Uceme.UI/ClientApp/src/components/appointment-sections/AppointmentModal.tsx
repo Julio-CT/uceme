@@ -259,14 +259,16 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
         .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
           if (resp === true) {
-            alert('Cita previa registrada correctamente. Muchas gracias.');
-            resetForm();
-            toggle();
+            alert(
+              'Cita previa registrada correctamente. Recibirá un email con la confimación. Muchas gracias.'
+            );
           } else {
             alert(
-              'Lo sentimos, ha ocurrido un error registrando tu cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+              'Cita previa registrada correctamente. El envio del correo con la confimación ha fallado, pero su cita queda registrada. Muchas gracias.'
             );
           }
+          resetForm();
+          toggle();
         })
         .catch(() => {
           alert(

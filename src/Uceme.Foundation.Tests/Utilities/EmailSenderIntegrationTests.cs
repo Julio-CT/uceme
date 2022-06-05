@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Uceme.Foundation.Tools;
     using Uceme.Foundation.Utilities;
     using Uceme.Model.Settings;
 
@@ -23,11 +24,12 @@
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
                 CredentialUser = "test.uceme@gmail.com",
-                CredentialPassword = "Uceme1975",
+                CredentialPassword = await AesDecrypt.DecryptAsync("25A9J9p/btpgu9W8TChSQ==").ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
-            var sut = new EmailSender(options);
+            var smtpClient = new SmtpClientWrapper();
+            var sut = new EmailSender(options, smtpClient);
             var email = this.emailTo;
             var subject = "Integration Test";
             var htmlMessage = "<p>test</p>";
@@ -36,6 +38,7 @@
             await sut.SendEmailAsync(email, subject, htmlMessage).ConfigureAwait(false);
 
             //// ASSERT
+            smtpClient.Dispose();
         }
 
         [TestMethod]
@@ -49,11 +52,12 @@
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
                 CredentialUser = "test.uceme@gmail.com",
-                CredentialPassword = "Uceme1975",
+                CredentialPassword = await AesDecrypt.DecryptAsync("25A9J9p/btpgu9W8TChSQ==").ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
-            var sut = new EmailSender(options);
+            var smtpClient = new SmtpClientWrapper();
+            var sut = new EmailSender(options, smtpClient);
             var emails = new List<string>()
             {
                 this.emailTo,
@@ -67,11 +71,12 @@
             await sut.SendEmailAsync(emails, subject, htmlMessage).ConfigureAwait(false);
 
             //// ASSERT
+            smtpClient.Dispose();
         }
 
         [TestMethod]
         [TestCategory("IntegrationTests")]
-        public void SendEmailToOneAddress()
+        public async Task SendEmailToOneAddressNoAsync()
         {
             //// ARRANGE
             var appSettings = new AuthMessageSenderSettings()
@@ -80,11 +85,12 @@
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
                 CredentialUser = "test.uceme@gmail.com",
-                CredentialPassword = "Uceme1975",
+                CredentialPassword = await AesDecrypt.DecryptAsync("25A9J9p/btpgu9W8TChSQ==").ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
-            var sut = new EmailSender(options);
+            var smtpClient = new SmtpClientWrapper();
+            var sut = new EmailSender(options, smtpClient);
             var email = this.emailTo;
             var subject = "Integration Test";
             var htmlMessage = "<p>test</p>";
@@ -93,11 +99,12 @@
             sut.SendEmail(email, subject, htmlMessage);
 
             //// ASSERT
+            smtpClient.Dispose();
         }
 
         [TestMethod]
         [TestCategory("IntegrationTests")]
-        public void SendEmailToMoreThanOneAddress()
+        public async Task SendEmailToMoreThanOneAddressNoAsync()
         {
             //// ARRANGE
             var appSettings = new AuthMessageSenderSettings()
@@ -106,11 +113,12 @@
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
                 CredentialUser = "test.uceme@gmail.com",
-                CredentialPassword = "Uceme1975",
+                CredentialPassword = await AesDecrypt.DecryptAsync("25A9J9p/btpgu9W8TChSQ==").ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
-            var sut = new EmailSender(options);
+            var smtpClient = new SmtpClientWrapper();
+            var sut = new EmailSender(options, smtpClient);
             var emails = new List<string>()
             {
                 this.emailTo,
@@ -124,6 +132,7 @@
             sut.SendEmail(emails, subject, htmlMessage);
 
             //// ASSERT
+            smtpClient.Dispose();
         }
     }
 }

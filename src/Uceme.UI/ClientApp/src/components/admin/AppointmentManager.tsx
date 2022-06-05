@@ -115,6 +115,7 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
             resp.map(async (obj: AppointmentResponse) => {
               retrievedAppointments.push({
                 id: obj.idCita,
+                speciality: obj.speciality,
                 date: DateTimeUtils.FormatDate(obj.dia),
                 time: DateTimeUtils.TimeToString(obj.hora),
                 name: obj.nombre,
@@ -155,6 +156,7 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
             resp.map(async (obj: AppointmentResponse) => {
               retrievedAppointments.push({
                 id: obj.idCita,
+                speciality: obj.speciality,
                 date: DateTimeUtils.FormatDate(obj.dia),
                 time: DateTimeUtils.TimeToString(obj.hora),
                 name: obj.nombre,
@@ -225,13 +227,13 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
           <ModalBody>
             <section id="section-contact_form" className="container">
               <div className="row justify-content-md-center">
-                ¿Está seguro de borrar la cita con {markedAppointment?.name}?
+                ¿Está seguro de eliminar la cita con {markedAppointment?.name}?
               </div>
             </section>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => deleteMarkedAppointment()}>
-              Borrar
+              Eliminar
             </Button>{' '}
             <Button color="secondary" onClick={confirmToggle}>
               Cerrar
@@ -252,6 +254,7 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
                 <table className="table">
                   <thead>
                     <tr>
+                      <th scope="col">Especialidad</th>
                       <th scope="col">Fecha</th>
                       <th scope="col">Hora</th>
                       <th scope="col">Paciente</th>
@@ -264,6 +267,7 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
                       (appointment: Appointment) => {
                         return (
                           <tr key={appointment.id}>
+                            <td>{appointment.speciality}</td>
                             <td>{appointment.date}</td>
                             <td>{appointment.time}</td>
                             <td>{appointment.name}</td>
@@ -290,12 +294,13 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
             <thead>
               <tr>
                 <th scope="col">#</th>
+                <th scope="col">Especialidad</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Hora</th>
                 <th scope="col">Paciente</th>
                 <th scope="col">Email</th>
                 <th scope="col">Teléfono</th>
-                <th scope="col">Borrar</th>
+                <th scope="col">Eliminar</th>
               </tr>
             </thead>
             <tbody>
@@ -304,6 +309,7 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
                   return (
                     <tr key={appointment.id}>
                       <th scope="row">{index}</th>
+                      <td>{appointment.speciality}</td>
                       <td>{appointment.date}</td>
                       <td>{appointment.time}</td>
                       <td>{appointment.name}</td>

@@ -27,11 +27,6 @@ namespace Uceme.Api
 
         private readonly string strictPolicy = "StrictCorsPolicy";
 
-        public Startup(IConfiguration configuration)
-        {
-            this.Configuration = configuration;
-        }
-
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             this.Configuration = configuration;
@@ -158,15 +153,16 @@ namespace Uceme.Api
         {
             services.AddSingleton<IConfiguration>(this.Configuration);
 
+            services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
+            services.AddTransient<ISmtpClient, SmtpClientWrapper>();
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IMedicoService, MedicoService>();
             services.AddTransient<IFotosService, FotosService>();
             services.AddTransient<IBlogService, BlogService>();
-            services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IHospitalService, HospitalService>();
             services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddTransient<ITechniqueService, TechniqueService>();
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
         }
 
         private void SetupSwagger(IServiceCollection services)

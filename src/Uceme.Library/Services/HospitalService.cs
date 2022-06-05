@@ -39,7 +39,7 @@
         {
             try
             {
-                return this.context.DatosProfesionales.FirstOrDefault(x => x.idDatosPro == hospitalId);
+                return this.context.DatosProfesionales.First(x => x.idDatosPro == hospitalId);
             }
             catch (Exception e)
             {

@@ -80,41 +80,41 @@
         }
 
         [HttpGet("appointmentlist")]
-        public ActionResult<IEnumerable<Cita>> AppointmentList()
+        public ActionResult<IEnumerable<Appointment>> AppointmentList()
         {
-            IEnumerable<Cita> result = null;
+            List<Appointment> result = new List<Appointment>();
             try
             {
-                result = this.appointmentService.GetAppointments();
+                result.AddRange(this.appointmentService.GetAppointments());
             }
             catch (DataException)
             {
                 return this.BadRequest();
             }
 
-            return result.ToList();
+            return result;
         }
 
         [HttpGet("closeappointmentlist")]
-        public ActionResult<IEnumerable<Cita>> CloseAppointmentList()
+        public ActionResult<IEnumerable<Appointment>> CloseAppointmentList()
         {
-            IEnumerable<Cita> result = null;
+            List<Appointment> result = new List<Appointment>();
             try
             {
-                result = this.appointmentService.GetCloseAppointments();
+                result.AddRange(this.appointmentService.GetCloseAppointments());
             }
             catch (DataException)
             {
                 return this.BadRequest();
             }
 
-            return result.ToList();
+            return result;
         }
 
         [HttpGet("getappointment")]
-        public ActionResult<Cita> GetAppointment(int appointmentId)
+        public ActionResult<Appointment> GetAppointment(int appointmentId)
         {
-            Cita result = null;
+            Appointment result;
             try
             {
                 result = this.appointmentService.GetAppointment(appointmentId);
@@ -144,9 +144,9 @@
         }
 
         [HttpGet("updateappointment")]
-        public ActionResult<Cita> UpdateAppointment(Cita appointment)
+        public ActionResult<Appointment> UpdateAppointment(Cita appointment)
         {
-            Cita result = null;
+            Appointment result;
             try
             {
                 result = this.appointmentService.UpdateAppointment(appointment);

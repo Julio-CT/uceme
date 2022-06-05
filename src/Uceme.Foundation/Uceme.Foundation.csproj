@@ -7,8 +7,12 @@
 
   <ItemGroup>
     <Folder Include="Utilities\" />
+    <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uceme.Model\Uceme.Model.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Tools\" />
   </ItemGroup>
 </Project>

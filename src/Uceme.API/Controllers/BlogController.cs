@@ -174,7 +174,7 @@
                 throw new ArgumentNullException(nameof(file));
             }
 
-            string filename = null;
+            string filename = string.Empty;
 
             try
             {

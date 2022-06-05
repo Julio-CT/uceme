@@ -30,13 +30,13 @@
             this.emailService = emailService;
         }
 
-        public IEnumerable<Cita> GetAppointments()
+        public IEnumerable<Appointment> GetAppointments()
         {
             try
             {
                 var existingAppointments = this.context.Cita.OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
 
-                return existingAppointments;
+                return this.MapCitasToAppointments(existingAppointments);
             }
             catch (Exception e)
             {
@@ -45,7 +45,7 @@
             }
         }
 
-        public IEnumerable<Cita> GetCloseAppointments()
+        public IEnumerable<Appointment> GetCloseAppointments()
         {
             try
             {
@@ -53,15 +53,17 @@
                 var todaysMonth = DateTime.Now.Month.ToString(CultureInfo.CurrentCulture);
                 todaysMonth = todaysMonth.Length > 1 ? todaysMonth : "0" + todaysMonth;
                 var todaysDay = DateTime.Now.Day.ToString(CultureInfo.CurrentCulture);
+                todaysDay = todaysDay.Length > 1 ? todaysDay : "0" + todaysDay;
                 var todaysDate = Convert.ToUInt32(todaysYear + todaysMonth + todaysDay, CultureInfo.CurrentCulture);
                 var tomorrowsYear = DateTime.Now.AddDays(2).Year.ToString(CultureInfo.CurrentCulture);
                 var tomorrowsMonth = DateTime.Now.AddDays(2).Month.ToString(CultureInfo.CurrentCulture);
                 tomorrowsMonth = tomorrowsMonth.Length > 1 ? tomorrowsMonth : "0" + tomorrowsMonth;
                 var tomorrowsDay = DateTime.Now.AddDays(2).Day.ToString(CultureInfo.CurrentCulture);
+                tomorrowsDay = tomorrowsDay.Length > 1 ? tomorrowsDay : "0" + tomorrowsDay;
                 var tomorrowsDate = Convert.ToUInt32(tomorrowsYear + tomorrowsMonth + tomorrowsDay, CultureInfo.CurrentCulture);
                 var existingAppointments = this.context.Cita.Where(a => a.dia <= tomorrowsDate && a.dia >= todaysDate).OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
 
-                return existingAppointments;
+                return this.MapCitasToAppointments(existingAppointments);
             }
             catch (Exception e)
             {
@@ -154,7 +156,7 @@
 
                 var weekday = Convert.ToInt32(appointmentRequest.WeekDay, CultureInfo.CurrentCulture);
 
-                var turno = this.context.Turno.FirstOrDefault(o => o.idHospital == appointmentRequest.HospitalId && o.dia == weekday);
+                var turno = this.context.Turno.First(o => o.idHospital == appointmentRequest.HospitalId && o.dia == weekday);
                 cita.idTurno = turno.idTurno;
                 if (!string.IsNullOrEmpty(appointmentRequest.Email))
                 {
@@ -164,9 +166,12 @@
                 this.context.Cita.Add(cita);
                 this.context.SaveChanges();
 
-                var result = await this.SendAppointmentEmailAsync(appointmentRequest, cita).ConfigureAwait(false);
-
-                return result;
+                return await this.SendAppointmentEmailAsync(appointmentRequest, cita).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException opex)
+            {
+                this.logger.LogError($"Appointment added, error sending message {opex.Message}");
+                return false;
             }
             catch (Exception e)
             {
@@ -206,13 +211,13 @@
             }
         }
 
-        Cita IAppointmentService.GetAppointment(int appointmentId)
+        Appointment IAppointmentService.GetAppointment(int appointmentId)
         {
             try
             {
-                var cita = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointmentId);
+                var cita = this.context.Cita.First(cita => cita.idCita == appointmentId);
 
-                return cita;
+                return this.MapCitaToAppointment(cita);
             }
             catch (Exception e)
             {
@@ -225,7 +230,7 @@
         {
             try
             {
-                var appointment = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointmentId);
+                var appointment = this.context.Cita.First(cita => cita.idCita == appointmentId);
                 _ = this.context.Cita.Remove(appointment);
                 this.context.SaveChanges();
 
@@ -238,11 +243,11 @@
             }
         }
 
-        Cita IAppointmentService.UpdateAppointment(Cita appointment)
+        Appointment IAppointmentService.UpdateAppointment(Cita appointment)
         {
             try
             {
-                var existingAppointment = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointment.idCita);
+                var existingAppointment = this.context.Cita.First(cita => cita.idCita == appointment.idCita);
 
                 existingAppointment.dia = appointment.dia;
                 existingAppointment.email = appointment.email;
@@ -254,13 +259,40 @@
                 var result = this.context.Cita.Update(existingAppointment);
                 this.context.SaveChanges();
 
-                return result.Entity;
+                return this.MapCitaToAppointment(result.Entity);
             }
             catch (Exception e)
             {
                 this.logger.LogError($"Error updating appointment {e.Message}");
                 throw new DataException("Error updating appointment", e);
             }
+        }
+
+        private List<Appointment> MapCitasToAppointments(IOrderedQueryable<Cita> existingAppointments)
+        {
+            var response = new List<Appointment>();
+            foreach (var existingAppointment in existingAppointments)
+            {
+                response.Add(this.MapCitaToAppointment(existingAppointment));
+            }
+
+            return response;
+        }
+
+        private Appointment MapCitaToAppointment(Cita existingAppointment)
+        {
+            var turno = this.context.Turno.First(x => x.idTurno == existingAppointment.idTurno);
+            return new Appointment()
+            {
+                dia = existingAppointment.dia,
+                hora = existingAppointment.hora,
+                email = existingAppointment.email,
+                idCita = existingAppointment.idCita,
+                idTurno = existingAppointment.idTurno,
+                nombre = existingAppointment.nombre,
+                telefono = existingAppointment.telefono,
+                speciality = this.context.DatosProfesionales.First(x => x.idDatosPro == turno.idHospital).nombre,
+            };
         }
 
         private async Task<bool> SendAppointmentEmailAsync(AppointmentRequest appointmentRequest, Cita cita)

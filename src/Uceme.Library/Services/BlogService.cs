@@ -103,7 +103,7 @@
         {
             try
             {
-                var post = this.context.Blog.FirstOrDefault(post => post.idBlog == postId);
+                var post = this.context.Blog.First(post => post.idBlog == postId);
                 this.context.Blog.Remove(post);
                 this.context.SaveChanges();
 
@@ -125,7 +125,7 @@
 
             try
             {
-                var post = this.context.Blog.FirstOrDefault(post => post.idBlog == blog.idBlog);
+                var post = this.context.Blog.First(post => post.idBlog == blog.idBlog);
 
                 post.titulo = blog.titulo;
                 post.fecha = blog.fecha;
@@ -156,7 +156,7 @@
 
             try
             {
-                var post = this.context.Blog.FirstOrDefault(post => post.idBlog == blog.IdBlog);
+                var post = this.context.Blog.First(post => post.idBlog == blog.IdBlog);
 
                 post.titulo = blog.Titulo;
                 post.fecha = string.IsNullOrEmpty(blog.Fecha) ? DateTime.Now : DateTime.Parse(blog.Fecha, CultureInfo.InvariantCulture);
