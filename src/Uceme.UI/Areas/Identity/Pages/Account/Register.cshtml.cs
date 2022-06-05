@@ -42,7 +42,7 @@
 
         public IList<AuthenticationScheme> ExternalLogins { get; }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string? returnUrl = null)
         {
             this.ReturnUrl = returnUrl;
             foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
@@ -51,7 +51,7 @@
             }
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
             returnUrl ??= this.Url.Content("~/") ?? string.Empty;
             foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
