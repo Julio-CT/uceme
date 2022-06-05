@@ -6,6 +6,7 @@ type AppointmentResponse = {
   email: string;
   telefono: string;
   idTurno: string;
+  speciality: string;
 };
 
 export default AppointmentResponse;

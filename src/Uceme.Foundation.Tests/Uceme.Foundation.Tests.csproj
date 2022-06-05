@@ -20,4 +20,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Uceme.Foundation\Uceme.Foundation.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Tools\" />
+    <None Remove="Utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tools\" />
+    <Folder Include="Utilities\" />
+  </ItemGroup>
 </Project>

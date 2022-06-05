@@ -47,7 +47,7 @@
                 this.ModelState.AddModelError(string.Empty, this.ErrorMessage);
             }
 
-            returnUrl ??= this.Url.Content("~/");
+            returnUrl ??= this.Url.Content("~/") ?? string.Empty;
             this.ReturnUrl = returnUrl;
 
             // Clear the existing external cookie to ensure a clean login process
@@ -61,7 +61,7 @@
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= this.Url.Content("~/");
+            returnUrl ??= this.Url.Content("~/") ?? string.Empty;
 
             if (this.ModelState.IsValid)
             {

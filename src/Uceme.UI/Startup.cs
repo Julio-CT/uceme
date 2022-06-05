@@ -67,15 +67,9 @@
 
             services.AddSingleton<IConfiguration>(this.Configuration);
 
-            services.AddTransient<IMedicoService, MedicoService>();
-            services.AddTransient<IFotosService, FotosService>();
-            services.AddTransient<IBlogService, BlogService>();
-            services.AddTransient<IHospitalService, HospitalService>();
-            services.AddTransient<ITechniqueService, TechniqueService>();
-
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<ISmtpClient, SmtpClientWrapper>();
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
 
             // In production, the React files will be served from this directory

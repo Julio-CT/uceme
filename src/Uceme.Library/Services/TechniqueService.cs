@@ -40,7 +40,7 @@
         {
             try
             {
-                return this.context.Tecnica.FirstOrDefault(x => x.idTecnica == techniqueId);
+                return this.context.Tecnica.First(x => x.idTecnica == techniqueId);
             }
             catch (Exception e)
             {

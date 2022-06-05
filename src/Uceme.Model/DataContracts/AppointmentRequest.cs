@@ -32,6 +32,6 @@
         public string Email { get; set; }
 
         [JsonPropertyName("extraInfo")]
-        public string ExtraInfo { get; set; }
+        public string? ExtraInfo { get; set; }
     }
 }

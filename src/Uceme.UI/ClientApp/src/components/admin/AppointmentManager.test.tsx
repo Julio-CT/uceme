@@ -33,6 +33,7 @@ describe('(Component)) AddPostModal', () => {
         email: '',
         telefono: '',
         idTurno: '',
+        speciality: '',
       },
     ];
     jest.spyOn(global, 'fetch').mockImplementation(() =>
@@ -66,6 +67,7 @@ describe('(Component)) AddPostModal', () => {
         email: '',
         telefono: '',
         idTurno: '',
+        speciality: '',
       },
     ];
     jest.spyOn(global, 'fetch').mockImplementation(() =>

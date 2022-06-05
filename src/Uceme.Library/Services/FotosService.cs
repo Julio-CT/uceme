@@ -24,7 +24,7 @@
         {
             try
             {
-                var listaFotos = this.context.Fotos.Where(o => o.destacada.Value);
+                var listaFotos = this.context.Fotos.Where(o => o.destacada != null && o.destacada.Value);
                 this.logger.LogInformation($"retrieved {listaFotos.Count()} items");
 
                 return listaFotos;

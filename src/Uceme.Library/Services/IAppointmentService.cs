@@ -13,15 +13,15 @@
 
         IEnumerable<string> GetHours(AppointmentHoursRequest appointmentHoursRequest);
 
-        IEnumerable<Cita> GetAppointments();
+        IEnumerable<Appointment> GetAppointments();
 
-        IEnumerable<Cita> GetCloseAppointments();
+        IEnumerable<Appointment> GetCloseAppointments();
 
-        Cita GetAppointment(int appointmentId);
+        Appointment GetAppointment(int appointmentId);
 
         bool DeleteAppointment(int appointmentId);
 
-        Cita UpdateAppointment(Cita appointment);
+        Appointment UpdateAppointment(Cita appointment);
 
         bool UpdatePastAppointmentsData();
     }

@@ -11,16 +11,6 @@
 
     public class EmailSender : IEmailSender
     {
-        public EmailSender(IOptions<AuthMessageSenderSettings> optionsAccessor)
-        {
-            if (optionsAccessor == null)
-            {
-                throw new ArgumentNullException(nameof(optionsAccessor));
-            }
-
-            this.Options = optionsAccessor.Value;
-        }
-
         public EmailSender(IOptions<AuthMessageSenderSettings> optionsAccessor, ISmtpClient smtpClient)
         {
             if (optionsAccessor == null)
