@@ -142,7 +142,9 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
       });
   };
 
-  const submitForm = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const submitForm = async (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     evt.preventDefault();
     if (handleValidation()) {
       const day = new Date(selectedDay);
@@ -158,15 +160,20 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
         foto: imgSrc,
       };
 
+      const token = await authService.getAccessToken();
       fetch(`${settings?.baseHref}api/blog/addpost`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json',
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
+        headers: !token
+          ? {
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            }
+          : {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
         redirect: 'follow', // manual, *follow, error
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(data), // body data type must match "Content-Type" header

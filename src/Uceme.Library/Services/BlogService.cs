@@ -38,7 +38,7 @@
                     metaDescription = x.metaDescription,
                 });
 
-                data = data.OrderByDescending(x => x.fecha).Skip(((page - 1) * 10) + (Math.Max(page - 2, 0) * 2)).Take(amount);
+                data = data.Where(x => x.fecha <= DateTime.Now.Date).OrderByDescending(x => x.fecha).Skip(((page - 1) * 10) + (Math.Max(page - 2, 0) * 2)).Take(amount);
 
                 return data;
             }
