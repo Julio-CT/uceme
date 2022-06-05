@@ -55,7 +55,7 @@ namespace Uceme.Api
             services.AddControllers();
 
             this.SetupCors(services);
-            SetupAuthentication(services);
+            this.SetupAuthentication(services);
 
             this.SetupDependecyInjection(services);
             this.SetupSwagger(services);
@@ -81,11 +81,11 @@ namespace Uceme.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                var settings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
+                var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint(settings.SwaggerUri.ToString(), settings.SwaggerApp);
+                    options.SwaggerEndpoint(swaggerSettings.SwaggerUri.ToString(), swaggerSettings.SwaggerApp);
                 });
             }
             else
@@ -95,9 +95,14 @@ namespace Uceme.Api
                 app.UseHsts();
             }
 
-            if (env.IsDevelopment() || env.IsStaging())
+            var corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
+            if (corsSettings.UseStrictPolicy)
             {
-                app.UseCors(this.relaxedPolicy);
+                _ = app.UseCors(this.strictPolicy);
+            }
+            else
+            {
+                _ = app.UseCors(this.relaxedPolicy);
             }
 
             app.UseHttpsRedirection();
@@ -111,17 +116,18 @@ namespace Uceme.Api
             });
         }
 
-        private static void SetupAuthentication(IServiceCollection services)
+        private void SetupAuthentication(IServiceCollection services)
         {
+            var tokenSettings = this.Configuration.GetSection("TokenSettings").Get<TokenSettings>();
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.Audience = "Uceme.UIAPI";
-                options.Authority = "http://localhost:3000";
-                options.RequireHttpsMetadata = false;
+                options.Audience = tokenSettings.Audience;
+                options.Authority = tokenSettings.Authority;
+                options.RequireHttpsMetadata = tokenSettings.RequireHttpsMetadata;
             });
 
             services.AddMvc(config =>
@@ -132,6 +138,7 @@ namespace Uceme.Api
 
         private void SetupCors(IServiceCollection services)
         {
+            var corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
             services.AddCors(o =>
             {
                 o.AddPolicy(this.relaxedPolicy, builder =>
@@ -143,7 +150,7 @@ namespace Uceme.Api
 
                 o.AddPolicy(this.strictPolicy, builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000")
+                    builder.WithOrigins(corsSettings.StrictPolicyHost)
                             .WithMethods("PUT", "DELETE", "GET", "POST");
                 });
             });

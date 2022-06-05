@@ -40,30 +40,8 @@
                 options.UseSqlServer(
                     this.Configuration.GetConnectionString("UcemeConnection")));
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
-
-            services.AddCors(o =>
-            {
-                o.AddPolicy(this.relaxedPolicy, builder =>
-                {
-                    builder.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-                });
-
-                o.AddPolicy(this.strictPolicy, builder =>
-                {
-                    builder.WithOrigins("http://localhost:3000")
-                            .WithMethods("PUT", "DELETE", "GET", "POST");
-                });
-            });
+            this.SetupIdentity(services);
+            this.SetupCors(services);
 
             services.AddSingleton<IConfiguration>(this.Configuration);
 
@@ -97,11 +75,11 @@
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
 
-                var settings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
+                var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint(settings.SwaggerUri.ToString(), settings.SwaggerApp);
+                    options.SwaggerEndpoint(swaggerSettings.SwaggerUri.ToString(), swaggerSettings.SwaggerApp);
                 });
             }
             else
@@ -111,7 +89,12 @@
                 app.UseHsts();
             }
 
-            if (env.IsDevelopment() || env.IsStaging())
+            var corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
+            if (corsSettings.UseStrictPolicy)
+            {
+                _ = app.UseCors(this.strictPolicy);
+            }
+            else
             {
                 _ = app.UseCors(this.relaxedPolicy);
             }
@@ -141,6 +124,38 @@
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
+            });
+        }
+
+        private void SetupIdentity(IServiceCollection services)
+        {
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentityServer()
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+
+            services.AddAuthentication()
+                .AddIdentityServerJwt();
+        }
+
+        private void SetupCors(IServiceCollection services)
+        {
+            var corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
+            services.AddCors(o =>
+            {
+                o.AddPolicy(this.relaxedPolicy, builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+
+                o.AddPolicy(this.strictPolicy, builder =>
+                {
+                    builder.WithOrigins(corsSettings.StrictPolicyHost)
+                            .WithMethods("PUT", "DELETE", "GET", "POST");
+                });
             });
         }
     }
