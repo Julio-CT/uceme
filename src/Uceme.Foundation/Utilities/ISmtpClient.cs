@@ -7,7 +7,7 @@
 
     public interface ISmtpClient : IDisposable
     {
-        string Host { get; set; }
+        string? Host { get; set; }
 
         int Port { get; set; }
 
@@ -15,7 +15,7 @@
 
         bool UseDefaultCredentials { get; set; }
 
-        ICredentialsByHost Credentials { get; set; }
+        ICredentialsByHost? Credentials { get; set; }
 
         bool EnableSsl { get; set; }
 
