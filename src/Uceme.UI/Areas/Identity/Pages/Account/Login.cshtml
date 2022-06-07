@@ -39,7 +39,7 @@
                         <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                     </p>
                     <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model?.ReturnUrl">Register as a new user</a>
                     </p>
                 </div>
             </form>
@@ -50,7 +50,7 @@
             <h4>Use another service to log in.</h4>
             <hr />
             @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                if ((Model?.ExternalLogins?.Count ?? 0) == 0)
                 {
                     <div>
                         <p>
@@ -61,7 +61,7 @@
                 }
                 else
                 {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model?.ReturnUrl" method="post" class="form-horizontal">
                         <div>
                             <p>
                                 @if (Model?.ExternalLogins != null)

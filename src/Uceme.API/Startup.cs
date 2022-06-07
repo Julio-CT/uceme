@@ -7,6 +7,7 @@
 namespace Uceme.Api
 {
     using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Authorization;
@@ -123,11 +124,24 @@ namespace Uceme.Api
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+            }).AddJwtBearer("default", options =>
             {
                 options.Audience = tokenSettings.Audience;
                 options.Authority = tokenSettings.Authority;
                 options.RequireHttpsMetadata = tokenSettings.RequireHttpsMetadata;
+            }).AddJwtBearer("alt", options =>
+            {
+                options.Audience = tokenSettings.AudienceAlt;
+                options.Authority = tokenSettings.AuthorityAlt;
+                options.RequireHttpsMetadata = tokenSettings.RequireHttpsMetadataAlt;
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .AddAuthenticationSchemes("default", "alt")
+                    .Build();
             });
 
             services.AddMvc(config =>
