@@ -73,7 +73,7 @@ interface MatchParams {
 }
 
 function Speciality(): JSX.Element {
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
   const { esp } = useParams<MatchParams>();
   const [data, setData] = React.useState<SpecialityState>({
     loaded: false,

@@ -25,7 +25,7 @@ type AppointmentManagerProps = RouteComponentProps<MatchParams>;
 function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
   const { match } = props;
   const params = match?.params ?? { page: 1 };
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
   const [modal, setModal] = React.useState<boolean>(false);
   const toggle = () => setModal(!modal);
   const [confirmModal, setConfirmModal] = React.useState<boolean>(false);
@@ -258,7 +258,6 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
                       <th scope="col">Fecha</th>
                       <th scope="col">Hora</th>
                       <th scope="col">Paciente</th>
-                      <th scope="col">Email</th>
                       <th scope="col">Teléfono</th>
                     </tr>
                   </thead>
@@ -271,7 +270,6 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
                             <td>{appointment.date}</td>
                             <td>{appointment.time}</td>
                             <td>{appointment.name}</td>
-                            <td>{appointment.email}</td>
                             <td>{appointment.phone}</td>
                           </tr>
                         );
@@ -293,7 +291,6 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">Especialidad</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Hora</th>
@@ -304,26 +301,23 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
               </tr>
             </thead>
             <tbody>
-              {appointmentData.appointments?.map(
-                (appointment: Appointment, index: number) => {
-                  return (
-                    <tr key={appointment.id}>
-                      <th scope="row">{index}</th>
-                      <td>{appointment.speciality}</td>
-                      <td>{appointment.date}</td>
-                      <td>{appointment.time}</td>
-                      <td>{appointment.name}</td>
-                      <td>{appointment.email}</td>
-                      <td>{appointment.phone}</td>
-                      <td>
-                        <DeleteIcon
-                          onClick={() => deleteAppointment(appointment)}
-                        />
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
+              {appointmentData.appointments?.map((appointment: Appointment) => {
+                return (
+                  <tr key={appointment.id}>
+                    <td>{appointment.speciality}</td>
+                    <td>{appointment.date}</td>
+                    <td>{appointment.time}</td>
+                    <td>{appointment.name}</td>
+                    <td>{appointment.email}</td>
+                    <td>{appointment.phone}</td>
+                    <td>
+                      <DeleteIcon
+                        onClick={() => deleteAppointment(appointment)}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

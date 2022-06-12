@@ -36,7 +36,7 @@ function PostManager(props: PostManagerProps): JSX.Element {
   const alertToggle = () => setAlertModal(!alertModal);
   const [alertMessage, setAlertMessage] = React.useState<string>('');
   const [markedPost, setMarkedPost] = React.useState<BlogItem>();
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
   const [postData, setPostData] = React.useState<PostManagerState>({
     loaded: false,
     posts: null,

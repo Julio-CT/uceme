@@ -17,7 +17,7 @@ interface MatchParams {
 }
 
 function BlogHome(): JSX.Element {
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
   const { page } = useParams<MatchParams>();
   const [data, setData] = React.useState<BlogHomeState>({
     loaded: false,

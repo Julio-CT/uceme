@@ -17,7 +17,7 @@ interface MatchParams {
 }
 
 function BlogPost(): JSX.Element {
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
   const { slug } = useParams<MatchParams>();
   const [data, setData] = React.useState<BlogPostState>({
     loaded: false,

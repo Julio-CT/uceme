@@ -17,7 +17,7 @@ type BlogState = {
 };
 
 const Blogs: () => JSX.Element = () => {
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
   const [data, setData] = React.useState<BlogState>({
     items: [] as Array<BlogItem>,
     isFetching: false,
@@ -64,6 +64,7 @@ const Blogs: () => JSX.Element = () => {
           });
       }
     }
+
     fetchData();
   }, [settings]);
 

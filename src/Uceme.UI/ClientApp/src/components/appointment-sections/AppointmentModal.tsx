@@ -31,7 +31,7 @@ type AppointmentHoursResponse = {
 
 function AppointmentModal(props: AppointmentModalProps): JSX.Element {
   const { modal, toggle } = props;
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
   const inputName = 'reactstrap_date_picker_basic';
   const [showHospitals, setShowHospitals] = React.useState<boolean>(true);
   const [showDays, setShowDays] = React.useState<boolean>(false);
