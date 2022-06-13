@@ -104,7 +104,7 @@ function PostManager(props: PostManagerProps): JSX.Element {
   };
 
   const deleteMarkedPost = async () => {
-    if (settings && markedPost) {
+    if (settings?.baseHref !== undefined && markedPost) {
       setConfirmModal(false);
       const token = await authService.getAccessToken();
       fetch(
@@ -140,7 +140,7 @@ function PostManager(props: PostManagerProps): JSX.Element {
   };
 
   React.useEffect(() => {
-    if (settings) {
+    if (settings?.baseHref !== undefined) {
       const page = +params.page || 1;
 
       if (isFirstRun.current) {
@@ -153,7 +153,7 @@ function PostManager(props: PostManagerProps): JSX.Element {
       setPostData({ loaded: false, page });
       fetchPosts(page, settings.baseHref);
     }
-  }, [match.params.page, params.page, settings]);
+  }, [match.params.page, params.page, settings?.baseHref]);
 
   if (postData.loaded) {
     return (

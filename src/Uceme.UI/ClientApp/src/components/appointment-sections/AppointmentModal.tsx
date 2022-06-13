@@ -356,7 +356,7 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
               {sendEnabled && (
                 <div className="field-margin">
                   <Label for="nameForm" className="field-label">
-                    Nombre
+                    Nombre completo
                   </Label>
                   <Input
                     type="text"

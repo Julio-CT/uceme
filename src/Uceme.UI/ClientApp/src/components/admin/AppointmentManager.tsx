@@ -102,94 +102,105 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
 
     const fetchAppointments = async (page: number) => {
       const token = await authService.getAccessToken();
-      fetch(`${settings?.baseHref}api/appointment/appointmentlist`, {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` },
-      })
-        .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
-          response.json()
-        )
-        .then(async (resp: AppointmentResponse[]) => {
-          const retrievedAppointments: Appointment[] = [];
-
-          await Promise.all(
-            resp.map(async (obj: AppointmentResponse) => {
-              retrievedAppointments.push({
-                id: obj.idCita,
-                speciality: obj.speciality,
-                date: DateTimeUtils.FormatDate(obj.dia),
-                time: DateTimeUtils.TimeToString(obj.hora),
-                name: obj.nombre,
-                email: obj.email,
-                phone: obj.telefono,
-                idTurn: obj.idTurno,
-              });
-            })
-          );
-
-          setAppointmentData({
-            loaded: true,
-            appointments: retrievedAppointments,
-            page,
-          });
+      if (settings?.baseHref !== undefined) {
+        fetch(`${settings?.baseHref}api/appointment/appointmentlist`, {
+          headers: !token ? {} : { Authorization: `Bearer ${token}` },
         })
-        .catch(() => {
-          setAppointmentData({
-            loaded: false,
-            appointments: null,
-            page,
+          .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
+            response.json()
+          )
+          .then(async (resp: AppointmentResponse[]) => {
+            const retrievedAppointments: Appointment[] = [];
+
+            await Promise.all(
+              resp.map(async (obj: AppointmentResponse) => {
+                retrievedAppointments.push({
+                  id: obj.idCita,
+                  speciality: obj.speciality,
+                  date: DateTimeUtils.FormatDate(obj.dia),
+                  time: DateTimeUtils.TimeToString(obj.hora),
+                  name: obj.nombre,
+                  email: obj.email,
+                  phone: obj.telefono,
+                  idTurn: obj.idTurno,
+                });
+              })
+            );
+
+            setAppointmentData({
+              loaded: true,
+              appointments: retrievedAppointments,
+              page,
+            });
+          })
+          .catch(() => {
+            setAppointmentData({
+              loaded: false,
+              appointments: null,
+              page,
+            });
           });
-        });
+      }
     };
 
     const fetchCloseAppointments = async (page: number) => {
       const token = await authService.getAccessToken();
-      fetch(`${settings?.baseHref}api/appointment/closeappointmentlist`, {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` },
-      })
-        .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
-          response.json()
-        )
-        .then(async (resp: AppointmentResponse[]) => {
-          const retrievedAppointments: Appointment[] = [];
 
-          await Promise.all(
-            resp.map(async (obj: AppointmentResponse) => {
-              retrievedAppointments.push({
-                id: obj.idCita,
-                speciality: obj.speciality,
-                date: DateTimeUtils.FormatDate(obj.dia),
-                time: DateTimeUtils.TimeToString(obj.hora),
-                name: obj.nombre,
-                email: obj.email,
-                phone: obj.telefono,
-                idTurn: obj.idTurno,
-              });
-            })
-          );
-
-          setCloseAppointmentData({
-            loaded: true,
-            appointments: retrievedAppointments,
-          });
-
-          setModal(true);
+      if (settings?.baseHref !== undefined) {
+        fetch(`${settings?.baseHref}api/appointment/closeappointmentlist`, {
+          headers: !token ? {} : { Authorization: `Bearer ${token}` },
         })
-        .catch(() => {
-          setAppointmentData({
-            loaded: false,
-            appointments: null,
-            page,
+          .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
+            response.json()
+          )
+          .then(async (resp: AppointmentResponse[]) => {
+            const retrievedAppointments: Appointment[] = [];
+
+            await Promise.all(
+              resp.map(async (obj: AppointmentResponse) => {
+                retrievedAppointments.push({
+                  id: obj.idCita,
+                  speciality: obj.speciality,
+                  date: DateTimeUtils.FormatDate(obj.dia),
+                  time: DateTimeUtils.TimeToString(obj.hora),
+                  name: obj.nombre,
+                  email: obj.email,
+                  phone: obj.telefono,
+                  idTurn: obj.idTurno,
+                });
+              })
+            );
+
+            setCloseAppointmentData({
+              loaded: true,
+              appointments: retrievedAppointments,
+            });
+
+            setModal(true);
+          })
+          .catch(() => {
+            setAppointmentData({
+              loaded: false,
+              appointments: null,
+              page,
+            });
           });
-        });
+      }
     };
 
     const updatePastAppointmentsData = async () => {
       const token = await authService.getAccessToken();
-      fetch(`${settings?.baseHref}api/appointment/updatepastappointmentsData`, {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` },
-      })
-        .then((response: { json: () => Promise<boolean> }) => response.json())
-        .catch();
+
+      if (settings?.baseHref !== undefined) {
+        fetch(
+          `${settings?.baseHref}api/appointment/updatepastappointmentsData`,
+          {
+            headers: !token ? {} : { Authorization: `Bearer ${token}` },
+          }
+        )
+          .then((response: { json: () => Promise<boolean> }) => response.json())
+          .catch();
+      }
     };
 
     if (isFirstRun.current) {
