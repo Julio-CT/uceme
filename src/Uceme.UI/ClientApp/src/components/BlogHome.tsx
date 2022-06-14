@@ -73,7 +73,7 @@ function BlogHome(): JSX.Element {
         });
     };
 
-    if (settings) {
+    if (settings?.baseHref !== undefined) {
       const pageNumber = +page || 1;
 
       if (isFirstRun.current) {
@@ -86,7 +86,7 @@ function BlogHome(): JSX.Element {
       setData({ loaded: false, page: pageNumber });
       fetchPosts(pageNumber, settings.baseHref);
     }
-  }, [page, settings]);
+  }, [page, settings.baseHref]);
 
   if (data.loaded) {
     const nextPage: number = data.page ? +data.page + 1 : 2;
