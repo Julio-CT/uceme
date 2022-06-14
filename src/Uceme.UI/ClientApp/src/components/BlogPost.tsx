@@ -62,11 +62,11 @@ function BlogPost(): JSX.Element {
   };
 
   React.useEffect(() => {
-    if (settings) {
+    if (settings?.baseHref !== undefined) {
       const pageSlug = slug ?? '';
       fetchPost(pageSlug, settings.baseHref);
     }
-  }, [settings, slug]);
+  }, [settings.baseHref, slug]);
 
   if (data.loaded && data.post) {
     return (
