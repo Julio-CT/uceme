@@ -9,7 +9,6 @@ import BlogPostResponse from '../library/BlogPostResponse';
 type BlogHomeState = {
   loaded: boolean;
   resp?: BlogItem[] | null;
-  page?: number;
 };
 
 interface MatchParams {
@@ -19,10 +18,10 @@ interface MatchParams {
 function BlogHome(): JSX.Element {
   const settings = React.useContext(SettingsContext);
   const { page } = useParams<MatchParams>();
+  const dataPageNumber = page ? +page : 1;
   const [data, setData] = React.useState<BlogHomeState>({
     loaded: false,
     resp: null,
-    page: +page ?? 1,
   });
 
   const isFirstRun = React.useRef(true);
@@ -61,43 +60,34 @@ function BlogHome(): JSX.Element {
           setData({
             loaded: true,
             resp: retrievedBlogs,
-            page: +page,
           });
         })
         .catch(() => {
           setData({
             loaded: false,
             resp: null,
-            page: +page,
           });
         });
     };
 
     if (settings?.baseHref !== undefined) {
-      const pageNumber = +page || 1;
-
       if (isFirstRun.current) {
         isFirstRun.current = false;
-
-        fetchPosts(pageNumber, settings.baseHref);
-        return;
       }
 
-      setData({ loaded: false, page: pageNumber });
-      fetchPosts(pageNumber, settings.baseHref);
+      fetchPosts(dataPageNumber, settings.baseHref);
     }
-  }, [page, settings.baseHref]);
+  }, [dataPageNumber, settings.baseHref]);
 
   if (data.loaded) {
-    const nextPage: number = data.page ? +data.page + 1 : 2;
+    const nextPage: number = dataPageNumber ? +dataPageNumber + 1 : 2;
     const previousPage: number | undefined =
-      data.page && +data.page !== 1 ? +data.page - 1 : undefined;
-
+      dataPageNumber !== 1 ? +dataPageNumber - 1 : undefined;
     return (
       <div className="app app-home header-distance">
         <div className="container" data-testid="blogContainer">
           <div
-            className={`section padding-top section-large section-grey section-in-view article-list-container article-list-page-${data.page}`}
+            className={`section padding-top section-large section-grey section-in-view article-list-container article-list-page-${+dataPageNumber}`}
           >
             {data.resp?.map((post: BlogItem, index: number) => {
               return (

@@ -87,12 +87,9 @@ function BlogPost(): JSX.Element {
             </Helmet>
 
             <article className="article article-list article-blog article-1">
-              <a
-                href={`/post/${data.post.slug}`}
-                className="article-image article-image-thumb"
-              >
+              <div className="article-image article-image-thumb">
                 <img src={data.post.imageSrc} alt={data.post.caption} />
-              </a>
+              </div>
               <div className="article-inner">
                 <h2 className="article-title">
                   <a href={`/post/${data.post.slug}`} rel="bookmark">
