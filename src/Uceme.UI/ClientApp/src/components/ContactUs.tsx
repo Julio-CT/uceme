@@ -16,7 +16,7 @@ const ContactUs: () => JSX.Element = () => {
   const toggle = () => setModal(!modal);
   const [modalMessage, setModaleMessage] = React.useState<string>('');
   const history = useHistory();
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
   const [data, setData] = React.useState<contactUsState>({
     loaded: false,
     name: '',

@@ -75,6 +75,12 @@
     "webpack": "^5.68.0",
     "webpack-dev-server": "^4.7.4"
   },
+  "overrides": {
+    "react-draft-wysiwyg": {
+      "react": "^18.1.0",
+      "react-dom": "^18.1.0"
+    }
+  },
   "eslintConfig": {
     "extends": "react-app"
   },

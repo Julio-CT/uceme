@@ -29,7 +29,7 @@ type AddPostModalProps = {
 
 function AddPostModal(props: AddPostModalProps): JSX.Element {
   const { modal, toggle, post, headerTitle } = props;
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
 
   let contentState = ContentState.createFromText(post ? post.text : '');
   const inputName = 'reactstrap_date_picker_basic';

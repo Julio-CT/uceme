@@ -25,7 +25,7 @@ type AppointmentManagerProps = RouteComponentProps<MatchParams>;
 function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
   const { match } = props;
   const params = match?.params ?? { page: 1 };
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
   const [modal, setModal] = React.useState<boolean>(false);
   const toggle = () => setModal(!modal);
   const [confirmModal, setConfirmModal] = React.useState<boolean>(false);
@@ -102,94 +102,105 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
 
     const fetchAppointments = async (page: number) => {
       const token = await authService.getAccessToken();
-      fetch(`${settings?.baseHref}api/appointment/appointmentlist`, {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` },
-      })
-        .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
-          response.json()
-        )
-        .then(async (resp: AppointmentResponse[]) => {
-          const retrievedAppointments: Appointment[] = [];
-
-          await Promise.all(
-            resp.map(async (obj: AppointmentResponse) => {
-              retrievedAppointments.push({
-                id: obj.idCita,
-                speciality: obj.speciality,
-                date: DateTimeUtils.FormatDate(obj.dia),
-                time: DateTimeUtils.TimeToString(obj.hora),
-                name: obj.nombre,
-                email: obj.email,
-                phone: obj.telefono,
-                idTurn: obj.idTurno,
-              });
-            })
-          );
-
-          setAppointmentData({
-            loaded: true,
-            appointments: retrievedAppointments,
-            page,
-          });
+      if (settings?.baseHref !== undefined) {
+        fetch(`${settings?.baseHref}api/appointment/appointmentlist`, {
+          headers: !token ? {} : { Authorization: `Bearer ${token}` },
         })
-        .catch(() => {
-          setAppointmentData({
-            loaded: false,
-            appointments: null,
-            page,
+          .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
+            response.json()
+          )
+          .then(async (resp: AppointmentResponse[]) => {
+            const retrievedAppointments: Appointment[] = [];
+
+            await Promise.all(
+              resp.map(async (obj: AppointmentResponse) => {
+                retrievedAppointments.push({
+                  id: obj.idCita,
+                  speciality: obj.speciality,
+                  date: DateTimeUtils.FormatDate(obj.dia),
+                  time: DateTimeUtils.TimeToString(obj.hora),
+                  name: obj.nombre,
+                  email: obj.email,
+                  phone: obj.telefono,
+                  idTurn: obj.idTurno,
+                });
+              })
+            );
+
+            setAppointmentData({
+              loaded: true,
+              appointments: retrievedAppointments,
+              page,
+            });
+          })
+          .catch(() => {
+            setAppointmentData({
+              loaded: false,
+              appointments: null,
+              page,
+            });
           });
-        });
+      }
     };
 
     const fetchCloseAppointments = async (page: number) => {
       const token = await authService.getAccessToken();
-      fetch(`${settings?.baseHref}api/appointment/closeappointmentlist`, {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` },
-      })
-        .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
-          response.json()
-        )
-        .then(async (resp: AppointmentResponse[]) => {
-          const retrievedAppointments: Appointment[] = [];
 
-          await Promise.all(
-            resp.map(async (obj: AppointmentResponse) => {
-              retrievedAppointments.push({
-                id: obj.idCita,
-                speciality: obj.speciality,
-                date: DateTimeUtils.FormatDate(obj.dia),
-                time: DateTimeUtils.TimeToString(obj.hora),
-                name: obj.nombre,
-                email: obj.email,
-                phone: obj.telefono,
-                idTurn: obj.idTurno,
-              });
-            })
-          );
-
-          setCloseAppointmentData({
-            loaded: true,
-            appointments: retrievedAppointments,
-          });
-
-          setModal(true);
+      if (settings?.baseHref !== undefined) {
+        fetch(`${settings?.baseHref}api/appointment/closeappointmentlist`, {
+          headers: !token ? {} : { Authorization: `Bearer ${token}` },
         })
-        .catch(() => {
-          setAppointmentData({
-            loaded: false,
-            appointments: null,
-            page,
+          .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
+            response.json()
+          )
+          .then(async (resp: AppointmentResponse[]) => {
+            const retrievedAppointments: Appointment[] = [];
+
+            await Promise.all(
+              resp.map(async (obj: AppointmentResponse) => {
+                retrievedAppointments.push({
+                  id: obj.idCita,
+                  speciality: obj.speciality,
+                  date: DateTimeUtils.FormatDate(obj.dia),
+                  time: DateTimeUtils.TimeToString(obj.hora),
+                  name: obj.nombre,
+                  email: obj.email,
+                  phone: obj.telefono,
+                  idTurn: obj.idTurno,
+                });
+              })
+            );
+
+            setCloseAppointmentData({
+              loaded: true,
+              appointments: retrievedAppointments,
+            });
+
+            setModal(true);
+          })
+          .catch(() => {
+            setAppointmentData({
+              loaded: false,
+              appointments: null,
+              page,
+            });
           });
-        });
+      }
     };
 
     const updatePastAppointmentsData = async () => {
       const token = await authService.getAccessToken();
-      fetch(`${settings?.baseHref}api/appointment/updatepastappointmentsData`, {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` },
-      })
-        .then((response: { json: () => Promise<boolean> }) => response.json())
-        .catch();
+
+      if (settings?.baseHref !== undefined) {
+        fetch(
+          `${settings?.baseHref}api/appointment/updatepastappointmentsData`,
+          {
+            headers: !token ? {} : { Authorization: `Bearer ${token}` },
+          }
+        )
+          .then((response: { json: () => Promise<boolean> }) => response.json())
+          .catch();
+      }
     };
 
     if (isFirstRun.current) {
@@ -258,7 +269,6 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
                       <th scope="col">Fecha</th>
                       <th scope="col">Hora</th>
                       <th scope="col">Paciente</th>
-                      <th scope="col">Email</th>
                       <th scope="col">Teléfono</th>
                     </tr>
                   </thead>
@@ -271,7 +281,6 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
                             <td>{appointment.date}</td>
                             <td>{appointment.time}</td>
                             <td>{appointment.name}</td>
-                            <td>{appointment.email}</td>
                             <td>{appointment.phone}</td>
                           </tr>
                         );
@@ -293,7 +302,6 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">Especialidad</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Hora</th>
@@ -304,26 +312,23 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
               </tr>
             </thead>
             <tbody>
-              {appointmentData.appointments?.map(
-                (appointment: Appointment, index: number) => {
-                  return (
-                    <tr key={appointment.id}>
-                      <th scope="row">{index}</th>
-                      <td>{appointment.speciality}</td>
-                      <td>{appointment.date}</td>
-                      <td>{appointment.time}</td>
-                      <td>{appointment.name}</td>
-                      <td>{appointment.email}</td>
-                      <td>{appointment.phone}</td>
-                      <td>
-                        <DeleteIcon
-                          onClick={() => deleteAppointment(appointment)}
-                        />
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
+              {appointmentData.appointments?.map((appointment: Appointment) => {
+                return (
+                  <tr key={appointment.id}>
+                    <td>{appointment.speciality}</td>
+                    <td>{appointment.date}</td>
+                    <td>{appointment.time}</td>
+                    <td>{appointment.name}</td>
+                    <td>{appointment.email}</td>
+                    <td>{appointment.phone}</td>
+                    <td>
+                      <DeleteIcon
+                        onClick={() => deleteAppointment(appointment)}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
