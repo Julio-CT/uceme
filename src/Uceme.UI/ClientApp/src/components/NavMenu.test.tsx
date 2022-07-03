@@ -20,9 +20,7 @@ afterEach(() => {
 describe('(Component)) NavMenu', () => {
   it('renders without exploding', () => {
     render(<NavMenu />, container);
-    expect(screen.queryAllByText('Uceme', { exact: false })).toHaveLength(
-      1
-    );
+    expect(screen.queryAllByText('Uceme', { exact: false })).toHaveLength(1);
   });
 
   it('renders 1 buttons', () => {

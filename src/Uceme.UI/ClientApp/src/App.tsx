@@ -12,24 +12,25 @@ import AppointmentManager from './components/admin/AppointmentManager';
 import PostManager from './components/admin/PostManager';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import ApplicationPaths from './components/api-authorization/ApiAuthorizationConstants';
-import './custom.scss';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
-import './App.scss';
 import SettingsContext, { Settings } from './SettingsContext';
+import Technique from './components/Technique';
+import './App.scss';
+import './custom.scss';
 
 function App(): JSX.Element {
   const [context, setContext] = React.useState<Settings>({
-    telephone: 'hell',
-    address: 'yeah',
-    contactEmail: 'baby',
+    telephone: 'cargando...',
+    address: 'cargando...',
+    contactEmail: 'cargando...',
     baseHref: process.env.NODE_ENV === 'development' ? '' : 'ucemeapi/',
   });
 
   const defaults = React.useMemo<Settings>(
     () => ({
-      telephone: 'hell',
-      address: 'yeah',
-      contactEmail: 'baby',
+      telephone: 'cargando...',
+      address: 'cargando...',
+      contactEmail: 'cargando...',
       baseHref: process.env.NODE_ENV === 'development' ? '' : 'ucemeapi/',
     }),
     []
@@ -60,6 +61,7 @@ function App(): JSX.Element {
         <Route path="/blog/:page?" component={BlogHome} />
         <Route path="/post/:slug" component={BlogItem} />
         <Route path="/especialidad/:esp" component={Speciality} />
+        <Route path="/tecnica/:tec" component={Technique} />
         <Route path="/contacto" component={ContactUs} />
         <AuthorizeRoute
           path="/appointmentmanager"
