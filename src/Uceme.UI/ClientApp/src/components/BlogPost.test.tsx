@@ -22,20 +22,18 @@ describe('(Component)) BlogPost', () => {
   it('renders without exploding', () => {
     render(
       <MemoryRouter initialEntries={['post/1']}>
-        <Route path='post/:slug'>
+        <Route path="post/:slug">
           <BlogPost />
         </Route>
       </MemoryRouter>
     );
-    expect(screen.queryAllByText('Loading', { exact: false })).toHaveLength(
-      1
-    );
+    expect(screen.queryAllByText('Loading', { exact: false })).toHaveLength(1);
   });
 
   it('renders no buttons', () => {
     render(
       <MemoryRouter initialEntries={['post/1']}>
-        <Route path='post/:slug'>
+        <Route path="post/:slug">
           <BlogPost />
         </Route>
       </MemoryRouter>

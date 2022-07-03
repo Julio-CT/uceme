@@ -8,7 +8,7 @@ import slide2 from '../resources/images/especialidad2.jpg';
 import slide3 from '../resources/images/especialidad3.jpg';
 import slide4 from '../resources/images/especialidad4.jpg';
 import slide5 from '../resources/images/especialidad5.jpg';
-import './Specialities.scss';
+import './Speciality.scss';
 
 const specials: Special[] = [
   {

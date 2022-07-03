@@ -20,9 +20,7 @@ afterEach(() => {
 describe('(Component)) Footer', () => {
   it('renders without exploding', () => {
     render(<Footer />, container);
-    expect(screen.queryAllByText('facebook', { exact: false })).toHaveLength(
-      1
-    );
+    expect(screen.queryAllByText('facebook', { exact: false })).toHaveLength(1);
   });
 
   it('renders no buttons', () => {

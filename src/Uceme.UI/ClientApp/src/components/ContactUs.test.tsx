@@ -22,20 +22,20 @@ describe('(Component)) ContactUs', () => {
   it('renders without exploding', () => {
     render(
       <MemoryRouter initialEntries={['contacto']}>
-        <Route path='contacto'>
+        <Route path="contacto">
           <ContactUs />
         </Route>
       </MemoryRouter>
     );
-    expect(screen.queryAllByText('Horario de atención', { exact: false })).toHaveLength(
-      1
-    );
+    expect(
+      screen.queryAllByText('Horario de atención', { exact: false })
+    ).toHaveLength(1);
   });
 
   it('renders 1 buttons', () => {
     render(
       <MemoryRouter initialEntries={['contacto']}>
-        <Route path='contacto'>
+        <Route path="contacto">
           <ContactUs />
         </Route>
       </MemoryRouter>
