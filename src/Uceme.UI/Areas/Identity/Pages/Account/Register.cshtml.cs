@@ -36,33 +36,39 @@
         }
 
         [BindProperty]
-        public RegisterInputModel Input { get; set; }
+        public RegisterInputModel? Input { get; set; }
 
         public string? ReturnUrl { get; set; }
 
-        public IList<AuthenticationScheme> ExternalLogins { get; }
+        public IList<AuthenticationScheme>? ExternalLogins { get; }
 
         public async Task OnGetAsync(string? returnUrl = null)
         {
             this.ReturnUrl = returnUrl;
-            foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+            if (this.ExternalLogins != null)
             {
-                this.ExternalLogins.Add(login);
+                foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+                {
+                    this.ExternalLogins.Add(login);
+                }
             }
         }
 
         public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
             returnUrl ??= this.Url.Content("~/") ?? string.Empty;
-            foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+            if (this.ExternalLogins != null)
             {
-                this.ExternalLogins.Add(login);
+                foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+                {
+                    this.ExternalLogins.Add(login);
+                }
             }
 
             if (this.ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
-                var result = await this.userManager.CreateAsync(user, this.Input.Password).ConfigureAwait(false);
+                var user = new ApplicationUser { UserName = this.Input?.Email, Email = this.Input?.Email };
+                var result = await this.userManager.CreateAsync(user, this.Input?.Password).ConfigureAwait(false);
                 if (result.Succeeded)
                 {
                     this.logger.LogInformation("User created a new account with password.");
@@ -76,13 +82,13 @@
                         protocol: this.Request.Scheme);
 
                     await this.emailSender.SendEmailAsync(
-                        this.Input.Email,
+                        this.Input?.Email,
                         "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.").ConfigureAwait(false);
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl ?? string.Empty)}'>clicking here</a>.").ConfigureAwait(false);
 
                     if (this.userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return this.RedirectToPage("RegisterConfirmation", new { email = this.Input.Email });
+                        return this.RedirectToPage("RegisterConfirmation", new { email = this.Input?.Email });
                     }
                     else
                     {

@@ -31,14 +31,14 @@
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel? Input { get; set; }
 
-        public IList<AuthenticationScheme> ExternalLogins { get; }
+        public IList<AuthenticationScheme>? ExternalLogins { get; }
 
-        public string ReturnUrl { get; set; }
+        public string? ReturnUrl { get; set; }
 
         [TempData]
-        public string ErrorMessage { get; set; }
+        public string? ErrorMessage { get; set; }
 
         public async Task OnGetAsync(string? returnUrl = null)
         {
@@ -53,9 +53,12 @@
             // Clear the existing external cookie to ensure a clean login process
             await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme).ConfigureAwait(false);
 
-            foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+            if (this.ExternalLogins != null)
             {
-                this.ExternalLogins.Add(login);
+                foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+                {
+                    this.ExternalLogins.Add(login);
+                }
             }
         }
 
@@ -67,7 +70,11 @@
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await this.signInManager.PasswordSignInAsync(this.Input.Email, this.Input.Password, this.Input.RememberMe, lockoutOnFailure: false).ConfigureAwait(false);
+                var result = await this.signInManager.PasswordSignInAsync(
+                    this.Input != null ? this.Input.Email : string.Empty,
+                    this.Input?.Password,
+                    this.Input != null ? this.Input.RememberMe : false,
+                    lockoutOnFailure: false).ConfigureAwait(false);
                 if (result.Succeeded)
                 {
                     this.logger.LogInformation("User logged in.");
@@ -76,7 +83,7 @@
 
                 if (result.RequiresTwoFactor)
                 {
-                    return this.RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = this.Input.RememberMe });
+                    return this.RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = this.Input != null ? this.Input.RememberMe : false });
                 }
 
                 if (result.IsLockedOut)
