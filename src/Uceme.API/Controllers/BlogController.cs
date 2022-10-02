@@ -68,7 +68,7 @@
                 return this.BadRequest();
             }
 
-            return result.ToList();
+            return this.BadRequest("aomething");
         }
 
         [HttpGet("getallposts")]

@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Uceme.UI/bin/Debug/net5.0/Uceme.UI.dll",
+            "program": "${workspaceFolder}/Uceme.UI/bin/Debug/net6.0/Uceme.UI.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Uceme.UI",
             "stopAtEntry": false,
@@ -30,7 +30,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Uceme.API/bin/Debug/net5.0/Uceme.API.dll",
+            "program": "${workspaceFolder}/Uceme.API/bin/Debug/net6.0/Uceme.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Uceme.API",
             "stopAtEntry": false,
