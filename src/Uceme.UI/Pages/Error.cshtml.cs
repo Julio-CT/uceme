@@ -6,7 +6,9 @@
     using Microsoft.Extensions.Logging;
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+#pragma warning disable SA1649 // File name should match first type name
     public class ErrorModel : PageModel
+#pragma warning restore SA1649 // File name should match first type name
     {
         private readonly ILogger<ErrorModel> logger;
 

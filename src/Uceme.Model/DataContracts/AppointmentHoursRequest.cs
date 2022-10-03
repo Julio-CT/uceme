@@ -8,7 +8,7 @@
         public int WeekDay { get; set; }
 
         [JsonPropertyName("hospitalId")]
-        public string HospitalId { get; set; }
+        public string? HospitalId { get; set; }
 
         [JsonPropertyName("day")]
         public int Day { get; set; }

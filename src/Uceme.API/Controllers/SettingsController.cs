@@ -1,5 +1,6 @@
 ﻿namespace Uceme.API.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using Microsoft.AspNetCore.Authorization;
@@ -20,6 +21,11 @@
             ILogger<SettingsController> logger,
             IOptions<AppSettings> configuration)
         {
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
             this.configuration = configuration;
             this.logger = logger;
         }
@@ -31,9 +37,9 @@
             var result = new Dictionary<string, object>();
             try
             {
-                result["telephone"] = this.configuration.Value.Telephone;
-                result["contactEmail"] = this.configuration.Value.ContactEmail;
-                result["address"] = this.configuration.Value.Address;
+                result["telephone"] = this.configuration?.Value?.Telephone ?? string.Empty;
+                result["contactEmail"] = this.configuration?.Value?.ContactEmail ?? string.Empty;
+                result["address"] = this.configuration?.Value?.Address ?? string.Empty;
             }
             catch (DataException)
             {
