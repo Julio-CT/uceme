@@ -9,7 +9,6 @@ import photoIcon from '../../resources/images/photoicon.png';
 import BlogItem from '../../library/BlogItem';
 import SettingsContext from '../../SettingsContext';
 import BlogPostResponse from '../../library/BlogPostResponse';
-import authService from '../api-authorization/AuthorizeService';
 
 type BlogState = {
   items: BlogItem[];
@@ -17,7 +16,7 @@ type BlogState = {
 };
 
 const Blogs: () => JSX.Element = () => {
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
   const [data, setData] = React.useState<BlogState>({
     items: [] as Array<BlogItem>,
     isFetching: false,
@@ -25,10 +24,9 @@ const Blogs: () => JSX.Element = () => {
 
   React.useEffect(() => {
     async function fetchData() {
-      if (settings) {
-        const token = await authService.getAccessToken();
+      if (settings?.baseHref !== undefined) {
         fetch(`${settings.baseHref}api/blog/getblogsubset?amount=3`, {
-          headers: !token ? {} : { Authorization: `Bearer ${token}` },
+          headers: {},
         })
           .then((response: Response) => response.json())
           .then(async (posts: BlogPostResponse[]) => {
@@ -64,8 +62,9 @@ const Blogs: () => JSX.Element = () => {
           });
       }
     }
+
     fetchData();
-  }, [settings]);
+  }, [settings.baseHref]);
 
   const posts = data.items.map((post) => {
     return (

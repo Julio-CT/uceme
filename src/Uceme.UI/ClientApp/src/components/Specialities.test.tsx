@@ -20,9 +20,9 @@ afterEach(() => {
 describe('(Component)) Specialities', () => {
   it('renders without exploding', () => {
     render(<Specialities />, container);
-    expect(screen.queryAllByText('Especialidades', { exact: false })).toHaveLength(
-      1
-    );
+    expect(
+      screen.queryAllByText('Especialidades', { exact: false })
+    ).toHaveLength(1);
   });
 
   it('renders no buttons', () => {

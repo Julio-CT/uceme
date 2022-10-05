@@ -1,17 +1,8 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
-import { match, MemoryRouter, Route } from 'react-router';
-import BlogHome from './BlogHome';
-
-const path = `/route/:id`;
-
-const match: match<{ id: string }> = {
-  isExact: false,
-  path,
-  url: path.replace(':id', '1'),
-  params: { id: '1' },
-};
+import { MemoryRouter, Route } from 'react-router';
+import Technique from './Technique';
 
 let container: any;
 beforeEach(() => {
@@ -27,25 +18,23 @@ afterEach(() => {
   container = null;
 });
 
-describe('(Component)) BlogHome', () => {
+describe('(Component)) Speciality', () => {
   it('renders without exploding', () => {
     render(
-      <MemoryRouter initialEntries={['blogs/1']}>
-        <Route path="blogs/:blogId">
-          <BlogHome />
+      <MemoryRouter initialEntries={['especialidad/1']}>
+        <Route path="especialidad/:esp">
+          <Technique />
         </Route>
       </MemoryRouter>
     );
-    expect(screen.queryAllByText('Loading..', { exact: false })).toHaveLength(
-      1
-    );
+    expect(screen.queryAllByText('Loading', { exact: false })).toHaveLength(1);
   });
 
   it('renders no buttons', () => {
     render(
-      <MemoryRouter initialEntries={['blogs/1']}>
-        <Route path="blogs/:blogId">
-          <BlogHome />
+      <MemoryRouter initialEntries={['especialidad/1']}>
+        <Route path="especialidad/:esp">
+          <Technique />
         </Route>
       </MemoryRouter>
     );

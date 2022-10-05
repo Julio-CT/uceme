@@ -1,4 +1,4 @@
-﻿namespace Uceme.API.Test
+﻿namespace Uceme.API.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -20,9 +20,12 @@ afterEach(() => {
 describe('(Component)) Header', () => {
   it('renders without exploding', () => {
     render(<Header />, container);
-    expect(screen.queryAllByText('Unidad de Cirugía Endocrinometabólica Especializada', { exact: false })).toHaveLength(
-      1
-    );
+    expect(
+      screen.queryAllByText(
+        'Unidad de Cirugía Endocrinometabólica Especializada',
+        { exact: false }
+      )
+    ).toHaveLength(1);
   });
 
   it('renders 2 buttons', () => {

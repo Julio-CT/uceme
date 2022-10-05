@@ -17,7 +17,7 @@ interface MatchParams {
 }
 
 function BlogPost(): JSX.Element {
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
   const { slug } = useParams<MatchParams>();
   const [data, setData] = React.useState<BlogPostState>({
     loaded: false,
@@ -62,11 +62,11 @@ function BlogPost(): JSX.Element {
   };
 
   React.useEffect(() => {
-    if (settings) {
+    if (settings?.baseHref !== undefined) {
       const pageSlug = slug ?? '';
       fetchPost(pageSlug, settings.baseHref);
     }
-  }, [settings, slug]);
+  }, [settings.baseHref, slug]);
 
   if (data.loaded && data.post) {
     return (
@@ -87,12 +87,9 @@ function BlogPost(): JSX.Element {
             </Helmet>
 
             <article className="article article-list article-blog article-1">
-              <a
-                href={`/post/${data.post.slug}`}
-                className="article-image article-image-thumb"
-              >
+              <div className="article-image article-image-thumb">
                 <img src={data.post.imageSrc} alt={data.post.caption} />
-              </a>
+              </div>
               <div className="article-inner">
                 <h2 className="article-title">
                   <a href={`/post/${data.post.slug}`} rel="bookmark">

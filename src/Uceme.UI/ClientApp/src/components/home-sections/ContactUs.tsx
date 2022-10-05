@@ -3,7 +3,7 @@ import * as React from 'react';
 import SettingsContext from '../../SettingsContext';
 
 const ContactUs: () => JSX.Element = () => {
-  const settings = React.useContext(SettingsContext());
+  const settings = React.useContext(SettingsContext);
 
   if (settings) {
     return (

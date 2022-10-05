@@ -36,7 +36,7 @@ export default class NavMenu extends React.Component<
             <Nav className="mr-auto">
               <Navbar.Brand href="#home">Somos Uceme</Navbar.Brand>
               <Nav.Link href="/especialidades">Especialidades</Nav.Link>
-              <Nav.Link href="/innovaciones">Innovaciones Técnicas</Nav.Link>
+              <Nav.Link href="/tecnica/3">Innovaciones Técnicas</Nav.Link>
               <Nav.Link href="/blog">Blog</Nav.Link>
               <Nav.Link href="/contacto">Contacto</Nav.Link>
             </Nav>
