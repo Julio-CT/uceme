@@ -32,6 +32,11 @@
             IOptions<AppSettings> configuration,
             ILogger<BlogController> logger)
         {
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
             this.techniqueService = techniqueService;
             this.logger = logger;
             this.configuration = configuration;
@@ -48,6 +53,7 @@
             }
             catch (DataException)
             {
+                this.logger.LogError("error returning techniques");
                 return this.BadRequest();
             }
 
@@ -65,6 +71,7 @@
             }
             catch (DataException)
             {
+                this.logger.LogError("error returning technique");
                 return this.BadRequest();
             }
 
@@ -81,6 +88,7 @@
             }
             catch (DataException)
             {
+                this.logger.LogError("error deleting technique");
                 return this.BadRequest();
             }
 
@@ -97,6 +105,7 @@
             }
             catch (DataException)
             {
+                this.logger.LogError("error updating technique");
                 return this.BadRequest();
             }
 
@@ -125,6 +134,7 @@
             }
             catch (DataException)
             {
+                this.logger.LogError("error adding technique");
                 return this.BadRequest();
             }
 
@@ -160,6 +170,7 @@
             }
             catch (Exception)
             {
+                this.logger.LogError("error uploading technique");
                 return this.BadRequest();
             }
 

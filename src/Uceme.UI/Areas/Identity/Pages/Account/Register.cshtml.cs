@@ -16,7 +16,9 @@
     using Uceme.Model.Models;
 
     [AllowAnonymous]
+#pragma warning disable SA1649 // File name should match first type name
     public class RegisterModel : PageModel
+#pragma warning restore SA1649 // File name should match first type name
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
@@ -38,11 +40,15 @@
         [BindProperty]
         public RegisterInputModel? Input { get; set; }
 
+#pragma warning disable CA1056 // URI-like properties should not be strings
         public string? ReturnUrl { get; set; }
+#pragma warning restore CA1056 // URI-like properties should not be strings
 
         public IList<AuthenticationScheme>? ExternalLogins { get; }
 
+#pragma warning disable CA1054 // URI-like parameters should not be strings
         public async Task OnGetAsync(string? returnUrl = null)
+#pragma warning restore CA1054 // URI-like parameters should not be strings
         {
             this.ReturnUrl = returnUrl;
             if (this.ExternalLogins != null)
@@ -54,7 +60,9 @@
             }
         }
 
+#pragma warning disable CA1054 // URI-like parameters should not be strings
         public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
+#pragma warning restore CA1054 // URI-like parameters should not be strings
         {
             returnUrl ??= this.Url.Content("~/") ?? string.Empty;
             if (this.ExternalLogins != null)

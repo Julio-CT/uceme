@@ -12,7 +12,9 @@
     using Uceme.Model.Models;
 
     [AllowAnonymous]
+#pragma warning disable SA1649 // File name should match first type name
     public class LoginModel : PageModel
+#pragma warning restore SA1649 // File name should match first type name
     {
         private readonly UserManager<ApplicationUser> userManager;
 
@@ -35,12 +37,16 @@
 
         public IList<AuthenticationScheme>? ExternalLogins { get; }
 
+#pragma warning disable CA1056 // URI-like properties should not be strings
         public string? ReturnUrl { get; set; }
+#pragma warning restore CA1056 // URI-like properties should not be strings
 
         [TempData]
         public string? ErrorMessage { get; set; }
 
+#pragma warning disable CA1054 // URI-like parameters should not be strings
         public async Task OnGetAsync(string? returnUrl = null)
+#pragma warning restore CA1054 // URI-like parameters should not be strings
         {
             if (!string.IsNullOrEmpty(this.ErrorMessage))
             {
@@ -62,7 +68,9 @@
             }
         }
 
+#pragma warning disable CA1054 // URI-like parameters should not be strings
         public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
+#pragma warning restore CA1054 // URI-like parameters should not be strings
         {
             returnUrl ??= this.Url.Content("~/") ?? string.Empty;
 
