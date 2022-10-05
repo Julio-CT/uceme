@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.Library", "Uceme.Libr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.API.Tests", "Uceme.API.Tests\Uceme.API.Tests.csproj", "{D9CDF18F-E244-476C-87C3-573D2C3FB270}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.Foundation.Integration.Tests", "Uceme.Foundation.Integration.Tests\Uceme.Foundation.Integration.Tests.csproj", "{BEB6304D-B471-477B-8456-B808F887966B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Uceme.Library\Uceme.Library.projitems*{2608c7cb-95de-4bf4-a1ae-7eceb76d95ec}*SharedItemsImports = 5
@@ -79,6 +81,10 @@ Global
 		{D9CDF18F-E244-476C-87C3-573D2C3FB270}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9CDF18F-E244-476C-87C3-573D2C3FB270}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9CDF18F-E244-476C-87C3-573D2C3FB270}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEB6304D-B471-477B-8456-B808F887966B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB6304D-B471-477B-8456-B808F887966B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB6304D-B471-477B-8456-B808F887966B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB6304D-B471-477B-8456-B808F887966B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
