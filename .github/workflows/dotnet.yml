@@ -35,10 +35,10 @@ jobs:
     - name: Create code coverage report
       run: |
         dotnet tool install -g dotnet-reportgenerator-globaltool
-        reportgenerator -reports:$(Agent.WorkFolder)/**/coverage.cobertura.xml -targetdir:/home/runner/coverage-reporttypes:'Cobertura'
+        reportgenerator -reports:/home/runner/coverage/**/coverage.cobertura.xml -targetdir:/home/runner/coverage-reporttypes:'Cobertura'
         
     - name: Copy Coverage to Predictable Location
-      run: cp /coverage/*/coverage.cobertura.xml /home/runner/coveragecoverage.cobertura.xml
+      run: cp /home/runner/coverage/*/coverage.cobertura.xml /home/runner/coveragecoverage.cobertura.xml
 
     - name: Code Coverage Summary Report
       uses: irongut/CodeCoverageSummary@v1.3.0
