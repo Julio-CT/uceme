@@ -6,6 +6,6 @@
     public class AppointmentHoursResponse
     {
         [JsonPropertyName("hours")]
-        public IEnumerable<string> Hours { get; set; }
+        public IEnumerable<string>? Hours { get; set; }
     }
 }

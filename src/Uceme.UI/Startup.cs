@@ -41,6 +41,7 @@
                     this.Configuration.GetConnectionString("UcemeConnection")));
 
             this.SetupIdentity(services);
+            SetupIdentity(services);
             this.SetupCors(services);
 
             services.AddSingleton<IConfiguration>(this.Configuration);
@@ -79,7 +80,7 @@
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint(swaggerSettings.SwaggerUri.ToString(), swaggerSettings.SwaggerApp);
+                    options.SwaggerEndpoint(swaggerSettings.SwaggerUri?.ToString(), swaggerSettings.SwaggerApp);
                 });
             }
             else
@@ -127,7 +128,7 @@
             });
         }
 
-        private void SetupIdentity(IServiceCollection services)
+        private static void SetupIdentity(IServiceCollection services)
         {
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -153,7 +154,7 @@
 
                 o.AddPolicy(this.strictPolicy, builder =>
                 {
-                    builder.WithOrigins(corsSettings.StrictPolicyHost)
+                    builder.WithOrigins(corsSettings.StrictPolicyHost ?? string.Empty)
                             .WithMethods("PUT", "DELETE", "GET", "POST");
                 });
             });
