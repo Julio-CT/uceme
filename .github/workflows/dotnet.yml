@@ -28,10 +28,10 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal src/UCEME.sln --filter TestCategory=MockTests --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
 
-    - name: Create code coverage report
-      run: |
-        dotnet tool install -g dotnet-reportgenerator-globaltool
-        reportgenerator -reports:$(Agent.WorkFolder)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:'Cobertura'
+    # - name: Create code coverage report
+    #   run: |
+    #     dotnet tool install -g dotnet-reportgenerator-globaltool
+    #     reportgenerator -reports:$(Agent.WorkFolder)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:'Cobertura'
         
     - name: Copy Coverage to Predictable Location
       run: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
