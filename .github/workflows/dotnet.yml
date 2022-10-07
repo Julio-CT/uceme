@@ -14,6 +14,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3.0.2
 
+    - name: Create folder
+      run: |
+          mkdir -p /coverage
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v2.1.0
       with:
@@ -26,20 +30,20 @@ jobs:
       run: dotnet build --no-restore src/UCEME.sln
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal src/UCEME.sln --filter TestCategory=MockTests --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
+      run: dotnet test --no-build --verbosity normal src/UCEME.sln --filter TestCategory=MockTests --collect:"XPlat Code Coverage" --logger trx --results-directory /coverage
 
-    # - name: Create code coverage report
-    #   run: |
-    #     dotnet tool install -g dotnet-reportgenerator-globaltool
-    #     reportgenerator -reports:$(Agent.WorkFolder)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:'Cobertura'
+    - name: Create code coverage report
+      run: |
+        dotnet tool install -g dotnet-reportgenerator-globaltool
+        reportgenerator -reports:$(Agent.WorkFolder)/**/coverage.cobertura.xml -targetdir:/CodeCoverage -reporttypes:'Cobertura'
         
     - name: Copy Coverage to Predictable Location
-      run: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
+      run: cp /coverage/*/coverage.cobertura.xml /coverage/coverage.cobertura.xml
 
     - name: Code Coverage Summary Report
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
-        filename: coverage/coverage.cobertura.xml
+        filename: /coverage/coverage.cobertura.xml
         badge: true
         format: 'markdown'
         output: 'both'
