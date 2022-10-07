@@ -40,7 +40,6 @@
                 options.UseSqlServer(
                     this.Configuration.GetConnectionString("UcemeConnection")));
 
-            this.SetupIdentity(services);
             SetupIdentity(services);
             this.SetupCors(services);
 

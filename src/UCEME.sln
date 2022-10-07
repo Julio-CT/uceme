@@ -22,7 +22,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.API", "Uceme.API\Uceme.API.csproj", "{71A9050E-F37B-4AEA-B56F-CBBB62BF2ADA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.Foundation.Tests", "Uceme.Foundation.Tests\Uceme.Foundation.Tests.csproj", "{19DB0E11-B082-439F-92B9-4047EB54AC11}"
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Foundation.Tests", "Uceme.Foundation.Tests\Uceme.Foundation.Tests.csproj", "{19DB0E11-B082-439F-92B9-4047EB54AC11}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Foundation", "Uceme.Foundation\Uceme.Foundation.csproj", "{683691C0-C11D-4610-8EFB-19D38DE84CA4}"
 EndProject
