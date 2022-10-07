@@ -9,14 +9,17 @@ WORKDIR /src
 COPY ["Uceme.API/Uceme.API.csproj", "Uceme.API/"]
 COPY ["Uceme.Foundation/Uceme.Foundation.csproj", "Uceme.Foundation/"]
 COPY ["Uceme.Model/Uceme.Model.csproj", "Uceme.Model/"]
+COPY ["Uceme.API/Uceme.API.csproj", "Uceme.API/"]
+COPY ["Uceme.Foundation/Uceme.Foundation.csproj", "Uceme.Foundation/"]
+COPY ["Uceme.Model/Uceme.Model.csproj", "Uceme.Model/"]
 COPY ["Uceme.Library/Uceme.Library.csproj", "Uceme.Library/"]
 RUN dotnet restore "Uceme.API/Uceme.API.csproj"
 COPY . .
 WORKDIR "/src/Uceme.API"
-RUN dotnet build "Uceme.API.csproj" -c Release -o /app/build
+RUN dotnet build "Uceme.API.csproj" -c Release -o /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish "Uceme.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Uceme.API.csproj" -c Release -o /app/publish /p:UseAppHost=false --no-restore
 
 FROM base AS final
 WORKDIR /app

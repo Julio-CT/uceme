@@ -9,7 +9,9 @@
     using Uceme.Model.Models;
 
     [AllowAnonymous]
+#pragma warning disable SA1649 // File name should match first type name
     public class LogoutModel : PageModel
+#pragma warning restore SA1649 // File name should match first type name
     {
         private readonly SignInManager<ApplicationUser> signInManager;
 
@@ -25,7 +27,9 @@
         {
         }
 
+#pragma warning disable CA1054 // URI-like parameters should not be strings
         public async Task<IActionResult> OnPost(string? returnUrl = null)
+#pragma warning restore CA1054 // URI-like parameters should not be strings
         {
             await this.signInManager.SignOutAsync().ConfigureAwait(false);
             this.logger.LogInformation("User logged out.");

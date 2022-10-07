@@ -20,16 +20,16 @@
         public int Year { get; set; }
 
         [JsonPropertyName("hour")]
-        public string Hour { get; set; }
+        public string? Hour { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("phone")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         [JsonPropertyName("email")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [JsonPropertyName("extraInfo")]
         public string? ExtraInfo { get; set; }

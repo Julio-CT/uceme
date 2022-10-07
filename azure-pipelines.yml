@@ -41,22 +41,22 @@ steps:
     projects: '$(UIprojects)'
     configuration: '$(buildConfiguraton)'
 
-# - task: DotNetCoreCLI@2
-#   displayName: 'Run unit tests'
-#   inputs:
-#     command: 'test'
-#     projects: |
-#       **/**.[Tt]ests.csproj
-#       !**/*.[Ii]ntegration.[Tt]ests/**.csproj
-#     testRunTitle: 'Run Unit Tests'
-#     arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
-#     publishTestResults: true
+- task: DotNetCoreCLI@2
+  displayName: 'Run unit tests'
+  inputs:
+    command: 'test'
+    projects: |
+      **/**.[Tt]ests.csproj
+      !**/*.[Ii]ntegration.[Tt]ests/**.csproj
+    testRunTitle: 'Run Unit Tests'
+    arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+    publishTestResults: true
   
-# - task: PublishCodeCoverageResults@1
-#   displayName: 'Publish code coverage report'
-#   inputs:
-#     codeCoverageTool: 'Cobertura'
-#     summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage report'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
 # - task: NodeTool@0
 #   displayName: 'Install node'

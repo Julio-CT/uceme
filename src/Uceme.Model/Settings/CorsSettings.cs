@@ -2,7 +2,7 @@
 {
     public class CorsSettings
     {
-        public string StrictPolicyHost { get; set; }
+        public string? StrictPolicyHost { get; set; }
 
         public bool UseStrictPolicy { get; set; }
     }

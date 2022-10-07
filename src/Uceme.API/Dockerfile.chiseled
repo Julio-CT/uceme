@@ -1,0 +1,70 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/nightly/aspnet:6.0-jammy-chiseled AS base
+WORKDIR /app
+EXPOSE 80
+
+# we need the workaround for the ICU and avoid the globalization error https://github.com/ubuntu-rocks/dotnet/issues/21
+FROM golang:1.18 as chisel
+
+RUN git clone --depth 1 -b main https://github.com/canonical/chisel /opt/chisel
+WORKDIR /opt/chisel
+RUN go build ./cmd/chisel
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy AS build
+
+RUN apt-get update \
+    && apt-get install -y fdupes \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=chisel /opt/chisel/chisel /usr/bin/
+COPY --from=mcr.microsoft.com/dotnet/nightly/runtime:6.0-jammy-chiseled / /runtime-ref
+
+RUN mkdir /rootfs \
+    && chisel cut --release "ubuntu-22.04" --root /rootfs \
+        libicu70_libs \
+    \
+    # Remove duplicates from rootfs that exist in runtime-ref
+    && fdupes /runtime-ref /rootfs -rdpN \
+    \
+    # Delete duplicate symlinks
+    # Function to find and format symlinks w/o including root dir (format: /path/to/symlink /path/to/target)
+    && getsymlinks() { find $1 -type l -printf '%p %l\n' | sed -n "s/^\\$1\\(.*\\)/\\1/p"; } \
+    # Combine set of symlinks between rootfs and runtime-ref
+    && (getsymlinks "/rootfs"; getsymlinks "/runtime-ref") \
+        # Sort them
+        | sort \
+        # Find the duplicates
+        | uniq -d \
+        # Extract just the path to the symlink
+        | cut -d' ' -f1 \
+        # Prepend the rootfs directory to the paths
+        | sed -e 's/^/\/rootfs/' \
+        # Delete the files
+        | xargs rm \
+    \
+    # Delete empty directories
+    && find /rootfs -type d -empty -delete
+
+WORKDIR /src
+COPY ["Uceme.API/Uceme.API.csproj", "Uceme.API/"]
+COPY ["Uceme.Foundation/Uceme.Foundation.csproj", "Uceme.Foundation/"]
+COPY ["Uceme.Model/Uceme.Model.csproj", "Uceme.Model/"]
+COPY ["Uceme.Library/Uceme.Library.csproj", "Uceme.Library/"]
+RUN dotnet restore "Uceme.API/Uceme.API.csproj"
+COPY . .
+WORKDIR "/src/Uceme.API"
+RUN dotnet build "Uceme.API.csproj" -c Release -o /app/build --no-restore
+
+FROM build AS publish
+RUN dotnet publish "Uceme.API.csproj" -c Release -o /app/publish /p:UseAppHost=false --no-restore
+
+FROM base AS final
+
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+
+COPY --from=build /rootfs /
+
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Uceme.API.dll"]
