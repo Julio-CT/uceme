@@ -3,12 +3,10 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Uceme.API/Uceme.API.csproj", "Uceme.API/"]
-COPY ["Uceme.Foundation/Uceme.Foundation.csproj", "Uceme.Foundation/"]
-COPY ["Uceme.Model/Uceme.Model.csproj", "Uceme.Model/"]
 COPY ["Uceme.API/Uceme.API.csproj", "Uceme.API/"]
 COPY ["Uceme.Foundation/Uceme.Foundation.csproj", "Uceme.Foundation/"]
 COPY ["Uceme.Model/Uceme.Model.csproj", "Uceme.Model/"]

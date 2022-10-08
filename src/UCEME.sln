@@ -6,7 +6,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		.editorconfig = .editorconfig
-		..\azure-pipelines-1.yml = ..\azure-pipelines-1.yml
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 		Directory.Build.props = Directory.Build.props
 		Uceme.ruleset = Uceme.ruleset
@@ -80,8 +79,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1EFEFCA7-59F4-4F5C-A092-B7ABE99A76EE}
 		VisualSVNWorkingCopyRoot = .
+		SolutionGuid = {1EFEFCA7-59F4-4F5C-A092-B7ABE99A76EE}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
