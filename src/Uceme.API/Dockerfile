@@ -9,6 +9,9 @@ WORKDIR /src
 COPY ["Uceme.API/Uceme.API.csproj", "Uceme.API/"]
 COPY ["Uceme.Foundation/Uceme.Foundation.csproj", "Uceme.Foundation/"]
 COPY ["Uceme.Model/Uceme.Model.csproj", "Uceme.Model/"]
+COPY ["Uceme.API/Uceme.API.csproj", "Uceme.API/"]
+COPY ["Uceme.Foundation/Uceme.Foundation.csproj", "Uceme.Foundation/"]
+COPY ["Uceme.Model/Uceme.Model.csproj", "Uceme.Model/"]
 COPY ["Uceme.Library/Uceme.Library.csproj", "Uceme.Library/"]
 RUN dotnet restore "Uceme.API/Uceme.API.csproj"
 COPY . .

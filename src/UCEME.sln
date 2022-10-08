@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Library", "Uceme.Libr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.API.Tests", "Uceme.API.Tests\Uceme.API.Tests.csproj", "{D9CDF18F-E244-476C-87C3-573D2C3FB270}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uceme.Foundation.Integration.Tests", "Uceme.Foundation.Integration.Tests\Uceme.Foundation.Integration.Tests.csproj", "{BEB6304D-B471-477B-8456-B808F887966B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uceme.Foundation.Integration.Tests", "Uceme.Foundation.Integration.Tests\Uceme.Foundation.Integration.Tests.csproj", "{BEB6304D-B471-477B-8456-B808F887966B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,8 +80,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		SolutionGuid = {1EFEFCA7-59F4-4F5C-A092-B7ABE99A76EE}
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
