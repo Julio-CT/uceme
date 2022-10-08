@@ -17,7 +17,7 @@ WORKDIR "/src/Uceme.API"
 RUN dotnet build "Uceme.API.csproj" -c Release -o /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish "Uceme.API.csproj" -c Release -o /app/publish /p:UseAppHost=false --no-restore
+RUN dotnet publish "Uceme.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

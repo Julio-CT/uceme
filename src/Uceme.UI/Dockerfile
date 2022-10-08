@@ -14,7 +14,7 @@ COPY ["Uceme.Library/Uceme.Library.csproj", "Uceme.Library/"]
 RUN dotnet restore "Uceme.UI/Uceme.UI.csproj"
 COPY . .
 WORKDIR "/src/Uceme.UI"
-RUN dotnet build "Uceme.UI.csproj" -c Release -o /app/build
+RUN dotnet build "Uceme.UI.csproj" -c Release -o /app/build --no-restore
 
 FROM build AS publish
 RUN dotnet publish "Uceme.UI.csproj" -c Release -o /app/publish /p:UseAppHost=false
