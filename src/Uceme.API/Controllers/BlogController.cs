@@ -44,8 +44,9 @@
             {
                 result = this.blogService.GetBlogSubset(amount);
             }
-            catch (DataException)
+            catch (DataException ex)
             {
+                this.logger.LogError(ex.Message);
                 return this.BadRequest();
             }
 
@@ -61,8 +62,9 @@
             {
                 result = this.blogService.GetBlogSubset(page == 1 ? 10 : 12, page);
             }
-            catch (DataException)
+            catch (DataException ex)
             {
+                this.logger.LogError(ex.Message);
                 return this.BadRequest();
             }
 
@@ -78,8 +80,9 @@
             {
                 result = this.blogService.GetAllPosts();
             }
-            catch (DataException)
+            catch (DataException ex)
             {
+                this.logger.LogError(ex.Message);
                 return this.BadRequest();
             }
 
@@ -95,8 +98,9 @@
             {
                 result = this.blogService.GetPost(slug);
             }
-            catch (DataException)
+            catch (DataException ex)
             {
+                this.logger.LogError(ex.Message);
                 return this.BadRequest();
             }
 
@@ -123,6 +127,11 @@
         [HttpGet("updatepost")]
         public ActionResult<Blog> UpdatePost(Blog post)
         {
+            if (post == null)
+            {
+                return this.BadRequest("post is null");
+            }
+
             Blog result;
             try
             {
@@ -131,7 +140,7 @@
             catch (DataException ex)
             {
                 this.logger.LogError(ex.Message);
-                return this.BadRequest();
+                return this.StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             return result;
@@ -142,7 +151,7 @@
         {
             if (postRequest == null)
             {
-                return this.BadRequest();
+                return this.BadRequest("post is null");
             }
 
             bool result;
@@ -160,7 +169,7 @@
             catch (DataException ex)
             {
                 this.logger.LogError(ex.Message);
-                return this.BadRequest();
+                return this.StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             return result;
@@ -171,14 +180,14 @@
         {
             if (file is null)
             {
-                throw new ArgumentNullException(nameof(file));
+                return this.BadRequest("file upload is null");
             }
 
             string filename = string.Empty;
 
             try
             {
-                if (file.Length > 0 && Path.GetExtension(file.FileName).Length < 5)
+                if (file.Length > 0 && Path.GetExtension(file.FileName).Length < 6)
                 {
                     filename = "Blog" + this.blogService.GetNextPostImage() + Path.GetExtension(file.FileName);
                     var filePath = Path.Combine(
@@ -196,7 +205,7 @@
             catch (Exception ex)
             {
                 this.logger.LogError(ex.Message);
-                return this.BadRequest();
+                return this.StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             return filename;

@@ -16,7 +16,9 @@
     using Uceme.Model.Models;
 
     [AllowAnonymous]
+#pragma warning disable SA1649 // File name should match first type name
     public class RegisterModel : PageModel
+#pragma warning restore SA1649 // File name should match first type name
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
@@ -36,33 +38,45 @@
         }
 
         [BindProperty]
-        public RegisterInputModel Input { get; set; }
+        public RegisterInputModel? Input { get; set; }
 
+#pragma warning disable CA1056 // URI-like properties should not be strings
         public string? ReturnUrl { get; set; }
+#pragma warning restore CA1056 // URI-like properties should not be strings
 
-        public IList<AuthenticationScheme> ExternalLogins { get; }
+        public IList<AuthenticationScheme>? ExternalLogins { get; }
 
+#pragma warning disable CA1054 // URI-like parameters should not be strings
         public async Task OnGetAsync(string? returnUrl = null)
+#pragma warning restore CA1054 // URI-like parameters should not be strings
         {
             this.ReturnUrl = returnUrl;
-            foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+            if (this.ExternalLogins != null)
             {
-                this.ExternalLogins.Add(login);
+                foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+                {
+                    this.ExternalLogins.Add(login);
+                }
             }
         }
 
+#pragma warning disable CA1054 // URI-like parameters should not be strings
         public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
+#pragma warning restore CA1054 // URI-like parameters should not be strings
         {
             returnUrl ??= this.Url.Content("~/") ?? string.Empty;
-            foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+            if (this.ExternalLogins != null)
             {
-                this.ExternalLogins.Add(login);
+                foreach (var login in (await this.signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(false)).ToList())
+                {
+                    this.ExternalLogins.Add(login);
+                }
             }
 
             if (this.ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
-                var result = await this.userManager.CreateAsync(user, this.Input.Password).ConfigureAwait(false);
+                var user = new ApplicationUser { UserName = this.Input?.Email, Email = this.Input?.Email };
+                var result = await this.userManager.CreateAsync(user, this.Input?.Password).ConfigureAwait(false);
                 if (result.Succeeded)
                 {
                     this.logger.LogInformation("User created a new account with password.");
@@ -76,13 +90,13 @@
                         protocol: this.Request.Scheme);
 
                     await this.emailSender.SendEmailAsync(
-                        this.Input.Email,
+                        this.Input?.Email,
                         "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.").ConfigureAwait(false);
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl ?? string.Empty)}'>clicking here</a>.").ConfigureAwait(false);
 
                     if (this.userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return this.RedirectToPage("RegisterConfirmation", new { email = this.Input.Email });
+                        return this.RedirectToPage("RegisterConfirmation", new { email = this.Input?.Email });
                     }
                     else
                     {

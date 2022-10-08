@@ -86,7 +86,7 @@ namespace Uceme.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint(swaggerSettings.SwaggerUri.ToString(), swaggerSettings.SwaggerApp);
+                    options.SwaggerEndpoint(swaggerSettings.SwaggerUri?.ToString(), swaggerSettings.SwaggerApp);
                 });
             }
             else
@@ -164,7 +164,7 @@ namespace Uceme.Api
 
                 o.AddPolicy(this.strictPolicy, builder =>
                 {
-                    builder.WithOrigins(corsSettings.StrictPolicyHost)
+                    builder.WithOrigins(corsSettings.StrictPolicyHost ?? string.Empty)
                             .WithMethods("PUT", "DELETE", "GET", "POST");
                 });
             });

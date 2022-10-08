@@ -191,3 +191,16 @@ INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
 VALUES (N'20210103020248_AddBlogColumns', N'3.1.10');
 
 GO
+
+BEGIN TRANSACTION;
+GO
+
+ALTER TABLE [Tecnica] ADD [nombre] nvarchar(max) NULL;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20220306192658_AddTechniqueName', N'6.0.6');
+GO
+
+COMMIT;
+GO
