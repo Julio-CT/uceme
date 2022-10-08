@@ -30,12 +30,12 @@ jobs:
       run: dotnet build --no-restore src/UCEME.sln
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal src/UCEME.sln --filter TestCategory=MockTests --collect:"XPlat Code Coverage" --logger trx --results-directory ./coverage
+      run: dotnet test --no-build --verbosity normal src/UCEME.sln --filter TestCategory=MockTests --collect:"XPlat Code Coverage" --logger trx --results-directory /home/runner/coverage
 
     - name: Code Coverage Report
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
-        filename: coverage/**/coverage.cobertura.xml
+        filename: /home/runner/coverage/**/coverage.cobertura.xml
         badge: true
         fail_below_min: true
         format: markdown
