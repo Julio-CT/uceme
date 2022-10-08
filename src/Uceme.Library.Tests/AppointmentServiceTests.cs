@@ -1,5 +1,9 @@
 ﻿namespace Uceme.Library.Tests
 {
+    using System.Linq;
+    using System.Net.Sockets;
+    using AutoMoqCore;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
@@ -12,19 +16,60 @@
         [TestMethod]
         public void AppointmentService_RightInput_RightOutput()
         {
-            //////// ARRANGE
-            ////var logger = new Mock<ILogger<HospitalService>>();
-            ////var context = new Mock<IApplicationDbContext>();
-            ////var emailService = new Mock<IEmailService>();
-            ////var sut = new AppointmentService(
-            ////    logger.Object,
-            ////    context.Object,
-            ////    emailService.Object);
+            //// ARRANGE
+            /////create In Memory Database
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "EmployeeDataBase")
+                .Options;
 
-            //////// ACT
-            ////sut.GetAppointments();
+            //// Create mocked Context by seeding Data as per Schema///
+            using (var context = new ApplicationDbContext(options, new OperationalStoreOptionsMigrations()))
+            {
+                context.Cita.Add(new Model.Models.Cita
+                {
+                    dia = 1,
+                    email = "asd@as",
+                    hora = 1.1M,
+                    idCita = 1,
+                    idTurno = 1,
+                    nombre = "as",
+                    telefono = "123",
+                });
+                context.Cita.Add(new Model.Models.Cita
+                {
+                    dia = 1,
+                    email = "asd@as",
+                    hora = 1.1M,
+                    idCita = 2,
+                    idTurno = 1,
+                    nombre = "as",
+                    telefono = "123",
+                });
+                context.Turno.Add(new Model.Models.Turno
+                {
+                    idTurno = 1,
+                    idHospital = 1,
+                });
+                context.DatosProfesionales.Add(new Model.Models.DatosProfesionales
+                {
+                    idDatosPro = 1,
+                    nombre = "hospitalname",
+                });
 
-            //////// ASSERT
+                context.SaveChanges();
+
+                var mocker = new AutoMoqer();
+                mocker.SetInstance<IApplicationDbContext>(context);
+
+                var sut = mocker.Create<AppointmentService>();
+
+                //// ACT
+                var appointments = sut.GetAppointments();
+
+                //// ASSERT
+                Assert.IsNotNull(appointments);
+                Assert.AreEqual(2, appointments.Count());
+            }
         }
     }
 }
