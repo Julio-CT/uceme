@@ -99,7 +99,7 @@
                 _ = app.UseCors(this.relaxedPolicy);
             }
 
-            //// app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 

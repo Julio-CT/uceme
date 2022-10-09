@@ -1,5 +1,8 @@
 ﻿namespace Uceme.Model.Data
 {
+    using IdentityServer4.EntityFramework.Interfaces;
+    using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Uceme.Model.Models;
 
