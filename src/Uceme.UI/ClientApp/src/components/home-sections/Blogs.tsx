@@ -82,7 +82,7 @@ const Blogs: () => JSX.Element = () => {
           <a href={post.link}>
             <img className="icono-img" src={photoIcon} alt="icon" />
           </a>
-          <h5 className="uppercase">
+          <h5 className="uppercase post-title">
             <Link to={post.link}>{post.caption}</Link>
           </h5>
           <div className="line-small" />

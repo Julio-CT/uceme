@@ -28,7 +28,7 @@
             "name": "API Launch (web)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "buildUI",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/Uceme.API/bin/Debug/net6.0/Uceme.API.dll",
             "args": [],
