@@ -13,7 +13,7 @@ const ContactUs: () => JSX.Element = () => {
       >
         <h3 className="uppercase">Contacto</h3>
         <h4 className="padding-y-medium uppercase spacing">
-          Estamos a tu disposición para cualquier duda o consulta
+          Estamos a tu disposición para cualquier duda o consulta.
         </h4>
         <div className="line" />
         <p className="subtitulo">

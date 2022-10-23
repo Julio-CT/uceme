@@ -109,7 +109,7 @@ const ContactUs: () => JSX.Element = () => {
             </h4>
             <div className="line" />
             <label htmlFor="name" className="contact-item col-9 color-orange">
-              Nombre y apellidos*
+              Nombre y apellidos:
               <input
                 id="name"
                 type="text"
@@ -125,7 +125,7 @@ const ContactUs: () => JSX.Element = () => {
               />
             </label>
             <label htmlFor="email" className="contact-item col-9 color-orange">
-              Dirección de correo electrónico*
+              Dirección de correo electrónico:
               <input
                 id="email"
                 type="email"
@@ -144,7 +144,7 @@ const ContactUs: () => JSX.Element = () => {
               htmlFor="message"
               className="contact-item col-9 color-orange"
             >
-              Mensaje*
+              Mensaje:
               <textarea
                 id="message"
                 value={data.message}
@@ -167,7 +167,7 @@ const ContactUs: () => JSX.Element = () => {
           <section id="section-contact_us" className="col-12 col-md-6">
             <h3 className="uppercase">Contacto</h3>
             <h4 className="padding-y-medium uppercase spacing">
-              Estamos a tu disposición para cualquier duda o consulta
+              Estamos a tu disposición para cualquier duda o consulta.
             </h4>
             <div className="line" />
             <p className="subtitulo">
