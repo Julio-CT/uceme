@@ -1,5 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
+import SettingsContext from '../SettingsContext';
 import './Specialities.scss';
 import slide1 from '../resources/images/cirugia-tiroidea.png';
 import slide2 from '../resources/images/cirugia-paratiroidea.png';
@@ -78,16 +79,51 @@ const items: JSX.Element[] = specials.map((item) => {
 });
 
 const Specialities: () => JSX.Element = () => {
+  const settings = React.useContext(SettingsContext);
   return (
-    <div className="app app-home header-distance header-distance-l">
-      <section id="section-specialities" className="clearfix">
-        <div className="specialities container clearfix extra-margin">
+    <div className="app app-home header-distance">
+      <section id="section-specialities" className="header-distance-negative">
+        <div className="specialities container">
           <h3 className="uppercase">Especialidades</h3>
           <h4 className="padding-y-medium spacing uppercase">
             La última tecnología unida a un excelente trato personal
           </h4>
           <div className="line" />
           <div className="row justify-content-md-center">{items}</div>
+        </div>
+      </section>
+      <section
+        id="section-contact_us"
+        className="clearfix container extra-margin app"
+      >
+        <div className="row justify-content-md-center">
+          <div className="contact-item col-12 col-md-4">
+            <div className="line-small" />
+            <p className="uppercase color-orange">Correo electrónico</p>
+            <a
+              className="color-gray"
+              href="mailto:{settings.ContactEmail}"
+              title="email"
+            >
+              {settings.contactEmail}
+            </a>
+          </div>
+          <div className="contact-item col-12 col-md-4">
+            <div className="line-small" />
+            <p className="uppercase color-orange">Dirección</p>
+            <span className="color-gray">{settings.address}</span>
+          </div>
+          <div className="contact-item col-12 col-md-4">
+            <div className="line-small" />
+            <p className="uppercase color-orange">Teléfono</p>
+            <a
+              className="color-gray"
+              title="telefono"
+              href="tel:{settings.Telephone}"
+            >
+              {settings.telephone}
+            </a>
+          </div>
         </div>
       </section>
     </div>

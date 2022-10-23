@@ -157,8 +157,8 @@ h6 {
 
 .article-meta {
   position: absolute;
-  bottom: -2.5em;
-  left: 1em;
+  bottom: 0.5em;
+  float: left;
 }
 
 @media screen and (min-width: 48em) {
@@ -290,4 +290,10 @@ h6 {
   margin-top: 0;
   padding-top: 0;
   border-top: 0;
+}
+
+.navigation-bar {
+  margin: 2em auto;
+  width: 20em;
+  height: 1em;
 }

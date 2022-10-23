@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import SettingsContext from '../SettingsContext';
+import './ContactUs.scss';
 
 type contactUsState = {
   loaded: boolean;
@@ -107,7 +108,7 @@ const ContactUs: () => JSX.Element = () => {
               Tu mensaje será atendido lo antes posible.
             </h4>
             <div className="line" />
-            <label htmlFor="name" className="contactItem col-9 color-orange">
+            <label htmlFor="name" className="contact-item col-9 color-orange">
               Nombre y apellidos*
               <input
                 id="name"
@@ -115,7 +116,7 @@ const ContactUs: () => JSX.Element = () => {
                 value={data.name}
                 name="name"
                 onChange={handleChange}
-                className="contactItem col-12"
+                className="contact-input col-12"
                 placeholder="Nombre y apellidos"
                 autoComplete="nombre"
                 autoCorrect="off"
@@ -123,7 +124,7 @@ const ContactUs: () => JSX.Element = () => {
                 spellCheck="false"
               />
             </label>
-            <label htmlFor="email" className="contactItem col-9 color-orange">
+            <label htmlFor="email" className="contact-item col-9 color-orange">
               Dirección de correo electrónico*
               <input
                 id="email"
@@ -131,7 +132,7 @@ const ContactUs: () => JSX.Element = () => {
                 value={data.email}
                 name="email"
                 onChange={handleChange}
-                className="contactItem col-12"
+                className="contact-input col-12"
                 placeholder="Dirección de correo electrónico"
                 autoComplete="email"
                 autoCorrect="off"
@@ -139,14 +140,17 @@ const ContactUs: () => JSX.Element = () => {
                 spellCheck="false"
               />
             </label>
-            <label htmlFor="message" className="contactItem col-9 color-orange">
+            <label
+              htmlFor="message"
+              className="contact-item col-9 color-orange"
+            >
               Mensaje*
               <textarea
                 id="message"
                 value={data.message}
                 name="message"
                 onChange={handleChangeText}
-                className="contactItem col-12"
+                className="contact-input col-12"
                 placeholder="Escriba su mensaje"
                 autoCorrect="on"
                 autoCapitalize="none"
@@ -154,7 +158,7 @@ const ContactUs: () => JSX.Element = () => {
               />
             </label>
             <button
-              className="col-9 btn btn-success extra-margin submit-button"
+              className="col-9 btn btn-success extra-margin submit-button contact-input contact-button"
               type="submit"
             >
               Enviar
@@ -171,7 +175,7 @@ const ContactUs: () => JSX.Element = () => {
               nuestras instalaciones.
             </p>
             <div className="row justify-content-md-center">
-              <div className="contactItem col-12">
+              <div className="contact-item col-12">
                 <div className="line-small" />
                 <p className="uppercase color-orange">Correo electrónico</p>
                 <a
@@ -182,12 +186,12 @@ const ContactUs: () => JSX.Element = () => {
                   {settings.contactEmail}
                 </a>
               </div>
-              <div className="contactItem col-12">
+              <div className="contact-item col-12">
                 <div className="line-small" />
                 <p className="uppercase color-orange">Dirección</p>
                 <span className="color-gray">{settings.address}</span>
               </div>
-              <div className="contactItem col-12">
+              <div className="contact-item col-12">
                 <div className="line-small" />
                 <p className="uppercase color-orange">Teléfono</p>
                 <a

@@ -21,7 +21,7 @@ const ContactUs: () => JSX.Element = () => {
           instalaciones.
         </p>
         <div className="row justify-content-md-center">
-          <div className="contactItem col-12 col-md-4">
+          <div className="contact-item col-12 col-md-4">
             <div className="line-small" />
             <p className="uppercase color-orange">Correo electrónico</p>
             <a
@@ -32,12 +32,12 @@ const ContactUs: () => JSX.Element = () => {
               {settings.contactEmail}
             </a>
           </div>
-          <div className="contactItem col-12 col-md-4">
+          <div className="contact-item col-12 col-md-4">
             <div className="line-small" />
             <p className="uppercase color-orange">Dirección</p>
             <span className="color-gray">{settings.address}</span>
           </div>
-          <div className="contactItem col-12 col-md-4">
+          <div className="contact-item col-12 col-md-4">
             <div className="line-small" />
             <p className="uppercase color-orange">Teléfono</p>
             <a
