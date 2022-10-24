@@ -1,10 +1,8 @@
-﻿namespace Uceme.Library.Tests
+﻿namespace Uceme.Library.Tests.Services
 {
     using System.Linq;
-    using System.Net.Sockets;
     using AutoMoqCore;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Uceme.Library.Services;

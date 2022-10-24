@@ -2,10 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Net.Mail;
+    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
+    using Uceme.Foundation.Tools;
     using Uceme.Foundation.Utilities;
     using Uceme.Model.Settings;
 
@@ -14,6 +16,17 @@
     {
         private readonly string emailTo = "test.uceme@gmail.com";
 
+        private readonly string encryptPass;
+
+        public EmailSenderMockTests()
+        {
+            this.encryptPass = "q25A9J9p/btpgu9W8TChSQ==";
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                this.encryptPass = "25A9J9p/btpgu9W8TChSQ==";
+            }
+        }
+
         [TestMethod]
         [TestCategory("MockTests")]
         public async Task SendEmailToOneAddressAsync()
@@ -21,11 +34,11 @@
             //// ARRANGE
             var appSettings = new AuthMessageSenderSettings()
             {
-                EmailFrom = "test.uceme@gmail.com",
+                EmailFrom = this.emailTo,
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
                 CredentialUser = "notificaciones.uceme@gmail.com",
-                CredentialPassword = "Uceme1975",
+                CredentialPassword = await AesDecrypt.DecryptAsync(this.encryptPass).ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
@@ -53,11 +66,11 @@
             //// ARRANGE
             var appSettings = new AuthMessageSenderSettings()
             {
-                EmailFrom = "test.uceme@gmail.com",
+                EmailFrom = this.emailTo,
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
                 CredentialUser = "notificaciones.uceme@gmail.com",
-                CredentialPassword = "Uceme1975",
+                CredentialPassword = await AesDecrypt.DecryptAsync(this.encryptPass).ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
@@ -84,16 +97,16 @@
 
         [TestMethod]
         [TestCategory("MockTests")]
-        public void SendEmailToOneAddress()
+        public async Task SendEmailToOneAddress()
         {
             //// ARRANGE
             var appSettings = new AuthMessageSenderSettings()
             {
-                EmailFrom = "test.uceme@gmail.com",
+                EmailFrom = this.emailTo,
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
                 CredentialUser = "notificaciones.uceme@gmail.com",
-                CredentialPassword = "Uceme1975",
+                CredentialPassword = await AesDecrypt.DecryptAsync(this.encryptPass).ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
@@ -116,16 +129,16 @@
 
         [TestMethod]
         [TestCategory("MockTests")]
-        public void SendEmailToMoreThanOneAddress()
+        public async Task SendEmailToMoreThanOneAddress()
         {
             //// ARRANGE
             var appSettings = new AuthMessageSenderSettings()
             {
-                EmailFrom = "test.uceme@gmail.com",
+                EmailFrom = this.emailTo,
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
                 CredentialUser = "notificaciones.uceme@gmail.com",
-                CredentialPassword = "Uceme1975",
+                CredentialPassword = await AesDecrypt.DecryptAsync(this.encryptPass).ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);

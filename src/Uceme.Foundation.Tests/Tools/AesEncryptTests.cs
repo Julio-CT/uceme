@@ -13,17 +13,22 @@
         {
             //// ARRRANGE
             string input = "hello world!";
+            string input2 = "sybzoqdxaekulfjd";
             string expected = "qL84V8anpKPDf8nRJMJ+fA==";
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            string expected2 = "Rqm8TCkm8iB9uKj0oti+Uj7Y1IHPpVD9jZdummMgUgE=";
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 expected = "xszTZjF/6XCxnIpfJqv7lQ==";
             }
 
             //// ACT
             string output = AesEncrypt.Encrypt(input);
+            string output2 = AesEncrypt.Encrypt(input2);
 
             //// ASSERT
             Assert.AreEqual(expected, output);
+            Assert.AreEqual(expected2, output2);
         }
     }
 }
