@@ -30,7 +30,7 @@
                 {
                     idBlog = x.idBlog,
                     titulo = x.titulo,
-                    fecha = x.fecha,
+                    fecha = x.fecha.Date,
                     foto = x.foto,
                     texto = x.texto,
                     slug = x.slug,
