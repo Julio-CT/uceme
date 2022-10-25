@@ -10,6 +10,7 @@
     using Uceme.Model.Settings;
 
     [TestClass]
+    [Ignore("ski pre-season")]
     public class EmailSenderIntegrationTests
     {
         private readonly string emailTo = "test.uceme@gmail.com";
