@@ -1,4 +1,4 @@
-﻿namespace Uceme.UI.Areas.Identity.Pages.Account
+namespace Uceme.UI.Areas.Identity.Pages.Account
 {
     using System.Collections.Generic;
     using System.Linq;

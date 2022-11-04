@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="Startup.cs" company="JCT Software">
 // Copyright (c) JCT Software. All rights reserved.
 // </copyright>

@@ -1,4 +1,4 @@
-﻿namespace Uceme.Model.DataContracts
+namespace Uceme.Model.DataContracts
 {
     using System.Collections.Generic;
     using System.Text.Json.Serialization;

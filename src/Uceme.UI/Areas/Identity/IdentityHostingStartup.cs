@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 
 [assembly: HostingStartup(typeof(Uceme.UI.Areas.Identity.IdentityHostingStartup))]
 

@@ -1,4 +1,4 @@
-﻿namespace Uceme.Model.Models
+namespace Uceme.Model.Models
 {
     public class ExternalLogin
     {

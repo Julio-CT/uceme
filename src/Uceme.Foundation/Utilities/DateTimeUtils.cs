@@ -1,4 +1,4 @@
-﻿namespace UCEME.Utilities
+namespace UCEME.Utilities
 {
     using System;
     using System.Globalization;

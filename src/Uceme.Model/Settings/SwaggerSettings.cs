@@ -1,4 +1,4 @@
-﻿namespace Uceme.Model.Settings
+namespace Uceme.Model.Settings
 {
     using System;
 

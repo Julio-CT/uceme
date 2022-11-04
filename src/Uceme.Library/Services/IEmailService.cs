@@ -1,4 +1,4 @@
-﻿namespace Uceme.Library.Services
+namespace Uceme.Library.Services
 {
     using System.Threading.Tasks;
 

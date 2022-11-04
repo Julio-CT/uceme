@@ -1,4 +1,4 @@
-﻿namespace Uceme.UI.Areas.Identity.Pages.Account
+namespace Uceme.UI.Areas.Identity.Pages.Account
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;

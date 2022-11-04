@@ -1,4 +1,4 @@
-﻿namespace Uceme.Foundation.Utilities
+namespace Uceme.Foundation.Utilities
 {
     using System;
     using System.Net.Mail;

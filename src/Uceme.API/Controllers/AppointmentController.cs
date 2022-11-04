@@ -1,4 +1,4 @@
-﻿namespace Uceme.API.Controllers
+namespace Uceme.API.Controllers
 {
     using System.Collections.Generic;
     using System.Data;
@@ -130,7 +130,7 @@
         [HttpGet("deleteappointment")]
         public ActionResult<bool> DeleteAppointment(int appointmentId)
         {
-            bool result = false;
+            bool result;
             try
             {
                 result = this.appointmentService.DeleteAppointment(appointmentId);

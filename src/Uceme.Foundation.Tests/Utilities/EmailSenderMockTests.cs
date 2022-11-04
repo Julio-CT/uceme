@@ -1,4 +1,4 @@
-﻿namespace Uceme.Foundation.Tests
+namespace Uceme.Foundation.Tests
 {
     using System.Collections.Generic;
     using System.Net.Mail;

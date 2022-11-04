@@ -1,4 +1,4 @@
-﻿namespace Uceme.API.Controllers
+namespace Uceme.API.Controllers
 {
     using System;
     using System.Threading.Tasks;
@@ -35,7 +35,7 @@
                 throw new ArgumentNullException(nameof(message));
             }
 
-            bool result = false;
+            bool result;
             try
             {
                 var body = $"<p>Correo de contacto recibido de {message.Name}</p><p>{message.Message}</p>";

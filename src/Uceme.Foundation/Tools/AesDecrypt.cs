@@ -1,4 +1,4 @@
-﻿namespace Uceme.Foundation.Tools
+namespace Uceme.Foundation.Tools
 {
     using System;
     using System.IO;

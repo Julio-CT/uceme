@@ -1,4 +1,4 @@
-﻿namespace Uceme.UI.Pages
+namespace Uceme.UI.Pages
 {
     using System.Diagnostics;
     using Microsoft.AspNetCore.Mvc;

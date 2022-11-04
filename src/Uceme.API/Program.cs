@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="Program.cs" company="JCT Software">
 // Copyright (c) JCT Software. All rights reserved.
 // </copyright>

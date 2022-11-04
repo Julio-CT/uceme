@@ -1,4 +1,4 @@
-﻿namespace Uceme.Model.Data
+namespace Uceme.Model.Data
 {
     using Microsoft.EntityFrameworkCore;
     using Uceme.Model.Models;
