@@ -1,4 +1,4 @@
-namespace Uceme.API.Tests
+﻿namespace Uceme.API.Tests
 {
     using System.Threading.Tasks;
     using AutoMoqCore;

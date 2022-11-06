@@ -1,4 +1,4 @@
-namespace Uceme.Foundation.Tests.Tools
+﻿namespace Uceme.Foundation.Tests.Tools
 {
     using System.Runtime.InteropServices;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
