@@ -1,4 +1,4 @@
-namespace Uceme.UI.Data.Migrations
+﻿namespace Uceme.UI.Data.Migrations
 {
     using System;
     using Microsoft.EntityFrameworkCore.Migrations;

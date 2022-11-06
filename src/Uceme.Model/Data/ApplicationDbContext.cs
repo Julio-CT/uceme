@@ -1,4 +1,4 @@
-namespace Uceme.Model.Data
+﻿namespace Uceme.Model.Data
 {
     using System;
     using IdentityServer4.EntityFramework.Options;

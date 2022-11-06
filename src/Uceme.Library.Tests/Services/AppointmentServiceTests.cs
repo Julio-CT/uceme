@@ -1,4 +1,4 @@
-﻿namespace Uceme.Library.Tests.Services
+namespace Uceme.Library.Tests.Services
 {
     using System.Linq;
     using AutoMoqCore;

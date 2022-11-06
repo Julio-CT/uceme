@@ -1,4 +1,4 @@
-namespace Uceme.UI
+﻿namespace Uceme.UI
 {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;

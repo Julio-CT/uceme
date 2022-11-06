@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .box-noticias {
   .img-post {
     width: 100%;
@@ -40,12 +42,12 @@
 
     a {
       text-decoration: none;
-      color: #3e4851;
+      color: $uceme-green;
       transition: all 0.5s ease-in-out;
     }
 
     a:hover {
-      color: #fa6900;
+      color: $uceme-orange;
     }
   }
 }
