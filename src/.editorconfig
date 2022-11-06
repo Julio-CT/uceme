@@ -806,7 +806,7 @@ dotnet_diagnostic.IDE0055.severity = error
 # style rules begin
 [*]
 indent_style = space
-charset = utf-8
+charset = utf-8-bom
 trim_trailing_whitespace = true
 insert_final_newline = true
 
