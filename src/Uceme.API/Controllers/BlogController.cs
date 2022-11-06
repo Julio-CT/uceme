@@ -183,6 +183,12 @@
                 return this.BadRequest("file upload is null");
             }
 
+            if (this.configuration?.Value?.BlogImagesDir == null
+                || !Directory.Exists(this.configuration?.Value?.BlogImagesDir))
+            {
+                return this.StatusCode(StatusCodes.Status502BadGateway);
+            }
+
             string filename = string.Empty;
 
             try

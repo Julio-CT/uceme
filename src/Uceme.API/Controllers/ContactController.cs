@@ -30,7 +30,7 @@
         [AllowAnonymous]
         public async Task<ActionResult<bool>> ContactEmailAsync([FromBody] EmailMessage message)
         {
-            if (message is null)
+            if (message is null || message.Email == null)
             {
                 throw new ArgumentNullException(nameof(message));
             }
