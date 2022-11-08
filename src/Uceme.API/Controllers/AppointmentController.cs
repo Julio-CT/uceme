@@ -130,7 +130,7 @@
         [HttpGet("deleteappointment")]
         public ActionResult<bool> DeleteAppointment(int appointmentId)
         {
-            bool result = false;
+            bool result;
             try
             {
                 result = this.appointmentService.DeleteAppointment(appointmentId);

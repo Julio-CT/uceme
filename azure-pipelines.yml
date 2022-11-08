@@ -58,32 +58,32 @@ steps:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
- - task: NodeTool@0
-   displayName: 'Install node'
-   condition: succeeded()
-   inputs:
-     versionSpec: '16.x'
-     checkLatest: true
-
- - task: Npm@1
-   displayName: 'npm install'
-   condition: succeeded()
-   inputs:
-     command: 'install'
-     workingDir: 'src/Uceme.UI/ClientApp'
-
- - task: Npm@1
-   displayName: 'npm build'
-   condition: succeeded()
-   inputs:
-     command: 'custom'
-     workingDir: 'src/Uceme.UI/ClientApp'
-     customCommand: 'run build'
+- task: NodeTool@0
+  displayName: 'Install node'
+  condition: succeeded()
+  inputs:
+    versionSpec: '16.x'
+    checkLatest: true
 
 - task: Npm@1
-  displayName: 'npm test'
-  condition: succeededOrFailed() 
+  displayName: 'npm install'
+  condition: succeeded()
+  inputs:
+    command: 'install'
+    workingDir: 'src/Uceme.UI/ClientApp'
+
+- task: Npm@1
+  displayName: 'npm build'
+  condition: succeeded()
   inputs:
     command: 'custom'
     workingDir: 'src/Uceme.UI/ClientApp'
-    customCommand: 'run test:coverage'
+    customCommand: 'run build'
+
+#- task: Npm@1
+#  displayName: 'npm test'
+#  condition: succeededOrFailed() 
+#  inputs:
+#    command: 'custom'
+#    workingDir: 'src/Uceme.UI/ClientApp'
+#    customCommand: 'run test:coverage'

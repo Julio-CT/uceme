@@ -1,6 +1,7 @@
 ﻿namespace Uceme.Foundation.Tests
 {
     using System.Collections.Generic;
+    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,9 +10,21 @@
     using Uceme.Model.Settings;
 
     [TestClass]
+    [Ignore("ski pre-season")]
     public class EmailSenderIntegrationTests
     {
         private readonly string emailTo = "test.uceme@gmail.com";
+
+        private readonly string encryptPass;
+
+        public EmailSenderIntegrationTests()
+        {
+            this.encryptPass = "q25A9J9p/btpgu9W8TChSQ==";
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                this.encryptPass = "Rqm8TCkm8iB9uKj0oti+Uj7Y1IHPpVD9jZdummMgUgE=";
+            }
+        }
 
         [TestMethod]
         [TestCategory("IntegrationTests")]
@@ -20,11 +33,11 @@
             //// ARRANGE
             var appSettings = new AuthMessageSenderSettings()
             {
-                EmailFrom = "test.uceme@gmail.com",
+                EmailFrom = this.emailTo,
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
-                CredentialUser = "test.uceme@gmail.com",
-                CredentialPassword = await AesDecrypt.DecryptAsync("25A9J9p/btpgu9W8TChSQ==").ConfigureAwait(false),
+                CredentialUser = this.emailTo,
+                CredentialPassword = await AesDecrypt.DecryptAsync(this.encryptPass).ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
@@ -48,11 +61,11 @@
             //// ARRANGE
             var appSettings = new AuthMessageSenderSettings()
             {
-                EmailFrom = "test.uceme@gmail.com",
+                EmailFrom = this.emailTo,
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
-                CredentialUser = "test.uceme@gmail.com",
-                CredentialPassword = await AesDecrypt.DecryptAsync("25A9J9p/btpgu9W8TChSQ==").ConfigureAwait(false),
+                CredentialUser = this.emailTo,
+                CredentialPassword = await AesDecrypt.DecryptAsync(this.encryptPass).ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
@@ -81,11 +94,11 @@
             //// ARRANGE
             var appSettings = new AuthMessageSenderSettings()
             {
-                EmailFrom = "test.uceme@gmail.com",
+                EmailFrom = this.emailTo,
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
-                CredentialUser = "test.uceme@gmail.com",
-                CredentialPassword = await AesDecrypt.DecryptAsync("25A9J9p/btpgu9W8TChSQ==").ConfigureAwait(false),
+                CredentialUser = this.emailTo,
+                CredentialPassword = await AesDecrypt.DecryptAsync(this.encryptPass).ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
@@ -109,11 +122,11 @@
             //// ARRANGE
             var appSettings = new AuthMessageSenderSettings()
             {
-                EmailFrom = "test.uceme@gmail.com",
+                EmailFrom = this.emailTo,
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
-                CredentialUser = "test.uceme@gmail.com",
-                CredentialPassword = await AesDecrypt.DecryptAsync("25A9J9p/btpgu9W8TChSQ==").ConfigureAwait(false),
+                CredentialUser = this.emailTo,
+                CredentialPassword = await AesDecrypt.DecryptAsync(this.encryptPass).ConfigureAwait(false),
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);

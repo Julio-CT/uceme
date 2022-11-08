@@ -30,12 +30,12 @@
         [AllowAnonymous]
         public async Task<ActionResult<bool>> ContactEmailAsync([FromBody] EmailMessage message)
         {
-            if (message is null)
+            if (message is null || message.Email == null)
             {
                 throw new ArgumentNullException(nameof(message));
             }
 
-            bool result = false;
+            bool result;
             try
             {
                 var body = $"<p>Correo de contacto recibido de {message.Name}</p><p>{message.Message}</p>";

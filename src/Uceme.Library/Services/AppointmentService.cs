@@ -137,7 +137,7 @@
 
         public async Task<bool> AddAppointmentAsync(AppointmentRequest appointmentRequest)
         {
-            if (appointmentRequest == null)
+            if (appointmentRequest == null || appointmentRequest.Hour == null)
             {
                 throw new ArgumentNullException(nameof(appointmentRequest));
             }

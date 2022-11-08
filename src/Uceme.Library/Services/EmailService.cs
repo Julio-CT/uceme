@@ -33,6 +33,11 @@
 
         public async Task<bool> SendEmailToManagementAsync(string fromAddress, string subject, string body)
         {
+            if (this.Options.EmailFrom == null)
+            {
+                throw new MissingFieldException(nameof(this.Options.EmailFrom));
+            }
+
             try
             {
                 var toAddresses = new List<string>()
@@ -57,6 +62,11 @@
 
         public bool SendEmailToManagement(string fromAddress, string subject, string body)
         {
+            if (this.Options.EmailFrom == null)
+            {
+                throw new MissingFieldException(nameof(this.Options.EmailFrom));
+            }
+
             try
             {
                 var addresses = new List<string>()
@@ -81,6 +91,11 @@
 
         public async Task<bool> SendEmailToClientAsync(string toAddress, string subject, string body)
         {
+            if (this.Options.EmailFrom == null)
+            {
+                throw new MissingFieldException(nameof(this.Options.EmailFrom));
+            }
+
             try
             {
                 var toAddresses = new List<string>

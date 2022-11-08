@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="Program.cs" company="JCT Software">
-// Copyright (c) JCT Software. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace Uceme.Api
+﻿namespace Uceme.Api
 {
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;

@@ -1,6 +1,5 @@
 ﻿namespace Uceme.API.Tests
 {
-    using System.Reflection;
     using System.Threading.Tasks;
     using AutoMoqCore;
     using Microsoft.Extensions.Options;
@@ -20,11 +19,11 @@
 
             var appSettings = new AuthMessageSenderSettings()
             {
-                EmailFrom = "test.uceme@gmail.com",
+                EmailFrom = "test.something@verydummything.com",
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
-                CredentialUser = "notificaciones.uceme@gmail.com",
-                CredentialPassword = "Uceme1975",
+                CredentialUser = "something@verydummything.com",
+                CredentialPassword = "dummypassw",
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
@@ -49,11 +48,11 @@
 
             var appSettings = new AuthMessageSenderSettings()
             {
-                EmailFrom = "test.uceme@gmail.com",
+                EmailFrom = "test.something@verydummything.com",
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
-                CredentialUser = "notificaciones.uceme@gmail.com",
-                CredentialPassword = "Uceme1975",
+                CredentialUser = "something@verydummything.com",
+                CredentialPassword = "dummypassw",
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
@@ -78,11 +77,11 @@
 
             var appSettings = new AuthMessageSenderSettings()
             {
-                EmailFrom = "test.uceme@gmail.com",
+                EmailFrom = "test.something@verydummything.com",
                 HostSmtp = "smtp.gmail.com",
                 PortSmtp = 587,
-                CredentialUser = "notificaciones.uceme@gmail.com",
-                CredentialPassword = "Uceme1975",
+                CredentialUser = "something@verydummything.com",
+                CredentialPassword = "dummypassw",
             };
 
             IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);

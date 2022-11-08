@@ -149,6 +149,12 @@
                 throw new ArgumentNullException(nameof(file));
             }
 
+            if (this.configuration?.Value?.BlogImagesDir == null
+                || !Directory.Exists(this.configuration?.Value?.BlogImagesDir))
+            {
+                return this.StatusCode(StatusCodes.Status502BadGateway);
+            }
+
             string filename = string.Empty;
 
             try
@@ -171,7 +177,7 @@
             catch (Exception)
             {
                 this.logger.LogError("error uploading technique");
-                return this.BadRequest();
+                return this.StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             return filename;
