@@ -13,6 +13,8 @@
             this.Dispose(false);
         }
 
+        public new string? Host { get; set; }
+
         public new void Send(MailMessage mailMessage)
         {
             this.CheckDisposed();
