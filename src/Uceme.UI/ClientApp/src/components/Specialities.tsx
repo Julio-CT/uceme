@@ -81,7 +81,7 @@ const items: JSX.Element[] = specials.map((item) => {
 const Specialities: () => JSX.Element = () => {
   const settings = React.useContext(SettingsContext);
   return (
-    <div className="app app-home header-distance">
+    <div className="app app-home header-distance-l">
       <section id="section-specialities" className="header-distance-negative">
         <div className="specialities container">
           <h3 className="uppercase">Especialidades</h3>

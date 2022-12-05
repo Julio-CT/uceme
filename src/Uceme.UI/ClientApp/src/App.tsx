@@ -17,6 +17,7 @@ import SettingsContext, { Settings } from './SettingsContext';
 import Technique from './components/Technique';
 import './App.scss';
 import './custom.scss';
+import AboutUs from './components/AboutUs';
 
 function App(): JSX.Element {
   const [context, setContext] = React.useState<Settings>({
@@ -57,6 +58,7 @@ function App(): JSX.Element {
         <Route exact path="/" component={Home} />
         <Route path="/condiciones" component={Conditions} />
         <Route path="/especialidades" component={Specialities} />
+        <Route path="/quienessomos" component={AboutUs} />
         <Route path="/innovaciones" component={Home} />
         <Route path="/blog/:page?" component={BlogHome} />
         <Route path="/post/:slug" component={BlogItem} />

@@ -84,7 +84,7 @@ function BlogHome(): JSX.Element {
     const previousPage: number | undefined =
       dataPageNumber !== 1 ? +dataPageNumber - 1 : undefined;
     return (
-      <div className="app app-home header-distance">
+      <div className="app app-home header-distance-l">
         <div className="container" data-testid="blogContainer">
           <div
             className={`section padding-top section-large section-grey section-in-view article-list-container article-list-page-${+dataPageNumber}`}

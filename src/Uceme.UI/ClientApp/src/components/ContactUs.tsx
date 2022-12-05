@@ -101,7 +101,7 @@ const ContactUs: () => JSX.Element = () => {
             </Button>
           </ModalFooter>
         </Modal>
-        <div className="app header-distance extra-padding row justify-content-md-center">
+        <div className="app header-distance-l extra-padding row justify-content-md-center">
           <form onSubmit={handleSubmit} className="col-12 col-md-6">
             <h3 className="uppercase">Envíanos un mensaje</h3>
             <h4 className="padding-y-medium uppercase spacing">
