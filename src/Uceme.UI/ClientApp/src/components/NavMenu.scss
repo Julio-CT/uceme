@@ -1,0 +1,38 @@
+@import '../variables.scss';
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+}
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+}
+
+.navbar-div-container {
+  z-index: 100;
+  vertical-align: middle;
+}
+
+.site-title-div {
+  display: table-cell;
+  top: 100px;
+  transition: all 0.3s;
+}
+
+.site-title-div-small {
+  top: 50px !important;
+  transition: all 0.3s;
+}

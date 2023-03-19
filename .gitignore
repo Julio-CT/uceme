@@ -332,11 +332,15 @@ ASALocalRun/
 .mfractor/
 
 # Angular specific folders
-src/UI/OC/reports/coverage/
-src/UI/OC/coverage/
-src/UI/OC/dist/
-src/UI/OC/admin-dist/
-src/UI/OC/npm-debug.log
+src/Uceme.UI/ClientApp/coverage/
+src/Uceme.UI/ClientApp/build/
 
 # junit folders
 **/junit/
+src/Uceme.UI/ClientApp/.eslintcache
+**/coverage/
+
+**/.DS_Store
+**/wwwroot/**
+**/bin/release/**
+**/bin/debug/**

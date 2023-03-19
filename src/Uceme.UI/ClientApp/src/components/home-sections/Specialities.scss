@@ -1,0 +1,42 @@
+@import '../../variables.scss';
+
+.line {
+  width: 120px;
+  height: 3px;
+  background-color: #bdbdbd;
+  margin: auto auto 16px;
+}
+
+.line-small {
+  width: 50px;
+  height: 3px;
+  background-color: #bdbdbd;
+  margin: 10px auto;
+}
+
+.line-white {
+  width: 120px;
+  height: 3px;
+  background-color: #fff;
+  margin: 10px auto;
+}
+
+.specialities {
+  p a {
+    color: $uceme-text;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  h4 a {
+    text-decoration: none;
+    color: $uceme-orange;
+    line-height: 30px;
+    transition: all 0.5s ease-in-out;
+    letter-spacing: 1px;
+  }
+
+  h4 a:hover {
+    color: #61dafb;
+  }
+}

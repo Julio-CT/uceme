@@ -1,0 +1,26 @@
+@import '../variables.scss';
+
+.line-small {
+  width: 50px;
+  height: 3px;
+  background-color: #bdbdbd;
+  margin: 10px auto;
+}
+
+.line-white {
+  width: 120px;
+  height: 3px;
+  background-color: #fff;
+  margin: 10px auto;
+}
+
+.article-title {
+  color: $uceme-green;
+}
+
+.all-especialities {
+  width: 100%;
+  padding-left: 165px;
+  padding-top: 25px;
+  text-decoration: none;
+}

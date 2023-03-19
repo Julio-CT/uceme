@@ -1,0 +1,136 @@
+@import 'variables.scss';
+
+.app {
+  text-align: center;
+}
+
+.app-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .app-logo {
+    animation: app-logo-spin infinite 20s linear;
+  }
+}
+
+.app-home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-link {
+  color: $uceme-orange;
+}
+
+@keyframes app-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* @clearing */
+
+/* -------------------------------------------- */
+
+.clearfix::after {
+  visibility: hidden;
+  display: block;
+  content: ' ';
+  clear: both;
+}
+
+.clear {
+  clear: both;
+}
+
+.clearboth {
+  clear: both;
+}
+
+h1.main-logo span {
+  display: block;
+  text-indent: -999999999px;
+}
+
+h2,
+h3,
+h4,
+h5 {
+  line-height: 100%;
+  text-align: center;
+  font-weight: 100;
+}
+
+h3 {
+  font-size: 35px;
+  color: $uceme-green;
+}
+
+h4 {
+  font-size: 16px;
+  color: #3e4851;
+  line-height: 22px;
+}
+
+h4 a {
+  color: #292929;
+}
+
+p {
+  font-size: 14px;
+  line-height: 20px;
+  color: $uceme-text;
+  font-weight: 100;
+}
+
+strong {
+  font-weight: bold;
+  font-weight: 900;
+  font-size: 110%;
+}
+
+.extra-margin {
+  margin-top: 30px;
+}
+
+.extra-padding {
+  padding-top: 30px;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.opacity {
+  opacity: 0.6;
+}
+
+section {
+  width: 100%;
+}
+
+.color-green {
+  color: $uceme-green;
+}
+
+.color-orange {
+  color: $uceme-orange;
+}
+
+.color-gray {
+  color: $uceme-gray;
+}
+
+.submit-button {
+  background-color: $uceme-orange;
+  font-size: smaller;
+}

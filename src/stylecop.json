@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "Uceme Limited",
+      "headerDecoration": "-----------------------------------------------------------------------",
+      "documentationCulture": "en-GB",
+      "copyrightText": "Copyright (c) JCT Limited. All rights reserved."
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require"
+    }
+  }
+}

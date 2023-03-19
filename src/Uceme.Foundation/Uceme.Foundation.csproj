@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ReleaseVersion>0.3</ReleaseVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Utilities\" />
+    <Folder Include="Tools\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Uceme.Model\Uceme.Model.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Tools\" />
+  </ItemGroup>
+</Project>

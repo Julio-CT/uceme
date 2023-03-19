@@ -1,9 +1,0 @@
-﻿@model UCEME.Models.ClasesVista.CompaniasSelectorVista
-@{
-    Layout = null;
-    var idCompania = Model.IdCompanias;
-    var nombre = Model.Nombre;
-}
-
-<input type="checkbox" name="@idCompania" id="@idCompania" />
-@Html.Label(nombre);

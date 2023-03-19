@@ -1,0 +1,19 @@
+import * as React from 'react';
+import './Home.scss';
+import Slider from './home-sections/Slider';
+import Specialities from './home-sections/Specialities';
+import Blogs from './home-sections/Blogs';
+import ContactUs from './home-sections/ContactUs';
+
+function Home(): JSX.Element {
+  return (
+    <div className="app app-home header-distance-l">
+      <Slider />
+      <Specialities />
+      <Blogs />
+      <ContactUs />
+    </div>
+  );
+}
+
+export default Home;

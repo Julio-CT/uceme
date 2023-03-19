@@ -1,0 +1,53 @@
+<Project>
+    <!-- Add stylecop to all projects and link the stylecop.json file for settings -->
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
+		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+	<!-- All unit tests (.Test) projects require coverlet.msbuild for coverage. -->
+	<ItemGroup Condition="$(MSBuildProjectName.IndexOf('.Test')) != -1">
+		<PackageReference Include="coverlet.collector" Version="3.2.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="coverlet.msbuild" Version="3.2.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<!-- All unit tests (.Test) projects need to be exluded from coverage. -->
+	<ItemGroup Condition="$(MSBuildProjectName.IndexOf('.Test')) != -1">
+		<AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage" />
+	</ItemGroup>
+
+	<!-- All integration tests (.Test) projects need to be marked as TestCategory integration. -->
+	<ItemGroup Condition="$(MSBuildProjectName.IndexOf('.Test')) != -1 And $(MSBuildProjectName.IndexOf('.Integration')) != -1">
+		<AssemblyAttribute Include="Microsoft.VisualStudio.TestTools.UnitTesting.TestCategory">
+			<_Parameter1>integration</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+  <!-- Global properties for all projects. -->
+  <PropertyGroup>
+    <Authors>JCT Software</Authors>
+    <InformationalVersion>1.0.0</InformationalVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>disable</Nullable>
+    <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+</Project>

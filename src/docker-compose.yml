@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  uceme.api:
+    image: ${DOCKER_REGISTRY-}uceme
+    build:
+      context: .
+      dockerfile: Uceme.API/Dockerfile

@@ -1,0 +1,78 @@
+@import '../../variables.scss';
+
+.box-noticias {
+  .img-post {
+    width: 100%;
+    height: auto;
+  }
+
+  .post-ellipsis {
+    max-height: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.blogs .box-noticias {
+  border: 1px solid #bdbdbd;
+  min-height: 450px;
+  border-bottom: none;
+  max-height: 625px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .icono-img {
+    position: relative;
+    display: block;
+    margin: -42px auto 0;
+  }
+
+  p {
+    font-size: 14px;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  h5 {
+    font-size: 18px;
+    margin-top: 20px;
+    padding: 0 10px;
+    letter-spacing: 1px;
+    line-height: 24px;
+
+    a {
+      text-decoration: none;
+      color: $uceme-green;
+      transition: all 0.5s ease-in-out;
+    }
+
+    a:hover {
+      color: $uceme-orange;
+    }
+  }
+}
+
+.blogs .admin,
+.blogs .date {
+  font-size: 70%;
+  border: 1px solid #bdbdbd;
+  float: left;
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  padding: 11px 0;
+
+  img {
+    vertical-align: baseline;
+  }
+}
+
+.box-noticias a:hover > img,
+.box-especialistas a:hover > img {
+  opacity: 0.7;
+  transition: all 0.5s ease-in-out;
+}
+
+.post-title {
+  min-height: 3em;
+}
