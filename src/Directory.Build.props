@@ -7,7 +7,7 @@
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
-		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
+		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
   </ItemGroup>
@@ -18,11 +18,11 @@
 
 	<!-- All unit tests (.Test) projects require coverlet.msbuild for coverage. -->
 	<ItemGroup Condition="$(MSBuildProjectName.IndexOf('.Test')) != -1">
-		<PackageReference Include="coverlet.collector" Version="3.1.2">
+		<PackageReference Include="coverlet.collector" Version="3.2.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="coverlet.msbuild" Version="3.1.2">
+		<PackageReference Include="coverlet.msbuild" Version="3.2.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

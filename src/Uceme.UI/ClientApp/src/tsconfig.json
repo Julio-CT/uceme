@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react",
+    "types": [
+      "node",
+      "jest"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "src",
+    "src/components",
+    "src/components/api-authorization",
+    "src/library"
+  ],
+  "exclude": [
+    "node_modules",
+    "images.d.ts",
+    "custom.d.ts",
+    "declarations.d.ts",
+    "jest.config.js"
+  ]
+}
