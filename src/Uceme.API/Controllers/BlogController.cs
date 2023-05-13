@@ -11,6 +11,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using SixLabors.ImageSharp;
+    using SixLabors.ImageSharp.Formats.Webp;
     using Uceme.Library.Services;
     using Uceme.Model.DataContracts;
     using Uceme.Model.Models;
@@ -180,7 +182,7 @@
         {
             if (file is null)
             {
-                return this.BadRequest("file upload is null");
+                return this.BadRequest("file to upload is null");
             }
 
             if (this.configuration?.Value?.BlogImagesDir == null
@@ -189,21 +191,43 @@
                 return this.StatusCode(StatusCodes.Status502BadGateway);
             }
 
-            string filename = string.Empty;
+            string[] allowedImageTypes = new string[] { "IMAGE/JPEG", "IMAGE/PNG" };
+            if (!allowedImageTypes.Contains(file.ContentType.ToUpperInvariant()))
+            {
+                return this.BadRequest("file to upload is not in the correct format");
+            }
+
+            string webPFileName = string.Empty;
 
             try
             {
                 if (file.Length > 0 && Path.GetExtension(file.FileName).Length < 6)
                 {
-                    filename = "Blog" + this.blogService.GetNextPostImage() + Path.GetExtension(file.FileName);
-                    var filePath = Path.Combine(
+                    string filename = "Blog" + this.blogService.GetNextPostImage();
+                    webPFileName = filename + ".webp";
+
+                    filename += Path.GetExtension(file.FileName);
+                    string filePath = Path.Combine(
                         this.configuration.Value.BlogImagesDir,
                         filename);
+                    string webPImagePath = Path.Combine(webPFileName, webPFileName);
 
 #pragma warning disable CA3003 // Review code for file path injection vulnerabilities
                     using (var stream = System.IO.File.Create(filePath))
                     {
+                        //// Save the image in its original format for fallback
                         await file.CopyToAsync(stream).ConfigureAwait(false);
+
+                        // Then save in WebP format
+                        using (var someImage = await Image.LoadAsync(stream).ConfigureAwait(false))
+                        {
+                            using (var outStream = new MemoryStream())
+                            {
+                                await someImage.SaveAsync(outStream, new WebpEncoder()).ConfigureAwait(false);
+
+                                return new FileContentResult(outStream.ToArray(), "image/webp");
+                            }
+                        }
                     }
 #pragma warning restore CA3003 // Review code for file path injection vulnerabilities
                 }
@@ -214,7 +238,7 @@
                 return this.StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return filename;
+            return webPFileName;
         }
     }
 }
