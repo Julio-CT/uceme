@@ -1,0 +1,24 @@
+@import '../variables.scss';
+
+.spacing {
+  min-height: 4em;
+}
+
+.contact-input {
+  margin-bottom: 1em;
+}
+
+.contact-button {
+  text-transform: uppercase;
+  font-weight: bold;
+  min-height: 3em;
+  max-width: 20em;
+}
+
+.header-distance {
+  margin-top: 100px;
+}
+
+.header-distance-l {
+  margin-top: 155px;
+}

@@ -13,7 +13,7 @@
     {
         public EmailSender(IOptions<AuthMessageSenderSettings> optionsAccessor, ISmtpClient smtpClient)
         {
-            if (optionsAccessor == null)
+            if (optionsAccessor == null || optionsAccessor.Value == null)
             {
                 throw new ArgumentNullException(nameof(optionsAccessor));
             }
@@ -108,6 +108,11 @@
 
         private async Task ExecuteAsync(string subject, string message, IEnumerable<string> toEmails)
         {
+            if (this.Options.EmailFrom == null)
+            {
+                throw new MissingFieldException(nameof(this.Options.EmailFrom));
+            }
+
             using (var mailMessage = new MailMessage())
             {
                 mailMessage.From = new MailAddress(this.Options.EmailFrom, "Notificaciones UCEME");
@@ -143,6 +148,11 @@
 
         private void Execute(string subject, string message, IEnumerable<string> toEmails)
         {
+            if (this.Options.EmailFrom == null)
+            {
+                throw new MissingFieldException(nameof(this.Options.EmailFrom));
+            }
+
             using (var mailMessage = new MailMessage())
             {
                 mailMessage.From = new MailAddress(this.Options.EmailFrom, "From Name");

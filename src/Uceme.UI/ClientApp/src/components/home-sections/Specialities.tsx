@@ -83,7 +83,7 @@ const Specialities: () => JSX.Element = () => {
       <div className="specialities container clearfix extra-margin">
         <h3 className="uppercase">Especialidades</h3>
         <h4 className="padding-y-medium spacing uppercase">
-          La última tecnología unida a un excelente trato personal
+          La última tecnología unida a un excelente trato personal.
         </h4>
         <div className="line" />
         <div className="row justify-content-md-center">{items}</div>

@@ -1,0 +1,176 @@
+@import '../variables.scss';
+
+.padding-top {
+  padding-top: 1.5em;
+}
+
+.single-article {
+  position: relative;
+  background-color: #fff;
+}
+
+.single-article-blog {
+  margin-bottom: 1.5em;
+}
+
+.single-article-title {
+  padding-bottom: 3em;
+  line-height: 1.125;
+  font-size: 1.25em;
+}
+
+.single-article-title a {
+  color: $uceme-green;
+}
+
+.single-article-inner {
+  padding: 1em;
+}
+
+.single-article-excerpt {
+  margin: 0;
+  font-size: 0.875em;
+}
+
+.single-article-meta {
+  position: absolute;
+  bottom: -2.5em;
+  left: 1em;
+}
+
+@media screen and (min-width: 48em) {
+  .single-article-list {
+    width: calc(50% - 1.5em);
+    margin-left: 0.7em;
+    margin-right: 0.7em;
+  }
+}
+
+@media screen and (min-width: 78em) {
+  .single-article-list {
+    width: calc(33.3333% - 1.5em);
+    margin-left: 0.7em;
+    margin-right: 0.7em;
+  }
+}
+
+.single-article-list-page-1 .single-article-1 .single-article-title,
+.single-article-list-page-0 .single-article-1 .single-article-title {
+  padding-bottom: 0;
+}
+
+.single-article-list-page-1 .single-article-1 .single-article-inner,
+.single-article-list-page-0 .single-article-1 .single-article-inner {
+  padding-bottom: 2.5em;
+}
+
+@media screen and (min-width: 48em) {
+  .single-article-list-page-1 .single-article-1,
+  .single-article-list-page-0 .single-article-1 {
+    width: calc(100% - 1.5em);
+    display: table;
+    background: white;
+  }
+
+  .single-article-list-page-1 .single-article-1 .single-article-image,
+  .single-article-list-page-1 .single-article-1 .single-article-inner,
+  .single-article-list-page-0 .single-article-1 .single-article-image,
+  .single-article-list-page-0 .single-article-1 .single-article-inner {
+    width: 50%;
+    float: left;
+  }
+
+  .single-article-list-page-1 .single-article-1 .single-article-title,
+  .single-article-list-page-0 .single-article-1 .single-article-title {
+    font-size: 1.5em;
+  }
+
+  .single-article-list-page-1 .single-article-1 .single-article-excerpt,
+  .single-article-list-page-0 .single-article-1 .single-article-excerpt {
+    font-size: 1em;
+  }
+}
+
+@media screen and (min-width: 62em) {
+  .single-article-list-page-1 .single-article-1 .single-article-title,
+  .single-article-list-page-0 .single-article-1 .single-article-title {
+    font-size: 1.875em;
+  }
+
+  .single-article-list-page-1 .single-article-1 .single-article-meta,
+  .single-article-list-page-0 .single-article-1 .single-article-meta {
+    left: auto;
+  }
+
+  .single-article-list-page-1 .single-article-1 .single-article-inner,
+  .single-article-list-page-0 .single-article-1 .single-article-inner {
+    padding: 1.25em;
+  }
+
+  .single-article-list-page-1 .single-article-1 .single-article-excerpt,
+  .single-article-list-page-0 .single-article-1 .single-article-excerpt {
+    margin-top: 1em;
+  }
+}
+
+@media screen and (min-width: 78em) {
+  .single-article-list-page-1 .single-article-1 .single-article-title,
+  .single-article-list-page-0 .single-article-1 .single-article-title {
+    font-size: 2.25em;
+  }
+}
+
+@media screen and (min-width: 48em) {
+  .test-flexbox .single-article-list-page-1 .single-article-1,
+  .test-flexbox .single-article-list-page-0 .single-article-1 {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 48em) {
+  .single-article-list-container {
+    display: table;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.single-article-author,
+.single-article-date {
+  margin-bottom: 0;
+  font-weight: bold;
+  line-height: 1.125;
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
+.single-article-author {
+  color: #252525;
+  margin-left: 0.25em;
+  padding-left: 0.5em;
+  border-left: 1px solid #888;
+}
+
+.single-article-date {
+  color: #888;
+  letter-spacing: 0.125em;
+}
+
+.single-article-vacancy {
+  background-color: transparent;
+  margin-top: 2.5em;
+  padding-top: 2.5em;
+  border-top: 3px solid #e3e3e3;
+}
+
+.single-article-vacancy:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.navigation-bar {
+  margin: 2em auto;
+  width: 20em;
+  height: 1em;
+}
