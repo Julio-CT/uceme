@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
@@ -69,13 +69,13 @@ function Technique(): JSX.Element {
 
             <article className="article article-list article-blog article-1">
               <a
-                href={`/tecnica/${data.technique.titulo}`}
+                href={`/tecnica/${data.technique.idTecnica}`}
                 className="article-image article-image-thumb"
               >
                 <img src={data.technique.foto} alt={data.technique.nombre} />
               </a>
               <div className="article-inner">
-                <h2 className="article-title">{data.technique.nombre}</h2>
+                <h2 className="article-title">{data.technique.titulo}</h2>
                 <div>{parse(data.technique.texto)}</div>
               </div>
             </article>

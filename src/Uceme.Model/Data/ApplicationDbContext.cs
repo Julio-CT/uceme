@@ -56,8 +56,6 @@
 
         public DbSet<Video> Video { get; set; }
 
-        public DbSet<sysdiagrams> Sysdiagrams { get; set; }
-
         public DbSet<UserProfile> UserProfile { get; set; }
 
         public DbSet<webpages_Membership> WebpagesMembership { get; set; }

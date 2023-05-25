@@ -1,25 +1,24 @@
-﻿namespace Uceme.Library.Services
+﻿namespace Uceme.Library.Services;
+
+using System.Collections.Generic;
+using Uceme.Model.DataContracts;
+using Uceme.Model.Models;
+
+public interface IBlogService
 {
-    using System.Collections.Generic;
-    using Uceme.Model.DataContracts;
-    using Uceme.Model.Models;
+    IEnumerable<Blog> GetBlogSubset(int amount, int page = 1);
 
-    public interface IBlogService
-    {
-        IEnumerable<Blog> GetBlogSubset(int amount, int page = 1);
+    Blog GetPost(string slug);
 
-        Blog GetPost(string slug);
+    IEnumerable<Blog> GetAllPosts();
 
-        IEnumerable<Blog> GetAllPosts();
+    bool DeletePost(int postId);
 
-        bool DeletePost(int postId);
+    Blog UpdatePost(Blog blog);
 
-        Blog UpdatePost(Blog blog);
+    bool UpdatePost(PostRequest blog);
 
-        bool UpdatePost(PostRequest blog);
+    bool AddPost(PostRequest blog);
 
-        bool AddPost(PostRequest blog);
-
-        string GetNextPostImage();
-    }
+    string GetNextPostImage();
 }

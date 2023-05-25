@@ -1,28 +1,27 @@
-﻿namespace Uceme.UI.Controllers
+﻿namespace Uceme.UI.Controllers;
+
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+public class OidcConfigurationController : Controller
 {
-    using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
+    private readonly ILogger<OidcConfigurationController> logger;
 
-    public class OidcConfigurationController : Controller
+    public OidcConfigurationController(
+        IClientRequestParametersProvider clientRequestParametersProvider,
+        ILogger<OidcConfigurationController> logger)
     {
-        private readonly ILogger<OidcConfigurationController> logger;
+        this.ClientRequestParametersProvider = clientRequestParametersProvider;
+        this.logger = logger;
+    }
 
-        public OidcConfigurationController(
-            IClientRequestParametersProvider clientRequestParametersProvider,
-            ILogger<OidcConfigurationController> logger)
-        {
-            this.ClientRequestParametersProvider = clientRequestParametersProvider;
-            this.logger = logger;
-        }
+    public IClientRequestParametersProvider ClientRequestParametersProvider { get; }
 
-        public IClientRequestParametersProvider ClientRequestParametersProvider { get; }
-
-        [HttpGet("_configuration/{clientId}")]
-        public IActionResult GetClientRequestParameters([FromRoute] string clientId)
-        {
-            var parameters = this.ClientRequestParametersProvider.GetClientParameters(this.HttpContext, clientId);
-            return this.Ok(parameters);
-        }
+    [HttpGet("_configuration/{clientId}")]
+    public IActionResult GetClientRequestParameters([FromRoute] string clientId)
+    {
+        System.Collections.Generic.IDictionary<string, string> parameters = this.ClientRequestParametersProvider.GetClientParameters(this.HttpContext, clientId);
+        return this.Ok(parameters);
     }
 }

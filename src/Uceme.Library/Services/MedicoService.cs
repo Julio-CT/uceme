@@ -1,45 +1,44 @@
-﻿namespace Uceme.Library.Services
+﻿namespace Uceme.Library.Services;
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Microsoft.Extensions.Logging;
+using Uceme.Model.Data;
+using Uceme.Model.Models;
+
+public class MedicoService : IMedicoService
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using Microsoft.Extensions.Logging;
-    using Uceme.Model.Data;
-    using Uceme.Model.Models;
+    private readonly ILogger<FotosService> logger;
 
-    public class MedicoService : IMedicoService
+    private readonly ApplicationDbContext context;
+
+    public MedicoService(ILogger<FotosService> logger, IApplicationDbContext context)
     {
-        private readonly ILogger<FotosService> logger;
+        this.logger = logger;
+        this.context = (ApplicationDbContext)context;
+    }
 
-        private readonly ApplicationDbContext context;
-
-        public MedicoService(ILogger<FotosService> logger, IApplicationDbContext context)
+    public IEnumerable<Usuario> GetMedicoMinVista(bool hackOrder)
+    {
+        try
         {
-            this.logger = logger;
-            this.context = (ApplicationDbContext)context;
+            IQueryable<Usuario> data = this.context.Usuario.Where(us => us.idRol == 2).OrderBy(o => o.display_order).Select(o => new Usuario
+            {
+                idUsuario = o.idUsuario,
+                nombre = o.nombre,
+                apellidos = o.apellidos,
+                foto = o.foto,
+            });
+
+            this.logger.LogInformation($"retrieved {data.Count()} items");
+
+            return data;
         }
-
-        public IEnumerable<Usuario> GetMedicoMinVista(bool hackOrder)
+        catch (Exception e)
         {
-            try
-            {
-                var data = this.context.Usuario.Where(us => us.idRol == 2).OrderBy(o => o.display_order).Select(o => new Usuario
-                {
-                    idUsuario = o.idUsuario,
-                    nombre = o.nombre,
-                    apellidos = o.apellidos,
-                    foto = o.foto,
-                });
-
-                this.logger.LogInformation($"retrieved {data.Count()} items");
-
-                return data;
-            }
-            catch (Exception e)
-            {
-                throw new DataException("Error retrieving MedicoMinVista", e);
-            }
+            throw new DataException("Error retrieving MedicoMinVista", e);
         }
     }
 }

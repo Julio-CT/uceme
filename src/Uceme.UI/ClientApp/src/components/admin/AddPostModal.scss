@@ -44,7 +44,7 @@ html {
 }
 
 .beatabg {
-  background: url('../../resources/images/cita-previa.png') no-repeat left 0;
+  background: url('../../resources/images/cita-previa.webp') no-repeat left 0;
 }
 
 .scrollable-wrapper {
@@ -124,10 +124,15 @@ html {
   font-family: RalewayX, arial, sans-serif;
   font-style: normal;
   line-height: 1.3846;
+  margin: 1em 0 0 0;
 }
 
 .field-margin {
   margin: 0 3em;
+}
+
+.top-margin {
+  margin: 1em 0 0 0;
 }
 
 .submit-form-button,

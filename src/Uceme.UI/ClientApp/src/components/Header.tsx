@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container } from 'reactstrap';
 import './Header.scss';
 import NavMenu from './NavMenu';
-import logo from '../resources/images/logo-uceme-nuevo.png';
+import logo from '../resources/images/logo-uceme-nuevo.webp';
 import citaPreviaLogo from '../resources/images/icono-cita-previa.webp';
 import AppointmentModal from './appointment-sections/AppointmentModal';
 

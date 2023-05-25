@@ -9,10 +9,10 @@ import {
   CarouselCaption,
 } from 'reactstrap';
 import './Slider.scss';
-import slide1 from '../../resources/images/uceme.jpg';
-import slide2 from '../../resources/images/innovaciones-tecnicas.jpg';
-import slide3 from '../../resources/images/conocenos-uceme.jpg';
-import slide4 from '../../resources/images/cita-medica-uceme.jpg';
+import slide1 from '../../resources/images/uceme.webp';
+import slide2 from '../../resources/images/innovaciones-tecnicas.webp';
+import slide3 from '../../resources/images/conocenos-uceme.webp';
+import slide4 from '../../resources/images/cita-medica-uceme.webp';
 
 const items = [
   {
