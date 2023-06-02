@@ -15,9 +15,7 @@ using Uceme.Model.Models;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> logger;
-
     private readonly IMedicoService medicoService;
-
     private readonly IFotosService fotosService;
 
     public HomeController(
@@ -41,6 +39,7 @@ public class HomeController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error getting doctor");
             return this.BadRequest();
         }
 
@@ -58,6 +57,7 @@ public class HomeController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error getting picture");
             return this.BadRequest();
         }
 

@@ -14,14 +14,14 @@ using Uceme.Model.Models;
 
 public class AppointmentService : IAppointmentService
 {
-    private readonly ILogger<HospitalService> logger;
+    private readonly ILogger<AppointmentService> logger;
 
     private readonly IEmailService emailService;
 
     private readonly ApplicationDbContext context;
 
     public AppointmentService(
-        ILogger<HospitalService> logger,
+        ILogger<AppointmentService> logger,
         IApplicationDbContext context,
         IEmailService emailService)
     {
@@ -299,14 +299,17 @@ public class AppointmentService : IAppointmentService
     {
         StringBuilder emailMessage = new StringBuilder();
 
+        emailMessage.Append("Notifiación: ");
         emailMessage.Append("<br />");
-        emailMessage.Append("Hay una nueva cita de UCEME: ");
+        emailMessage.Append("<br />");
+        emailMessage.Append("Hay una nueva cita de UCEME:");
+        emailMessage.Append("<br />");
         emailMessage.Append("<br />");
         emailMessage.Append("El paciente " + cita.nombre + " tiene una cita el dia "
             + appointmentRequest.Day + "/" + appointmentRequest.Month + "/" + appointmentRequest.Year
-            + " a las " + appointmentRequest.Hour);
+            + " a las " + appointmentRequest.Hour + ".");
         emailMessage.Append("<br />");
-        emailMessage.Append("Su telefono es : " + cita.telefono);
+        emailMessage.Append("Su teléfono es : " + cita.telefono + ".");
         emailMessage.Append("<br />");
         if (!string.IsNullOrEmpty(cita.email))
         {
@@ -314,7 +317,7 @@ public class AppointmentService : IAppointmentService
         }
         else
         {
-            emailMessage.Append("y no dejo email de contacto");
+            emailMessage.Append("y no dejó email de contacto.");
         }
 
         if (!string.IsNullOrEmpty(appointmentRequest.ExtraInfo))
@@ -322,6 +325,10 @@ public class AppointmentService : IAppointmentService
             emailMessage.Append("<br />");
             emailMessage.Append("Adjuntó las siguientes observaciones : " + appointmentRequest.ExtraInfo);
         }
+
+        emailMessage.Append("<br />");
+        emailMessage.Append("Por favor, no responda a este email, para cualquier cambio o duda use el formulario de contacto de la web.");
+        emailMessage.Append("<br />");
 
         return await this.emailService.SendEmailToManagementAsync(cita.email, "Nueva cita en Uceme", emailMessage.ToString()).ConfigureAwait(false);
     }

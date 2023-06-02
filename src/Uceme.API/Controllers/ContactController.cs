@@ -15,7 +15,6 @@ using Uceme.Model.DataContracts;
 public class ContactController : Controller
 {
     private readonly ILogger<ContactController> logger;
-
     private readonly IEmailService emailService;
 
     public ContactController(

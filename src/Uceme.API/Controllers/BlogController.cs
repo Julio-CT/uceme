@@ -73,7 +73,6 @@ public class BlogController : Controller
     }
 
     [HttpGet("getallposts")]
-    [AllowAnonymous]
     public ActionResult<IEnumerable<Blog>> GetAllPosts()
     {
         IEnumerable<Blog> result;

@@ -12,7 +12,7 @@ public interface ITechniqueService
 
     bool DeleteTechnique(int techId);
 
-    Tecnica UpdateTechine(Tecnica post);
+    Tecnica UpdateTechnique(Tecnica post);
 
     bool UpdateTechnique(TechniqueRequest postRequest);
 

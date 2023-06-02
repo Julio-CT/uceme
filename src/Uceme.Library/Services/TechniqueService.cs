@@ -54,7 +54,7 @@ public class TechniqueService : ITechniqueService
         throw new NotImplementedException();
     }
 
-    public Tecnica UpdateTechine(Tecnica post)
+    public Tecnica UpdateTechnique(Tecnica post)
     {
         throw new NotImplementedException();
     }

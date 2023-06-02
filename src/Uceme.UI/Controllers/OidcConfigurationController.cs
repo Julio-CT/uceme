@@ -7,21 +7,20 @@ using Microsoft.Extensions.Logging;
 public class OidcConfigurationController : Controller
 {
     private readonly ILogger<OidcConfigurationController> logger;
+    private readonly IClientRequestParametersProvider clientRequestParametersProvider;
 
     public OidcConfigurationController(
         IClientRequestParametersProvider clientRequestParametersProvider,
         ILogger<OidcConfigurationController> logger)
     {
-        this.ClientRequestParametersProvider = clientRequestParametersProvider;
+        this.clientRequestParametersProvider = clientRequestParametersProvider;
         this.logger = logger;
     }
-
-    public IClientRequestParametersProvider ClientRequestParametersProvider { get; }
 
     [HttpGet("_configuration/{clientId}")]
     public IActionResult GetClientRequestParameters([FromRoute] string clientId)
     {
-        System.Collections.Generic.IDictionary<string, string> parameters = this.ClientRequestParametersProvider.GetClientParameters(this.HttpContext, clientId);
+        System.Collections.Generic.IDictionary<string, string> parameters = this.clientRequestParametersProvider.GetClientParameters(this.HttpContext, clientId);
         return this.Ok(parameters);
     }
 }

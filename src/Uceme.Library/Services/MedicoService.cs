@@ -10,11 +10,13 @@ using Uceme.Model.Models;
 
 public class MedicoService : IMedicoService
 {
-    private readonly ILogger<FotosService> logger;
+    private readonly ILogger<MedicoService> logger;
 
     private readonly ApplicationDbContext context;
 
-    public MedicoService(ILogger<FotosService> logger, IApplicationDbContext context)
+    public MedicoService(
+        ILogger<MedicoService> logger,
+        IApplicationDbContext context)
     {
         this.logger = logger;
         this.context = (ApplicationDbContext)context;

@@ -12,11 +12,13 @@ using Uceme.Model.Models;
 
 public class BlogService : IBlogService
 {
-    private readonly ILogger<FotosService> logger;
+    private readonly ILogger<BlogService> logger;
 
     private readonly ApplicationDbContext context;
 
-    public BlogService(ILogger<FotosService> logger, IApplicationDbContext context)
+    public BlogService(
+        ILogger<BlogService> logger,
+        IApplicationDbContext context)
     {
         this.logger = logger;
         this.context = (ApplicationDbContext)context;

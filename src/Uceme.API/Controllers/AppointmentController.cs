@@ -17,7 +17,6 @@ using Uceme.Model.Models;
 public class AppointmentController : Controller
 {
     private readonly ILogger<AppointmentController> logger;
-
     private readonly IAppointmentService appointmentService;
 
     public AppointmentController(
@@ -39,6 +38,7 @@ public class AppointmentController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error getting days");
             return this.BadRequest();
         }
 
@@ -56,6 +56,7 @@ public class AppointmentController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error getting hours");
             return this.BadRequest();
         }
 
@@ -73,6 +74,7 @@ public class AppointmentController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error adding appointment");
             return this.BadRequest();
         }
 
@@ -89,6 +91,7 @@ public class AppointmentController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error getting appointment list");
             return this.BadRequest();
         }
 
@@ -105,6 +108,7 @@ public class AppointmentController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error getting the close appointment list");
             return this.BadRequest();
         }
 
@@ -121,6 +125,7 @@ public class AppointmentController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error getting appointment");
             return this.BadRequest();
         }
 
@@ -137,6 +142,7 @@ public class AppointmentController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error deleting appointment");
             return this.BadRequest();
         }
 
@@ -153,6 +159,7 @@ public class AppointmentController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error updating appointment");
             return this.BadRequest();
         }
 
@@ -169,6 +176,7 @@ public class AppointmentController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error updating past appointment");
             return this.BadRequest();
         }
 

@@ -21,16 +21,14 @@ using Uceme.Model.Settings;
 [ApiController]
 public class TechniqueController : Controller
 {
-    private readonly ILogger<BlogController> logger;
-
+    private readonly ILogger<TechniqueController> logger;
     private readonly ITechniqueService techniqueService;
-
     private readonly IOptions<AppSettings> configuration;
 
     public TechniqueController(
         ITechniqueService techniqueService,
         IOptions<AppSettings> configuration,
-        ILogger<BlogController> logger)
+        ILogger<TechniqueController> logger)
     {
         if (configuration == null)
         {
@@ -101,7 +99,7 @@ public class TechniqueController : Controller
         Tecnica result;
         try
         {
-            result = this.techniqueService.UpdateTechine(post);
+            result = this.techniqueService.UpdateTechnique(post);
         }
         catch (DataException)
         {

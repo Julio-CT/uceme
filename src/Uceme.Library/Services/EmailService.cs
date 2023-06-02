@@ -69,17 +69,17 @@ public class EmailService : IEmailService
 
         try
         {
-            List<string> addresses = new List<string>()
+            List<string> toAddresses = new List<string>()
             {
                 this.Options.EmailFrom,
             };
 
             if (!string.IsNullOrEmpty(fromAddress))
             {
-                addresses.Add(fromAddress);
+                toAddresses.Add(fromAddress);
             }
 
-            this.EmailSender.SendEmail(fromAddress, subject, body);
+            this.EmailSender.SendEmail(toAddresses, subject, body);
             return true;
         }
         catch (Exception e)

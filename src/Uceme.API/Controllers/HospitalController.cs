@@ -15,7 +15,6 @@ using Uceme.Model.Models;
 public class HospitalController : Controller
 {
     private readonly ILogger<HospitalController> logger;
-
     private readonly IHospitalService hospitalService;
 
     public HospitalController(
@@ -37,6 +36,7 @@ public class HospitalController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error getting hospitals");
             return this.BadRequest();
         }
 
@@ -54,6 +54,7 @@ public class HospitalController : Controller
         }
         catch (DataException)
         {
+            this.logger.LogError("error getting hospital");
             return this.BadRequest();
         }
 
