@@ -1,0 +1,1 @@
+optipng.exe -o7 -k *.png

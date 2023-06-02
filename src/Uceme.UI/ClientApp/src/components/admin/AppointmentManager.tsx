@@ -219,7 +219,7 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
 
   if (appointmentData.loaded && closeAppointmentData.loaded) {
     return (
-      <div className="app app-home header-distance">
+      <div className="app app-home header-distance-l">
         <Modal isOpen={alertModal} toggle={alertToggle}>
           <ModalBody>
             <section id="section-contact_form" className="container">

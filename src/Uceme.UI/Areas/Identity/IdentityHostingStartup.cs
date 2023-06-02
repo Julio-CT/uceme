@@ -2,23 +2,22 @@
 
 [assembly: HostingStartup(typeof(Uceme.UI.Areas.Identity.IdentityHostingStartup))]
 
-namespace Uceme.UI.Areas.Identity
+namespace Uceme.UI.Areas.Identity;
+
+using System;
+using Microsoft.AspNetCore.Hosting;
+
+public class IdentityHostingStartup : IHostingStartup
 {
-    using System;
-    using Microsoft.AspNetCore.Hosting;
-
-    public class IdentityHostingStartup : IHostingStartup
+    public void Configure(IWebHostBuilder builder)
     {
-        public void Configure(IWebHostBuilder builder)
+        if (builder == null)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-
-            builder.ConfigureServices((context, services) =>
-            {
-            });
+            throw new ArgumentNullException(nameof(builder));
         }
+
+        builder.ConfigureServices((context, services) =>
+        {
+        });
     }
 }

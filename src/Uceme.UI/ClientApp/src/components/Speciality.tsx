@@ -3,11 +3,11 @@ import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
 import SettingsContext from '../SettingsContext';
-import slide1 from '../resources/images/especialidad1.jpg';
-import slide2 from '../resources/images/especialidad2.jpg';
-import slide3 from '../resources/images/especialidad3.jpg';
-import slide4 from '../resources/images/especialidad4.jpg';
-import slide5 from '../resources/images/especialidad5.jpg';
+import slide1 from '../resources/images/especialidad1.webp';
+import slide2 from '../resources/images/especialidad2.webp';
+import slide3 from '../resources/images/especialidad3.webp';
+import slide4 from '../resources/images/especialidad4.webp';
+import slide5 from '../resources/images/especialidad5.webp';
 import './Speciality.scss';
 
 const specials: Special[] = [

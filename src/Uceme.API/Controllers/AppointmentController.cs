@@ -1,178 +1,177 @@
-﻿namespace Uceme.API.Controllers
+﻿namespace Uceme.API.Controllers;
+
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Uceme.Library.Services;
+using Uceme.Model.DataContracts;
+using Uceme.Model.Models;
+
+[Authorize]
+[Route("api/[controller]")]
+[ApiController]
+public class AppointmentController : Controller
 {
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using Uceme.Library.Services;
-    using Uceme.Model.DataContracts;
-    using Uceme.Model.Models;
+    private readonly ILogger<AppointmentController> logger;
 
-    [Authorize]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AppointmentController : Controller
+    private readonly IAppointmentService appointmentService;
+
+    public AppointmentController(
+        ILogger<AppointmentController> logger,
+        IAppointmentService appointmentService)
     {
-        private readonly ILogger<AppointmentController> logger;
+        this.logger = logger;
+        this.appointmentService = appointmentService;
+    }
 
-        private readonly IAppointmentService appointmentService;
-
-        public AppointmentController(
-            ILogger<AppointmentController> logger,
-            IAppointmentService appointmentService)
+    [HttpGet("getdays")]
+    [AllowAnonymous]
+    public ActionResult<IEnumerable<int>> GetDays(int hospitalId)
+    {
+        IEnumerable<int> result;
+        try
         {
-            this.logger = logger;
-            this.appointmentService = appointmentService;
+            result = this.appointmentService.GetDays(hospitalId);
+        }
+        catch (DataException)
+        {
+            return this.BadRequest();
         }
 
-        [HttpGet("getdays")]
-        [AllowAnonymous]
-        public ActionResult<IEnumerable<int>> GetDays(int hospitalId)
-        {
-            IEnumerable<int> result;
-            try
-            {
-                result = this.appointmentService.GetDays(hospitalId);
-            }
-            catch (DataException)
-            {
-                return this.BadRequest();
-            }
+        return result.ToList();
+    }
 
-            return result.ToList();
+    [HttpPost("gethours")]
+    [AllowAnonymous]
+    public ActionResult<AppointmentHoursResponse> GetHours([FromBody] AppointmentHoursRequest appointmentHoursRequest)
+    {
+        AppointmentHoursResponse result = new AppointmentHoursResponse();
+        try
+        {
+            result.Hours = this.appointmentService.GetHours(appointmentHoursRequest);
+        }
+        catch (DataException)
+        {
+            return this.BadRequest();
         }
 
-        [HttpPost("gethours")]
-        [AllowAnonymous]
-        public ActionResult<AppointmentHoursResponse> GetHours([FromBody] AppointmentHoursRequest appointmentHoursRequest)
-        {
-            var result = new AppointmentHoursResponse();
-            try
-            {
-                result.Hours = this.appointmentService.GetHours(appointmentHoursRequest);
-            }
-            catch (DataException)
-            {
-                return this.BadRequest();
-            }
+        return result;
+    }
 
-            return result;
+    [HttpPost("addappointment")]
+    [AllowAnonymous]
+    public async Task<ActionResult<bool>> AddApointmentAsync([FromBody] AppointmentRequest appointmentRequest)
+    {
+        bool result;
+        try
+        {
+            result = await this.appointmentService.AddAppointmentAsync(appointmentRequest).ConfigureAwait(false);
+        }
+        catch (DataException)
+        {
+            return this.BadRequest();
         }
 
-        [HttpPost("addappointment")]
-        [AllowAnonymous]
-        public async Task<ActionResult<bool>> AddApointmentAsync([FromBody] AppointmentRequest appointmentRequest)
-        {
-            bool result;
-            try
-            {
-                result = await this.appointmentService.AddAppointmentAsync(appointmentRequest).ConfigureAwait(false);
-            }
-            catch (DataException)
-            {
-                return this.BadRequest();
-            }
+        return result;
+    }
 
-            return result;
+    [HttpGet("appointmentlist")]
+    public ActionResult<IEnumerable<Appointment>> AppointmentList()
+    {
+        List<Appointment> result = new List<Appointment>();
+        try
+        {
+            result.AddRange(this.appointmentService.GetAppointments());
+        }
+        catch (DataException)
+        {
+            return this.BadRequest();
         }
 
-        [HttpGet("appointmentlist")]
-        public ActionResult<IEnumerable<Appointment>> AppointmentList()
-        {
-            List<Appointment> result = new List<Appointment>();
-            try
-            {
-                result.AddRange(this.appointmentService.GetAppointments());
-            }
-            catch (DataException)
-            {
-                return this.BadRequest();
-            }
+        return result;
+    }
 
-            return result;
+    [HttpGet("closeappointmentlist")]
+    public ActionResult<IEnumerable<Appointment>> CloseAppointmentList()
+    {
+        List<Appointment> result = new List<Appointment>();
+        try
+        {
+            result.AddRange(this.appointmentService.GetCloseAppointments());
+        }
+        catch (DataException)
+        {
+            return this.BadRequest();
         }
 
-        [HttpGet("closeappointmentlist")]
-        public ActionResult<IEnumerable<Appointment>> CloseAppointmentList()
-        {
-            List<Appointment> result = new List<Appointment>();
-            try
-            {
-                result.AddRange(this.appointmentService.GetCloseAppointments());
-            }
-            catch (DataException)
-            {
-                return this.BadRequest();
-            }
+        return result;
+    }
 
-            return result;
+    [HttpGet("getappointment")]
+    public ActionResult<Appointment> GetAppointment(int appointmentId)
+    {
+        Appointment result;
+        try
+        {
+            result = this.appointmentService.GetAppointment(appointmentId);
+        }
+        catch (DataException)
+        {
+            return this.BadRequest();
         }
 
-        [HttpGet("getappointment")]
-        public ActionResult<Appointment> GetAppointment(int appointmentId)
-        {
-            Appointment result;
-            try
-            {
-                result = this.appointmentService.GetAppointment(appointmentId);
-            }
-            catch (DataException)
-            {
-                return this.BadRequest();
-            }
+        return result;
+    }
 
-            return result;
+    [HttpGet("deleteappointment")]
+    public ActionResult<bool> DeleteAppointment(int appointmentId)
+    {
+        bool result;
+        try
+        {
+            result = this.appointmentService.DeleteAppointment(appointmentId);
+        }
+        catch (DataException)
+        {
+            return this.BadRequest();
         }
 
-        [HttpGet("deleteappointment")]
-        public ActionResult<bool> DeleteAppointment(int appointmentId)
-        {
-            bool result;
-            try
-            {
-                result = this.appointmentService.DeleteAppointment(appointmentId);
-            }
-            catch (DataException)
-            {
-                return this.BadRequest();
-            }
+        return result;
+    }
 
-            return result;
+    [HttpGet("updateappointment")]
+    public ActionResult<Appointment> UpdateAppointment(Cita appointment)
+    {
+        Appointment result;
+        try
+        {
+            result = this.appointmentService.UpdateAppointment(appointment);
+        }
+        catch (DataException)
+        {
+            return this.BadRequest();
         }
 
-        [HttpGet("updateappointment")]
-        public ActionResult<Appointment> UpdateAppointment(Cita appointment)
-        {
-            Appointment result;
-            try
-            {
-                result = this.appointmentService.UpdateAppointment(appointment);
-            }
-            catch (DataException)
-            {
-                return this.BadRequest();
-            }
+        return result;
+    }
 
-            return result;
+    [HttpGet("updatepastappointmentsdata")]
+    public ActionResult<bool> UpdatePastAppointmentsData()
+    {
+        bool result;
+        try
+        {
+            result = this.appointmentService.UpdatePastAppointmentsData();
+        }
+        catch (DataException)
+        {
+            return this.BadRequest();
         }
 
-        [HttpGet("updatepastappointmentsdata")]
-        public ActionResult<bool> UpdatePastAppointmentsData()
-        {
-            bool result;
-            try
-            {
-                result = this.appointmentService.UpdatePastAppointmentsData();
-            }
-            catch (DataException)
-            {
-                return this.BadRequest();
-            }
-
-            return result;
-        }
+        return result;
     }
 }

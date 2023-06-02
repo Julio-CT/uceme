@@ -140,7 +140,7 @@
   },
   "scripts": {
     "start": "rimraf ./build && react-scripts start",
-    "build": "CI=false && react-scripts build",
+    "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
     "format": "prettier --write 'src/**/*.{js,ts,tsx,scss}'",
