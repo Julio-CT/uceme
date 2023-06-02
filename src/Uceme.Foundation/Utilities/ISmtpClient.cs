@@ -1,12 +1,14 @@
 ﻿namespace Uceme.Foundation.Utilities;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
 public interface ISmtpClient : IDisposable
 {
+    [DisallowNull]
     string? Host { get; set; }
 
     int Port { get; set; }

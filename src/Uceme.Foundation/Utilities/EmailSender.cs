@@ -127,7 +127,7 @@ public class EmailSender : IEmailSender
 
             using (ISmtpClient smtpServer = this.SmtpClient ?? new SmtpClientWrapper())
             {
-                smtpServer.Host = this.Options.HostSmtp;
+                smtpServer.Host = this.Options.HostSmtp ?? string.Empty;
                 smtpServer.Port = this.Options.PortSmtp;
                 smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtpServer.UseDefaultCredentials = false;
@@ -167,7 +167,7 @@ public class EmailSender : IEmailSender
 
             using (ISmtpClient smtpServer = this.SmtpClient ?? new SmtpClientWrapper())
             {
-                smtpServer.Host = this.Options.HostSmtp;
+                smtpServer.Host = this.Options.HostSmtp ?? string.Empty;
                 smtpServer.Port = this.Options.PortSmtp;
                 smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtpServer.UseDefaultCredentials = false;

@@ -55,7 +55,7 @@ public class EmailService : IEmailService
         }
         catch (Exception e)
         {
-            this.logger.LogError("error sending email to management");
+            this.logger.LogError("error sending email to management:" + e.Message);
             throw new OperationCanceledException("Error sending email to management", e);
         }
     }
@@ -84,7 +84,7 @@ public class EmailService : IEmailService
         }
         catch (Exception e)
         {
-            this.logger.LogError("error sending email to management");
+            this.logger.LogError("error sending email to management:" + e.Message);
             throw new OperationCanceledException("Error sending email to management", e);
         }
     }
@@ -109,7 +109,7 @@ public class EmailService : IEmailService
         }
         catch (Exception e)
         {
-            this.logger.LogError("error sending email to client");
+            this.logger.LogError("error sending email to client:" + e.Message);
             throw new OperationCanceledException("Error sending email to client", e);
         }
     }
