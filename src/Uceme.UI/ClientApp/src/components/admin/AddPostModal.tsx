@@ -18,7 +18,7 @@ import authService from '../api-authorization/AuthorizeService';
 import './AddPostModal.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import BlogItem from '../../library/BlogItem';
-import SettingsContext from '../../SettingsContext';
+import SettingsContext, {Settings} from '../../SettingsContext';
 
 type AddPostModalProps = {
   toggle: () => void;
@@ -29,7 +29,7 @@ type AddPostModalProps = {
 
 function AddPostModal(props: AddPostModalProps): JSX.Element {
   const { modal, toggle, post, headerTitle } = props;
-  const settings = React.useContext(SettingsContext);
+  const settings: Settings = React.useContext(SettingsContext);
 
   let contentState = ContentState.createFromText(post ? post.text : '');
   const inputName = 'reactstrap_date_picker_basic';

@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import parse from 'html-react-parser';
 import BlogItem from '../../library/BlogItem';
 import './AppointmentManager.scss';
-import SettingsContext from '../../SettingsContext';
+import SettingsContext, {Settings} from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
 import AddPostModal from './AddPostModal';
 import BlogPostResponse from '../../library/BlogPostResponse';
@@ -36,7 +36,7 @@ function PostManager(props: PostManagerProps): JSX.Element {
   const alertToggle = () => setAlertModal(!alertModal);
   const [alertMessage, setAlertMessage] = React.useState<string>('');
   const [markedPost, setMarkedPost] = React.useState<BlogItem>();
-  const settings = React.useContext(SettingsContext);
+  const settings: Settings = React.useContext(SettingsContext);
   const [postData, setPostData] = React.useState<PostManagerState>({
     loaded: false,
     posts: null,

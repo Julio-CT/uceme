@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import SettingsContext from '../SettingsContext';
+import SettingsContext, {Settings} from '../SettingsContext';
 import './ContactUs.scss';
 
 type contactUsState = {
@@ -17,7 +17,7 @@ const ContactUs: () => JSX.Element = () => {
   const toggle = () => setModal(!modal);
   const [modalMessage, setModaleMessage] = React.useState<string>('');
   const history = useHistory();
-  const settings = React.useContext(SettingsContext);
+  const settings: Settings = React.useContext(SettingsContext);
   const [data, setData] = React.useState<contactUsState>({
     loaded: false,
     name: '',

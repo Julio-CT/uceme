@@ -1,6 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
-import SettingsContext from '../SettingsContext';
+import SettingsContext, {Settings} from '../SettingsContext';
 import './AboutUs.scss';
 import alberto from '../resources/images/alberto.webp';
 import amunategui from '../resources/images/amunategui.webp';
@@ -99,7 +99,7 @@ const items: JSX.Element[] = specials.map((item) => {
 });
 
 const AboutUs: () => JSX.Element = () => {
-  const settings = React.useContext(SettingsContext);
+  const settings: Settings = React.useContext(SettingsContext);
   return (
     <div className="app app-home header-distance">
       <section id="section-about-us" className="header-distance">

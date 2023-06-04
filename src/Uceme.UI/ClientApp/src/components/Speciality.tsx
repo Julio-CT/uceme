@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
-import SettingsContext from '../SettingsContext';
+import SettingsContext, {Settings} from '../SettingsContext';
 import slide1 from '../resources/images/especialidad1.webp';
 import slide2 from '../resources/images/especialidad2.webp';
 import slide3 from '../resources/images/especialidad3.webp';
@@ -73,7 +73,7 @@ interface MatchParams {
 }
 
 function Speciality(): JSX.Element {
-  const settings = React.useContext(SettingsContext);
+  const settings: Settings = React.useContext(SettingsContext);
   const { esp } = useParams<MatchParams>();
   const [data, setData] = React.useState<SpecialityState>({
     loaded: false,
