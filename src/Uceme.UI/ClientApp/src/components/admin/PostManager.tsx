@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import parse from 'html-react-parser';
 import BlogItem from '../../library/BlogItem';
 import './AppointmentManager.scss';
-import SettingsContext, {Settings} from '../../SettingsContext';
+import SettingsContext, { Settings } from '../../SettingsContext';
 import authService from '../api-authorization/AuthorizeService';
 import AddPostModal from './AddPostModal';
 import BlogPostResponse from '../../library/BlogPostResponse';

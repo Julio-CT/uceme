@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import SettingsContext, {Settings} from '../SettingsContext';
+import SettingsContext, { Settings } from '../SettingsContext';
 import './ContactUs.scss';
 
 type contactUsState = {

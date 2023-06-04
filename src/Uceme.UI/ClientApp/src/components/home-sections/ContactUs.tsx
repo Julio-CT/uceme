@@ -1,6 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
-import SettingsContext, {Settings} from '../../SettingsContext';
+import SettingsContext, { Settings } from '../../SettingsContext';
 
 const ContactUs: () => JSX.Element = () => {
   const settings: Settings = React.useContext(SettingsContext);

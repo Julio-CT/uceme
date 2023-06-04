@@ -8,7 +8,7 @@ import { DateTimeUtils } from '../../library/DateTimeUtils';
 import './AppointmentManager.scss';
 import '../appointment-sections/AppointmentModal.scss';
 import authService from '../api-authorization/AuthorizeService';
-import SettingsContext, {Settings} from '../../SettingsContext';
+import SettingsContext, { Settings } from '../../SettingsContext';
 
 type AppointmentManagerState = {
   loaded: boolean;

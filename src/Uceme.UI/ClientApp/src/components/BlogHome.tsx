@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import BlogItem from '../library/BlogItem';
-import SettingsContext, {Settings} from '../SettingsContext';
+import SettingsContext, { Settings } from '../SettingsContext';
 import BlogPostResponse from '../library/BlogPostResponse';
 import './BlogHome.scss';
 

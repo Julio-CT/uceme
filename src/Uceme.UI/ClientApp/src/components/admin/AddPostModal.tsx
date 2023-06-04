@@ -18,7 +18,7 @@ import authService from '../api-authorization/AuthorizeService';
 import './AddPostModal.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import BlogItem from '../../library/BlogItem';
-import SettingsContext, {Settings} from '../../SettingsContext';
+import SettingsContext, { Settings } from '../../SettingsContext';
 
 type AddPostModalProps = {
   toggle: () => void;

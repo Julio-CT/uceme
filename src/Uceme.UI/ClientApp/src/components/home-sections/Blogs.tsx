@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import tinyDate from '../../resources/images/tinydate.webp';
 import photoIcon from '../../resources/images/photoicon.webp';
 import BlogItem from '../../library/BlogItem';
-import SettingsContext, {Settings} from '../../SettingsContext';
+import SettingsContext, { Settings } from '../../SettingsContext';
 import BlogPostResponse from '../../library/BlogPostResponse';
 
 type BlogState = {

@@ -1,6 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
-import SettingsContext, {Settings} from '../SettingsContext';
+import SettingsContext, { Settings } from '../SettingsContext';
 import './Specialities.scss';
 import slide1 from '../resources/images/cirugia-tiroidea.webp';
 import slide2 from '../resources/images/cirugia-paratiroidea.webp';

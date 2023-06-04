@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import DatePicker from 'reactstrap-date-picker2';
 import AppointmentHours from './AppointmentHours';
-import SettingsContext, {Settings} from '../../SettingsContext';
+import SettingsContext, { Settings } from '../../SettingsContext';
 import './AppointmentModal.scss';
 
 type Hospital = {

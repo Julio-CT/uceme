@@ -1,6 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
-import SettingsContext, {Settings} from '../SettingsContext';
+import SettingsContext, { Settings } from '../SettingsContext';
 import './AboutUs.scss';
 import alberto from '../resources/images/alberto.webp';
 import amunategui from '../resources/images/amunategui.webp';

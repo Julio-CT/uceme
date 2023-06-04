@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
 import BlogItem from '../library/BlogItem';
 import BlogPostResponse from '../library/BlogPostResponse';
-import SettingsContext, {Settings} from '../SettingsContext';
+import SettingsContext, { Settings } from '../SettingsContext';
 import './BlogPost.scss';
 
 type BlogPostState = {

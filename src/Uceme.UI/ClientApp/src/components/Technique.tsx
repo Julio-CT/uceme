@@ -2,7 +2,7 @@
 import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
-import SettingsContext, {Settings} from '../SettingsContext';
+import SettingsContext, { Settings } from '../SettingsContext';
 import TechniqueResponse from '../library/TechniqueResponse';
 import './Technique.scss';
 
