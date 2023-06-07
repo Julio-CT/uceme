@@ -71,9 +71,7 @@
     "stylelint-config-standard": "^24.0.0",
     "ts-jest": "^26.4.4",
     "ts-node": "^10.5.0",
-    "typescript": "^3.9.7",
-    "webpack": "^5.68.0",
-    "webpack-dev-server": "^4.7.4"
+    "typescript": "^3.9.7"
   },
   "overrides": {
     "react-draft-wysiwyg": {
@@ -140,7 +138,6 @@
     }
   },
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
