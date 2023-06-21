@@ -68,13 +68,9 @@ type Special = {
   caption: string;
 };
 
-interface MatchParams {
-  esp: string;
-}
-
 function Speciality(): JSX.Element {
   const settings: Settings = React.useContext(SettingsContext);
-  const { esp } = useParams<MatchParams>();
+  const { esp } = useParams();
   const [data, setData] = React.useState<SpecialityState>({
     loaded: false,
   });

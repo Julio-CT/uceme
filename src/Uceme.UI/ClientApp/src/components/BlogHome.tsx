@@ -11,13 +11,9 @@ type BlogHomeState = {
   resp?: BlogItem[] | null;
 };
 
-interface MatchParams {
-  page: string;
-}
-
 function BlogHome(): JSX.Element {
   const settings: Settings = React.useContext(SettingsContext);
-  const { page } = useParams<MatchParams>();
+  const { page } = useParams();
   const dataPageNumber = page ? +page : 1;
   const [data, setData] = React.useState<BlogHomeState>({
     loaded: false,

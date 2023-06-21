@@ -11,13 +11,9 @@ type TechniqueState = {
   loaded: boolean;
 };
 
-interface MatchParams {
-  tec: string;
-}
-
 function Technique(): JSX.Element {
   const settings: Settings = React.useContext(SettingsContext);
-  const { tec } = useParams<MatchParams>();
+  const { tec } = useParams();
 
   const [data, setData] = React.useState<TechniqueState>({
     loaded: false,

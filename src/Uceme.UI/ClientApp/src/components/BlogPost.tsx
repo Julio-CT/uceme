@@ -12,13 +12,9 @@ type BlogPostState = {
   post?: BlogItem;
 };
 
-interface MatchParams {
-  slug: string;
-}
-
 function BlogPost(): JSX.Element {
   const settings: Settings = React.useContext(SettingsContext);
-  const { slug } = useParams<MatchParams>();
+  const { slug } = useParams();
   const [data, setData] = React.useState<BlogPostState>({
     loaded: false,
   });

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { RouteComponentProps } from 'react-router';
+import { useParams } from 'react-router';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -17,15 +17,8 @@ type PostManagerState = {
   page?: number;
 };
 
-interface MatchParams {
-  page: string;
-}
-
-type PostManagerProps = RouteComponentProps<MatchParams>;
-
-function PostManager(props: PostManagerProps): JSX.Element {
-  const { match } = props;
-  const params = match?.params ?? { page: 1 };
+function PostManager(): JSX.Element {
+  const { page } = useParams();
   const [addModal, setAddModal] = React.useState(false);
   const addToggle = () => setAddModal(!addModal);
   const [editModal, setEditModal] = React.useState(false);
@@ -40,13 +33,16 @@ function PostManager(props: PostManagerProps): JSX.Element {
   const [postData, setPostData] = React.useState<PostManagerState>({
     loaded: false,
     posts: null,
-    page: +params.page ?? 1,
+    page: page ? +page : 1,
   });
 
   const isFirstRun = useRef(true);
 
-  const fetchPosts = async (page: number, baseHref: string) => {
-    fetch(`${baseHref}api/blog/getallposts`)
+  const fetchPosts = async (pageToFetch: number, baseHref: string) => {
+    const token = await authService.getAccessToken();
+    fetch(`${baseHref}api/blog/getallposts`, {
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+    })
       .then((response: { json: () => Promise<BlogPostResponse[]> }) =>
         response.json()
       )
@@ -81,14 +77,14 @@ function PostManager(props: PostManagerProps): JSX.Element {
         setPostData({
           loaded: true,
           posts: retrievedPosts,
-          page,
+          page: pageToFetch,
         });
       })
       .catch(() => {
         setPostData({
           loaded: false,
           posts: null,
-          page,
+          page: pageToFetch,
         });
       });
   };
@@ -141,19 +137,19 @@ function PostManager(props: PostManagerProps): JSX.Element {
 
   React.useEffect(() => {
     if (settings?.baseHref !== undefined) {
-      const page = +params.page || 1;
+      const currentPage = page ? +page : 1;
 
       if (isFirstRun.current) {
         isFirstRun.current = false;
 
-        fetchPosts(page, settings.baseHref);
+        fetchPosts(currentPage, settings.baseHref);
         return;
       }
 
-      setPostData({ loaded: false, page });
-      fetchPosts(page, settings.baseHref);
+      setPostData({ loaded: false, page: currentPage });
+      fetchPosts(currentPage, settings.baseHref);
     }
-  }, [match.params.page, params.page, settings?.baseHref]);
+  }, [page, settings?.baseHref]);
 
   if (postData.loaded) {
     return (
