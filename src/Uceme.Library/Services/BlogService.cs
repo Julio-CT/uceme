@@ -194,6 +194,7 @@ public class BlogService : IBlogService
 
         try
         {
+            // TODO: check the slug is unique
             Blog post = new Blog
             {
                 titulo = blog.Titulo,
