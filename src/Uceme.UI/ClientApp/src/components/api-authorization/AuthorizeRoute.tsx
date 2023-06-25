@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import ApplicationPaths, {
   QueryParameterNames,
 } from './ApiAuthorizationConstants';
@@ -52,32 +52,19 @@ export default class AuthorizeRoute extends React.Component<
     await this.populateAuthenticationState();
   }
 
-  render(): JSX.Element {
-    const { path } = this.props;
+  render() {
     const { isReady, authenticated } = this.state;
     const link = document.createElement('a');
-    link.href = path;
+    const { element } = this.props;
+    link.href = element.path;
     const returnUrl = `${link.protocol}//${link.host}${link.pathname}${link.search}${link.hash}`;
     const redirectUrl = `${ApplicationPaths.Login}?${
       QueryParameterNames.ReturnUrl
-    }=${encodeURI(returnUrl)}`;
-
+    }=${encodeURIComponent(returnUrl)}`;
     if (!isReady) {
       return <div />;
     }
 
-    const { component: Component, ...rest } = this.props;
-    return (
-      <Route
-        {...rest}
-        render={(props) => {
-          if (authenticated) {
-            return <Component {...props} />;
-          }
-
-          return <Redirect to={redirectUrl} />;
-        }}
-      />
-    );
+    return authenticated ? element : <Navigate replace to={redirectUrl} />;
   }
 }

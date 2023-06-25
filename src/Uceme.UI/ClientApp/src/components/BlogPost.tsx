@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
 import BlogItem from '../library/BlogItem';
 import BlogPostResponse from '../library/BlogPostResponse';
-import SettingsContext from '../SettingsContext';
+import SettingsContext, { Settings } from '../SettingsContext';
 import './BlogPost.scss';
 
 type BlogPostState = {
@@ -12,13 +12,9 @@ type BlogPostState = {
   post?: BlogItem;
 };
 
-interface MatchParams {
-  slug: string;
-}
-
 function BlogPost(): JSX.Element {
-  const settings = React.useContext(SettingsContext);
-  const { slug } = useParams<MatchParams>();
+  const settings: Settings = React.useContext(SettingsContext);
+  const { slug } = useParams();
   const [data, setData] = React.useState<BlogPostState>({
     loaded: false,
   });

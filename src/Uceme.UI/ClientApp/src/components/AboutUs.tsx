@@ -1,14 +1,14 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
-import SettingsContext from '../SettingsContext';
+import SettingsContext, { Settings } from '../SettingsContext';
 import './AboutUs.scss';
-import alberto from '../resources/images/alberto.jpg';
-import amunategui from '../resources/images/amunategui.jpg';
-import bettina from '../resources/images/bettina.jpg';
-import blanca from '../resources/images/blanca.jpg';
-import loredana from '../resources/images/loredana.jpg';
-import maria from '../resources/images/maria.jpg';
-import mercader from '../resources/images/mercader.jpg';
+import alberto from '../resources/images/alberto.webp';
+import amunategui from '../resources/images/amunategui.webp';
+import bettina from '../resources/images/bettina.webp';
+import blanca from '../resources/images/blanca.webp';
+import loredana from '../resources/images/loredana.webp';
+import maria from '../resources/images/maria.webp';
+import mercader from '../resources/images/mercader.webp';
 
 const specials = [
   {
@@ -99,7 +99,7 @@ const items: JSX.Element[] = specials.map((item) => {
 });
 
 const AboutUs: () => JSX.Element = () => {
-  const settings = React.useContext(SettingsContext);
+  const settings: Settings = React.useContext(SettingsContext);
   return (
     <div className="app app-home header-distance">
       <section id="section-about-us" className="header-distance">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Appointment from '../../library/Appointment';
@@ -8,7 +8,7 @@ import { DateTimeUtils } from '../../library/DateTimeUtils';
 import './AppointmentManager.scss';
 import '../appointment-sections/AppointmentModal.scss';
 import authService from '../api-authorization/AuthorizeService';
-import SettingsContext from '../../SettingsContext';
+import SettingsContext, { Settings } from '../../SettingsContext';
 
 type AppointmentManagerState = {
   loaded: boolean;
@@ -16,16 +16,9 @@ type AppointmentManagerState = {
   page?: number;
 };
 
-interface MatchParams {
-  page: string;
-}
-
-type AppointmentManagerProps = RouteComponentProps<MatchParams>;
-
-function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
-  const { match } = props;
-  const params = match?.params ?? { page: 1 };
-  const settings = React.useContext(SettingsContext);
+function AppointmentManager(): JSX.Element {
+  const { page } = useParams();
+  const settings: Settings = React.useContext(SettingsContext);
   const [modal, setModal] = React.useState<boolean>(false);
   const toggle = () => setModal(!modal);
   const [confirmModal, setConfirmModal] = React.useState<boolean>(false);
@@ -39,13 +32,13 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
     React.useState<AppointmentManagerState>({
       loaded: false,
       appointments: null,
-      page: +params.page ?? 1,
+      page: page ? +page : 1,
     });
   const [closeAppointmentData, setCloseAppointmentData] =
     React.useState<AppointmentManagerState>({
       loaded: false,
       appointments: null,
-      page: +params.page ?? 1,
+      page: page ? +page : 1,
     });
 
   const isFirstRun = React.useRef(true);
@@ -98,9 +91,9 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
   };
 
   React.useEffect(() => {
-    const currentPage = +params.page || 1;
+    const currentPage = page ? +page : 1;
 
-    const fetchAppointments = async (page: number) => {
+    const fetchAppointments = async (pageToFetch: number) => {
       const token = await authService.getAccessToken();
       if (settings?.baseHref !== undefined) {
         fetch(`${settings?.baseHref}api/appointment/appointmentlist`, {
@@ -130,20 +123,20 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
             setAppointmentData({
               loaded: true,
               appointments: retrievedAppointments,
-              page,
+              page: pageToFetch,
             });
           })
           .catch(() => {
             setAppointmentData({
               loaded: false,
               appointments: null,
-              page,
+              page: pageToFetch,
             });
           });
       }
     };
 
-    const fetchCloseAppointments = async (page: number) => {
+    const fetchCloseAppointments = async (pageToFetch: number) => {
       const token = await authService.getAccessToken();
 
       if (settings?.baseHref !== undefined) {
@@ -182,7 +175,7 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
             setAppointmentData({
               loaded: false,
               appointments: null,
-              page,
+              page: pageToFetch,
             });
           });
       }
@@ -215,11 +208,11 @@ function AppointmentManager(props: AppointmentManagerProps): JSX.Element {
     setAppointmentData({ loaded: false, page: currentPage });
     fetchCloseAppointments(currentPage);
     fetchAppointments(currentPage);
-  }, [match.params.page, params.page, settings?.baseHref]);
+  }, [page, settings?.baseHref]);
 
   if (appointmentData.loaded && closeAppointmentData.loaded) {
     return (
-      <div className="app app-home header-distance">
+      <div className="app app-home header-distance-l">
         <Modal isOpen={alertModal} toggle={alertToggle}>
           <ModalBody>
             <section id="section-contact_form" className="container">

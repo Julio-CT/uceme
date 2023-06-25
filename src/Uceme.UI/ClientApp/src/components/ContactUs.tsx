@@ -1,8 +1,8 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import { useHistory } from 'react-router-dom';
-import SettingsContext from '../SettingsContext';
+import { useNavigate } from 'react-router-dom';
+import SettingsContext, { Settings } from '../SettingsContext';
 import './ContactUs.scss';
 
 type contactUsState = {
@@ -16,8 +16,8 @@ const ContactUs: () => JSX.Element = () => {
   const [modal, setModal] = React.useState(false);
   const toggle = () => setModal(!modal);
   const [modalMessage, setModaleMessage] = React.useState<string>('');
-  const history = useHistory();
-  const settings = React.useContext(SettingsContext);
+  const history = useNavigate();
+  const settings: Settings = React.useContext(SettingsContext);
   const [data, setData] = React.useState<contactUsState>({
     loaded: false,
     name: '',
@@ -42,7 +42,7 @@ const ContactUs: () => JSX.Element = () => {
 
   const closeAlert: () => void = () => {
     toggle();
-    history.push('/#home');
+    history('/#home');
   };
 
   const handleSubmit: (event: React.FormEvent) => void = (

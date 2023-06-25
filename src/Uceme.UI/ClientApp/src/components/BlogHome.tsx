@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import BlogItem from '../library/BlogItem';
-import SettingsContext from '../SettingsContext';
+import SettingsContext, { Settings } from '../SettingsContext';
 import BlogPostResponse from '../library/BlogPostResponse';
 import './BlogHome.scss';
 
@@ -11,13 +11,9 @@ type BlogHomeState = {
   resp?: BlogItem[] | null;
 };
 
-interface MatchParams {
-  page: string;
-}
-
 function BlogHome(): JSX.Element {
-  const settings = React.useContext(SettingsContext);
-  const { page } = useParams<MatchParams>();
+  const settings: Settings = React.useContext(SettingsContext);
+  const { page } = useParams();
   const dataPageNumber = page ? +page : 1;
   const [data, setData] = React.useState<BlogHomeState>({
     loaded: false,

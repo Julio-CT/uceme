@@ -1,12 +1,11 @@
-﻿namespace Uceme.Library.Services
+﻿namespace Uceme.Library.Services;
+
+using System.Collections.Generic;
+using Uceme.Model.Models;
+
+public interface IHospitalService
 {
-    using System.Collections.Generic;
-    using Uceme.Model.Models;
+    DatosProfesionales GetHospital(int hospitalId);
 
-    public interface IHospitalService
-    {
-        DatosProfesionales GetHospital(int hospitalId);
-
-        IEnumerable<DatosProfesionales> GetHospitals();
-    }
+    IEnumerable<DatosProfesionales> GetHospitals();
 }

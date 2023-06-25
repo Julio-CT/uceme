@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
     <!-- Add stylecop to all projects and link the stylecop.json file for settings -->
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261">
@@ -47,7 +47,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>disable</Nullable>
     <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>11.0</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 </Project>

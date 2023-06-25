@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Route } from 'react-router';
+import { Route, Routes } from 'react-router';
 import Layout from './components/Layout';
 import Home from './components/Home';
 import BlogHome from './components/BlogHome';
@@ -11,13 +11,26 @@ import ContactUs from './components/ContactUs';
 import AppointmentManager from './components/admin/AppointmentManager';
 import PostManager from './components/admin/PostManager';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
-import ApplicationPaths from './components/api-authorization/ApiAuthorizationConstants';
+import ApplicationPaths, {
+  LoginActions,
+  LogoutActions,
+} from './components/api-authorization/ApiAuthorizationConstants';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import SettingsContext, { Settings } from './SettingsContext';
 import Technique from './components/Technique';
 import './App.scss';
 import './custom.scss';
 import AboutUs from './components/AboutUs';
+import Login from './components/api-authorization/Login';
+import Logout from './components/api-authorization/Logout';
+
+function loginAction(name: string): JSX.Element {
+  return <Login action={name} />;
+}
+
+function logoutAction(name: string): JSX.Element {
+  return <Logout action={name} />;
+}
 
 function App(): JSX.Element {
   const [context, setContext] = React.useState<Settings>({
@@ -55,26 +68,64 @@ function App(): JSX.Element {
   return (
     <SettingsContext.Provider value={context}>
       <Layout>
-        <Route exact path="/" component={Home} />
-        <Route path="/condiciones" component={Conditions} />
-        <Route path="/especialidades" component={Specialities} />
-        <Route path="/quienessomos" component={AboutUs} />
-        <Route path="/innovaciones" component={Home} />
-        <Route path="/blog/:page?" component={BlogHome} />
-        <Route path="/post/:slug" component={BlogItem} />
-        <Route path="/especialidad/:esp" component={Speciality} />
-        <Route path="/tecnica/:tec" component={Technique} />
-        <Route path="/contacto" component={ContactUs} />
-        <AuthorizeRoute
-          path="/appointmentmanager"
-          component={AppointmentManager}
-        />
-        <AuthorizeRoute path="/postmanager" component={PostManager} />
-        <Route
-          path={ApplicationPaths.ApiAuthorizationPrefix}
-          component={ApiAuthorizationRoutes}
-        />
-        <Route path="/adminlogin" component={ApiAuthorizationRoutes} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/condiciones" element={<Conditions />} />
+          <Route path="/especialidades" element={<Specialities />} />
+          <Route path="/quienessomos" element={<AboutUs />} />
+          <Route path="/innovaciones" element={<Home />} />
+          <Route path="/blog/:page?" element={<BlogHome />} />
+          <Route path="/post/:slug" element={<BlogItem />} />
+          <Route path="/especialidad/:esp" element={<Speciality />} />
+          <Route path="/tecnica/:tec" element={<Technique />} />
+          <Route path="/contacto" element={<ContactUs />} />
+          <Route
+            path="/appointmentmanager"
+            element={<AuthorizeRoute element={<AppointmentManager />} />}
+          />
+          <Route
+            path="/postmanager"
+            element={<AuthorizeRoute element={<PostManager />} />}
+          />
+          <Route
+            path={ApplicationPaths.ApiAuthorizationPrefix}
+            element={loginAction(LoginActions.Login)}
+          />
+          <Route
+            path={ApplicationPaths.Login}
+            element={loginAction(LoginActions.Login)}
+          />
+          <Route
+            path={ApplicationPaths.LoginFailed}
+            element={loginAction(LoginActions.LoginFailed)}
+          />
+          <Route
+            path={ApplicationPaths.LoginCallback}
+            element={loginAction(LoginActions.LoginCallback)}
+          />
+          <Route
+            path={ApplicationPaths.Profile}
+            element={loginAction(LoginActions.Profile)}
+          />
+          <Route
+            path={ApplicationPaths.Register}
+            element={loginAction(LoginActions.Register)}
+          />
+          <Route
+            path={ApplicationPaths.LogOut}
+            element={logoutAction(LogoutActions.Logout)}
+          />
+          <Route
+            path={ApplicationPaths.LogOutCallback}
+            element={logoutAction(LogoutActions.LogoutCallback)}
+          />
+          <Route
+            path={ApplicationPaths.LoggedOut}
+            element={logoutAction(LogoutActions.LoggedOut)}
+          />
+          <Route path="/adminlogin" element={<ApiAuthorizationRoutes />} />
+        </Routes>
+        <div />
       </Layout>
     </SettingsContext.Provider>
   );

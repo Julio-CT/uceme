@@ -44,7 +44,7 @@ html {
 }
 
 .beatabg {
-  background: url('../../resources/images/cita-previa.png') no-repeat left 0;
+  background: url('../../resources/images/cita-previa.webp') no-repeat left 0;
 }
 
 .scrollable-wrapper {
@@ -147,8 +147,15 @@ html {
   box-shadow: rgb(67 113 50) 0 0 0 1px inset;
 
   &.active {
-    box-shadow: border-box;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
     color: rgb(255 255 255);
     background-color: rgb(88 148 66);
+  }
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 600px;
   }
 }

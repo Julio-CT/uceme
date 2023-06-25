@@ -1,117 +1,116 @@
-﻿namespace Uceme.Library.Services
+﻿namespace Uceme.Library.Services;
+
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Uceme.Foundation.Utilities;
+using Uceme.Model.Settings;
+
+public class EmailService : IEmailService
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
-    using Uceme.Foundation.Utilities;
-    using Uceme.Model.Settings;
+    private readonly ILogger<EmailService> logger;
 
-    public class EmailService : IEmailService
+    public EmailService(
+        IOptions<AuthMessageSenderSettings> optionsAccessor,
+        ILogger<EmailService> logger,
+        IEmailSender emailSender)
     {
-        private readonly ILogger<EmailService> logger;
-
-        public EmailService(
-            IOptions<AuthMessageSenderSettings> optionsAccessor,
-            ILogger<EmailService> logger,
-            IEmailSender emailSender)
+        if (optionsAccessor == null)
         {
-            if (optionsAccessor == null)
-            {
-                throw new ArgumentNullException(nameof(optionsAccessor));
-            }
-
-            this.logger = logger;
-            this.EmailSender = emailSender;
-            this.Options = optionsAccessor.Value;
+            throw new ArgumentNullException(nameof(optionsAccessor));
         }
 
-        public IEmailSender EmailSender { get; }
+        this.logger = logger;
+        this.EmailSender = emailSender;
+        this.Options = optionsAccessor.Value;
+    }
 
-        public AuthMessageSenderSettings Options { get; } // set only via Secret Manager
+    public IEmailSender EmailSender { get; }
 
-        public async Task<bool> SendEmailToManagementAsync(string fromAddress, string subject, string body)
+    public AuthMessageSenderSettings Options { get; } // set only via Secret Manager
+
+    public async Task<bool> SendEmailToManagementAsync(string fromAddress, string subject, string body)
+    {
+        if (this.Options.EmailFrom == null)
         {
-            if (this.Options.EmailFrom == null)
-            {
-                throw new MissingFieldException(nameof(this.Options.EmailFrom));
-            }
-
-            try
-            {
-                var toAddresses = new List<string>()
-                {
-                    this.Options.EmailFrom,
-                };
-
-                if (!string.IsNullOrEmpty(fromAddress))
-                {
-                    toAddresses.Add(fromAddress);
-                }
-
-                await this.EmailSender.SendEmailAsync(toAddresses, subject, body).ConfigureAwait(false);
-                return true;
-            }
-            catch (Exception e)
-            {
-                this.logger.LogError("error sending email to management");
-                throw new OperationCanceledException("Error sending email to management", e);
-            }
+            throw new MissingFieldException(nameof(this.Options.EmailFrom));
         }
 
-        public bool SendEmailToManagement(string fromAddress, string subject, string body)
+        try
         {
-            if (this.Options.EmailFrom == null)
+            List<string> toAddresses = new List<string>()
             {
-                throw new MissingFieldException(nameof(this.Options.EmailFrom));
+                this.Options.EmailFrom,
+            };
+
+            if (!string.IsNullOrEmpty(fromAddress))
+            {
+                toAddresses.Add(fromAddress);
             }
 
-            try
-            {
-                var addresses = new List<string>()
-                {
-                    this.Options.EmailFrom,
-                };
+            await this.EmailSender.SendEmailAsync(toAddresses, subject, body).ConfigureAwait(false);
+            return true;
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError("error sending email to management:" + e.Message);
+            throw new OperationCanceledException("Error sending email to management", e);
+        }
+    }
 
-                if (!string.IsNullOrEmpty(fromAddress))
-                {
-                    addresses.Add(fromAddress);
-                }
-
-                this.EmailSender.SendEmail(fromAddress, subject, body);
-                return true;
-            }
-            catch (Exception e)
-            {
-                this.logger.LogError("error sending email to management");
-                throw new OperationCanceledException("Error sending email to management", e);
-            }
+    public bool SendEmailToManagement(string fromAddress, string subject, string body)
+    {
+        if (this.Options.EmailFrom == null)
+        {
+            throw new MissingFieldException(nameof(this.Options.EmailFrom));
         }
 
-        public async Task<bool> SendEmailToClientAsync(string toAddress, string subject, string body)
+        try
         {
-            if (this.Options.EmailFrom == null)
+            List<string> toAddresses = new List<string>()
             {
-                throw new MissingFieldException(nameof(this.Options.EmailFrom));
+                this.Options.EmailFrom,
+            };
+
+            if (!string.IsNullOrEmpty(fromAddress))
+            {
+                toAddresses.Add(fromAddress);
             }
 
-            try
-            {
-                var toAddresses = new List<string>
-                {
-                    toAddress,
-                    this.Options.EmailFrom,
-                };
+            this.EmailSender.SendEmail(toAddresses, subject, body);
+            return true;
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError("error sending email to management:" + e.Message);
+            throw new OperationCanceledException("Error sending email to management", e);
+        }
+    }
 
-                await this.EmailSender.SendEmailAsync(toAddresses, subject, body).ConfigureAwait(false);
-                return true;
-            }
-            catch (Exception e)
+    public async Task<bool> SendEmailToClientAsync(string toAddress, string subject, string body)
+    {
+        if (this.Options.EmailFrom == null)
+        {
+            throw new MissingFieldException(nameof(this.Options.EmailFrom));
+        }
+
+        try
+        {
+            List<string> toAddresses = new List<string>
             {
-                this.logger.LogError("error sending email to client");
-                throw new OperationCanceledException("Error sending email to client", e);
-            }
+                toAddress,
+                this.Options.EmailFrom,
+            };
+
+            await this.EmailSender.SendEmailAsync(toAddresses, subject, body).ConfigureAwait(false);
+            return true;
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError("error sending email to client:" + e.Message);
+            throw new OperationCanceledException("Error sending email to client", e);
         }
     }
 }

@@ -1,187 +1,186 @@
-﻿namespace Uceme.Foundation.Utilities
+﻿namespace Uceme.Foundation.Utilities;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using Uceme.Model.Settings;
+
+public class EmailSender : IEmailSender
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Mail;
-    using System.Threading.Tasks;
-    using Microsoft.Extensions.Options;
-    using Uceme.Model.Settings;
-
-    public class EmailSender : IEmailSender
+    public EmailSender(IOptions<AuthMessageSenderSettings> optionsAccessor, ISmtpClient smtpClient)
     {
-        public EmailSender(IOptions<AuthMessageSenderSettings> optionsAccessor, ISmtpClient smtpClient)
+        if (optionsAccessor == null || optionsAccessor.Value == null)
         {
-            if (optionsAccessor == null || optionsAccessor.Value == null)
-            {
-                throw new ArgumentNullException(nameof(optionsAccessor));
-            }
-
-            this.Options = optionsAccessor.Value;
-            this.SmtpClient = smtpClient;
+            throw new ArgumentNullException(nameof(optionsAccessor));
         }
 
-        public AuthMessageSenderSettings Options { get; } // set only via Secret Manager
+        this.Options = optionsAccessor.Value;
+        this.SmtpClient = smtpClient;
+    }
 
-        public ISmtpClient SmtpClient { get; } // set only via Secret Manager
+    public AuthMessageSenderSettings Options { get; } // set only via Secret Manager
 
-        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+    public ISmtpClient SmtpClient { get; } // set only via Secret Manager
+
+    public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+    {
+        if (string.IsNullOrEmpty(email))
         {
-            if (string.IsNullOrEmpty(email))
-            {
-                throw new ArgumentNullException(nameof(email));
-            }
-
-            if (string.IsNullOrEmpty(subject))
-            {
-                throw new ArgumentNullException(nameof(subject));
-            }
-
-            if (string.IsNullOrEmpty(htmlMessage))
-            {
-                throw new ArgumentNullException(nameof(htmlMessage));
-            }
-
-            await this.ExecuteAsync(subject, htmlMessage, new List<string> { email }).ConfigureAwait(false);
+            throw new ArgumentNullException(nameof(email));
         }
 
-        public async Task SendEmailAsync(IEnumerable<string> emails, string subject, string htmlMessage)
+        if (string.IsNullOrEmpty(subject))
         {
-            if (emails == null || !emails.Any())
-            {
-                throw new ArgumentNullException(nameof(emails));
-            }
-
-            if (string.IsNullOrEmpty(subject))
-            {
-                throw new ArgumentNullException(nameof(subject));
-            }
-
-            if (string.IsNullOrEmpty(htmlMessage))
-            {
-                throw new ArgumentNullException(nameof(htmlMessage));
-            }
-
-            await this.ExecuteAsync(subject, htmlMessage, emails).ConfigureAwait(false);
+            throw new ArgumentNullException(nameof(subject));
         }
 
-        public void SendEmail(string email, string subject, string htmlMessage)
+        if (string.IsNullOrEmpty(htmlMessage))
         {
-            if (string.IsNullOrEmpty(email))
-            {
-                throw new ArgumentNullException(nameof(email));
-            }
-
-            if (string.IsNullOrEmpty(subject))
-            {
-                throw new ArgumentNullException(nameof(subject));
-            }
-
-            if (string.IsNullOrEmpty(htmlMessage))
-            {
-                throw new ArgumentNullException(nameof(htmlMessage));
-            }
-
-            this.Execute(subject, htmlMessage, new List<string> { email });
+            throw new ArgumentNullException(nameof(htmlMessage));
         }
 
-        public void SendEmail(IEnumerable<string> emails, string subject, string htmlMessage)
+        await this.ExecuteAsync(subject, htmlMessage, new List<string> { email }).ConfigureAwait(false);
+    }
+
+    public async Task SendEmailAsync(IEnumerable<string> emails, string subject, string htmlMessage)
+    {
+        if (emails == null || !emails.Any())
         {
-            if (emails == null || !emails.Any())
-            {
-                throw new ArgumentNullException(nameof(emails));
-            }
-
-            if (string.IsNullOrEmpty(subject))
-            {
-                throw new ArgumentNullException(nameof(subject));
-            }
-
-            if (string.IsNullOrEmpty(htmlMessage))
-            {
-                throw new ArgumentNullException(nameof(htmlMessage));
-            }
-
-            this.Execute(subject, htmlMessage, emails);
+            throw new ArgumentNullException(nameof(emails));
         }
 
-        private async Task ExecuteAsync(string subject, string message, IEnumerable<string> toEmails)
+        if (string.IsNullOrEmpty(subject))
         {
-            if (this.Options.EmailFrom == null)
+            throw new ArgumentNullException(nameof(subject));
+        }
+
+        if (string.IsNullOrEmpty(htmlMessage))
+        {
+            throw new ArgumentNullException(nameof(htmlMessage));
+        }
+
+        await this.ExecuteAsync(subject, htmlMessage, emails).ConfigureAwait(false);
+    }
+
+    public void SendEmail(string email, string subject, string htmlMessage)
+    {
+        if (string.IsNullOrEmpty(email))
+        {
+            throw new ArgumentNullException(nameof(email));
+        }
+
+        if (string.IsNullOrEmpty(subject))
+        {
+            throw new ArgumentNullException(nameof(subject));
+        }
+
+        if (string.IsNullOrEmpty(htmlMessage))
+        {
+            throw new ArgumentNullException(nameof(htmlMessage));
+        }
+
+        this.Execute(subject, htmlMessage, new List<string> { email });
+    }
+
+    public void SendEmail(IEnumerable<string> emails, string subject, string htmlMessage)
+    {
+        if (emails == null || !emails.Any())
+        {
+            throw new ArgumentNullException(nameof(emails));
+        }
+
+        if (string.IsNullOrEmpty(subject))
+        {
+            throw new ArgumentNullException(nameof(subject));
+        }
+
+        if (string.IsNullOrEmpty(htmlMessage))
+        {
+            throw new ArgumentNullException(nameof(htmlMessage));
+        }
+
+        this.Execute(subject, htmlMessage, emails);
+    }
+
+    private async Task ExecuteAsync(string subject, string message, IEnumerable<string> toEmails)
+    {
+        if (this.Options.EmailFrom == null)
+        {
+            throw new MissingFieldException(nameof(this.Options.EmailFrom));
+        }
+
+        using (MailMessage mailMessage = new MailMessage())
+        {
+            mailMessage.From = new MailAddress(this.Options.EmailFrom, "Notificaciones UCEME");
+            foreach (string email in toEmails)
             {
-                throw new MissingFieldException(nameof(this.Options.EmailFrom));
+                mailMessage.To.Add(new MailAddress(email, email));
             }
 
-            using (var mailMessage = new MailMessage())
+            mailMessage.Subject = subject;
+            mailMessage.Body = message;
+            mailMessage.IsBodyHtml = true;
+
+            using (ISmtpClient smtpServer = this.SmtpClient ?? new SmtpClientWrapper())
             {
-                mailMessage.From = new MailAddress(this.Options.EmailFrom, "Notificaciones UCEME");
-                foreach (var email in toEmails)
+                smtpServer.Host = this.Options.HostSmtp ?? string.Empty;
+                smtpServer.Port = this.Options.PortSmtp;
+                smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtpServer.UseDefaultCredentials = false;
+
+                smtpServer.Credentials = new NetworkCredential(this.Options.CredentialUser, this.Options.CredentialPassword);
+                smtpServer.EnableSsl = true;
+                try
                 {
-                    mailMessage.To.Add(new MailAddress(email, email));
+                    await smtpServer.SendMailAsync(mailMessage).ConfigureAwait(false);
                 }
-
-                mailMessage.Subject = subject;
-                mailMessage.Body = message;
-                mailMessage.IsBodyHtml = true;
-
-                using (var smtpServer = this.SmtpClient ?? new SmtpClientWrapper())
+                catch (Exception e)
                 {
-                    smtpServer.Host = this.Options.HostSmtp;
-                    smtpServer.Port = this.Options.PortSmtp;
-                    smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    smtpServer.UseDefaultCredentials = false;
-
-                    smtpServer.Credentials = new NetworkCredential(this.Options.CredentialUser, this.Options.CredentialPassword);
-                    smtpServer.EnableSsl = true;
-                    try
-                    {
-                        await smtpServer.SendMailAsync(mailMessage).ConfigureAwait(false);
-                    }
-                    catch (Exception e)
-                    {
-                        throw new InvalidOperationException("error sending email", e);
-                    }
+                    throw new InvalidOperationException("error sending email", e);
                 }
             }
         }
+    }
 
-        private void Execute(string subject, string message, IEnumerable<string> toEmails)
+    private void Execute(string subject, string message, IEnumerable<string> toEmails)
+    {
+        if (this.Options.EmailFrom == null)
         {
-            if (this.Options.EmailFrom == null)
+            throw new MissingFieldException(nameof(this.Options.EmailFrom));
+        }
+
+        using (MailMessage mailMessage = new MailMessage())
+        {
+            mailMessage.From = new MailAddress(this.Options.EmailFrom, "From Name");
+            foreach (string email in toEmails)
             {
-                throw new MissingFieldException(nameof(this.Options.EmailFrom));
+                mailMessage.To.Add(new MailAddress(email, "To Name"));
             }
 
-            using (var mailMessage = new MailMessage())
+            mailMessage.Subject = subject;
+            mailMessage.Body = message;
+            mailMessage.IsBodyHtml = true;
+
+            using (ISmtpClient smtpServer = this.SmtpClient ?? new SmtpClientWrapper())
             {
-                mailMessage.From = new MailAddress(this.Options.EmailFrom, "From Name");
-                foreach (var email in toEmails)
+                smtpServer.Host = this.Options.HostSmtp ?? string.Empty;
+                smtpServer.Port = this.Options.PortSmtp;
+                smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtpServer.UseDefaultCredentials = false;
+
+                smtpServer.Credentials = new NetworkCredential(this.Options.CredentialUser, this.Options.CredentialPassword);
+                smtpServer.EnableSsl = true;
+                try
                 {
-                    mailMessage.To.Add(new MailAddress(email, "To Name"));
+                    smtpServer.Send(mailMessage);
                 }
-
-                mailMessage.Subject = subject;
-                mailMessage.Body = message;
-                mailMessage.IsBodyHtml = true;
-
-                using (var smtpServer = this.SmtpClient ?? new SmtpClientWrapper())
+                catch (Exception e)
                 {
-                    smtpServer.Host = this.Options.HostSmtp;
-                    smtpServer.Port = this.Options.PortSmtp;
-                    smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    smtpServer.UseDefaultCredentials = false;
-
-                    smtpServer.Credentials = new NetworkCredential(this.Options.CredentialUser, this.Options.CredentialPassword);
-                    smtpServer.EnableSsl = true;
-                    try
-                    {
-                        smtpServer.Send(mailMessage);
-                    }
-                    catch (Exception e)
-                    {
-                        throw new InvalidOperationException("error sending email", e);
-                    }
+                    throw new InvalidOperationException("error sending email", e);
                 }
             }
         }

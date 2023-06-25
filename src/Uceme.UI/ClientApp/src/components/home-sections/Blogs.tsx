@@ -4,10 +4,10 @@ import parse from 'html-react-parser';
 import { Container } from 'reactstrap';
 import './Blogs.scss';
 import { Link } from 'react-router-dom';
-import tinyDate from '../../resources/images/tinydate.png';
-import photoIcon from '../../resources/images/photoicon.png';
+import tinyDate from '../../resources/images/tinydate.webp';
+import photoIcon from '../../resources/images/photoicon.webp';
 import BlogItem from '../../library/BlogItem';
-import SettingsContext from '../../SettingsContext';
+import SettingsContext, { Settings } from '../../SettingsContext';
 import BlogPostResponse from '../../library/BlogPostResponse';
 
 type BlogState = {
@@ -16,7 +16,7 @@ type BlogState = {
 };
 
 const Blogs: () => JSX.Element = () => {
-  const settings = React.useContext(SettingsContext);
+  const settings: Settings = React.useContext(SettingsContext);
   const [data, setData] = React.useState<BlogState>({
     items: [] as Array<BlogItem>,
     isFetching: false,

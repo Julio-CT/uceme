@@ -43,8 +43,6 @@
 
         DbSet<Video> Video { get; set; }
 
-        DbSet<sysdiagrams> Sysdiagrams { get; set; }
-
         DbSet<UserProfile> UserProfile { get; set; }
 
         DbSet<webpages_Membership> WebpagesMembership { get; set; }

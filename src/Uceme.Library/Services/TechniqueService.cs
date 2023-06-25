@@ -1,77 +1,76 @@
-﻿namespace Uceme.Library.Services
+﻿namespace Uceme.Library.Services;
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Microsoft.Extensions.Logging;
+using Uceme.Model.Data;
+using Uceme.Model.DataContracts;
+using Uceme.Model.Models;
+
+public class TechniqueService : ITechniqueService
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using Microsoft.Extensions.Logging;
-    using Uceme.Model.Data;
-    using Uceme.Model.DataContracts;
-    using Uceme.Model.Models;
+    private readonly ILogger<TechniqueService> logger;
 
-    public class TechniqueService : ITechniqueService
+    private readonly ApplicationDbContext context;
+
+    public TechniqueService(ILogger<TechniqueService> logger, IApplicationDbContext context)
     {
-        private readonly ILogger<TechniqueService> logger;
+        this.logger = logger;
+        this.context = (ApplicationDbContext)context;
+    }
 
-        private readonly ApplicationDbContext context;
-
-        public TechniqueService(ILogger<TechniqueService> logger, IApplicationDbContext context)
+    public IEnumerable<Tecnica> GetTechniques()
+    {
+        try
         {
-            this.logger = logger;
-            this.context = (ApplicationDbContext)context;
-        }
+            Microsoft.EntityFrameworkCore.DbSet<Tecnica> data = this.context.Tecnica;
 
-        public IEnumerable<Tecnica> GetTechniques()
+            return data;
+        }
+        catch (Exception e)
         {
-            try
-            {
-                var data = this.context.Tecnica;
-
-                return data;
-            }
-            catch (Exception e)
-            {
-                this.logger.LogError($"Error retrieving Techniques {e.Message}");
-                throw new DataException("Error retrieving Techniques", e);
-            }
+            this.logger.LogError($"Error retrieving Techniques {e.Message}");
+            throw new DataException("Error retrieving Techniques", e);
         }
+    }
 
-        public Tecnica GetTechnique(int techniqueId)
+    public Tecnica GetTechnique(int techniqueId)
+    {
+        try
         {
-            try
-            {
-                return this.context.Tecnica.First(x => x.idTecnica == techniqueId);
-            }
-            catch (Exception e)
-            {
-                this.logger.LogError($"Error retrieving Techniques {e.Message}");
-                throw new DataException("Error retrieving Techniques", e);
-            }
+            return this.context.Tecnica.First(x => x.idTecnica == techniqueId);
         }
-
-        public bool DeleteTechnique(int techId)
+        catch (Exception e)
         {
-            throw new NotImplementedException();
+            this.logger.LogError($"Error retrieving Techniques {e.Message}");
+            throw new DataException("Error retrieving Techniques", e);
         }
+    }
 
-        public Tecnica UpdateTechine(Tecnica post)
-        {
-            throw new NotImplementedException();
-        }
+    public bool DeleteTechnique(int techId)
+    {
+        throw new NotImplementedException();
+    }
 
-        public bool UpdateTechnique(TechniqueRequest postRequest)
-        {
-            throw new NotImplementedException();
-        }
+    public Tecnica UpdateTechnique(Tecnica post)
+    {
+        throw new NotImplementedException();
+    }
 
-        public bool AddTechnique(TechniqueRequest postRequest)
-        {
-            throw new NotImplementedException();
-        }
+    public bool UpdateTechnique(TechniqueRequest postRequest)
+    {
+        throw new NotImplementedException();
+    }
 
-        public string GetNextTechImage()
-        {
-            throw new NotImplementedException();
-        }
+    public bool AddTechnique(TechniqueRequest postRequest)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string GetNextTechImage()
+    {
+        throw new NotImplementedException();
     }
 }

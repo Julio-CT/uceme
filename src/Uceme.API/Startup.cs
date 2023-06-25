@@ -1,217 +1,243 @@
-﻿namespace Uceme.Api
+﻿namespace Uceme.Api;
+
+using System.IO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using Uceme.Foundation.Utilities;
+using Uceme.Library.Services;
+using Uceme.Model.Data;
+using Uceme.Model.Settings;
+
+public class Startup
 {
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc.Authorization;
-    using Microsoft.Data.SqlClient;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.OpenApi.Models;
-    using Uceme.Foundation.Utilities;
-    using Uceme.Library.Services;
-    using Uceme.Model.Data;
-    using Uceme.Model.Settings;
+    private readonly string relaxedPolicy = "RelaxedCorsPolicy";
 
-    public class Startup
+    private readonly string strictPolicy = "StrictCorsPolicy";
+
+    public Startup(IConfiguration configuration, IWebHostEnvironment env)
     {
-        private readonly string relaxedPolicy = "RelaxedCorsPolicy";
+        this.Configuration = configuration;
+        this.Environment = env;
+    }
 
-        private readonly string strictPolicy = "StrictCorsPolicy";
+    public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)
+    public IWebHostEnvironment Environment { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        IConfigurationSection appSettingsSection = this.Configuration.GetSection("AppSettings");
+
+        services.Configure<AppSettings>(appSettingsSection);
+        services.Configure<AuthMessageSenderSettings>(this.Configuration.GetSection("EmailSettings"));
+
+        AppSettings appSettings = new AppSettings();
+        appSettingsSection.Bind(appSettings);
+
+        string? ucemeConnection = this.Configuration.GetConnectionString("UcemeConnection");
+
+        if (ucemeConnection == null)
         {
-            this.Configuration = configuration;
-            this.Environment = env;
+            throw new InvalidDataException("missing UcemeConnection settings");
         }
 
-        public IConfiguration Configuration { get; }
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(ucemeConnection).EnableSensitiveDataLogging());
 
-        public IWebHostEnvironment Environment { get; }
+        services.AddControllers();
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        this.SetupCors(services);
+        this.SetupAuthentication(services);
+
+        this.SetupDependecyInjection(services);
+        this.SetupSwagger(services);
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dataContext)
+    {
+        if (dataContext != null)
         {
-            var appSettingsSection = this.Configuration.GetSection("AppSettings");
-
-            services.Configure<AppSettings>(appSettingsSection);
-            services.Configure<AuthMessageSenderSettings>(this.Configuration.GetSection("EmailSettings"));
-
-            var appSettings = new AppSettings();
-            appSettingsSection.Bind(appSettings);
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    this.Configuration.GetConnectionString("UcemeConnection")).EnableSensitiveDataLogging());
-
-            services.AddControllers();
-
-            this.SetupCors(services);
-            this.SetupAuthentication(services);
-
-            this.SetupDependecyInjection(services);
-            this.SetupSwagger(services);
+            try
+            {
+                // migrate any database changes on startup (includes initial db creation)
+                dataContext.Database.Migrate();
+            }
+            catch (SqlException)
+            {
+                // no problem
+            }
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dataContext)
+        if (env.IsDevelopment())
         {
-            if (dataContext != null)
-            {
-                try
-                {
-                    // migrate any database changes on startup (includes initial db creation)
-                    dataContext.Database.Migrate();
-                }
-                catch (SqlException)
-                {
-                    // no problem
-                }
-            }
+            app.UseDeveloperExceptionPage();
 
-            if (env.IsDevelopment())
+            SwaggerSettings? swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
             {
-                app.UseDeveloperExceptionPage();
-
-                var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    options.SwaggerEndpoint(swaggerSettings.SwaggerUri?.ToString(), swaggerSettings.SwaggerApp);
-                });
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                //// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            var corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
-            if (corsSettings.UseStrictPolicy)
-            {
-                _ = app.UseCors(this.strictPolicy);
-            }
-            else
-            {
-                _ = app.UseCors(this.relaxedPolicy);
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
+                options.SwaggerEndpoint(swaggerSettings?.SwaggerUri?.ToString(), swaggerSettings?.SwaggerApp);
             });
         }
-
-        private void SetupAuthentication(IServiceCollection services)
+        else
         {
-            var tokenSettings = this.Configuration.GetSection("TokenSettings").Get<TokenSettings>();
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer("default", options =>
-            {
-                options.Audience = tokenSettings.Audience;
-                options.Authority = tokenSettings.Authority;
-                options.RequireHttpsMetadata = tokenSettings.RequireHttpsMetadata;
-            }).AddJwtBearer("alt", options =>
-            {
-                options.Audience = tokenSettings.AudienceAlt;
-                options.Authority = tokenSettings.AuthorityAlt;
-                options.RequireHttpsMetadata = tokenSettings.RequireHttpsMetadataAlt;
-            });
-
-            services.AddAuthorization(options =>
-            {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .AddAuthenticationSchemes("default", "alt")
-                    .Build();
-            });
-
-            services.AddMvc(config =>
-            {
-                config.Filters.Add(new AuthorizeFilter());
-            });
+            app.UseExceptionHandler("/Error");
+            //// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
         }
 
-        private void SetupCors(IServiceCollection services)
+        CorsSettings? corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
+        if (corsSettings == null)
         {
-            var corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
-            services.AddCors(o =>
-            {
-                o.AddPolicy(this.relaxedPolicy, builder =>
-                {
-                    builder.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-                });
+            throw new InvalidDataException("missing cors settings");
+        }
 
-                o.AddPolicy(this.strictPolicy, builder =>
-                {
-                    builder.WithOrigins(corsSettings.StrictPolicyHost ?? string.Empty)
-                            .WithMethods("PUT", "DELETE", "GET", "POST");
-                });
+        if (corsSettings.UseStrictPolicy)
+        {
+            _ = app.UseCors(this.strictPolicy);
+        }
+        else
+        {
+            _ = app.UseCors(this.relaxedPolicy);
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseRouting();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+    }
+
+    private void SetupAuthentication(IServiceCollection services)
+    {
+        TokenSettings? tokenSettings = this.Configuration.GetSection("TokenSettings").Get<TokenSettings>();
+        if (tokenSettings == null)
+        {
+            throw new InvalidDataException("missing token settings");
+        }
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer("default", options =>
+        {
+            options.Audience = tokenSettings.Audience;
+            options.Authority = tokenSettings.Authority;
+            options.RequireHttpsMetadata = tokenSettings.RequireHttpsMetadata;
+        }).AddJwtBearer("alt", options =>
+        {
+            options.Audience = tokenSettings.AudienceAlt;
+            options.Authority = tokenSettings.AuthorityAlt;
+            options.RequireHttpsMetadata = tokenSettings.RequireHttpsMetadataAlt;
+        });
+
+        services.AddAuthorization(options =>
+        {
+            options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .AddAuthenticationSchemes("default", "alt")
+                .Build();
+        });
+
+        services.AddMvc(config =>
+        {
+            config.Filters.Add(new AuthorizeFilter());
+        });
+    }
+
+    private void SetupCors(IServiceCollection services)
+    {
+        CorsSettings? corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
+        if (corsSettings == null)
+        {
+            throw new InvalidDataException("missing Swagger settings");
+        }
+
+        services.AddCors(o =>
+        {
+            o.AddPolicy(this.relaxedPolicy, builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
             });
-        }
 
-        private void SetupDependecyInjection(IServiceCollection services)
-        {
-            services.AddSingleton<IConfiguration>(this.Configuration);
-
-            services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
-            services.AddTransient<ISmtpClient, SmtpClientWrapper>();
-            services.AddTransient<IEmailService, EmailService>();
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<IMedicoService, MedicoService>();
-            services.AddTransient<IFotosService, FotosService>();
-            services.AddTransient<IBlogService, BlogService>();
-            services.AddTransient<IHospitalService, HospitalService>();
-            services.AddTransient<IAppointmentService, AppointmentService>();
-            services.AddTransient<ITechniqueService, TechniqueService>();
-        }
-
-        private void SetupSwagger(IServiceCollection services)
-        {
-            var swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
-            services.AddSwaggerGen(options =>
+            o.AddPolicy(this.strictPolicy, builder =>
             {
-                options.SwaggerDoc(swaggerSettings.SwaggerVersion, new OpenApiInfo { Title = swaggerSettings.SwaggerApp, Version = swaggerSettings.SwaggerVersion });
+                builder.WithOrigins(corsSettings.StrictPolicyHost ?? string.Empty)
+                        .WithMethods("PUT", "DELETE", "GET", "POST");
+            });
+        });
+    }
+
+    private void SetupDependecyInjection(IServiceCollection services)
+    {
+        services.AddSingleton<IConfiguration>(this.Configuration);
+
+        services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
+        services.AddTransient<ISmtpClient, SmtpClientWrapper>();
+        services.AddTransient<IEmailService, EmailService>();
+        services.AddTransient<IEmailSender, EmailSender>();
+        services.AddTransient<IMedicoService, MedicoService>();
+        services.AddTransient<IFotosService, FotosService>();
+        services.AddTransient<IBlogService, BlogService>();
+        services.AddTransient<IHospitalService, HospitalService>();
+        services.AddTransient<IAppointmentService, AppointmentService>();
+        services.AddTransient<ITechniqueService, TechniqueService>();
+    }
+
+    private void SetupSwagger(IServiceCollection services)
+    {
+        SwaggerSettings? swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
+        if (swaggerSettings == null)
+        {
+            throw new InvalidDataException("missing Swagger settings");
+        }
+
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc(swaggerSettings.SwaggerVersion, new OpenApiInfo { Title = swaggerSettings.SwaggerApp, Version = swaggerSettings.SwaggerVersion });
 #pragma warning disable CA1308 // Normalize strings to uppercase
-                options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme()
-                {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme.ToLowerInvariant(),
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter the bearer token",
-                });
-#pragma warning restore CA1308 // Normalize strings to uppercase
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
-                 {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "bearerAuth",
-                        },
-                    },
-                    System.Array.Empty<string>()
-                 },
-                });
+            options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme()
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = JwtBearerDefaults.AuthenticationScheme.ToLowerInvariant(),
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter the bearer token",
             });
-        }
+#pragma warning restore CA1308 // Normalize strings to uppercase
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            {
+             {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "bearerAuth",
+                    },
+                },
+                System.Array.Empty<string>()
+             },
+            });
+        });
     }
 }
