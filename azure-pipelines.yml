@@ -5,12 +5,14 @@
 
 trigger:
 - master
+- main
 - default
 - dev
 - develop
 
 pr:
 - master
+- main
 - default
 - dev
 - develop

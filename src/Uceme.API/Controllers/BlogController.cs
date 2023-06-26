@@ -125,28 +125,6 @@ public class BlogController : Controller
         return result;
     }
 
-    [HttpGet("updatepost")]
-    public ActionResult<Blog> UpdatePost(Blog post)
-    {
-        if (post == null)
-        {
-            return this.BadRequest("post is null");
-        }
-
-        Blog result;
-        try
-        {
-            result = this.blogService.UpdatePost(post);
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex.Message);
-            return this.StatusCode(StatusCodes.Status500InternalServerError);
-        }
-
-        return result;
-    }
-
     [HttpPost("addpost")]
     public ActionResult<bool> AddPost([FromBody] PostRequest postRequest)
     {
