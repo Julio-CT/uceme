@@ -6,7 +6,7 @@ import alberto from '../resources/images/alberto.webp';
 import amunategui from '../resources/images/amunategui.webp';
 import bettina from '../resources/images/bettina.webp';
 import blanca from '../resources/images/blanca.webp';
-import loredana from '../resources/images/loredana.webp';
+import atocha from '../resources/images/atocha.webp';
 import maria from '../resources/images/maria.webp';
 import mercader from '../resources/images/mercader.webp';
 
@@ -54,11 +54,11 @@ const specials = [
     owner: false,
   },
   {
-    title: 'loredana',
-    src: loredana,
+    title: 'atocha',
+    src: atocha,
     altText: 'Nutrición y dietética.',
-    caption: 'Loredana Arhip',
-    link: 'loredana',
+    caption: 'Dra. Atocha Bielza',
+    link: 'atocha',
     owner: false,
   },
   {

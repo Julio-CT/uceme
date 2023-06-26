@@ -118,37 +118,6 @@ public class BlogService : IBlogService
         }
     }
 
-    public Blog UpdatePost(Blog blog)
-    {
-        if (blog is null)
-        {
-            throw new ArgumentNullException(nameof(blog));
-        }
-
-        try
-        {
-            Blog post = this.context.Blog.First(post => post.idBlog == blog.idBlog);
-
-            post.titulo = blog.titulo;
-            post.fecha = blog.fecha;
-            post.foto = blog.foto;
-            post.texto = blog.texto;
-            post.slug = blog.slug;
-            post.seoTitle = blog.seoTitle;
-            post.metaDescription = blog.metaDescription;
-
-            Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Blog> result = this.context.Blog.Update(post);
-            this.context.SaveChanges();
-
-            return result.Entity;
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError($"Error updating post {e.Message}");
-            throw new DataException("Error updating post", e);
-        }
-    }
-
     public bool UpdatePost(PostRequest blog)
     {
         if (blog is null)
@@ -158,6 +127,8 @@ public class BlogService : IBlogService
 
         try
         {
+            this.CheckUniqueSlug(blog);
+
             Blog post = this.context.Blog.First(post => post.idBlog == blog.IdBlog);
 
             post.titulo = blog.Titulo;
@@ -187,13 +158,19 @@ public class BlogService : IBlogService
 
     public bool AddPost(PostRequest blog)
     {
-        if (blog == null)
+        if (blog is null)
         {
             throw new ArgumentNullException(nameof(blog));
         }
 
         try
         {
+            this.CheckUniqueSlug(blog);
+            if (this.context.Blog.Any(x => x.slug == blog.Slug))
+            {
+                blog.Slug = "Mas" + blog.Slug;
+            }
+
             Blog post = new Blog
             {
                 titulo = blog.Titulo,
@@ -222,5 +199,15 @@ public class BlogService : IBlogService
     {
         int lastPhoto = this.context.Blog.OrderByDescending(post => post.idBlog).First().idBlog;
         return (lastPhoto + 1).ToString(CultureInfo.InvariantCulture);
+    }
+
+    private void CheckUniqueSlug(PostRequest blog)
+    {
+        if (this.context.Blog.Any(x => x.slug == blog.Slug))
+        {
+            blog.Slug = "Mas" + blog.Slug;
+        }
+
+        this.CheckUniqueSlug(blog);
     }
 }

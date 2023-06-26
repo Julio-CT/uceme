@@ -14,8 +14,6 @@ public interface IBlogService
 
     bool DeletePost(int postId);
 
-    Blog UpdatePost(Blog blog);
-
     bool UpdatePost(PostRequest blog);
 
     bool AddPost(PostRequest blog);
