@@ -1,25 +1,33 @@
 version: "3.8"
 services:
-    db:
-        image: "mcr.microsoft.com/azure-sql-edge"
+    ucemeDb:
+        image: "mcr.microsoft.com/azure-sql-edge:latest"
+        command: /opt/mssql/bin/sqlservr
         environment:
             SA_PASSWORD: "Ch4mp10ns"
             ACCEPT_EULA: "Y"
         ports:
             - "1433:1433"
-        volumes:
-            - sqlucemedata:/var/opt/mssql
         restart: always
         container_name: DockerUcemeDb
-    ucemeapi:
-        image: "ucemeapi"
-        ports:
-            - "32371:80"
-        restart: always
-        environment:
-              ConnectionStrings__UcemeConnection: "data source=db;initial catalog=UCEMEDb;user id=sa;password=Ch4mp10ns;MultipleActiveResultSets=True;"
+        stdin_open: true
+        networks:
+            - db_net
+    sqlcmd:
+        image: mcr.microsoft.com/mssql-tools:latest
+        command: bash -c "
+                chmod +x /opt/mssql_scripts/run-initialization.sh
+                && /opt/mssql_scripts/run-initialization.sh"
+        stdin_open: true
+        volumes:
+            - ./mssql_scripts:/opt/mssql_scripts
+            - ./sqlucemedata:/var/opt/mssql
+        networks:
+            - db_net
         depends_on:
-            - db
-        container_name: ucemeapi
-volumes:
-    sqlucemedata:
+            ucemeDb:
+                condition: service_started
+                restart: true
+networks:
+    db_net:
+        name: db_net
