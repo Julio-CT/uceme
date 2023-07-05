@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Nav from 'react-bootstrap/Nav';
+import { ReactElement } from 'react';
 import authService from './AuthorizeService';
 import ApplicationPaths from './ApiAuthorizationConstants';
 
@@ -24,17 +25,20 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
     userName: string | undefined,
     profilePath: string | undefined,
     logoutPath: LogoutPath
-  ): JSX.Element {
+  ): ReactElement {
     return (
       <>
-        <Nav.Link className="text-dark" href={profilePath}>
-          Hola {userName}
-        </Nav.Link>
         <Nav.Link className="text-dark" href="/appointmentmanager">
           Citas
         </Nav.Link>
+        <Nav.Link className="text-dark" href="/schedulemanager">
+          Horarios
+        </Nav.Link>
         <Nav.Link className="text-dark" href="/postmanager">
           Posts
+        </Nav.Link>
+        <Nav.Link className="text-dark" href="/schedulemanager">
+          Horarios
         </Nav.Link>
         <Nav.Link className="text-dark" href={logoutPath.pathname}>
           Salir
@@ -76,7 +80,7 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
     });
   }
 
-  render(): JSX.Element {
+  render(): ReactElement {
     const { isAuthenticated, userName } = this.state;
     if (!isAuthenticated) {
       return <div />;

@@ -1,5 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
+import { ReactElement } from 'react';
 import SettingsContext, { Settings } from '../SettingsContext';
 import './AboutUs.scss';
 import alberto from '../resources/images/alberto.webp';
@@ -71,7 +72,7 @@ const specials = [
   },
 ];
 
-const items: JSX.Element[] = specials.map((item) => {
+const items: ReactElement[] = specials.map((item) => {
   return (
     <div
       className={`col-12 ${item.owner ? 'col-md-6' : 'col-md-4'}`}
@@ -98,7 +99,7 @@ const items: JSX.Element[] = specials.map((item) => {
   );
 });
 
-const AboutUs: () => JSX.Element = () => {
+const AboutUs: () => ReactElement = () => {
   const settings: Settings = React.useContext(SettingsContext);
   return (
     <div className="app app-home header-distance">

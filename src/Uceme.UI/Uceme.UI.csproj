@@ -87,21 +87,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\App.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\ApiAuthorizationConstants.ts" />
-    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\ApiAuthorizationRoutes.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\AuthorizeService.ts" />
-    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\Login.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\LoginMenu.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\api-authorization\Logout.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\Home.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\Layout.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\NavMenu.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\index.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\setupTests.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="ClientApp\public\uploads\" />
   </ItemGroup>
@@ -142,7 +127,7 @@
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)build\**" />
-      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>

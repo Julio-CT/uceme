@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
@@ -12,7 +12,7 @@ type BlogPostState = {
   post?: BlogItem;
 };
 
-function BlogPost(): JSX.Element {
+function BlogPost(): ReactElement {
   const settings: Settings = React.useContext(SettingsContext);
   const { slug } = useParams();
   const [data, setData] = React.useState<BlogPostState>({

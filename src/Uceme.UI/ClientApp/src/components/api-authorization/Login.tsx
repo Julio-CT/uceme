@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ReactElement } from 'react';
 import authService, { AuthenticationResultStatus } from './AuthorizeService';
 
 import ApplicationPaths, {
@@ -137,7 +138,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
   }
 
-  render(): JSX.Element {
+  render(): ReactElement {
     const { action } = this.props;
     const { message } = this.state;
 

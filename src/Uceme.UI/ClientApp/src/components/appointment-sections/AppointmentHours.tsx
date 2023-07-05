@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
 import './AppointmentModal.scss';
+import { ReactElement } from 'react';
 
 type AppointmentHoursProps = {
   hours: string[];
@@ -17,7 +18,7 @@ type AppointmentHoursState = {
 
 type MyButtonGroupProps = {
   id: string;
-  children: JSX.Element[] | JSX.Element;
+  children: ReactElement[] | ReactElement;
 };
 
 export const MyButtonGroup = React.forwardRef(
@@ -160,7 +161,7 @@ class AppointmentHours extends React.Component<
     );
   };
 
-  render(): JSX.Element {
+  render(): ReactElement {
     const { hours, selectedHour, leftPaddleEnabled, rightPaddleEnabled } =
       this.state;
     return (
