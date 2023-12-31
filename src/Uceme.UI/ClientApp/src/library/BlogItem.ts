@@ -1,9 +1,11 @@
+import { ReactElement } from 'react';
+
 type BlogItem = {
   id: string;
   title?: string;
   imageSrc: string;
   text: string;
-  altText: string | JSX.Element | JSX.Element[];
+  altText: string | ReactElement | ReactElement[];
   caption: string;
   link: string;
   date: string;

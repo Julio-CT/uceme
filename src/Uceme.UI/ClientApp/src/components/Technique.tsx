@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, { ReactElement } from 'react';
 import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
@@ -11,7 +11,7 @@ type TechniqueState = {
   loaded: boolean;
 };
 
-function Technique(): JSX.Element {
+function Technique(): ReactElement {
   const settings: Settings = React.useContext(SettingsContext);
   const { tec } = useParams();
 
@@ -51,7 +51,7 @@ function Technique(): JSX.Element {
 
   if (data.loaded && data.technique) {
     return (
-      <div className="app-home header-distance">
+      <div className="app-home header-distance-l">
         <div className="container">
           <div className="section padding-top section-large section-grey section-in-view article-list-container article-list-page-1">
             <Helmet>

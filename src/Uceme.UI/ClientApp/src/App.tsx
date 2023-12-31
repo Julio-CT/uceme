@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ReactElement } from 'react';
 import { Route, Routes } from 'react-router';
 import Layout from './components/Layout';
 import Home from './components/Home';
@@ -24,15 +25,15 @@ import AboutUs from './components/AboutUs';
 import Login from './components/api-authorization/Login';
 import Logout from './components/api-authorization/Logout';
 
-function loginAction(name: string): JSX.Element {
+function loginAction(name: string): ReactElement {
   return <Login action={name} />;
 }
 
-function logoutAction(name: string): JSX.Element {
+function logoutAction(name: string): ReactElement {
   return <Logout action={name} />;
 }
 
-function App(): JSX.Element {
+function App(): ReactElement {
   const [context, setContext] = React.useState<Settings>({
     telephone: 'cargando...',
     address: 'cargando...',
@@ -85,6 +86,10 @@ function App(): JSX.Element {
           />
           <Route
             path="/postmanager"
+            element={<AuthorizeRoute element={<PostManager />} />}
+          />
+          <Route
+            path="/schedulemanager"
             element={<AuthorizeRoute element={<PostManager />} />}
           />
           <Route

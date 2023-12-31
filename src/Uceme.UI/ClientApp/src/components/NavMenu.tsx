@@ -2,6 +2,7 @@ import * as React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import './NavMenu.scss';
+import { ReactElement } from 'react';
 import LoginMenu from './api-authorization/LoginMenu';
 
 type NavMenuState = {
@@ -27,7 +28,7 @@ export default class NavMenu extends React.Component<
     this.setState((prevState) => ({ collapsed: !prevState.collapsed }));
   }
 
-  render(): JSX.Element {
+  render(): ReactElement {
     return (
       <div className="navbar-div-container">
         <Navbar collapseOnSelect expand="lg" className="bg-light">

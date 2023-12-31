@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import BlogItem from '../library/BlogItem';
@@ -11,7 +11,7 @@ type BlogHomeState = {
   resp?: BlogItem[] | null;
 };
 
-function BlogHome(): JSX.Element {
+function BlogHome(): ReactElement {
   const settings: Settings = React.useContext(SettingsContext);
   const { page } = useParams();
   const dataPageNumber = page ? +page : 1;

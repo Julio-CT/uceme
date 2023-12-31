@@ -1,6 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import {
   Carousel,
   CarouselItem,
@@ -38,7 +38,7 @@ const items = [
   },
 ];
 
-const Slider: () => JSX.Element = () => {
+const Slider: () => ReactElement = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
@@ -59,7 +59,7 @@ const Slider: () => JSX.Element = () => {
     setActiveIndex(newIndex);
   };
 
-  const slides: JSX.Element[] = items.map((item) => {
+  const slides: ReactElement[] = items.map((item) => {
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}

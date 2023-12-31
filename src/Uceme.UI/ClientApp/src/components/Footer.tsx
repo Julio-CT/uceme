@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Container } from 'reactstrap';
 import './Footer.scss';
+import { ReactElement } from 'react';
 
-function Footer(): JSX.Element {
+function Footer(): ReactElement {
   const year = new Date().getFullYear();
 
   return (

@@ -1,5 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
+import { ReactElement } from 'react';
 import SettingsContext, { Settings } from '../SettingsContext';
 import './Specialities.scss';
 import slide1 from '../resources/images/cirugia-tiroidea.webp';
@@ -50,7 +51,7 @@ const specials = [
   },
 ];
 
-const items: JSX.Element[] = specials.map((item) => {
+const items: ReactElement[] = specials.map((item) => {
   return (
     <div className="col-12 col-md-4" key={item.title}>
       <a href={`/especialidad/${item.link}`} title={item.title}>
@@ -78,7 +79,7 @@ const items: JSX.Element[] = specials.map((item) => {
   );
 });
 
-const Specialities: () => JSX.Element = () => {
+const Specialities: () => ReactElement = () => {
   const settings: Settings = React.useContext(SettingsContext);
   return (
     <div className="app app-home header-distance-l">
