@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Container } from 'reactstrap';
 import './Home.scss';
+import { ReactElement } from 'react';
 
-function Conditions(): JSX.Element {
+function Conditions(): ReactElement {
   return (
     <Container className="app header-distance-l">
       <div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useParams } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -16,7 +16,7 @@ type AppointmentManagerState = {
   page?: number;
 };
 
-function AppointmentManager(): JSX.Element {
+function AppointmentManager(): ReactElement {
   const { page } = useParams();
   const settings: Settings = React.useContext(SettingsContext);
   const [modal, setModal] = React.useState<boolean>(false);

@@ -1,6 +1,7 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
 import './Specialities.scss';
+import { ReactElement } from 'react';
 import slide1 from '../../resources/images/cirugia-tiroidea.webp';
 import slide2 from '../../resources/images/cirugia-paratiroidea.webp';
 import slide3 from '../../resources/images/obesidad-morbida.webp';
@@ -49,7 +50,7 @@ const specials = [
   },
 ];
 
-const items: JSX.Element[] = specials.map((item) => {
+const items: ReactElement[] = specials.map((item) => {
   return (
     <div className="col-12 col-md-4" key={item.title}>
       <a href={`/especialidad/${item.link}`} title={item.title}>
@@ -77,7 +78,7 @@ const items: JSX.Element[] = specials.map((item) => {
   );
 });
 
-const Specialities: () => JSX.Element = () => {
+const Specialities: () => ReactElement = () => {
   return (
     <section id="section-specialities" className="clearfix">
       <div className="specialities container clearfix extra-margin">

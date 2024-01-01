@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
@@ -68,7 +68,7 @@ type Special = {
   caption: string;
 };
 
-function Speciality(): JSX.Element {
+function Speciality(): ReactElement {
   const settings: Settings = React.useContext(SettingsContext);
   const { esp } = useParams();
   const [data, setData] = React.useState<SpecialityState>({

@@ -1,6 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 import * as React from 'react';
 import { Route, Routes } from 'react-router';
+import { ReactElement } from 'react';
 import Login from './Login';
 import Logout from './Logout';
 import ApplicationPaths, {
@@ -8,16 +9,16 @@ import ApplicationPaths, {
   LogoutActions,
 } from './ApiAuthorizationConstants';
 
-function loginAction(name: string): JSX.Element {
+function loginAction(name: string): ReactElement {
   return <Login action={name} />;
 }
 
-function logoutAction(name: string): JSX.Element {
+function logoutAction(name: string): ReactElement {
   return <Logout action={name} />;
 }
 
 export default class ApiAuthorizationRoutes extends React.Component {
-  render(): JSX.Element {
+  render(): ReactElement {
     return (
       <Routes>
         <Route path="/" element={loginAction(LoginActions.Login)} />

@@ -14,6 +14,7 @@ import { ContentState, convertToRaw, RawDraftContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import { ReactElement } from 'react';
 import authService from '../api-authorization/AuthorizeService';
 import './AddPostModal.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -27,7 +28,7 @@ type AddPostModalProps = {
   headerTitle: string;
 };
 
-function AddPostModal(props: AddPostModalProps): JSX.Element {
+function AddPostModal(props: AddPostModalProps): ReactElement {
   const { modal, toggle, post, headerTitle } = props;
   const settings: Settings = React.useContext(SettingsContext);
 

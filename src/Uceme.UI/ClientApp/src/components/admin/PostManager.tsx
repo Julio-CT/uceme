@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { ReactElement, useRef } from 'react';
 import { useParams } from 'react-router';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -17,7 +17,7 @@ type PostManagerState = {
   page?: number;
 };
 
-function PostManager(): JSX.Element {
+function PostManager(): ReactElement {
   const { page } = useParams();
   const [addModal, setAddModal] = React.useState(false);
   const addToggle = () => setAddModal(!addModal);

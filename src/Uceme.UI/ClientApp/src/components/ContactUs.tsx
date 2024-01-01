@@ -1,5 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
+import { ReactElement } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import SettingsContext, { Settings } from '../SettingsContext';
@@ -12,7 +13,7 @@ type contactUsState = {
   message: string;
 };
 
-const ContactUs: () => JSX.Element = () => {
+const ContactUs: () => ReactElement = () => {
   const [modal, setModal] = React.useState(false);
   const toggle = () => setModal(!modal);
   const [modalMessage, setModaleMessage] = React.useState<string>('');

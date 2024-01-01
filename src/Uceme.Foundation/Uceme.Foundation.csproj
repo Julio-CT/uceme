@@ -15,4 +15,7 @@
   <ItemGroup>
     <None Remove="Tools\" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.4" />
+  </ItemGroup>
 </Project>
