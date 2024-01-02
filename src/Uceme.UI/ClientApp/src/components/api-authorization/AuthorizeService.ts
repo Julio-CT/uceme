@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Profile, User, UserManager, WebStorageStateStore } from 'oidc-client';
 import ApplicationPaths, {
   ApplicationName,
@@ -80,7 +81,7 @@ export class AuthorizeService {
         );
         this.updateState(popUpUser);
         return AuthorizeService.success(state);
-      } catch (popUpError) {
+      } catch (popUpError: any) {
         if (popUpError.message === 'Popup window closed') {
           // The user explicitly cancelled the login action by closing an opened popup.
           return AuthorizeService.error('The user closed the window.');
@@ -92,7 +93,7 @@ export class AuthorizeService {
             AuthorizeService.createArguments(state)
           );
           return AuthorizeService.redirect();
-        } catch (redirectError) {
+        } catch (redirectError: any) {
           return AuthorizeService.error(redirectError);
         }
       }
@@ -129,13 +130,13 @@ export class AuthorizeService {
       );
       this.updateState(undefined);
       return AuthorizeService.success(state);
-    } catch (popupSignOutError) {
+    } catch (popupSignOutError: any) {
       try {
         await this.userManager?.signoutRedirect(
           AuthorizeService.createArguments(state)
         );
         return AuthorizeService.redirect();
-      } catch (redirectSignOutError) {
+      } catch (redirectSignOutError: any) {
         return AuthorizeService.error(redirectSignOutError);
       }
     }
@@ -147,7 +148,7 @@ export class AuthorizeService {
       const response = await this.userManager?.signoutCallback(url);
       this.updateState(null);
       return AuthorizeService.success(response && response.state);
-    } catch (error) {
+    } catch (error: any) {
       return AuthorizeService.error(error);
     }
   }
