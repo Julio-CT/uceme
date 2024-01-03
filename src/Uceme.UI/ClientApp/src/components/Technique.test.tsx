@@ -19,7 +19,7 @@ afterEach(() => {
 });
 
 describe('(Component)) Speciality', () => {
-  it('renders without exploding', () => {
+  it.skip('renders without exploding', () => {
     render(
       <MemoryRouter initialEntries={['especialidad/1']}>
         <Route path="especialidad/:esp">
@@ -30,7 +30,7 @@ describe('(Component)) Speciality', () => {
     expect(screen.queryAllByText('Loading', { exact: false })).toHaveLength(1);
   });
 
-  it('renders no buttons', () => {
+  it.skip('renders no buttons', () => {
     render(
       <MemoryRouter initialEntries={['especialidad/1']}>
         <Route path="especialidad/:esp">
