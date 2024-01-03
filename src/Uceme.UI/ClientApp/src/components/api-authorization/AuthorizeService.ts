@@ -81,8 +81,8 @@ export class AuthorizeService {
         );
         this.updateState(popUpUser);
         return AuthorizeService.success(state);
-      } catch (popUpError: any) {
-        if (popUpError.message === 'Popup window closed') {
+      } catch (popUpError) {
+        if ((popUpError as Error).message === 'Popup window closed') {
           // The user explicitly cancelled the login action by closing an opened popup.
           return AuthorizeService.error('The user closed the window.');
         }
@@ -93,8 +93,8 @@ export class AuthorizeService {
             AuthorizeService.createArguments(state)
           );
           return AuthorizeService.redirect();
-        } catch (redirectError: any) {
-          return AuthorizeService.error(redirectError);
+        } catch (redirectError) {
+          return AuthorizeService.error((redirectError as Error).message);
         }
       }
     }
@@ -130,14 +130,14 @@ export class AuthorizeService {
       );
       this.updateState(undefined);
       return AuthorizeService.success(state);
-    } catch (popupSignOutError: any) {
+    } catch (popupSignOutError) {
       try {
         await this.userManager?.signoutRedirect(
           AuthorizeService.createArguments(state)
         );
         return AuthorizeService.redirect();
-      } catch (redirectSignOutError: any) {
-        return AuthorizeService.error(redirectSignOutError);
+      } catch (redirectSignOutError) {
+        return AuthorizeService.error((redirectSignOutError as Error).message);
       }
     }
   }
@@ -148,8 +148,8 @@ export class AuthorizeService {
       const response = await this.userManager?.signoutCallback(url);
       this.updateState(null);
       return AuthorizeService.success(response && response.state);
-    } catch (error: any) {
-      return AuthorizeService.error(error);
+    } catch (error) {
+      return AuthorizeService.error((error as Error).message);
     }
   }
 
