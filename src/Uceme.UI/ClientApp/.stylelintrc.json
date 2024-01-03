@@ -1,6 +1,6 @@
 {
     "extends": "stylelint-config-standard",
     "rules": {
-      "string-quotes": "single"
+      "import-notation": "string"
     }
 }

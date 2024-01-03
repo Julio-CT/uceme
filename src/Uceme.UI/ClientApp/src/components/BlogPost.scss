@@ -38,7 +38,7 @@
   left: 1em;
 }
 
-@media screen and (min-width: 48em) {
+@media screen and (width >= 48em) {
   .single-article-list {
     width: calc(50% - 1.5em);
     margin-left: 0.7em;
@@ -46,7 +46,7 @@
   }
 }
 
-@media screen and (min-width: 78em) {
+@media screen and (width >= 78em) {
   .single-article-list {
     width: calc(33.3333% - 1.5em);
     margin-left: 0.7em;
@@ -64,7 +64,7 @@
   padding-bottom: 2.5em;
 }
 
-@media screen and (min-width: 48em) {
+@media screen and (width >= 48em) {
   .single-article-list-page-1 .single-article-1,
   .single-article-list-page-0 .single-article-1 {
     width: calc(100% - 1.5em);
@@ -91,7 +91,7 @@
   }
 }
 
-@media screen and (min-width: 62em) {
+@media screen and (width >= 62em) {
   .single-article-list-page-1 .single-article-1 .single-article-title,
   .single-article-list-page-0 .single-article-1 .single-article-title {
     font-size: 1.875em;
@@ -113,21 +113,21 @@
   }
 }
 
-@media screen and (min-width: 78em) {
+@media screen and (width >= 78em) {
   .single-article-list-page-1 .single-article-1 .single-article-title,
   .single-article-list-page-0 .single-article-1 .single-article-title {
     font-size: 2.25em;
   }
 }
 
-@media screen and (min-width: 48em) {
+@media screen and (width >= 48em) {
   .test-flexbox .single-article-list-page-1 .single-article-1,
   .test-flexbox .single-article-list-page-0 .single-article-1 {
     display: flex;
   }
 }
 
-@media screen and (min-width: 48em) {
+@media screen and (width >= 48em) {
   .single-article-list-container {
     display: table;
     display: flex;
