@@ -42,7 +42,12 @@ jobs:
           --config .eslintrc.json
           --ext .js,.jsx,.ts,.tsx
           --format @microsoft/eslint-formatter-sarif
-          --output-file eslint-results.sarif
+          --output-file ../../../eslint-results.sarif
+        continue-on-error: true
+
+      - name: Run ESLint
+        working-directory: ./src/Uceme.UI/ClientApp
+        run: npm run isready
         continue-on-error: true
 
       - name: Upload analysis results to GitHub
