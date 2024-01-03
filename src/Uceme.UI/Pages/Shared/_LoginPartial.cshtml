@@ -9,7 +9,7 @@
     if (query.ContainsKey("returnUrl"))
     {
         var returnUrlFromQuery = query["returnUrl"];
-        string pattern = @"%2Fconnect%2Fauthorize%2Fcallback%3Fclient_id%3DUceme.UI%26redirect_uri%3Dhttps%253A%252F%252Fwww.uceme.es%252Fauthentication%252Flogin-callback%26response_type%3Dcode%26scope%3DUceme.UIAPI%2520openid%2520profile%26state%3D[a-z,0-9]{32}%26code_challenge%3D[A-Z,a-z,0-9,_,-]{43}%26code_challenge_method%3D[A-Z,0-9]{4}%26response_mode%3Dquery";
+        string pattern = @"\/connect\/authorize\/callback\?client_id=Uceme\.UI&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Flogin-callback&response_type=code&scope=Uceme\.UIAPI%20openid%20profile&state=[a-z,0-9]{32}&code_challenge=[A-Z,a-z,0-9,_,-]{43}&code_challenge_method=[A-Z,0-9]{4}&response_mode=query";
         Match m = Regex.Match(returnUrlFromQuery!, pattern, RegexOptions.IgnoreCase);
         if (m.Success)
         {
