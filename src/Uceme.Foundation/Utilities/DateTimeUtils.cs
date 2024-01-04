@@ -12,8 +12,16 @@ public static class DateTimeUtils
             throw new ArgumentNullException(nameof(strhora));
         }
 
-        decimal result = Convert.ToInt32(strhora.Substring(0, strhora.Length - 3), CultureInfo.CurrentCulture)
-            + (Convert.ToDecimal(strhora.Substring(strhora.Length - 2, 2), CultureInfo.CurrentCulture) / 60);
+        decimal result;
+        try
+        {
+            result = Convert.ToInt32(strhora.Substring(0, strhora.Length - 3), CultureInfo.CurrentCulture)
+                + (Convert.ToDecimal(strhora.Substring(strhora.Length - 2, 2), CultureInfo.CurrentCulture) / 60);
+        }
+        catch
+        {
+            throw new ArgumentOutOfRangeException(nameof(strhora));
+        }
 
         return result;
     }
