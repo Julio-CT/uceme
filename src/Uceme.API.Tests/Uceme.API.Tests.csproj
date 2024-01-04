@@ -22,6 +22,7 @@
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Uceme.API\Uceme.API.csproj" />
     <ProjectReference Include="..\Uceme.Library\Uceme.Library.csproj" />
   </ItemGroup>
 </Project>
