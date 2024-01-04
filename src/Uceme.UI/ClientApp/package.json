@@ -5,7 +5,7 @@
   "proxy": "http://localhost:4155",
   "dependencies": {
     "@mui/icons-material": "^5.8.0",
-    "@mui/material": "^5.8.0",
+    "@mui/material": "^5.15.0",
     "bootstrap": "^4.1.3",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
