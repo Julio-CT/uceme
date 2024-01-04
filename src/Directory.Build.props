@@ -34,6 +34,13 @@
 		<AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage" />
 	</ItemGroup>
 
+  <!-- All integration tests (.Test) projects need to be marked as TestCategory mock. -->
+  <ItemGroup Condition="$(MSBuildProjectName.IndexOf('.Test')) != -1 And $(MSBuildProjectName.IndexOf('.Integration')) == -1">
+    <AssemblyAttribute Include="Microsoft.VisualStudio.TestTools.UnitTesting.TestCategory">
+      <_Parameter1>MockTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
 	<!-- All integration tests (.Test) projects need to be marked as TestCategory integration. -->
 	<ItemGroup Condition="$(MSBuildProjectName.IndexOf('.Test')) != -1 And $(MSBuildProjectName.IndexOf('.Integration')) != -1">
 		<AssemblyAttribute Include="Microsoft.VisualStudio.TestTools.UnitTesting.TestCategory">
