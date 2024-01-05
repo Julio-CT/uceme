@@ -1,16 +1,15 @@
 ﻿namespace Uceme.API.Tests.Controllers;
 
 using System;
-using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Uceme.API.Controllers;
 using Uceme.Library.Services;
 using Uceme.Model.Models;
-using static IdentityServer4.Models.IdentityResources;
 
 [TestClass]
 public class HospitalControllerTests
