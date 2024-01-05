@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Uceme.Model.Settings;
 
 public interface IEmailSender
 {

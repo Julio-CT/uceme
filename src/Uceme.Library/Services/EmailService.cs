@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Uceme.Foundation.Utilities;
 using Uceme.Model.Settings;
-using static IdentityServer4.Models.IdentityResources;
 
 public class EmailService : IEmailService
 {
