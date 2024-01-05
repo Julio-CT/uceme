@@ -1,5 +1,6 @@
 ﻿namespace Uceme.API.Controllers;
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -23,9 +24,9 @@ public class HomeController : Controller
         IFotosService fotosService,
         ILogger<HomeController> logger)
     {
-        this.medicoService = medicoService;
-        this.fotosService = fotosService;
-        this.logger = logger;
+        this.medicoService = medicoService ?? throw new ArgumentNullException(nameof(medicoService));
+        this.fotosService = fotosService ?? throw new ArgumentNullException(nameof(fotosService));
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpGet("getmedicominvista")]

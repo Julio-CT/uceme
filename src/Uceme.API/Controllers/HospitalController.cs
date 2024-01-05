@@ -1,5 +1,6 @@
 ﻿namespace Uceme.API.Controllers;
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -21,8 +22,8 @@ public class HospitalController : Controller
         ILogger<HospitalController> logger,
         IHospitalService hospitalService)
     {
-        this.logger = logger;
-        this.hospitalService = hospitalService;
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.hospitalService = hospitalService ?? throw new ArgumentNullException(nameof(hospitalService));
     }
 
     [HttpGet("gethospitals")]

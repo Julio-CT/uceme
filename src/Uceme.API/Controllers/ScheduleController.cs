@@ -1,5 +1,6 @@
 ﻿namespace Uceme.API.Controllers;
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -21,8 +22,8 @@ public class ScheduleController : Controller
         ILogger<ScheduleController> logger,
         IScheduleService scheduleService)
     {
-        this.logger = logger;
-        this.scheduleService = scheduleService;
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.scheduleService = scheduleService ?? throw new ArgumentNullException(nameof(scheduleService));
     }
 
     [HttpGet("getturns")]

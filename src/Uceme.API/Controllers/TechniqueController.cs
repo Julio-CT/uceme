@@ -30,14 +30,9 @@ public class TechniqueController : Controller
         IOptions<AppSettings> configuration,
         ILogger<TechniqueController> logger)
     {
-        if (configuration == null)
-        {
-            throw new ArgumentNullException(nameof(configuration));
-        }
-
-        this.techniqueService = techniqueService;
-        this.logger = logger;
-        this.configuration = configuration;
+        this.techniqueService = techniqueService ?? throw new ArgumentNullException(nameof(techniqueService));
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
     }
 
     [HttpGet("gettechniques")]
@@ -96,6 +91,11 @@ public class TechniqueController : Controller
     [HttpGet("updatetech")]
     public ActionResult<Tecnica> UpdateTech(Tecnica post)
     {
+        if (post is null)
+        {
+            return this.BadRequest($"'{nameof(post)}' cannot be null or empty.");
+        }
+
         Tecnica result;
         try
         {
@@ -115,7 +115,7 @@ public class TechniqueController : Controller
     {
         if (postRequest == null)
         {
-            return this.BadRequest();
+            return this.BadRequest($"'{nameof(postRequest)}' cannot be null or empty.");
         }
 
         bool result;
@@ -144,7 +144,7 @@ public class TechniqueController : Controller
     {
         if (file is null)
         {
-            throw new ArgumentNullException(nameof(file));
+            return this.BadRequest($"'{nameof(file)}' cannot be null or empty.");
         }
 
         if (this.configuration?.Value?.BlogImagesDir == null
