@@ -70,7 +70,7 @@ public class AppointmentControllerTests
 
         // Assert
         this.appointmentService.Verify(mock => mock.GetDays(It.IsAny<int>()));
-        Assert.IsInstanceOfType(result, typeof(ActionResult<System.Collections.Generic.IEnumerable<int>>));
+        Assert.IsInstanceOfType(result, typeof(ActionResult<IEnumerable<int>>));
         Assert.AreEqual(3, result.Value?.Count());
     }
 

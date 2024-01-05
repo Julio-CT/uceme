@@ -49,7 +49,7 @@ public class Startup
         SetupIdentity(services);
         this.SetupCors(services);
 
-        services.AddSingleton<IConfiguration>(this.Configuration);
+        services.AddSingleton(this.Configuration);
 
         services.AddTransient<IEmailService, EmailService>();
         services.AddTransient<ISmtpClient, SmtpClientWrapper>();

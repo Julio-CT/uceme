@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -79,8 +79,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Uceme.Foundation\Uceme.Foundation.csproj" />
-    <ProjectReference Include="..\Uceme.Model\Uceme.Model.csproj" />
     <ProjectReference Include="..\Uceme.Library\Uceme.Library.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>

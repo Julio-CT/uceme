@@ -188,7 +188,7 @@ public class Startup
 
     private void SetupDependecyInjection(IServiceCollection services)
     {
-        services.AddSingleton<IConfiguration>(this.Configuration);
+        services.AddSingleton(this.Configuration);
 
         services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
         services.AddTransient<ISmtpClient, SmtpClientWrapper>();

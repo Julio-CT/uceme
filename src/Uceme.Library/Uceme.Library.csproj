@@ -10,7 +10,6 @@
     <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Uceme.Model\Uceme.Model.csproj" />
     <ProjectReference Include="..\Uceme.Foundation\Uceme.Foundation.csproj" />
   </ItemGroup>
 </Project>
