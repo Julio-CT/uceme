@@ -19,9 +19,6 @@
     <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Uceme.Library\Uceme.Library.csproj" />
+    <ProjectReference Include="..\Uceme.API\Uceme.API.csproj" />
   </ItemGroup>
 </Project>

@@ -21,8 +21,8 @@ public class ContactController : Controller
         ILogger<ContactController> logger,
         IEmailService emailService)
     {
-        this.logger = logger;
-        this.emailService = emailService;
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
     }
 
     [HttpPost("contactemail")]
@@ -31,7 +31,7 @@ public class ContactController : Controller
     {
         if (message is null || message.Email == null)
         {
-            throw new ArgumentNullException(nameof(message));
+            return this.BadRequest($"'{nameof(message)}' cannot be null or empty.");
         }
 
         bool result;

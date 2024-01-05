@@ -20,13 +20,8 @@ public class SettingsController : Controller
         ILogger<SettingsController> logger,
         IOptions<AppSettings> configuration)
     {
-        if (configuration == null)
-        {
-            throw new ArgumentNullException(nameof(configuration));
-        }
-
-        this.configuration = configuration;
-        this.logger = logger;
+        this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpGet("getsettings")]

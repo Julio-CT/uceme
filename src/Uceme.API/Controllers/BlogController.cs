@@ -31,9 +31,9 @@ public class BlogController : Controller
         IOptions<AppSettings> configuration,
         ILogger<BlogController> logger)
     {
-        this.blogService = blogService;
-        this.configuration = configuration;
-        this.logger = logger;
+        this.blogService = blogService ?? throw new ArgumentNullException(nameof(blogService));
+        this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpGet("getblogsubset")]
@@ -94,6 +94,11 @@ public class BlogController : Controller
     [AllowAnonymous]
     public ActionResult<Blog> GetPost(string slug)
     {
+        if (string.IsNullOrEmpty(slug))
+        {
+            return this.BadRequest($"'{nameof(slug)}' cannot be null or empty.");
+        }
+
         Blog result;
         try
         {

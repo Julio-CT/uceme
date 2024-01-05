@@ -1,5 +1,6 @@
 ﻿namespace Uceme.API.Controllers;
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -23,8 +24,8 @@ public class AppointmentController : Controller
         ILogger<AppointmentController> logger,
         IAppointmentService appointmentService)
     {
-        this.logger = logger;
-        this.appointmentService = appointmentService;
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.appointmentService = appointmentService ?? throw new ArgumentNullException(nameof(appointmentService));
     }
 
     [HttpGet("getdays")]
@@ -49,6 +50,11 @@ public class AppointmentController : Controller
     [AllowAnonymous]
     public ActionResult<AppointmentHoursResponse> GetHours([FromBody] AppointmentHoursRequest appointmentHoursRequest)
     {
+        if (appointmentHoursRequest is null)
+        {
+            return this.BadRequest($"'{nameof(appointmentHoursRequest)}' cannot be null or empty.");
+        }
+
         AppointmentHoursResponse result = new AppointmentHoursResponse();
         try
         {
@@ -67,6 +73,11 @@ public class AppointmentController : Controller
     [AllowAnonymous]
     public async Task<ActionResult<bool>> AddApointmentAsync([FromBody] AppointmentRequest appointmentRequest)
     {
+        if (appointmentRequest is null)
+        {
+            return this.BadRequest($"'{nameof(appointmentRequest)}' cannot be null or empty.");
+        }
+
         bool result;
         try
         {
@@ -152,6 +163,11 @@ public class AppointmentController : Controller
     [HttpGet("updateappointment")]
     public ActionResult<Appointment> UpdateAppointment(Cita appointment)
     {
+        if (appointment is null)
+        {
+            return this.BadRequest($"'{nameof(appointment)}' cannot be null or empty.");
+        }
+
         Appointment result;
         try
         {

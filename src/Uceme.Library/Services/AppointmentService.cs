@@ -25,9 +25,9 @@ public class AppointmentService : IAppointmentService
         IApplicationDbContext context,
         IEmailService emailService)
     {
-        this.logger = logger;
-        this.context = (ApplicationDbContext)context;
-        this.emailService = emailService;
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.context = (ApplicationDbContext)context ?? throw new ArgumentNullException(nameof(context));
+        this.emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
     }
 
     public IEnumerable<Appointment> GetAppointments()
@@ -49,18 +49,10 @@ public class AppointmentService : IAppointmentService
     {
         try
         {
-            string todaysYear = DateTime.Now.Year.ToString(CultureInfo.CurrentCulture);
-            string todaysMonth = DateTime.Now.Month.ToString(CultureInfo.CurrentCulture);
-            todaysMonth = todaysMonth.Length > 1 ? todaysMonth : "0" + todaysMonth;
-            string todaysDay = DateTime.Now.Day.ToString(CultureInfo.CurrentCulture);
-            todaysDay = todaysDay.Length > 1 ? todaysDay : "0" + todaysDay;
-            uint todaysDate = Convert.ToUInt32(todaysYear + todaysMonth + todaysDay, CultureInfo.CurrentCulture);
-            string tomorrowsYear = DateTime.Now.AddDays(2).Year.ToString(CultureInfo.CurrentCulture);
-            string tomorrowsMonth = DateTime.Now.AddDays(2).Month.ToString(CultureInfo.CurrentCulture);
-            tomorrowsMonth = tomorrowsMonth.Length > 1 ? tomorrowsMonth : "0" + tomorrowsMonth;
-            string tomorrowsDay = DateTime.Now.AddDays(2).Day.ToString(CultureInfo.CurrentCulture);
-            tomorrowsDay = tomorrowsDay.Length > 1 ? tomorrowsDay : "0" + tomorrowsDay;
-            uint tomorrowsDate = Convert.ToUInt32(tomorrowsYear + tomorrowsMonth + tomorrowsDay, CultureInfo.CurrentCulture);
+            uint todaysDate = GetUintDate(0);
+
+            uint tomorrowsDate = GetUintDate(2);
+
             IOrderedQueryable<Cita> existingAppointments = this.context.Cita.Where(a => a.dia <= tomorrowsDate && a.dia >= todaysDate).OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
 
             return this.MapCitasToAppointments(existingAppointments);
@@ -92,7 +84,6 @@ public class AppointmentService : IAppointmentService
             List<Turno> shifts = this.context.Turno.Where(o => o.idHospital == hospitalId && o.dia == weekday).ToList();
             foreach (Turno? shift in shifts)
             {
-                List<Cita> existingAppointments = this.context.Cita.Where(o => o.dia == americanDate && o.idTurno == shift.idTurno).ToList();
                 decimal increment = 1 / Convert.ToDecimal(shift.porhora);
 
                 for (int i = 0; i < shift.paralelas; i++)
@@ -103,10 +94,14 @@ public class AppointmentService : IAppointmentService
                     }
                 }
 
-                foreach (Cita? appointment in existingAppointments)
+                if (result.Any())
                 {
-                    string appointmentTime = UCEME.Utilities.DateTimeUtils.TimeToString(appointment.hora);
-                    result.Remove(appointmentTime);
+                    List<Cita> existingAppointments = this.context.Cita.Where(o => o.dia == americanDate && o.idTurno == shift.idTurno).ToList();
+                    foreach (Cita? appointment in existingAppointments)
+                    {
+                        string appointmentTime = UCEME.Utilities.DateTimeUtils.TimeToString(appointment.hora);
+                        result.Remove(appointmentTime);
+                    }
                 }
             }
 
@@ -184,11 +179,7 @@ public class AppointmentService : IAppointmentService
     {
         try
         {
-            string todaysYear = DateTime.Now.AddDays(-7).Year.ToString(CultureInfo.CurrentCulture);
-            string todaysMonth = DateTime.Now.AddDays(-7).Month.ToString(CultureInfo.CurrentCulture);
-            todaysMonth = todaysMonth.Length > 1 ? todaysMonth : "0" + todaysMonth;
-            string todaysDay = DateTime.Now.AddDays(-7).Day.ToString(CultureInfo.CurrentCulture);
-            uint todaysDate = Convert.ToUInt32(todaysYear + todaysMonth + todaysDay, CultureInfo.CurrentCulture);
+            uint todaysDate = GetUintDate(-7);
 
             IQueryable<Cita> existingAppointments = this.context.Cita.Where(a => a.dia < todaysDate);
 
@@ -266,6 +257,15 @@ public class AppointmentService : IAppointmentService
             this.logger.LogError($"Error updating appointment {e.Message}");
             throw new DataException("Error updating appointment", e);
         }
+    }
+
+    private static uint GetUintDate(int delta)
+    {
+        string tomorrowsYear = DateTime.Now.AddDays(delta).Year.ToString(CultureInfo.CurrentCulture);
+        string tomorrowsMonth = DateTime.Now.AddDays(delta).Month.ToString("00", CultureInfo.CurrentCulture);
+        string tomorrowsDay = DateTime.Now.AddDays(delta).Day.ToString("00", CultureInfo.CurrentCulture);
+        uint tomorrowsDate = Convert.ToUInt32(tomorrowsYear + tomorrowsMonth + tomorrowsDay, CultureInfo.CurrentCulture);
+        return tomorrowsDate;
     }
 
     private List<Appointment> MapCitasToAppointments(IOrderedQueryable<Cita> existingAppointments)

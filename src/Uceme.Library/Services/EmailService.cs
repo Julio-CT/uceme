@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -17,14 +19,9 @@ public class EmailService : IEmailService
         ILogger<EmailService> logger,
         IEmailSender emailSender)
     {
-        if (optionsAccessor == null)
-        {
-            throw new ArgumentNullException(nameof(optionsAccessor));
-        }
-
-        this.logger = logger;
-        this.EmailSender = emailSender;
-        this.Options = optionsAccessor.Value;
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.EmailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
+        this.Options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
     }
 
     public IEmailSender EmailSender { get; }
@@ -36,6 +33,21 @@ public class EmailService : IEmailService
         if (this.Options.EmailFrom == null)
         {
             throw new MissingFieldException(nameof(this.Options.EmailFrom));
+        }
+
+        if (string.IsNullOrEmpty(body) || (!string.IsNullOrEmpty(body) && Regex.IsMatch(body, @"^[ ]+$")))
+        {
+            throw new ArgumentException("the body provided is not valid");
+        }
+
+        if (string.IsNullOrEmpty(subject) || (!string.IsNullOrEmpty(subject) && !Regex.IsMatch(subject, @"^[a-zA-Z0-9_\. ]+$")))
+        {
+            throw new ArgumentException("the subject  provided is not valid");
+        }
+
+        if (!string.IsNullOrEmpty(fromAddress) && !MailAddress.TryCreate(fromAddress, out var _))
+        {
+            throw new ArgumentException("the email address provided is not valid");
         }
 
         try
@@ -67,6 +79,21 @@ public class EmailService : IEmailService
             throw new MissingFieldException(nameof(this.Options.EmailFrom));
         }
 
+        if (string.IsNullOrEmpty(body) || (!string.IsNullOrEmpty(body) && Regex.IsMatch(body, @"^[ ]+$")))
+        {
+            throw new ArgumentException("the body provided is not valid");
+        }
+
+        if (string.IsNullOrEmpty(subject) || (!string.IsNullOrEmpty(subject) && !Regex.IsMatch(subject, @"^[a-zA-Z0-9_\. ]+$")))
+        {
+            throw new ArgumentException("the subject provided is not valid");
+        }
+
+        if (!string.IsNullOrEmpty(fromAddress) && !MailAddress.TryCreate(fromAddress, out var _))
+        {
+            throw new ArgumentException("the email address provided is not valid");
+        }
+
         try
         {
             List<string> toAddresses = new List<string>()
@@ -94,6 +121,21 @@ public class EmailService : IEmailService
         if (this.Options.EmailFrom == null)
         {
             throw new MissingFieldException(nameof(this.Options.EmailFrom));
+        }
+
+        if (string.IsNullOrEmpty(body) || (!string.IsNullOrEmpty(body) && Regex.IsMatch(body, @"^[ ]+$")))
+        {
+            throw new ArgumentException("the body provided is not valid");
+        }
+
+        if (string.IsNullOrEmpty(subject) || (!string.IsNullOrEmpty(subject) && !Regex.IsMatch(subject, @"^[a-zA-Z0-9_\. ]+$")))
+        {
+            throw new ArgumentException("the subject provided is not valid");
+        }
+
+        if (string.IsNullOrEmpty(toAddress) || (!string.IsNullOrEmpty(toAddress) && !MailAddress.TryCreate(toAddress, out var _)))
+        {
+            throw new ArgumentException("the email address provided is not valid");
         }
 
         try
