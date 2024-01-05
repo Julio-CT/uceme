@@ -1,7 +1,6 @@
 ﻿namespace Uceme.API.Tests.Controllers;
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,7 +9,6 @@ using Moq;
 using Uceme.API.Controllers;
 using Uceme.Library.Services;
 using Uceme.Model.DataContracts;
-using Uceme.Model.Models;
 
 [TestClass]
 public class ContactControllerTests
