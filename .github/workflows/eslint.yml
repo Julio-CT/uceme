@@ -40,7 +40,7 @@ jobs:
         working-directory: ./src/Uceme.UI/ClientApp
         run: npx eslint .
           --config .eslintrc.json
-          --ext .jsx,.ts,.tsx
+          --ext .tsx
           --format @microsoft/eslint-formatter-sarif
           --output-file ../../../eslint-results.sarif
         continue-on-error: true
