@@ -1,6 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import {
   Carousel,
   CarouselItem,
@@ -9,10 +9,10 @@ import {
   CarouselCaption,
 } from 'reactstrap';
 import './Slider.scss';
-import slide1 from '../../resources/images/uceme.jpg';
-import slide2 from '../../resources/images/innovaciones-tecnicas.jpg';
-import slide3 from '../../resources/images/conocenos-uceme.jpg';
-import slide4 from '../../resources/images/cita-medica-uceme.jpg';
+import slide1 from '../../resources/images/uceme.webp';
+import slide2 from '../../resources/images/innovaciones-tecnicas.webp';
+import slide3 from '../../resources/images/conocenos-uceme.webp';
+import slide4 from '../../resources/images/cita-medica-uceme.webp';
 
 const items = [
   {
@@ -38,7 +38,7 @@ const items = [
   },
 ];
 
-const Slider: () => JSX.Element = () => {
+const Slider: () => ReactElement = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
@@ -59,7 +59,7 @@ const Slider: () => JSX.Element = () => {
     setActiveIndex(newIndex);
   };
 
-  const slides: JSX.Element[] = items.map((item) => {
+  const slides: ReactElement[] = items.map((item) => {
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}

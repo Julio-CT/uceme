@@ -1,6 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 import * as React from 'react';
-import { Route } from 'react-router';
+import { Route, Routes } from 'react-router';
+import { ReactElement } from 'react';
 import Login from './Login';
 import Logout from './Logout';
 import ApplicationPaths, {
@@ -8,52 +9,52 @@ import ApplicationPaths, {
   LogoutActions,
 } from './ApiAuthorizationConstants';
 
-function loginAction(name: string): JSX.Element {
+function loginAction(name: string): ReactElement {
   return <Login action={name} />;
 }
 
-function logoutAction(name: string): JSX.Element {
+function logoutAction(name: string): ReactElement {
   return <Logout action={name} />;
 }
 
 export default class ApiAuthorizationRoutes extends React.Component {
-  render(): JSX.Element {
+  render(): ReactElement {
     return (
-      <>
-        <Route path="/" render={() => loginAction(LoginActions.Login)} />
+      <Routes>
+        <Route path="/" element={loginAction(LoginActions.Login)} />
         <Route
           path={ApplicationPaths.Login}
-          render={() => loginAction(LoginActions.Login)}
+          element={loginAction(LoginActions.Login)}
         />
         <Route
           path={ApplicationPaths.LoginFailed}
-          render={() => loginAction(LoginActions.LoginFailed)}
+          element={loginAction(LoginActions.LoginFailed)}
         />
         <Route
           path={ApplicationPaths.LoginCallback}
-          render={() => loginAction(LoginActions.LoginCallback)}
+          element={loginAction(LoginActions.LoginCallback)}
         />
         <Route
           path={ApplicationPaths.Profile}
-          render={() => loginAction(LoginActions.Profile)}
+          element={loginAction(LoginActions.Profile)}
         />
         <Route
           path={ApplicationPaths.Register}
-          render={() => loginAction(LoginActions.Register)}
+          element={loginAction(LoginActions.Register)}
         />
         <Route
           path={ApplicationPaths.LogOut}
-          render={() => logoutAction(LogoutActions.Logout)}
+          element={logoutAction(LogoutActions.Logout)}
         />
         <Route
           path={ApplicationPaths.LogOutCallback}
-          render={() => logoutAction(LogoutActions.LogoutCallback)}
+          element={logoutAction(LogoutActions.LogoutCallback)}
         />
         <Route
           path={ApplicationPaths.LoggedOut}
-          render={() => logoutAction(LogoutActions.LoggedOut)}
+          element={logoutAction(LogoutActions.LoggedOut)}
         />
-      </>
+      </Routes>
     );
   }
 }

@@ -45,7 +45,7 @@
   color: $uceme-green;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .header-distance-negative {
     margin-top: -100px;
   }

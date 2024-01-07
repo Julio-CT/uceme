@@ -4,7 +4,7 @@ html {
   font-size: 14px;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   html {
     font-size: 16px;
   }
@@ -44,7 +44,7 @@ html {
 }
 
 .beatabg {
-  background: url('../../resources/images/cita-previa.png') no-repeat left 0;
+  background: url('../../resources/images/cita-previa.webp') no-repeat left 0;
 }
 
 .scrollable-wrapper {
@@ -52,16 +52,14 @@ html {
   max-width: 500px;
   margin: 1em auto;
   border: 1px solid black;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: hidden hidden;
 }
 
 .scrollable {
   background: #f3f3f3;
   box-sizing: border-box;
   white-space: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   -webkit-overflow-scrolling: touch;
   margin: 0 3em;
 
@@ -147,8 +145,15 @@ html {
   box-shadow: rgb(67 113 50) 0 0 0 1px inset;
 
   &.active {
-    box-shadow: border-box;
+    box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%);
+    box-sizing: border-box;
     color: rgb(255 255 255);
     background-color: rgb(88 148 66);
+  }
+}
+
+@media (width >= 576px) {
+  .modal-dialog {
+    max-width: 600px;
   }
 }

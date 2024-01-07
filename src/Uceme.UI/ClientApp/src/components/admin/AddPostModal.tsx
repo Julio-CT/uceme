@@ -14,11 +14,12 @@ import { ContentState, convertToRaw, RawDraftContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import { ReactElement } from 'react';
 import authService from '../api-authorization/AuthorizeService';
 import './AddPostModal.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import BlogItem from '../../library/BlogItem';
-import SettingsContext from '../../SettingsContext';
+import SettingsContext, { Settings } from '../../SettingsContext';
 
 type AddPostModalProps = {
   toggle: () => void;
@@ -27,9 +28,9 @@ type AddPostModalProps = {
   headerTitle: string;
 };
 
-function AddPostModal(props: AddPostModalProps): JSX.Element {
+function AddPostModal(props: AddPostModalProps): ReactElement {
   const { modal, toggle, post, headerTitle } = props;
-  const settings = React.useContext(SettingsContext);
+  const settings: Settings = React.useContext(SettingsContext);
 
   let contentState = ContentState.createFromText(post ? post.text : '');
   const inputName = 'reactstrap_date_picker_basic';
@@ -180,7 +181,7 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
       })
         .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
-          if (resp === true) {
+          if (resp) {
             alert('Post registrado correctamente. Muchas gracias.');
             resetForm();
             toggle();
@@ -231,27 +232,31 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
         <section id="section-contact_form" className="container">
           <div className="row justify-content-md-center">
             <form className="col-12">
-              <div className="extra-padding field-margin">
-                <Label for="FileUpload_FormFile">Foto</Label>
+              <div className="field-margin">
+                <Label for="FileUpload_FormFile" className="field-label">
+                  Imagen (max 600x600px):
+                </Label>
                 <Input
                   id="FileUpload_FormFile"
                   type="file"
-                  name="FileUpload.FormFile"
+                  name="FileUpload_FormFile"
+                  accept=".jpg, .jpeg, .png, .webp"
                   onChange={(e) => setFile(e)}
                 />
                 <Button
-                  className="submit-form-button"
+                  className="submit-form-button top-margin"
                   onClick={(e) => uploadfile(e)}
                   value="Subir"
+                  disabled={!photo || !!imgSrc}
                 >
-                  Subir foto
+                  Subir imagen
                 </Button>
               </div>
             </form>
             <form className="col-12">
-              <div className="extra-padding field-margin">
+              <div className="field-margin">
                 <Label for="titleForm" className="field-label">
-                  Título
+                  Título:
                 </Label>
                 <Input
                   type="text"
@@ -265,7 +270,7 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
               </div>
               <div className="field-margin">
                 <Label for="dateForm" className="field-label">
-                  Fecha de publicación
+                  Fecha de publicación:
                 </Label>
                 <DatePicker
                   id="dateForm"
@@ -280,7 +285,7 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
                     .slice(0, 10)}T00:00:00.000Z`}
                 />
                 <Label for="slugForm" className="field-label">
-                  Slug (link)
+                  Slug (link):
                 </Label>
                 <Input
                   type="text"
@@ -292,7 +297,7 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
                   required
                 />
                 <Label for="textForm" className="field-label">
-                  Texto
+                  Texto:
                 </Label>
                 <Editor
                   defaultContentState={text}
@@ -302,7 +307,7 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
                   toolbarClassName="toolbar-class"
                 />
                 <Label for="captionForm" className="field-label">
-                  Caption (descripción de la imagen)
+                  Caption (descripción de la imagen):
                 </Label>
                 <Input
                   type="textarea"
@@ -312,7 +317,7 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
                   onChange={(evt) => setCaption(evt.target.value)}
                 />
                 <Label for="metaForm" className="field-label">
-                  Meta - description
+                  Meta-description:
                 </Label>
                 <Input
                   type="textarea"
@@ -322,7 +327,7 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
                   onChange={(evt) => setMetaDescription(evt.target.value)}
                 />
                 <Label for="seoForm" className="field-label">
-                  Titulo para SEO
+                  Título para SEO:
                 </Label>
                 <Input
                   type="textarea"
@@ -337,7 +342,19 @@ function AddPostModal(props: AddPostModalProps): JSX.Element {
         </section>
       </ModalBody>
       <ModalFooter>
-        <Button className="submit-form-button" onClick={(e) => submitForm(e)}>
+        <Button
+          className="submit-form-button"
+          onClick={(e) => submitForm(e)}
+          disabled={
+            !imgSrc ||
+            !title ||
+            !caption ||
+            !text ||
+            !metaDescription ||
+            !selectedDay ||
+            !seoTitle
+          }
+        >
           Publicar
         </Button>{' '}
         <Button color="secondary" onClick={toggle}>

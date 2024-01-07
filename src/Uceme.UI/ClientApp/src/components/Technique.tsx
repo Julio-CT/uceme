@@ -1,8 +1,8 @@
-import React from 'react';
+﻿import React, { ReactElement } from 'react';
 import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';
-import SettingsContext from '../SettingsContext';
+import SettingsContext, { Settings } from '../SettingsContext';
 import TechniqueResponse from '../library/TechniqueResponse';
 import './Technique.scss';
 
@@ -11,13 +11,9 @@ type TechniqueState = {
   loaded: boolean;
 };
 
-interface MatchParams {
-  tec: string;
-}
-
-function Technique(): JSX.Element {
-  const settings = React.useContext(SettingsContext);
-  const { tec } = useParams<MatchParams>();
+function Technique(): ReactElement {
+  const settings: Settings = React.useContext(SettingsContext);
+  const { tec } = useParams();
 
   const [data, setData] = React.useState<TechniqueState>({
     loaded: false,
@@ -55,7 +51,7 @@ function Technique(): JSX.Element {
 
   if (data.loaded && data.technique) {
     return (
-      <div className="app-home header-distance">
+      <div className="app-home header-distance-l">
         <div className="container">
           <div className="section padding-top section-large section-grey section-in-view article-list-container article-list-page-1">
             <Helmet>
@@ -69,13 +65,13 @@ function Technique(): JSX.Element {
 
             <article className="article article-list article-blog article-1">
               <a
-                href={`/tecnica/${data.technique.titulo}`}
+                href={`/tecnica/${data.technique.idTecnica}`}
                 className="article-image article-image-thumb"
               >
                 <img src={data.technique.foto} alt={data.technique.nombre} />
               </a>
               <div className="article-inner">
-                <h2 className="article-title">{data.technique.nombre}</h2>
+                <h2 className="article-title">{data.technique.titulo}</h2>
                 <div>{parse(data.technique.texto)}</div>
               </div>
             </article>

@@ -1,51 +1,50 @@
-﻿namespace Uceme.Library.Services
+﻿namespace Uceme.Library.Services;
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Microsoft.Extensions.Logging;
+using Uceme.Model.Data;
+using Uceme.Model.Models;
+
+public class HospitalService : IHospitalService
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using Microsoft.Extensions.Logging;
-    using Uceme.Model.Data;
-    using Uceme.Model.Models;
+    private readonly ILogger<HospitalService> logger;
 
-    public class HospitalService : IHospitalService
+    private readonly ApplicationDbContext context;
+
+    public HospitalService(ILogger<HospitalService> logger, IApplicationDbContext context)
     {
-        private readonly ILogger<HospitalService> logger;
+        this.logger = logger;
+        this.context = (ApplicationDbContext)context;
+    }
 
-        private readonly ApplicationDbContext context;
-
-        public HospitalService(ILogger<HospitalService> logger, IApplicationDbContext context)
+    public IEnumerable<DatosProfesionales> GetHospitals()
+    {
+        try
         {
-            this.logger = logger;
-            this.context = (ApplicationDbContext)context;
+            IQueryable<DatosProfesionales> data = this.context.DatosProfesionales.Where(x => x.activo != null && x.activo.Value);
+
+            return data;
         }
-
-        public IEnumerable<DatosProfesionales> GetHospitals()
+        catch (Exception e)
         {
-            try
-            {
-                var data = this.context.DatosProfesionales.Where(x => x.activo != null && x.activo.Value);
-
-                return data;
-            }
-            catch (Exception e)
-            {
-                this.logger.LogError($"Error retrieving Hospitals {e.Message}");
-                throw new DataException("Error retrieving Hospitals", e);
-            }
+            this.logger.LogError($"Error retrieving Hospitals {e.Message}");
+            throw new DataException("Error retrieving Hospitals", e);
         }
+    }
 
-        public DatosProfesionales GetHospital(int hospitalId)
+    public DatosProfesionales GetHospital(int hospitalId)
+    {
+        try
         {
-            try
-            {
-                return this.context.DatosProfesionales.First(x => x.idDatosPro == hospitalId);
-            }
-            catch (Exception e)
-            {
-                this.logger.LogError($"Error retrieving Hospital {e.Message}");
-                throw new DataException("Error retrieving Hospital", e);
-            }
+            return this.context.DatosProfesionales.First(x => x.idDatosPro == hospitalId);
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError($"Error retrieving Hospital {e.Message}");
+            throw new DataException("Error retrieving Hospital", e);
         }
     }
 }

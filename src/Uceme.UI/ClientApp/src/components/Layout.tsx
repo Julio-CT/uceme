@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './Layout.scss';
+import { ReactElement } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -51,7 +52,7 @@ export default class Layout extends React.Component<LayoutProps, LayoutState> {
     Layout.headerShrinker();
   }
 
-  render(): JSX.Element {
+  render(): ReactElement {
     const { children } = this.state;
     return (
       <>

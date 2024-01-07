@@ -1,9 +1,16 @@
 ﻿namespace Uceme.Model.Data
 {
+    using System;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Infrastructure;
+    using Microsoft.EntityFrameworkCore.Internal;
     using Uceme.Model.Models;
 
-    public interface IApplicationDbContext
+    public interface IApplicationDbContext :
+        IInfrastructure<IServiceProvider>,
+        IDbContextDependencies,
+        IDbSetCache,
+        IDbContextPoolable
     {
         DbSet<Blog> Blog { get; set; }
 
@@ -42,8 +49,6 @@
         DbSet<Usuario> Usuario { get; set; }
 
         DbSet<Video> Video { get; set; }
-
-        DbSet<sysdiagrams> Sysdiagrams { get; set; }
 
         DbSet<UserProfile> UserProfile { get; set; }
 

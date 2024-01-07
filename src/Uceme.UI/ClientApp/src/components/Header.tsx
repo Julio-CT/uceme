@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Container } from 'reactstrap';
 import './Header.scss';
+import { ReactElement } from 'react';
 import NavMenu from './NavMenu';
-import logo from '../resources/images/logo-uceme-nuevo.png';
+import logo from '../resources/images/logo-uceme-nuevo.webp';
 import citaPreviaLogo from '../resources/images/icono-cita-previa.webp';
 import AppointmentModal from './appointment-sections/AppointmentModal';
 
-function Header(): JSX.Element {
+function Header(): ReactElement {
   const [modal, setModal] = React.useState<boolean>(false);
   const toggle: () => void = () => setModal(!modal);
 

@@ -4,7 +4,7 @@ html {
   font-size: 14px;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   html {
     font-size: 16px;
   }
@@ -67,7 +67,7 @@ a.small-logo {
   float: right;
 }
 
-@media (max-width: 767px) {
+@media (width <= 767px) {
   .hidden-xs {
     display: none !important;
   }
@@ -100,7 +100,7 @@ a.small-logo {
   vertical-align: middle;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .rounded-fixed-btn > span {
     line-height: 1.7em;
   }

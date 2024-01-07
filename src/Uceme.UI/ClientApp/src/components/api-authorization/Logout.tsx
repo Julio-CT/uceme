@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ReactElement } from 'react';
 import authService, { AuthenticationResultStatus } from './AuthorizeService';
 
 import ApplicationPaths, {
@@ -108,7 +109,7 @@ class Logout extends React.Component<LogoutProps, LogoutState> {
     }
   }
 
-  render(): JSX.Element {
+  render(): ReactElement {
     if (this.state) {
       const { isReady, message } = this.state;
       if (!isReady) {

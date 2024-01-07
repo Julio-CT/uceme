@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ReleaseVersion>0.3</ReleaseVersion>
   </PropertyGroup>
@@ -10,10 +10,6 @@
     <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Uceme.Model\Uceme.Model.csproj" />
     <ProjectReference Include="..\Uceme.Foundation\Uceme.Foundation.csproj" />
   </ItemGroup>
 </Project>

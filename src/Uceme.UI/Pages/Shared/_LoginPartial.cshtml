@@ -1,14 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Uceme.Model.Models;
+@using System.Text.RegularExpressions
 @inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
 
 @{
     string? returnUrl = null;
     var query = ViewContext.HttpContext.Request.Query;
     if (query.ContainsKey("returnUrl"))
     {
-        returnUrl = query["returnUrl"];
+        var returnUrlFromQuery = query["returnUrl"];
+        string pattern = @"\/connect\/authorize\/callback\?client_id=Uceme\.UI&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Flogin-callback&response_type=code&scope=Uceme\.UIAPI%20openid%20profile&state=[a-z,0-9]{32}&code_challenge=[A-Z,a-z,0-9,_,-]{43}&code_challenge_method=[A-Z,0-9]{4}&response_mode=query";
+        Match m = Regex.Match(returnUrlFromQuery!, pattern, RegexOptions.IgnoreCase);
+        if (m.Success)
+        {
+            returnUrl = returnUrlFromQuery;
+        }
     }
 }
 
@@ -27,10 +33,10 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@returnUrl">Registrese</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@returnUrl">Regístrese</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login"asp-route-returnUrl="@returnUrl">Login</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@returnUrl">Login</a>
         </li>
     }
 </ul>

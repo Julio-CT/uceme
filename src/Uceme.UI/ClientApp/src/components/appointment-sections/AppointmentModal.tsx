@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import DatePicker from 'reactstrap-date-picker2';
 import AppointmentHours from './AppointmentHours';
-import SettingsContext from '../../SettingsContext';
+import SettingsContext, { Settings } from '../../SettingsContext';
 import './AppointmentModal.scss';
 
 type Hospital = {
@@ -31,7 +31,7 @@ type AppointmentHoursResponse = {
 
 function AppointmentModal(props: AppointmentModalProps): JSX.Element {
   const { modal, toggle } = props;
-  const settings = React.useContext(SettingsContext);
+  const settings: Settings = React.useContext(SettingsContext);
   const inputName = 'reactstrap_date_picker_basic';
   const [showHospitals, setShowHospitals] = React.useState<boolean>(true);
   const [showDays, setShowDays] = React.useState<boolean>(false);
@@ -258,7 +258,7 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
       })
         .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
-          if (resp === true) {
+          if (resp) {
             alert(
               'Cita previa registrada correctamente. Recibirá un email con la confimación. Muchas gracias.'
             );

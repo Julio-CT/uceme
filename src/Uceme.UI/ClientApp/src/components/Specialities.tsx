@@ -1,12 +1,13 @@
 /* eslint-disable react/function-component-definition */
 import * as React from 'react';
-import SettingsContext from '../SettingsContext';
+import { ReactElement } from 'react';
+import SettingsContext, { Settings } from '../SettingsContext';
 import './Specialities.scss';
-import slide1 from '../resources/images/cirugia-tiroidea.png';
-import slide2 from '../resources/images/cirugia-paratiroidea.png';
-import slide3 from '../resources/images/obesidad-morbida.png';
-import slide4 from '../resources/images/cirugia-glandulas-suprarrenales.png';
-import slide5 from '../resources/images/tiroidectomia-sin-cicatriz.png';
+import slide1 from '../resources/images/cirugia-tiroidea.webp';
+import slide2 from '../resources/images/cirugia-paratiroidea.webp';
+import slide3 from '../resources/images/obesidad-morbida.webp';
+import slide4 from '../resources/images/cirugia-glandulas-suprarrenales.webp';
+import slide5 from '../resources/images/tiroidectomia-sin-cicatriz.webp';
 
 const specials = [
   {
@@ -50,7 +51,7 @@ const specials = [
   },
 ];
 
-const items: JSX.Element[] = specials.map((item) => {
+const items: ReactElement[] = specials.map((item) => {
   return (
     <div className="col-12 col-md-4" key={item.title}>
       <a href={`/especialidad/${item.link}`} title={item.title}>
@@ -78,8 +79,8 @@ const items: JSX.Element[] = specials.map((item) => {
   );
 });
 
-const Specialities: () => JSX.Element = () => {
-  const settings = React.useContext(SettingsContext);
+const Specialities: () => ReactElement = () => {
+  const settings: Settings = React.useContext(SettingsContext);
   return (
     <div className="app app-home header-distance-l">
       <section id="section-specialities" className="header-distance-negative">

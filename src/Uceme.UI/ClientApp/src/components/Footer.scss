@@ -4,7 +4,7 @@ html {
   font-size: 14px;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   html {
     font-size: 16px;
   }
@@ -41,52 +41,52 @@ a.instagram {
 }
 
 a.facebook {
-  background: url('../resources/images/facebook2.png') no-repeat left -32px;
+  background: url('../resources/images/facebook2.webp') no-repeat left -32px;
 }
 
 a.twitter {
-  background: url('../resources/images/twitter2.png') no-repeat left -32px;
+  background: url('../resources/images/twitter2.webp') no-repeat left -32px;
 }
 
 a.linkedin {
-  background: url('../resources/images/linkedin2.png') no-repeat left -32px;
+  background: url('../resources/images/linkedin2.webp') no-repeat left -32px;
 }
 
 a.instagram {
-  background: url('../resources/images/instagram2.png') no-repeat left -32px;
+  background: url('../resources/images/instagram2.webp') no-repeat left -32px;
 }
 
 a.facebook:hover {
-  background: url('../resources/images/facebook2.png') no-repeat left -32px;
+  background: url('../resources/images/facebook2.webp') no-repeat left -32px;
 }
 
 a.twitter:hover {
-  background: url('../resources/images/twitter2.png') no-repeat left -32px;
+  background: url('../resources/images/twitter2.webp') no-repeat left -32px;
 }
 
 a.linkedin:hover {
-  background: url('../resources/images/linkedin2.png') no-repeat left -32px;
+  background: url('../resources/images/linkedin2.webp') no-repeat left -32px;
 }
 
 a.instagram:hover {
-  background: url('../resources/images/instagram2.png') no-repeat left -32px;
+  background: url('../resources/images/instagram2.webp') no-repeat left -32px;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   a.facebook {
-    background: url('../resources/images/facebook2.png') no-repeat left -32px;
+    background: url('../resources/images/facebook2.webp') no-repeat left -32px;
   }
 
   a.twitter {
-    background: url('../resources/images/twitter2.png') no-repeat left -32px;
+    background: url('../resources/images/twitter2.webp') no-repeat left -32px;
   }
 
   a.linkedin {
-    background: url('../resources/images/linkedin2.png') no-repeat left -32px;
+    background: url('../resources/images/linkedin2.webp') no-repeat left -32px;
   }
 
   a.instagram {
-    background: url('../resources/images/instagram2.png') no-repeat left -32px;
+    background: url('../resources/images/instagram2.webp') no-repeat left -32px;
   }
 }
 
