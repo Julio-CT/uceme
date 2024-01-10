@@ -26,13 +26,17 @@
                 "createDefaultProgram": true
             },
             "extends": [
-                "airbnb-typescript-prettier",
-                "prettier/@typescript-eslint",
+                "airbnb",
+                "airbnb-typescript",
+                "prettier",
                 "plugin:prettier/recommended"
+            ],
+            "plugins": [
+                "prettier"
             ],
             "rules": {
                 "no-restricted-globals": "off",
-                "prettier/prettier": ["error", { "endOfLine": "auto" }] 
+                "prettier/prettier": ["error", { "endOfLine": "auto" }]
             }
         },
         {
@@ -45,10 +49,12 @@
             ],
             "extends": [
                 "plugin:jest/recommended",
-                "prettier/@typescript-eslint"
+                "prettier",
+                "plugin:prettier/recommended"
             ],
             "plugins": [
-                "jest"
+                "jest",
+                "prettier"
             ],
             "env": {
                 "jest/globals": true

@@ -1,4 +1,4 @@
-﻿import React, { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import parse from 'html-react-parser';

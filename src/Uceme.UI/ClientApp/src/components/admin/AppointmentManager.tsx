@@ -53,9 +53,8 @@ function AppointmentManager(): ReactElement {
       setConfirmModal(false);
       const token = await authService.getAccessToken();
       fetch(
-        `${
-          settings?.baseHref
-        }api/appointment/deleteappointment?appointmentid=${+markedAppointment.id}`,
+        `${settings?.baseHref}
+        api/appointment/deleteappointment?appointmentid=${+markedAppointment.id}`,
         {
           headers: !token ? {} : { Authorization: `Bearer ${token}` },
         }
@@ -316,6 +315,7 @@ function AppointmentManager(): ReactElement {
                     <td>{appointment.phone}</td>
                     <td>
                       <DeleteIcon
+                        aria-label="Delete"
                         onClick={() => deleteAppointment(appointment)}
                       />
                     </td>

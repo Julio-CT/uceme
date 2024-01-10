@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import SettingsContext, { Settings } from '../SettingsContext';
 import './ContactUs.scss';
 
-type contactUsState = {
+type ContactUsState = {
   loaded: boolean;
   name: string;
   email: string;
@@ -19,7 +19,7 @@ const ContactUs: () => ReactElement = () => {
   const [modalMessage, setModaleMessage] = React.useState<string>('');
   const history = useNavigate();
   const settings: Settings = React.useContext(SettingsContext);
-  const [data, setData] = React.useState<contactUsState>({
+  const [data, setData] = React.useState<ContactUsState>({
     loaded: false,
     name: '',
     email: '',

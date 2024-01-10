@@ -227,12 +227,14 @@ function PostManager(): ReactElement {
                     <td>{post.title}</td>
                     <td>
                       <EditIcon
+                        aria-label="Edit"
                         className="clickable"
                         onClick={() => editPost(post)}
                       />
                     </td>
                     <td>
                       <DeleteIcon
+                        aria-label="Delete"
                         className="clickable"
                         onClick={() => deletePost(post)}
                       />
