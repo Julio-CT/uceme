@@ -1,16 +1,9 @@
 ﻿namespace Uceme.Model.Data
 {
-    using System;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
-    using Microsoft.EntityFrameworkCore.Internal;
     using Uceme.Model.Models;
 
-    public interface IApplicationDbContext :
-        IInfrastructure<IServiceProvider>,
-        IDbContextDependencies,
-        IDbSetCache,
-        IDbContextPoolable
+    public interface IApplicationDbContext
     {
         DbSet<Blog> Blog { get; set; }
 

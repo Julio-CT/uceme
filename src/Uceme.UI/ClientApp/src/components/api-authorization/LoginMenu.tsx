@@ -31,9 +31,6 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
         <Nav.Link className="text-dark" href="/appointmentmanager">
           Citas
         </Nav.Link>
-        <Nav.Link className="text-dark" href="/schedulemanager">
-          Horarios
-        </Nav.Link>
         <Nav.Link className="text-dark" href="/postmanager">
           Posts
         </Nav.Link>
