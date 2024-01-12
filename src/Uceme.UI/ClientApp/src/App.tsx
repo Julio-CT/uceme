@@ -11,6 +11,7 @@ import Speciality from './components/Speciality';
 import ContactUs from './components/ContactUs';
 import AppointmentManager from './components/admin/AppointmentManager';
 import PostManager from './components/admin/PostManager';
+import ScheduleManager from './components/admin/ScheduleManager';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import ApplicationPaths, {
   LoginActions,
@@ -90,7 +91,7 @@ function App(): ReactElement {
           />
           <Route
             path="/schedulemanager"
-            element={<AuthorizeRoute element={<PostManager />} />}
+            element={<AuthorizeRoute element={<ScheduleManager />} />}
           />
           <Route
             path={ApplicationPaths.ApiAuthorizationPrefix}
