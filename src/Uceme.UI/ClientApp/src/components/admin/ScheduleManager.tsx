@@ -1,16 +1,18 @@
 import React, { ReactElement } from 'react';
+import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { Calendar, Views, momentLocalizer, Event } from 'react-big-calendar';
 import './ScheduleManager.scss';
+import SettingsContext, { Settings } from '../../SettingsContext';
 import * as dates from '../../utils/dates';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-// type ScheduleManagerState = {
-//   loaded: boolean;
-//   events?: ExtendedEvent[] | null;
-//   backgrondEvents?: ExtendedEvent[] | null;
-//   page?: number;
-// };
+type ScheduleManagerState = {
+  loaded: boolean;
+  events?: ExtendedEvent[] | null;
+  backgrondEvents?: ExtendedEvent[] | null;
+  page?: number;
+};
 
 interface ExtendedEvent extends Event {
   id: number;
@@ -18,6 +20,9 @@ interface ExtendedEvent extends Event {
 }
 
 function ScheduleManager(): ReactElement {
+  const { page } = useParams();
+  const settings: Settings = React.useContext(SettingsContext);
+
   const localizer = momentLocalizer(moment);
 
   const { defaultDate, max, views } = React.useMemo(
@@ -240,22 +245,24 @@ function ScheduleManager(): ReactElement {
     },
   ];
 
-  return (
-    <div className="app app-home header-distance">
-      <Calendar
-        backgroundEvents={backgroundEvents}
-        dayLayoutAlgorithm="no-overlap"
-        defaultDate={defaultDate}
-        defaultView={Views.DAY}
-        events={events}
-        localizer={localizer}
-        max={max}
-        showMultiDayTimes
-        step={60}
-        views={views}
-      />
-    </div>
-  );
+  if (true) {
+    return (
+      <div className="app app-home header-distance">
+        <Calendar
+          backgroundEvents={backgroundEvents}
+          dayLayoutAlgorithm="no-overlap"
+          defaultDate={defaultDate}
+          defaultView={Views.DAY}
+          events={events}
+          localizer={localizer}
+          max={max}
+          showMultiDayTimes
+          step={60}
+          views={views}
+        />
+      </div>
+    );
+  }
 
   return <div className="app app-home header-distance">Loading...</div>;
 }
