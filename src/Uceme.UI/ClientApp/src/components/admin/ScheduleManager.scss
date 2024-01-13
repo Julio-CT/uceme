@@ -1,0 +1,10 @@
+@import '../../variables.scss';
+
+.rbc-calendar {
+  padding: 2em 0;
+  width: 60%;
+}
+
+.rbc-event, .rbc-day-slot .rbc-background-event {
+  background-color: $uceme-green !important;
+}
