@@ -5,12 +5,12 @@ import './ScheduleManager.scss';
 import * as dates from '../../utils/dates';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-type ScheduleManagerState = {
-  loaded: boolean;
-  events?: ExtendedEvent[] | null;
-  backgrondEvents?: ExtendedEvent[] | null;
-  page?: number;
-};
+// type ScheduleManagerState = {
+//   loaded: boolean;
+//   events?: ExtendedEvent[] | null;
+//   backgrondEvents?: ExtendedEvent[] | null;
+//   page?: number;
+// };
 
 interface ExtendedEvent extends Event {
   id: number;
