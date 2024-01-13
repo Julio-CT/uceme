@@ -26,6 +26,12 @@ public class HospitalControllerTests
         this.testClass = new HospitalController(this.logger.Object, this.hospitalService.Object);
     }
 
+    [TestCleanup]
+    public void CleanUp()
+    {
+        this.testClass.Dispose();
+    }
+
     [TestMethod]
     public void CanConstruct()
     {
@@ -34,6 +40,7 @@ public class HospitalControllerTests
 
         // Assert
         Assert.IsNotNull(instance);
+        instance.Dispose();
     }
 
     [TestMethod]

@@ -110,7 +110,7 @@ public class AppointmentControllerTests
     }
 
     [TestMethod]
-    public async Task CanCallAddApointmentAsync()
+    public async Task CanCallAddAppointmentAsync()
     {
         // Arrange
         var appointmentRequest = new AppointmentRequest
@@ -130,7 +130,7 @@ public class AppointmentControllerTests
         this.appointmentService.Setup(mock => mock.AddAppointmentAsync(It.IsAny<AppointmentRequest>())).ReturnsAsync(false);
 
         // Act
-        var result = await this.testClass.AddApointmentAsync(appointmentRequest).ConfigureAwait(false);
+        var result = await this.testClass.AddAppointmentAsync(appointmentRequest).ConfigureAwait(false);
 
         // Assert
         this.appointmentService.Verify(mock => mock.AddAppointmentAsync(It.IsAny<AppointmentRequest>()));
@@ -140,7 +140,7 @@ public class AppointmentControllerTests
         this.appointmentService.Setup(mock => mock.AddAppointmentAsync(It.IsAny<AppointmentRequest>())).ReturnsAsync(true);
 
         // Act
-        result = await this.testClass.AddApointmentAsync(appointmentRequest).ConfigureAwait(false);
+        result = await this.testClass.AddAppointmentAsync(appointmentRequest).ConfigureAwait(false);
 
         // Assert
         this.appointmentService.Verify(mock => mock.AddAppointmentAsync(It.IsAny<AppointmentRequest>()));
@@ -149,10 +149,10 @@ public class AppointmentControllerTests
     }
 
     [TestMethod]
-    public async Task CannotCallAddApointmentAsyncWithNullAppointmentRequest()
+    public async Task CannotCallAddAppointmentAsyncWithNullAppointmentRequest()
     {
         // Act
-        var result = await this.testClass.AddApointmentAsync(default).ConfigureAwait(false);
+        var result = await this.testClass.AddAppointmentAsync(default).ConfigureAwait(false);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<bool>));

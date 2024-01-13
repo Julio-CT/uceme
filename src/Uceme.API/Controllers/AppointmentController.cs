@@ -71,7 +71,7 @@ public class AppointmentController : Controller
 
     [HttpPost("addappointment")]
     [AllowAnonymous]
-    public async Task<ActionResult<bool>> AddApointmentAsync([FromBody] AppointmentRequest appointmentRequest)
+    public async Task<ActionResult<bool>> AddAppointmentAsync([FromBody] AppointmentRequest appointmentRequest)
     {
         if (appointmentRequest is null)
         {
