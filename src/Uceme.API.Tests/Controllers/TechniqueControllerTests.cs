@@ -32,6 +32,12 @@ public class TechniqueControllerTests
         this.testClass = new TechniqueController(this.techniqueService.Object, this.configuration.Object, this.logger.Object);
     }
 
+    [TestCleanup]
+    public void CleanUp()
+    {
+        this.testClass.Dispose();
+    }
+
     [TestMethod]
     public void CanConstruct()
     {
@@ -40,6 +46,7 @@ public class TechniqueControllerTests
 
         // Assert
         Assert.IsNotNull(instance);
+        instance.Dispose();
     }
 
     [TestMethod]

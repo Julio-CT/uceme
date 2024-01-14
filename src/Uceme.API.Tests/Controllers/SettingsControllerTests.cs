@@ -25,6 +25,12 @@ public class SettingsControllerTests
         this.testClass = new SettingsController(this.logger.Object, this.configuration.Object);
     }
 
+    [TestCleanup]
+    public void CleanUp()
+    {
+        this.testClass.Dispose();
+    }
+
     [TestMethod]
     public void CanConstruct()
     {
@@ -33,6 +39,7 @@ public class SettingsControllerTests
 
         // Assert
         Assert.IsNotNull(instance);
+        instance.Dispose();
     }
 
     [TestMethod]

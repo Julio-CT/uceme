@@ -28,6 +28,12 @@ public class HomeControllerTests
         this.testClass = new HomeController(this.medicoService.Object, this.fotosService.Object, this.logger.Object);
     }
 
+    [TestCleanup]
+    public void CleanUp()
+    {
+        this.testClass.Dispose();
+    }
+
     [TestMethod]
     public void CanConstruct()
     {
@@ -36,6 +42,7 @@ public class HomeControllerTests
 
         // Assert
         Assert.IsNotNull(instance);
+        instance.Dispose();
     }
 
     [TestMethod]

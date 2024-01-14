@@ -25,6 +25,12 @@ public class ContactControllerTests
         this.testClass = new ContactController(this.logger.Object, this.emailService.Object);
     }
 
+    [TestCleanup]
+    public void CleanUp()
+    {
+        this.testClass.Dispose();
+    }
+
     [TestMethod]
     public void CanConstruct()
     {
@@ -33,6 +39,7 @@ public class ContactControllerTests
 
         // Assert
         Assert.IsNotNull(instance);
+        instance.Dispose();
     }
 
     [TestMethod]

@@ -26,6 +26,12 @@ public class ScheduleControllerTests
         this.testClass = new ScheduleController(this.logger.Object, this.scheduleService.Object);
     }
 
+    [TestCleanup]
+    public void CleanUp()
+    {
+        this.testClass.Dispose();
+    }
+
     [TestMethod]
     public void CanConstruct()
     {
@@ -34,6 +40,7 @@ public class ScheduleControllerTests
 
         // Assert
         Assert.IsNotNull(instance);
+        instance.Dispose();
     }
 
     [TestMethod]
