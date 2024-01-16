@@ -93,6 +93,7 @@ public class AppointmentController : Controller
     }
 
     [HttpGet("appointmentlist")]
+    [AllowAnonymous]
     public ActionResult<IEnumerable<Appointment>> AppointmentList()
     {
         List<Appointment> result = new List<Appointment>();
@@ -115,6 +116,7 @@ public class AppointmentController : Controller
     }
 
     [HttpGet("closeappointmentlist")]
+    [AllowAnonymous]
     public ActionResult<IEnumerable<Appointment>> CloseAppointmentList()
     {
         List<Appointment> result = new List<Appointment>();
@@ -132,6 +134,7 @@ public class AppointmentController : Controller
     }
 
     [HttpGet("appointmenteventslist")]
+    [AllowAnonymous]
     public ActionResult<IEnumerable<CalendarEvent>> AppointmentEventsList()
     {
         List<CalendarEvent> result = new List<CalendarEvent>();
