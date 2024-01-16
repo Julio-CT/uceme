@@ -1,16 +1,28 @@
 import React, { ReactElement } from 'react';
 import moment from 'moment';
 import { Calendar, Views, momentLocalizer, Event } from 'react-big-calendar';
+import './AppointmentManager.scss';
 import './ScheduleManager.scss';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import * as dates from '../../utils/dates';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import SettingsContext, { Settings } from '../../SettingsContext';
+import Appointment from '../../library/Appointment';
+import AppointmentResponse from '../../library/AppointmentResponse';
+import { DateTimeUtils } from '../../library/DateTimeUtils';
+import authService from '../api-authorization/AuthorizeService';
+import EventResponse from '../../library/EventResponse';
 
-// type ScheduleManagerState = {
-//   loaded: boolean;
-//   events?: ExtendedEvent[] | null;
-//   backgrondEvents?: ExtendedEvent[] | null;
-//   page?: number;
-// };
+type ScheduleManagerState = {
+  loaded: boolean;
+  events?: ExtendedEvent[] | undefined;
+  backgrondEvents?: ExtendedEvent[] | null;
+};
+
+type AppointmentManagerState = {
+  loaded: boolean;
+  appointments?: Appointment[] | null;
+};
 
 interface ExtendedEvent extends Event {
   id: number;
@@ -18,7 +30,25 @@ interface ExtendedEvent extends Event {
 }
 
 function ScheduleManager(): ReactElement {
+  const settings: Settings = React.useContext(SettingsContext);
+  const [closeAppointmentsModal, setCloseAppointmentsModal] =
+    React.useState<boolean>(false);
+  const closeAppointmentsToggle = () =>
+    setCloseAppointmentsModal(!closeAppointmentsModal);
   const localizer = momentLocalizer(moment);
+  const [appointmentData, setAppointmentData] =
+    React.useState<ScheduleManagerState>({
+      loaded: false,
+      events: undefined,
+      backgrondEvents: null,
+    });
+  const [closeAppointmentData, setCloseAppointmentData] =
+    React.useState<AppointmentManagerState>({
+      loaded: false,
+      appointments: null,
+    });
+
+  const isFirstRun = React.useRef(true);
 
   const { defaultDate, max, views } = React.useMemo(
     () => ({
@@ -38,224 +68,193 @@ function ScheduleManager(): ReactElement {
     },
   ];
 
-  const now = new Date();
+  React.useEffect(() => {
+    const fetchAppointments = async () => {
+      const token = await authService.getAccessToken();
+      if (settings?.baseHref !== undefined) {
+        fetch(`${settings?.baseHref}api/appointment/AppointmentEventsList`, {
+          headers: !token ? {} : { Authorization: `Bearer ${token}` },
+        })
+          .then((response: { json: () => Promise<EventResponse[]> }) =>
+            response.json()
+          )
+          .then(async (resp: EventResponse[]) => {
+            const retrievedAppointments: ExtendedEvent[] = [];
 
-  const events: ExtendedEvent[] = [
-    {
-      id: 0,
-      title: 'All Day Event very long title',
-      allDay: true,
-      start: new Date(2015, 3, 0),
-      end: new Date(2015, 3, 1),
-    },
-    {
-      id: 1,
-      title: 'Long Event',
-      start: new Date(2015, 3, 7),
-      end: new Date(2015, 3, 10),
-    },
-    {
-      id: 2,
-      title: 'DTS STARTS',
-      start: new Date(2016, 2, 13, 0, 0, 0),
-      end: new Date(2016, 2, 20, 0, 0, 0),
-    },
-    {
-      id: 3,
-      title: 'DTS ENDS',
-      start: new Date(2016, 10, 6, 0, 0, 0),
-      end: new Date(2016, 10, 13, 0, 0, 0),
-    },
-    {
-      id: 4,
-      title: 'Some Event',
-      start: new Date(2015, 3, 9, 0, 0, 0),
-      end: new Date(2015, 3, 10, 0, 0, 0),
-    },
-    {
-      id: 5,
-      title: 'Conference',
-      start: new Date(2015, 3, 11),
-      end: new Date(2015, 3, 13),
-      desc: 'Big conference for important people',
-    },
-    {
-      id: 6,
-      title: 'Meeting',
-      start: new Date(2015, 3, 12, 10, 30, 0, 0),
-      end: new Date(2015, 3, 12, 12, 30, 0, 0),
-      desc: 'Pre-meeting meeting, to prepare for the meeting',
-    },
-    {
-      id: 7,
-      title: 'Lunch',
-      start: new Date(2015, 3, 12, 12, 0, 0, 0),
-      end: new Date(2015, 3, 12, 13, 0, 0, 0),
-      desc: 'Power lunch',
-    },
-    {
-      id: 8,
-      title: 'Meeting',
-      start: new Date(2015, 3, 12, 14, 0, 0, 0),
-      end: new Date(2015, 3, 12, 15, 0, 0, 0),
-    },
-    {
-      id: 9,
-      title: 'Happy Hour',
-      start: new Date(2015, 3, 12, 17, 0, 0, 0),
-      end: new Date(2015, 3, 12, 17, 30, 0, 0),
-      desc: 'Most important meal of the day',
-    },
-    {
-      id: 10,
-      title: 'Dinner',
-      start: new Date(2015, 3, 12, 20, 0, 0, 0),
-      end: new Date(2015, 3, 12, 21, 0, 0, 0),
-    },
-    {
-      id: 11,
-      title: 'Planning Meeting with Paige',
-      start: new Date(2015, 3, 13, 8, 0, 0),
-      end: new Date(2015, 3, 13, 10, 30, 0),
-    },
-    {
-      id: 11.1,
-      title: 'Inconvenient Conference Call',
-      start: new Date(2015, 3, 13, 9, 30, 0),
-      end: new Date(2015, 3, 13, 12, 0, 0),
-    },
-    {
-      id: 11.2,
-      title: "Project Kickoff - Lou's Shoes",
-      start: new Date(2015, 3, 13, 11, 30, 0),
-      end: new Date(2015, 3, 13, 14, 0, 0),
-    },
-    {
-      id: 11.3,
-      title: 'Quote Follow-up - Tea by Tina',
-      start: new Date(2015, 3, 13, 15, 30, 0),
-      end: new Date(2015, 3, 13, 16, 0, 0),
-    },
-    {
-      id: 12,
-      title: 'Late Night Event',
-      start: new Date(2015, 3, 17, 19, 30, 0),
-      end: new Date(2015, 3, 18, 2, 0, 0),
-    },
-    {
-      id: 12.5,
-      title: 'Late Same Night Event',
-      start: new Date(2015, 3, 17, 19, 30, 0),
-      end: new Date(2015, 3, 17, 23, 30, 0),
-    },
-    {
-      id: 13,
-      title: 'Multi-day Event',
-      start: new Date(2015, 3, 20, 19, 30, 0),
-      end: new Date(2015, 3, 22, 2, 0, 0),
-    },
-    {
-      id: 14,
-      title: 'Today',
-      start: new Date(new Date().setHours(new Date().getHours() - 3)),
-      end: new Date(new Date().setHours(new Date().getHours() + 3)),
-    },
-    {
-      id: 15,
-      title: 'Point in Time Event',
-      start: now,
-      end: now,
-    },
-    {
-      id: 16,
-      title: 'Video Record',
-      start: new Date(2015, 3, 14, 15, 30, 0),
-      end: new Date(2015, 3, 14, 19, 0, 0),
-    },
-    {
-      id: 17,
-      title: 'Dutch Song Producing',
-      start: new Date(2015, 3, 14, 16, 30, 0),
-      end: new Date(2015, 3, 14, 20, 0, 0),
-    },
-    {
-      id: 18,
-      title: 'Itaewon Meeting',
-      start: new Date(2015, 3, 14, 16, 30, 0),
-      end: new Date(2015, 3, 14, 17, 30, 0),
-    },
-    {
-      id: 19,
-      title: 'Online Coding Test',
-      start: new Date(2015, 3, 14, 17, 30, 0),
-      end: new Date(2015, 3, 14, 20, 30, 0),
-    },
-    {
-      id: 20,
-      title: 'An overlapped Event',
-      start: new Date(2015, 3, 14, 17, 0, 0),
-      end: new Date(2015, 3, 14, 18, 30, 0),
-    },
-    {
-      id: 21,
-      title: 'Phone Interview',
-      start: new Date(2015, 3, 14, 17, 0, 0),
-      end: new Date(2015, 3, 14, 18, 30, 0),
-    },
-    {
-      id: 22,
-      title: 'Cooking Class',
-      start: new Date(2015, 3, 14, 17, 30, 0),
-      end: new Date(2015, 3, 14, 19, 0, 0),
-    },
-    {
-      id: 23,
-      title: 'Go to the gym',
-      start: new Date(2015, 3, 14, 18, 30, 0),
-      end: new Date(2015, 3, 14, 20, 0, 0),
-    },
-    {
-      id: 24,
-      title: 'DST ends on this day (Europe)',
-      start: new Date(2022, 9, 30, 0, 0, 0),
-      end: new Date(2022, 9, 30, 4, 30, 0),
-    },
-    {
-      id: 25,
-      title: 'DST ends on this day (America)',
-      start: new Date(2022, 10, 6, 0, 0, 0),
-      end: new Date(2022, 10, 6, 4, 30, 0),
-    },
-    {
-      id: 26,
-      title: 'DST starts on this day (America)',
-      start: new Date(2023, 2, 12, 0, 0, 0),
-      end: new Date(2023, 2, 12, 4, 30, 0),
-    },
-    {
-      id: 27,
-      title: 'DST starts on this day (Europe)',
-      start: new Date(2023, 2, 26, 0, 0, 0),
-      end: new Date(2023, 2, 26, 4, 30, 0),
-    },
-  ];
+            await Promise.all(
+              resp.map(async (obj: EventResponse) => {
+                retrievedAppointments.push({
+                  id: obj.id,
+                  title: obj.title,
+                  desc: obj.desc,
+                  start: DateTimeUtils.DateFromEvent(obj.start),
+                  end: DateTimeUtils.DateFromEvent(obj.end),
+                });
+              })
+            );
 
-  return (
-    <div className="app app-home header-distance">
-      <Calendar
-        backgroundEvents={backgroundEvents}
-        dayLayoutAlgorithm="no-overlap"
-        defaultDate={defaultDate}
-        defaultView={Views.DAY}
-        events={events}
-        localizer={localizer}
-        max={max}
-        showMultiDayTimes
-        step={60}
-        views={views}
-      />
-    </div>
-  );
+            setAppointmentData({
+              loaded: true,
+              events: retrievedAppointments,
+              backgrondEvents: null,
+            });
+          })
+          .catch(() => {
+            setAppointmentData({
+              loaded: false,
+              events: undefined,
+              backgrondEvents: null,
+            });
+          });
+      }
+    };
+
+    const fetchCloseAppointments = async () => {
+      const token = await authService.getAccessToken();
+
+      if (settings?.baseHref !== undefined) {
+        fetch(`${settings?.baseHref}api/appointment/closeappointmentlist`, {
+          headers: !token ? {} : { Authorization: `Bearer ${token}` },
+        })
+          .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
+            response.json()
+          )
+          .then(async (resp: AppointmentResponse[]) => {
+            const retrievedAppointments: Appointment[] = [];
+
+            await Promise.all(
+              resp.map(async (obj: AppointmentResponse) => {
+                retrievedAppointments.push({
+                  id: obj.idCita,
+                  speciality: obj.speciality,
+                  date: DateTimeUtils.FormatDate(obj.dia),
+                  time: DateTimeUtils.TimeToString(obj.hora),
+                  name: obj.nombre,
+                  email: obj.email,
+                  phone: obj.telefono,
+                  idTurn: obj.idTurno,
+                });
+              })
+            );
+
+            setCloseAppointmentData({
+              loaded: true,
+              appointments: retrievedAppointments,
+            });
+
+            setCloseAppointmentsModal(true);
+          })
+          .catch(() => {
+            setAppointmentData({
+              loaded: false,
+              events: undefined,
+              backgrondEvents: null,
+            });
+          });
+      }
+    };
+
+    const updatePastAppointmentsData = async () => {
+      const token = await authService.getAccessToken();
+
+      if (settings?.baseHref !== undefined) {
+        fetch(
+          `${settings?.baseHref}api/appointment/updatepastappointmentsData`,
+          {
+            headers: !token ? {} : { Authorization: `Bearer ${token}` },
+          }
+        )
+          .then((response: { json: () => Promise<boolean> }) => response.json())
+          .catch();
+      }
+    };
+
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+
+      fetchCloseAppointments();
+      fetchAppointments();
+      updatePastAppointmentsData();
+      return;
+    }
+
+    setAppointmentData({ loaded: false });
+    fetchCloseAppointments();
+    fetchAppointments();
+  }, [settings?.baseHref]);
+
+  if (appointmentData.loaded && closeAppointmentData.loaded) {
+    return (
+      <div className="app app-home header-distance">
+        <Modal
+          isOpen={closeAppointmentsModal}
+          toggle={closeAppointmentsToggle}
+          className="next-dates-modal"
+        >
+          <ModalHeader
+            toggle={closeAppointmentsToggle}
+            className="beatabg next-dates-modal"
+          >
+            <div className="aligner next-dates-modal">
+              <div className="aligner-item aligner-item-top" />
+              <div className="aligner-item">Citas en los próximos 2 días</div>
+              <div className="aligner-item aligner-item-bottom" />
+            </div>
+          </ModalHeader>
+          <ModalBody>
+            <section id="section-contact_form" className="container">
+              <div className="row justify-content-md-center">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Especialidad</th>
+                      <th scope="col">Fecha</th>
+                      <th scope="col">Hora</th>
+                      <th scope="col">Paciente</th>
+                      <th scope="col">Teléfono</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {closeAppointmentData.appointments?.map(
+                      (appointment: Appointment) => {
+                        return (
+                          <tr key={appointment.id}>
+                            <td>{appointment.speciality}</td>
+                            <td>{appointment.date}</td>
+                            <td>{appointment.time}</td>
+                            <td>{appointment.name}</td>
+                            <td>{appointment.phone}</td>
+                          </tr>
+                        );
+                      }
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </ModalBody>
+          <ModalFooter>
+            {' '}
+            <Button color="secondary" onClick={closeAppointmentsToggle}>
+              Cerrar
+            </Button>
+          </ModalFooter>
+        </Modal>
+        <Calendar
+          backgroundEvents={backgroundEvents}
+          dayLayoutAlgorithm="no-overlap"
+          defaultDate={defaultDate}
+          defaultView={Views.DAY}
+          events={appointmentData.events}
+          localizer={localizer}
+          max={max}
+          showMultiDayTimes
+          step={60}
+          views={views}
+        />
+      </div>
+    );
+  }
 
   return <div className="app app-home header-distance">Loading...</div>;
 }
