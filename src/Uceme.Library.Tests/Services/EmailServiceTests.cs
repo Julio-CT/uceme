@@ -46,7 +46,7 @@ public class EmailServiceTests
     public void CanConstruct()
     {
         // Act
-        var instance = new EmailService(this.optionsFake, this.logger.Object, this.emailSender.Object);
+        EmailService? instance = new EmailService(this.optionsFake, this.logger.Object, this.emailSender.Object);
 
         // Assert
         Assert.IsNotNull(instance);
@@ -74,12 +74,12 @@ public class EmailServiceTests
     public async Task CanCallSendEmailToManagementAsync()
     {
         // Arrange
-        var fromAddress = "Test@Value.22";
-        var subject = "TestValue112382731";
-        var body = "TestValue2082826035";
+        string? fromAddress = "Test@Value.22";
+        string? subject = "TestValue112382731";
+        string? body = "TestValue2082826035";
 
         // Act
-        var result = await this.testClass.SendEmailToManagementAsync(fromAddress, subject, body).ConfigureAwait(false);
+        bool result = await this.testClass.SendEmailToManagementAsync(fromAddress, subject, body).ConfigureAwait(false);
 
         // Assert
         Assert.IsTrue(result);
@@ -117,12 +117,12 @@ public class EmailServiceTests
     public void CanCallSendEmailToManagement()
     {
         // Arrange
-        var fromAddress = "Test@Value.22";
-        var subject = "TestValue649043987";
-        var body = "TestValue359222217";
+        string? fromAddress = "Test@Value.22";
+        string? subject = "TestValue649043987";
+        string? body = "TestValue359222217";
 
         // Act
-        var result = this.testClass.SendEmailToManagement(fromAddress, subject, body);
+        bool result = this.testClass.SendEmailToManagement(fromAddress, subject, body);
 
         // Assert
         Assert.IsTrue(result);
@@ -160,12 +160,12 @@ public class EmailServiceTests
     public async Task CanCallSendEmailToClientAsync()
     {
         // Arrange
-        var toAddress = "Test@Value.22";
-        var subject = "TestValue370018525";
-        var body = "TestValue1231448036";
+        string? toAddress = "Test@Value.22";
+        string? subject = "TestValue370018525";
+        string? body = "TestValue1231448036";
 
         // Act
-        var result = await this.testClass.SendEmailToClientAsync(toAddress, subject, body).ConfigureAwait(false);
+        bool result = await this.testClass.SendEmailToClientAsync(toAddress, subject, body).ConfigureAwait(false);
 
         // Assert
         Assert.IsTrue(result);

@@ -42,7 +42,7 @@ public class TechniqueControllerTests
     public void CanConstruct()
     {
         // Act
-        var instance = new TechniqueController(this.techniqueService.Object, this.configuration.Object, this.logger.Object);
+        TechniqueController? instance = new TechniqueController(this.techniqueService.Object, this.configuration.Object, this.logger.Object);
 
         // Assert
         Assert.IsNotNull(instance);
@@ -103,7 +103,7 @@ public class TechniqueControllerTests
         });
 
         // Act
-        var result = this.testClass.GetTechniques();
+        ActionResult<IEnumerable<Tecnica>>? result = this.testClass.GetTechniques();
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<IEnumerable<Tecnica>>));
@@ -114,7 +114,7 @@ public class TechniqueControllerTests
     public void CanCallGetTechnique()
     {
         // Arrange
-        var techinqueId = 1172865305;
+        int techinqueId = 1172865305;
 
         this.techniqueService.Setup(mock => mock.GetTechnique(It.IsAny<int>())).Returns(new Tecnica
         {
@@ -127,7 +127,7 @@ public class TechniqueControllerTests
         });
 
         // Act
-        var result = this.testClass.GetTechnique(techinqueId);
+        ActionResult<Tecnica>? result = this.testClass.GetTechnique(techinqueId);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<Tecnica>));
@@ -138,12 +138,12 @@ public class TechniqueControllerTests
     public void CanCallDeleteTech()
     {
         // Arrange
-        var techId = 840182971;
+        int techId = 840182971;
 
         this.techniqueService.Setup(mock => mock.DeleteTechnique(It.IsAny<int>())).Returns(true);
 
         // Act
-        var result = this.testClass.DeleteTech(techId);
+        ActionResult<bool>? result = this.testClass.DeleteTech(techId);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<bool>));
@@ -155,7 +155,7 @@ public class TechniqueControllerTests
     public void CanCallUpdateTech()
     {
         // Arrange
-        var post = new Tecnica
+        Tecnica? post = new Tecnica
         {
             idTecnica = 1367736128,
             titulo = "TestValue880185007",
@@ -176,7 +176,7 @@ public class TechniqueControllerTests
         });
 
         // Act
-        var result = this.testClass.UpdateTech(post);
+        ActionResult<Tecnica>? result = this.testClass.UpdateTech(post);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<Tecnica>));
@@ -187,7 +187,7 @@ public class TechniqueControllerTests
     public void CannotCallUpdateTechWithNullPost()
     {
         // Act
-        var result = this.testClass.UpdateTech(default);
+        ActionResult<Tecnica>? result = this.testClass.UpdateTech(default);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<Tecnica>));
@@ -198,7 +198,7 @@ public class TechniqueControllerTests
     public void CanCallAddTech()
     {
         // Arrange
-        var postRequest = new TechniqueRequest
+        TechniqueRequest? postRequest = new TechniqueRequest
         {
             IdTech = 1741720022,
             Titulo = "TestValue1587777378",
@@ -214,7 +214,7 @@ public class TechniqueControllerTests
         this.techniqueService.Setup(mock => mock.AddTechnique(It.IsAny<TechniqueRequest>())).Returns(true);
 
         // Act
-        var result = this.testClass.AddTech(postRequest);
+        ActionResult<bool>? result = this.testClass.AddTech(postRequest);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<bool>));
@@ -227,7 +227,7 @@ public class TechniqueControllerTests
     public void CanCallAddTechNoIdInserts()
     {
         // Arrange
-        var postRequest = new TechniqueRequest
+        TechniqueRequest? postRequest = new TechniqueRequest
         {
             Titulo = "TestValue1587777378",
             Fecha = "TestValue649890646",
@@ -242,7 +242,7 @@ public class TechniqueControllerTests
         this.techniqueService.Setup(mock => mock.AddTechnique(It.IsAny<TechniqueRequest>())).Returns(true);
 
         // Act
-        var result = this.testClass.AddTech(postRequest);
+        ActionResult<bool>? result = this.testClass.AddTech(postRequest);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<bool>));
@@ -255,7 +255,7 @@ public class TechniqueControllerTests
     public void CanCallAddTechFailsIfInsertFails()
     {
         // Arrange
-        var postRequest = new TechniqueRequest
+        TechniqueRequest? postRequest = new TechniqueRequest
         {
             Titulo = "TestValue1587777378",
             Fecha = "TestValue649890646",
@@ -270,7 +270,7 @@ public class TechniqueControllerTests
         this.techniqueService.Setup(mock => mock.AddTechnique(It.IsAny<TechniqueRequest>())).Returns(false);
 
         // Act
-        var result = this.testClass.AddTech(postRequest);
+        ActionResult<bool>? result = this.testClass.AddTech(postRequest);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<bool>));
@@ -283,7 +283,7 @@ public class TechniqueControllerTests
     public void CanCallAddTechFailsIfUpdateFails()
     {
         // Arrange
-        var postRequest = new TechniqueRequest
+        TechniqueRequest? postRequest = new TechniqueRequest
         {
             IdTech = 1741720022,
             Titulo = "TestValue1587777378",
@@ -299,7 +299,7 @@ public class TechniqueControllerTests
         this.techniqueService.Setup(mock => mock.AddTechnique(It.IsAny<TechniqueRequest>())).Returns(true);
 
         // Act
-        var result = this.testClass.AddTech(postRequest);
+        ActionResult<bool>? result = this.testClass.AddTech(postRequest);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<bool>));
@@ -312,7 +312,7 @@ public class TechniqueControllerTests
     public void CannotCallAddTechWithNullPostRequest()
     {
         // Act
-        var result = this.testClass.AddTech(default);
+        ActionResult<bool>? result = this.testClass.AddTech(default);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<bool>));
@@ -324,12 +324,12 @@ public class TechniqueControllerTests
     public async Task CanCallOnTechUploadAsync()
     {
         // Arrange
-        var @file = new Mock<IFormFile>().Object;
+        IFormFile? @file = new Mock<IFormFile>().Object;
 
         this.techniqueService.Setup(mock => mock.GetNextTechImage()).Returns("TestValue254326747");
 
         // Act
-        var result = await this.testClass.OnTechUploadAsync(file).ConfigureAwait(false);
+        ActionResult<string>? result = await this.testClass.OnTechUploadAsync(file).ConfigureAwait(false);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<string>));
@@ -340,7 +340,7 @@ public class TechniqueControllerTests
     public async Task CannotCallOnTechUploadAsyncWithNullFile()
     {
         // Act
-        var result = await this.testClass.OnTechUploadAsync(default).ConfigureAwait(false);
+        ActionResult<string>? result = await this.testClass.OnTechUploadAsync(default).ConfigureAwait(false);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<string>));

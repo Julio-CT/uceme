@@ -14,6 +14,8 @@ using Uceme.Model.Models;
 
 public class AppointmentService : IAppointmentService
 {
+    public const int DataExpiryDays = -7;
+
     private readonly ILogger<AppointmentService> logger;
 
     private readonly IEmailService emailService;
@@ -30,13 +32,32 @@ public class AppointmentService : IAppointmentService
         this.emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
     }
 
-    public IEnumerable<Appointment> GetAppointments()
+    public IEnumerable<CalendarEvent>? GetAppointmentsEvents()
     {
         try
         {
-            IOrderedQueryable<Cita> existingAppointments = this.context.Cita.OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
+            uint pastDate = GetUintDate(-30);
 
-            return this.MapCitasToAppointments(existingAppointments);
+            IOrderedQueryable<Cita>? existingAppointments = this.context.Cita.Where(a => a.dia > pastDate)?.OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
+
+            return existingAppointments != null && existingAppointments.Any() ? this.MapCitasToAppointmentsEvents(existingAppointments) : null;
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError($"Error retrieving appointments {e.Message}");
+            throw new DataException("Error retrieving appointments", e);
+        }
+    }
+
+    public IEnumerable<Appointment>? GetAppointments()
+    {
+        try
+        {
+            uint pastDate = GetUintDate(-30);
+
+            IOrderedQueryable<Cita>? existingAppointments = this.context.Cita.Where(a => a.dia > pastDate)?.OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
+
+            return existingAppointments != null && existingAppointments.Any() ? this.MapCitasToAppointments(existingAppointments) : null;
         }
         catch (Exception e)
         {
@@ -149,9 +170,7 @@ public class AppointmentService : IAppointmentService
                 telefono = appointmentRequest.Phone,
             };
 
-            int weekday = Convert.ToInt32(appointmentRequest.WeekDay, CultureInfo.CurrentCulture);
-
-            Turno turno = this.context.Turno.First(o => o.idHospital == appointmentRequest.HospitalId && o.dia == weekday);
+            Turno turno = this.context.Turno.First(o => o.idHospital == appointmentRequest.HospitalId && o.dia == appointmentRequest.WeekDay);
             cita.idTurno = turno.idTurno;
             if (!string.IsNullOrEmpty(appointmentRequest.Email))
             {
@@ -159,7 +178,7 @@ public class AppointmentService : IAppointmentService
             }
 
             this.context.Cita.Add(cita);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync().ConfigureAwait(false);
 
             return await this.SendAppointmentEmailAsync(appointmentRequest, cita).ConfigureAwait(false);
         }
@@ -179,9 +198,9 @@ public class AppointmentService : IAppointmentService
     {
         try
         {
-            uint todaysDate = GetUintDate(-7);
+            uint pastDate = GetUintDate(DataExpiryDays);
 
-            IQueryable<Cita> existingAppointments = this.context.Cita.Where(a => a.dia < todaysDate);
+            IQueryable<Cita> existingAppointments = this.context.Cita.Where(a => a.dia < pastDate);
 
             foreach (Cita? existingAppointment in existingAppointments.ToList())
             {
@@ -266,6 +285,41 @@ public class AppointmentService : IAppointmentService
         string tomorrowsDay = DateTime.Now.AddDays(delta).Day.ToString("00", CultureInfo.CurrentCulture);
         uint tomorrowsDate = Convert.ToUInt32(tomorrowsYear + tomorrowsMonth + tomorrowsDay, CultureInfo.CurrentCulture);
         return tomorrowsDate;
+    }
+
+    private static string ParseEventDate(int dia, decimal hora)
+    {
+        string dateString = dia.ToString(CultureInfo.InvariantCulture);
+        string year = dateString.Substring(0, 4);
+        string month = dateString.Substring(4, 2);
+        string day = dateString.Substring(6, 2);
+        int hours = (int)hora;
+        int minutes = (int)(60 * (hora - hours));
+        return year + "-" + month + "-" + day + "-" + hours + "-" + minutes;
+    }
+
+    private List<CalendarEvent> MapCitasToAppointmentsEvents(IOrderedQueryable<Cita> existingAppointments)
+    {
+        List<CalendarEvent> response = new List<CalendarEvent>();
+        foreach (Cita existingAppointment in existingAppointments)
+        {
+            response.Add(this.MapCitaToAppointmentEvents(existingAppointment));
+        }
+
+        return response;
+    }
+
+    private CalendarEvent MapCitaToAppointmentEvents(Cita existingAppointment)
+    {
+        Turno turno = this.context.Turno.First(x => x.idTurno == existingAppointment.idTurno);
+        return new CalendarEvent()
+        {
+            id = existingAppointment.idCita,
+            title = this.context.DatosProfesionales.First(x => x.idDatosPro == turno.idHospital).nombre + ": " + existingAppointment.nombre + ".",
+            description = "Telf: " + existingAppointment.telefono + ", Email: " + existingAppointment.email,
+            start = ParseEventDate(existingAppointment.dia, existingAppointment.hora),
+            end = ParseEventDate(existingAppointment.dia, existingAppointment.hora + (turno.porhora != 1 ? (1M / turno.porhora) : 0M)),
+        };
     }
 
     private List<Appointment> MapCitasToAppointments(IOrderedQueryable<Cita> existingAppointments)

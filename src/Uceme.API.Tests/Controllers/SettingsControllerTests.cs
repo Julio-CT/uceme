@@ -35,7 +35,7 @@ public class SettingsControllerTests
     public void CanConstruct()
     {
         // Act
-        var instance = new SettingsController(this.logger.Object, this.configuration.Object);
+        SettingsController? instance = new SettingsController(this.logger.Object, this.configuration.Object);
 
         // Assert
         Assert.IsNotNull(instance);
@@ -58,7 +58,7 @@ public class SettingsControllerTests
     public void CanCallGetSettings()
     {
         // Act
-        var result = this.testClass.GetSettings();
+        ActionResult<Dictionary<string, object>>? result = this.testClass.GetSettings();
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<Dictionary<string, object>>));

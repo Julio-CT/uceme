@@ -36,7 +36,7 @@ public class HospitalControllerTests
     public void CanConstruct()
     {
         // Act
-        var instance = new HospitalController(this.logger.Object, this.hospitalService.Object);
+        HospitalController? instance = new HospitalController(this.logger.Object, this.hospitalService.Object);
 
         // Assert
         Assert.IsNotNull(instance);
@@ -59,7 +59,7 @@ public class HospitalControllerTests
     public void CanCallGetHospitals()
     {
         // Arrangenew
-        var hospital = new DatosProfesionales
+        DatosProfesionales? hospital = new DatosProfesionales
         {
             idDatosPro = 2081729622,
             nombre = "TestValue1901788151",
@@ -99,7 +99,7 @@ public class HospitalControllerTests
         });
 
         // Act
-        var result = this.testClass.GetHospitals();
+        ActionResult<IEnumerable<DatosProfesionales>>? result = this.testClass.GetHospitals();
 
         // Assert
         this.hospitalService.Verify(mock => mock.GetHospitals());
@@ -114,8 +114,8 @@ public class HospitalControllerTests
     public void CanCallGetHospital()
     {
         // Arrange
-        var hostpitalId = 1878379096;
-        var hostpital = new DatosProfesionales
+        int hostpitalId = 1878379096;
+        DatosProfesionales? hostpital = new DatosProfesionales
         {
             idDatosPro = hostpitalId,
             nombre = "TestValue968395232",
@@ -130,7 +130,7 @@ public class HospitalControllerTests
         this.hospitalService.Setup(mock => mock.GetHospital(It.IsAny<int>())).Returns(hostpital);
 
         // Act
-        var result = this.testClass.GetHospital(hostpitalId);
+        ActionResult<DatosProfesionales>? result = this.testClass.GetHospital(hostpitalId);
 
         // Assert
         this.hospitalService.Verify(mock => mock.GetHospital(It.IsAny<int>()));

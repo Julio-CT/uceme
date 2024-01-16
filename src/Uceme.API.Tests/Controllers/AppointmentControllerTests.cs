@@ -38,7 +38,7 @@ public class AppointmentControllerTests
     public void CanConstruct()
     {
         // Act
-        var instance = new AppointmentController(this.logger.Object, this.appointmentService.Object);
+        AppointmentController instance = new AppointmentController(this.logger.Object, this.appointmentService.Object);
 
         // Assert
         Assert.IsNotNull(instance);
@@ -61,12 +61,12 @@ public class AppointmentControllerTests
     public void CanCallGetDays()
     {
         // Arrange
-        var hospitalId = 156048429;
+        int hospitalId = 156048429;
 
         this.appointmentService.Setup(mock => mock.GetDays(It.IsAny<int>())).Returns(new[] { 1372003355, 1992714248, 1577160529 });
 
         // Act
-        var result = this.testClass.GetDays(hospitalId);
+        ActionResult<IEnumerable<int>> result = this.testClass.GetDays(hospitalId);
 
         // Assert
         this.appointmentService.Verify(mock => mock.GetDays(It.IsAny<int>()));
@@ -78,7 +78,7 @@ public class AppointmentControllerTests
     public void CanCallGetHours()
     {
         // Arrange
-        var appointmentHoursRequest = new AppointmentHoursRequest
+        AppointmentHoursRequest appointmentHoursRequest = new AppointmentHoursRequest
         {
             WeekDay = 1962194623,
             HospitalId = "TestValue1095253119",
@@ -90,7 +90,7 @@ public class AppointmentControllerTests
         this.appointmentService.Setup(mock => mock.GetHours(It.IsAny<AppointmentHoursRequest>())).Returns(new[] { "TestValue206238028", "TestValue1888943391", "TestValue933704547" });
 
         // Act
-        var result = this.testClass.GetHours(appointmentHoursRequest);
+        ActionResult<AppointmentHoursResponse> result = this.testClass.GetHours(appointmentHoursRequest);
 
         // Assert
         this.appointmentService.Verify(mock => mock.GetHours(It.IsAny<AppointmentHoursRequest>()));
@@ -102,7 +102,7 @@ public class AppointmentControllerTests
     public void CannotCallGetHoursWithNullAppointmentHoursRequest()
     {
         // Act
-        var result = this.testClass.GetHours(default);
+        ActionResult<AppointmentHoursResponse> result = this.testClass.GetHours(default);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<AppointmentHoursResponse>));
@@ -113,7 +113,7 @@ public class AppointmentControllerTests
     public async Task CanCallAddAppointmentAsync()
     {
         // Arrange
-        var appointmentRequest = new AppointmentRequest
+        AppointmentRequest appointmentRequest = new AppointmentRequest
         {
             WeekDay = 166939329,
             HospitalId = 709959810,
@@ -130,7 +130,7 @@ public class AppointmentControllerTests
         this.appointmentService.Setup(mock => mock.AddAppointmentAsync(It.IsAny<AppointmentRequest>())).ReturnsAsync(false);
 
         // Act
-        var result = await this.testClass.AddAppointmentAsync(appointmentRequest).ConfigureAwait(false);
+        ActionResult<bool> result = await this.testClass.AddAppointmentAsync(appointmentRequest).ConfigureAwait(false);
 
         // Assert
         this.appointmentService.Verify(mock => mock.AddAppointmentAsync(It.IsAny<AppointmentRequest>()));
@@ -152,7 +152,7 @@ public class AppointmentControllerTests
     public async Task CannotCallAddAppointmentAsyncWithNullAppointmentRequest()
     {
         // Act
-        var result = await this.testClass.AddAppointmentAsync(default).ConfigureAwait(false);
+        ActionResult<bool> result = await this.testClass.AddAppointmentAsync(default).ConfigureAwait(false);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<bool>));
@@ -201,7 +201,7 @@ public class AppointmentControllerTests
         });
 
         // Act
-        var result = this.testClass.AppointmentList();
+        ActionResult<IEnumerable<Appointment>> result = this.testClass.AppointmentList();
 
         // Assert
         this.appointmentService.Verify(mock => mock.GetAppointments());
@@ -251,7 +251,7 @@ public class AppointmentControllerTests
         });
 
         // Act
-        var result = this.testClass.CloseAppointmentList();
+        ActionResult<IEnumerable<Appointment>> result = this.testClass.CloseAppointmentList();
 
         // Assert
         this.appointmentService.Verify(mock => mock.GetCloseAppointments());
@@ -260,10 +260,51 @@ public class AppointmentControllerTests
     }
 
     [TestMethod]
+    public void CanCallAppointmentEventsList()
+    {
+        // Arrange
+        this.appointmentService.Setup(mock => mock.GetAppointmentsEvents()).Returns(new[]
+        {
+            new CalendarEvent()
+            {
+                id = 550021281,
+                title = "TestValue390663233",
+                description = "TestValue1271959662",
+                start = "TestValue482704706",
+                end = "TestValue842273489",
+            },
+            new CalendarEvent
+            {
+                id = 1744221032,
+                title = "TestValue1165139520",
+                description = "TestValue1280649127",
+                start = "TestValue1326204244",
+                end = "TestValue555578589",
+            },
+            new CalendarEvent
+            {
+                id = 1724644682,
+                title = "TestValue132564320",
+                description = "TestValue1383757328",
+                start = "TestValue1039671035",
+                end = "TestValue312226132",
+            },
+        });
+
+        // Act
+        ActionResult<IEnumerable<CalendarEvent>> result = this.testClass.AppointmentEventsList();
+
+        // Assert
+        this.appointmentService.Verify(mock => mock.GetAppointmentsEvents());
+        Assert.IsInstanceOfType(result, typeof(ActionResult<IEnumerable<CalendarEvent>>));
+        Assert.AreEqual(3, result.Value?.Count());
+    }
+
+    [TestMethod]
     public void CanCallGetAppointment()
     {
         // Arrange
-        var appointmentId = 92052102;
+        int appointmentId = 92052102;
 
         this.appointmentService.Setup(mock => mock.GetAppointment(It.IsAny<int>())).Returns(new Appointment
         {
@@ -278,7 +319,7 @@ public class AppointmentControllerTests
         });
 
         // Act
-        var result = this.testClass.GetAppointment(appointmentId);
+        ActionResult<Appointment> result = this.testClass.GetAppointment(appointmentId);
 
         // Assert
         this.appointmentService.Verify(mock => mock.GetAppointment(It.IsAny<int>()));
@@ -290,12 +331,12 @@ public class AppointmentControllerTests
     public void CanCallDeleteAppointment()
     {
         // Arrange
-        var appointmentId = 715257832;
+        int appointmentId = 715257832;
 
         this.appointmentService.Setup(mock => mock.DeleteAppointment(It.IsAny<int>())).Returns(true);
 
         // Act
-        var result = this.testClass.DeleteAppointment(appointmentId);
+        ActionResult<bool> result = this.testClass.DeleteAppointment(appointmentId);
 
         // Assert
         this.appointmentService.Verify(mock => mock.DeleteAppointment(It.IsAny<int>()));
@@ -307,7 +348,7 @@ public class AppointmentControllerTests
     public void CanCallUpdateAppointment()
     {
         // Arrange
-        var appointment = new Cita
+        Cita appointment = new Cita
         {
             idCita = 1851494264,
             dia = 299064996,
@@ -331,7 +372,7 @@ public class AppointmentControllerTests
         });
 
         // Act
-        var result = this.testClass.UpdateAppointment(appointment);
+        ActionResult<Appointment> result = this.testClass.UpdateAppointment(appointment);
 
         // Assert
         this.appointmentService.Verify(mock => mock.UpdateAppointment(It.IsAny<Cita>()));
@@ -343,7 +384,7 @@ public class AppointmentControllerTests
     public void CannotCallUpdateAppointmentWithNullAppointment()
     {
         // Act
-        var result = this.testClass.UpdateAppointment(default);
+        ActionResult<Appointment> result = this.testClass.UpdateAppointment(default);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<Appointment>));
@@ -357,7 +398,7 @@ public class AppointmentControllerTests
         this.appointmentService.Setup(mock => mock.UpdatePastAppointmentsData()).Returns(true);
 
         // Act
-        var result = this.testClass.UpdatePastAppointmentsData();
+        ActionResult<bool> result = this.testClass.UpdatePastAppointmentsData();
 
         // Assert
         this.appointmentService.Verify(mock => mock.UpdatePastAppointmentsData());
