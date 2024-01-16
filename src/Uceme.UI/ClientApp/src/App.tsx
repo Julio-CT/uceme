@@ -6,7 +6,6 @@ import Home from './components/Home';
 import BlogHome from './components/BlogHome';
 import Conditions from './components/Conditions';
 import BlogItem from './components/BlogPost';
-import Specialities from './components/Specialities';
 import Speciality from './components/Speciality';
 import ContactUs from './components/ContactUs';
 import AppointmentManager from './components/admin/AppointmentManager';
@@ -73,7 +72,7 @@ function App(): ReactElement {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/condiciones" element={<Conditions />} />
-          <Route path="/especialidades" element={<Specialities />} />
+          <Route path="/especialidades" element={<ScheduleManager />} />
           <Route path="/quienessomos" element={<AboutUs />} />
           <Route path="/innovaciones" element={<Home />} />
           <Route path="/blog/:page?" element={<BlogHome />} />
