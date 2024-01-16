@@ -36,7 +36,7 @@ public class ScheduleControllerTests
     public void CanConstruct()
     {
         // Act
-        var instance = new ScheduleController(this.logger.Object, this.scheduleService.Object);
+        ScheduleController? instance = new ScheduleController(this.logger.Object, this.scheduleService.Object);
 
         // Assert
         Assert.IsNotNull(instance);
@@ -59,7 +59,7 @@ public class ScheduleControllerTests
     public void CanCallGetTurns()
     {
         // Arrange
-        var turno = new Turno
+        Turno? turno = new Turno
         {
             idTurno = 915526957,
             dia = 1838506251,
@@ -96,7 +96,7 @@ public class ScheduleControllerTests
         });
 
         // Act
-        var result = this.testClass.GetTurns();
+        ActionResult<IEnumerable<Turno>>? result = this.testClass.GetTurns();
 
         // Assert
         this.scheduleService.Verify(mock => mock.GetTurns());

@@ -19,9 +19,9 @@ public class DateTimeUtilsTests
         decimal output3 = 15.75M;
 
         // Act
-        var result = DateTimeUtils.TimeToDecimal(input);
-        var result2 = DateTimeUtils.TimeToDecimal(input2);
-        var result3 = DateTimeUtils.TimeToDecimal(input3);
+        decimal result = DateTimeUtils.TimeToDecimal(input);
+        decimal result2 = DateTimeUtils.TimeToDecimal(input2);
+        decimal result3 = DateTimeUtils.TimeToDecimal(input3);
 
         // Assert
         Assert.AreEqual(output, result);
@@ -58,10 +58,10 @@ public class DateTimeUtilsTests
         decimal output4 = 1.75M;
 
         // Act
-        var result = DateTimeUtils.TimeToString(output);
-        var result2 = DateTimeUtils.TimeToString(output2);
-        var result3 = DateTimeUtils.TimeToString(output3);
-        var result4 = DateTimeUtils.TimeToString(output4);
+        string? result = DateTimeUtils.TimeToString(output);
+        string? result2 = DateTimeUtils.TimeToString(output2);
+        string? result3 = DateTimeUtils.TimeToString(output3);
+        string? result4 = DateTimeUtils.TimeToString(output4);
 
         // Assert
         Assert.AreEqual(input, result);

@@ -13,7 +13,9 @@ public interface IAppointmentService
 
     IEnumerable<string> GetHours(AppointmentHoursRequest appointmentHoursRequest);
 
-    IEnumerable<Appointment> GetAppointments();
+    IEnumerable<CalendarEvent>? GetAppointmentsEvents();
+
+    IEnumerable<Appointment>? GetAppointments();
 
     IEnumerable<Appointment> GetCloseAppointments();
 

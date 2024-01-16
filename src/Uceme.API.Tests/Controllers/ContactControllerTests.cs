@@ -35,7 +35,7 @@ public class ContactControllerTests
     public void CanConstruct()
     {
         // Act
-        var instance = new ContactController(this.logger.Object, this.emailService.Object);
+        ContactController? instance = new ContactController(this.logger.Object, this.emailService.Object);
 
         // Assert
         Assert.IsNotNull(instance);
@@ -58,7 +58,7 @@ public class ContactControllerTests
     public async Task CanCallContactEmailAsync()
     {
         // Arrange
-        var message = new EmailMessage
+        EmailMessage? message = new EmailMessage
         {
             Name = "TestValue1472628373",
             Email = "TestValue1890323469",
@@ -69,7 +69,7 @@ public class ContactControllerTests
         this.emailService.Setup(mock => mock.SendEmailToManagementAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(true);
 
         // Act
-        var result = await this.testClass.ContactEmailAsync(message).ConfigureAwait(false);
+        ActionResult<bool>? result = await this.testClass.ContactEmailAsync(message).ConfigureAwait(false);
 
         // Assert
         this.emailService.Verify(mock => mock.SendEmailToManagementAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
@@ -81,7 +81,7 @@ public class ContactControllerTests
     public async Task CannotCallContactEmailAsyncWithNullMessage()
     {
         // Act
-        var result = await this.testClass.ContactEmailAsync(default).ConfigureAwait(false);
+        ActionResult<bool>? result = await this.testClass.ContactEmailAsync(default).ConfigureAwait(false);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(ActionResult<bool>));

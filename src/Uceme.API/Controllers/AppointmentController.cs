@@ -98,7 +98,12 @@ public class AppointmentController : Controller
         List<Appointment> result = new List<Appointment>();
         try
         {
-            result.AddRange(this.appointmentService.GetAppointments());
+            IEnumerable<Appointment>? appointments = this.appointmentService.GetAppointments();
+
+            if (appointments != null)
+            {
+                result.AddRange(appointments);
+            }
         }
         catch (DataException)
         {
@@ -120,6 +125,28 @@ public class AppointmentController : Controller
         catch (DataException)
         {
             this.logger.LogError("error getting the close appointment list");
+            return this.BadRequest();
+        }
+
+        return result;
+    }
+
+    [HttpGet("appointmenteventslist")]
+    public ActionResult<IEnumerable<CalendarEvent>> AppointmentEventsList()
+    {
+        List<CalendarEvent> result = new List<CalendarEvent>();
+        try
+        {
+            IEnumerable<CalendarEvent>? appointments = this.appointmentService.GetAppointmentsEvents();
+
+            if (appointments != null)
+            {
+                result.AddRange(appointments);
+            }
+        }
+        catch (DataException)
+        {
+            this.logger.LogError("error getting appointment list");
             return this.BadRequest();
         }
 
