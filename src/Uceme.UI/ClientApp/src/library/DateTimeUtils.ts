@@ -23,7 +23,6 @@ export class DateTimeUtils {
 
     try {
       const [year, month, date, hour, minutes] = inputString.split('-');
-
       return new Date(+year, +month, +date, +hour, +minutes, 0);
     } catch (e) {
       return new Date();

@@ -291,7 +291,7 @@ public class AppointmentService : IAppointmentService
     {
         string dateString = dia.ToString(CultureInfo.InvariantCulture);
         string year = dateString.Substring(0, 4);
-        string month = dateString.Substring(4, 2);
+        int month = Convert.ToInt32(dateString.Substring(4, 2), CultureInfo.InvariantCulture) - 1;
         string day = dateString.Substring(6, 2);
         int hours = (int)hora;
         int minutes = (int)(60 * (hora - hours));

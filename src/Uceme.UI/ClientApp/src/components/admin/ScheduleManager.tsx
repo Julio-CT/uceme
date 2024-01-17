@@ -16,7 +16,7 @@ import EventResponse from '../../library/EventResponse';
 type ScheduleManagerState = {
   loaded: boolean;
   events?: ExtendedEvent[] | undefined;
-  backgrondEvents?: ExtendedEvent[] | null;
+  backgroundEvents?: ExtendedEvent[] | undefined;
 };
 
 type AppointmentManagerState = {
@@ -40,7 +40,7 @@ function ScheduleManager(): ReactElement {
     React.useState<ScheduleManagerState>({
       loaded: false,
       events: undefined,
-      backgrondEvents: null,
+      backgroundEvents: undefined,
     });
   const [closeAppointmentData, setCloseAppointmentData] =
     React.useState<AppointmentManagerState>({
@@ -52,8 +52,8 @@ function ScheduleManager(): ReactElement {
 
   const { defaultDate, max, views } = React.useMemo(
     () => ({
-      defaultDate: new Date(2015, 3, 13),
-      max: dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours'),
+      defaultDate: new Date(),
+      max: dates.add(dates.endOf(new Date(2055, 1, 1), 'day'), -1, 'hours'),
       views: [Views.WEEK, Views.DAY, Views.AGENDA],
     }),
     []
@@ -63,8 +63,8 @@ function ScheduleManager(): ReactElement {
     {
       id: 0,
       title: 'Available for Clients',
-      start: new Date(2015, 3, 13, 6),
-      end: new Date(2015, 3, 13, 18),
+      start: new Date(2024, 0, 17, 6),
+      end: new Date(2024, 0, 17, 18),
     },
   ];
 
@@ -96,14 +96,21 @@ function ScheduleManager(): ReactElement {
             setAppointmentData({
               loaded: true,
               events: retrievedAppointments,
-              backgrondEvents: null,
+              backgroundEvents: [
+                {
+                  id: 0,
+                  title: 'Available for Clients',
+                  start: new Date(2024, 1, 17, 6),
+                  end: new Date(2024, 1, 17, 18),
+                },
+              ],
             });
           })
           .catch(() => {
             setAppointmentData({
               loaded: false,
               events: undefined,
-              backgrondEvents: null,
+              backgroundEvents: undefined,
             });
           });
       }
@@ -148,7 +155,7 @@ function ScheduleManager(): ReactElement {
             setAppointmentData({
               loaded: false,
               events: undefined,
-              backgrondEvents: null,
+              backgroundEvents: undefined,
             });
           });
       }

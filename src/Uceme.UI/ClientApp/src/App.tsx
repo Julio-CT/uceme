@@ -7,7 +7,6 @@ import BlogHome from './components/BlogHome';
 import Conditions from './components/Conditions';
 import BlogItem from './components/BlogPost';
 import Speciality from './components/Speciality';
-import ContactUs from './components/ContactUs';
 import AppointmentManager from './components/admin/AppointmentManager';
 import PostManager from './components/admin/PostManager';
 import ScheduleManager from './components/admin/ScheduleManager';
@@ -79,7 +78,7 @@ function App(): ReactElement {
           <Route path="/post/:slug" element={<BlogItem />} />
           <Route path="/especialidad/:esp" element={<Speciality />} />
           <Route path="/tecnica/:tec" element={<Technique />} />
-          <Route path="/contacto" element={<ContactUs />} />
+          <Route path="/contacto" element={<ScheduleManager />} />
           <Route
             path="/appointmentmanager"
             element={<AuthorizeRoute element={<AppointmentManager />} />}
