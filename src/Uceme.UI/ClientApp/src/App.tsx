@@ -23,6 +23,8 @@ import './custom.scss';
 import AboutUs from './components/AboutUs';
 import Login from './components/api-authorization/Login';
 import Logout from './components/api-authorization/Logout';
+import Specialities from './components/Specialities';
+import ContactUs from './components/ContactUs';
 
 function loginAction(name: string): ReactElement {
   return <Login action={name} />;
@@ -71,14 +73,14 @@ function App(): ReactElement {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/condiciones" element={<Conditions />} />
-          <Route path="/especialidades" element={<ScheduleManager />} />
+          <Route path="/especialidades" element={<Specialities />} />
           <Route path="/quienessomos" element={<AboutUs />} />
           <Route path="/innovaciones" element={<Home />} />
           <Route path="/blog/:page?" element={<BlogHome />} />
           <Route path="/post/:slug" element={<BlogItem />} />
           <Route path="/especialidad/:esp" element={<Speciality />} />
           <Route path="/tecnica/:tec" element={<Technique />} />
-          <Route path="/contacto" element={<ScheduleManager />} />
+          <Route path="/contacto" element={<ContactUs />} />
           <Route
             path="/appointmentmanager"
             element={<AuthorizeRoute element={<AppointmentManager />} />}

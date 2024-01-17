@@ -62,9 +62,45 @@ function ScheduleManager(): ReactElement {
   const backgroundEvents: ExtendedEvent[] = [
     {
       id: 0,
-      title: 'Available for Clients',
-      start: new Date(2024, 0, 17, 6),
-      end: new Date(2024, 0, 17, 18),
+      title: 'Endocrinologia',
+      start: new Date(2024, 0, 23, 13),
+      end: new Date(2024, 0, 23, 10),
+    },
+    {
+      id: 1,
+      title: 'Endocrinologia',
+      start: new Date(2024, 0, 25, 13),
+      end: new Date(2024, 0, 25, 10),
+    },
+    {
+      id: 2,
+      title: 'Endocrinologia',
+      start: new Date(2024, 0, 25, 13),
+      end: new Date(2024, 0, 25, 10),
+    },
+    {
+      id: 3,
+      title: 'Nutricionista',
+      start: new Date(2024, 0, 23, 18),
+      end: new Date(2024, 0, 23, 16),
+    },
+    {
+      id: 4,
+      title: 'Nutricionista',
+      start: new Date(2024, 0, 30, 18),
+      end: new Date(2024, 0, 30, 16),
+    },
+    {
+      id: 5,
+      title: 'Cirugia',
+      start: new Date(2024, 0, 29, 19),
+      end: new Date(2024, 0, 29, 16),
+    },
+    {
+      id: 6,
+      title: 'Cirugia',
+      start: new Date(2024, 0, 22, 19),
+      end: new Date(2024, 0, 22, 16),
     },
   ];
 
@@ -96,14 +132,7 @@ function ScheduleManager(): ReactElement {
             setAppointmentData({
               loaded: true,
               events: retrievedAppointments,
-              backgroundEvents: [
-                {
-                  id: 0,
-                  title: 'Available for Clients',
-                  start: new Date(2024, 1, 17, 6),
-                  end: new Date(2024, 1, 17, 18),
-                },
-              ],
+              backgroundEvents,
             });
           })
           .catch(() => {

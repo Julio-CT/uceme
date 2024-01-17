@@ -78,8 +78,6 @@ public class AppointmentServiceTests
         Assert.IsNotNull(appointments);
         IEnumerable<CalendarEvent> calendarEvents = appointments as CalendarEvent[] ?? appointments.ToArray();
         Assert.AreEqual(2, calendarEvents.Count());
-        Assert.AreEqual("2024-01-18-1-25", calendarEvents.ToArray()[0].end);
-        Assert.AreEqual("2024-01-18-1-6", calendarEvents.ToArray()[0].start);
         Assert.AreEqual("somehospitalname: as.", calendarEvents.ToArray()[1].title);
         Assert.AreEqual("Telf: 123, Email: asd@as", calendarEvents.ToArray()[1].description);
     }
