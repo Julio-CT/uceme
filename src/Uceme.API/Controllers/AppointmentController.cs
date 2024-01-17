@@ -213,6 +213,7 @@ public class AppointmentController : Controller
     }
 
     [HttpGet("updatepastappointmentsdata")]
+    [AllowAnonymous]
     public ActionResult<bool> UpdatePastAppointmentsData()
     {
         bool result;
