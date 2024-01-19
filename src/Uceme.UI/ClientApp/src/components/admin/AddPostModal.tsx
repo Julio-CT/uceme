@@ -130,7 +130,16 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
         ? { Accept: 'application/json' }
         : { Accept: 'application/json', Authorization: `Bearer ${token}` },
     })
-      .then((response: { json: () => Promise<string> }) => response.json())
+      .then((response) => {
+        if (response.status >= 200 && response.status <= 299) {
+          return response.json();
+        }
+
+        alert(
+          'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
+        );
+        throw Error(response.statusText);
+      })
       .then(async (resp: string) => {
         if (resp) {
           setImgSrc(resp);

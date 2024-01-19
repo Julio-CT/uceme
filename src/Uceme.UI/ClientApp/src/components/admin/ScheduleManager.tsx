@@ -31,17 +31,21 @@ interface ExtendedEvent extends Event {
 
 function ScheduleManager(): ReactElement {
   const settings: Settings = React.useContext(SettingsContext);
+
   const [closeAppointmentsModal, setCloseAppointmentsModal] =
     React.useState<boolean>(false);
   const closeAppointmentsToggle = () =>
     setCloseAppointmentsModal(!closeAppointmentsModal);
+
   const localizer = momentLocalizer(moment);
+
   const [appointmentData, setAppointmentData] =
     React.useState<ScheduleManagerState>({
       loaded: false,
       events: undefined,
       backgroundEvents: undefined,
     });
+
   const [closeAppointmentData, setCloseAppointmentData] =
     React.useState<AppointmentManagerState>({
       loaded: false,
@@ -59,48 +63,116 @@ function ScheduleManager(): ReactElement {
     []
   );
 
+  function getDateOnWeekDay(
+    baseCeroWeekday: number,
+    hour: number,
+    minutes: number,
+    weekDelta: number
+  ): Date {
+    const curr = new Date();
+    const first =
+      curr.getDate() - curr.getDay() + weekDelta * 7 + baseCeroWeekday; // O is Sunday
+
+    const firstday = new Date(curr.setDate(first));
+    return new Date(
+      firstday.getFullYear(),
+      firstday.getMonth(),
+      firstday.getDate(),
+      hour,
+      minutes
+    );
+  }
+
   const backgroundEvents: ExtendedEvent[] = [
     {
       id: 0,
       title: 'Endocrinologia',
-      start: new Date(2024, 0, 23, 13),
-      end: new Date(2024, 0, 23, 10),
+      start: getDateOnWeekDay(1, 10, 0, -1),
+      end: getDateOnWeekDay(1, 13, 0, -1),
     },
     {
       id: 1,
       title: 'Endocrinologia',
-      start: new Date(2024, 0, 25, 13),
-      end: new Date(2024, 0, 25, 10),
+      start: getDateOnWeekDay(1, 10, 0, 0),
+      end: getDateOnWeekDay(1, 13, 0, 0),
     },
     {
       id: 2,
       title: 'Endocrinologia',
-      start: new Date(2024, 0, 25, 13),
-      end: new Date(2024, 0, 25, 10),
+      start: getDateOnWeekDay(1, 10, 0, 1),
+      end: getDateOnWeekDay(1, 13, 0, 1),
     },
     {
       id: 3,
-      title: 'Nutricionista',
-      start: new Date(2024, 0, 23, 18),
-      end: new Date(2024, 0, 23, 16),
+      title: 'Endocrinologia',
+      start: getDateOnWeekDay(2, 16, 0, -1),
+      end: getDateOnWeekDay(2, 19, 0, -1),
     },
     {
       id: 4,
-      title: 'Nutricionista',
-      start: new Date(2024, 0, 30, 18),
-      end: new Date(2024, 0, 30, 16),
+      title: 'Endocrinologia',
+      start: getDateOnWeekDay(2, 16, 0, 0),
+      end: getDateOnWeekDay(2, 19, 0, 0),
     },
     {
       id: 5,
-      title: 'Cirugia',
-      start: new Date(2024, 0, 29, 19),
-      end: new Date(2024, 0, 29, 16),
+      title: 'Endocrinologia',
+      start: getDateOnWeekDay(2, 16, 0, 1),
+      end: getDateOnWeekDay(2, 19, 0, 1),
     },
     {
       id: 6,
+      title: 'Endocrinologia',
+      start: getDateOnWeekDay(3, 16, 0, -1),
+      end: getDateOnWeekDay(3, 19, 0, -1),
+    },
+    {
+      id: 7,
+      title: 'Endocrinologia',
+      start: getDateOnWeekDay(3, 16, 0, 0),
+      end: getDateOnWeekDay(3, 19, 0, 0),
+    },
+    {
+      id: 8,
+      title: 'Endocrinologia',
+      start: getDateOnWeekDay(3, 16, 0, 1),
+      end: getDateOnWeekDay(3, 19, 0, 1),
+    },
+    {
+      id: 9,
+      title: 'Nutricionista',
+      start: getDateOnWeekDay(2, 16, 0, -1),
+      end: getDateOnWeekDay(2, 18, 0, -1),
+    },
+    {
+      id: 10,
+      title: 'Nutricionista',
+      start: getDateOnWeekDay(2, 16, 0, 0),
+      end: getDateOnWeekDay(2, 18, 0, 0),
+    },
+    {
+      id: 11,
+      title: 'Nutricionista',
+      start: getDateOnWeekDay(2, 16, 0, 1),
+      end: getDateOnWeekDay(2, 18, 0, 1),
+    },
+    {
+      id: 12,
       title: 'Cirugia',
-      start: new Date(2024, 0, 22, 19),
-      end: new Date(2024, 0, 22, 16),
+      start: getDateOnWeekDay(1, 16, 0, -1),
+      end: getDateOnWeekDay(1, 19, 0, -1),
+    },
+    {
+      id: 13,
+      title: 'Cirugia',
+      start: getDateOnWeekDay(1, 16, 0, 0),
+      end: getDateOnWeekDay(1, 19, 0, 0),
+    },
+    {
+      id: 14,
+      title: 'Cirugia',
+      start: getDateOnWeekDay(1, 16, 0, 1),
+      end: getDateOnWeekDay(1, 19, 0, 1),
     },
   ];
 
