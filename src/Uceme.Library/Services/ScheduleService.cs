@@ -33,7 +33,7 @@ public class ScheduleService : IScheduleService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving turns {e.Message}");
+            this.logger.LogError("Error retrieving turns {EMessage}", e.Message);
             throw new DataException("Error retrieving turns", e);
         }
     }

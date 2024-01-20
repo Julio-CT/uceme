@@ -30,7 +30,7 @@ public class HospitalService : IHospitalService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving Hospitals {e.Message}");
+            this.logger.LogError("Error retrieving Hospitals {EMessage}", e.Message);
             throw new DataException("Error retrieving Hospitals", e);
         }
     }
@@ -43,7 +43,7 @@ public class HospitalService : IHospitalService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving Hospital {e.Message}");
+            this.logger.LogError("Error retrieving Hospital {EMessage}", e.Message);
             throw new DataException("Error retrieving Hospital", e);
         }
     }

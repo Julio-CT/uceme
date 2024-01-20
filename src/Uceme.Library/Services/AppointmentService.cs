@@ -44,7 +44,7 @@ public class AppointmentService : IAppointmentService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving appointments {e.Message}");
+            this.logger.LogError("Error retrieving appointments {EMessage}", e.Message);
             throw new DataException("Error retrieving appointments", e);
         }
     }
@@ -61,7 +61,7 @@ public class AppointmentService : IAppointmentService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving appointments {e.Message}");
+            this.logger.LogError("Error retrieving appointments {EMessage}", e.Message);
             throw new DataException("Error retrieving appointments", e);
         }
     }
@@ -80,7 +80,7 @@ public class AppointmentService : IAppointmentService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving appointments {e.Message}");
+            this.logger.LogError("Error retrieving appointments {EMessage}", e.Message);
             throw new DataException("Error retrieving appointments", e);
         }
     }
@@ -184,12 +184,12 @@ public class AppointmentService : IAppointmentService
         }
         catch (OperationCanceledException opex)
         {
-            this.logger.LogError($"Appointment added, error sending message {opex.Message}");
+            this.logger.LogError("Appointment added, error sending message {OpexMessage}", opex.Message);
             return false;
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error adding appointment {e.Message}");
+            this.logger.LogError("Error adding appointment {EMessage}", e.Message);
             throw new DataException("Error adding appointment", e);
         }
     }
@@ -216,7 +216,7 @@ public class AppointmentService : IAppointmentService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving appointments {e.Message}");
+            this.logger.LogError("Error retrieving appointments {EMessage}", e.Message);
             throw new DataException("Error retrieving appointments", e);
         }
     }
@@ -231,7 +231,7 @@ public class AppointmentService : IAppointmentService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error finding appointment {e.Message}");
+            this.logger.LogError("Error finding appointment {EMessage}", e.Message);
             throw new DataException("Error finding appointment", e);
         }
     }
@@ -248,7 +248,7 @@ public class AppointmentService : IAppointmentService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error deleting appointment {e.Message}");
+            this.logger.LogError("Error deleting appointment {EMessage}", e.Message);
             throw new DataException("Error deleting appointment", e);
         }
     }
@@ -273,7 +273,7 @@ public class AppointmentService : IAppointmentService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error updating appointment {e.Message}");
+            this.logger.LogError("Error updating appointment {EMessage}", e.Message);
             throw new DataException("Error updating appointment", e);
         }
     }

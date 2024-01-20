@@ -31,7 +31,7 @@ public class TechniqueService : ITechniqueService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving Techniques {e.Message}");
+            this.logger.LogError("Error retrieving Techniques {EMessage}", e.Message);
             throw new DataException("Error retrieving Techniques", e);
         }
     }
@@ -44,7 +44,7 @@ public class TechniqueService : ITechniqueService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving Techniques {e.Message}");
+            this.logger.LogError("Error retrieving Techniques {EMessage}", e.Message);
             throw new DataException("Error retrieving Techniques", e);
         }
     }
