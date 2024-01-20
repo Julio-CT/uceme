@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import * as React from 'react';
 import {
   Button,
@@ -31,6 +30,11 @@ type AppointmentHoursResponse = {
 
 function AppointmentModal(props: AppointmentModalProps): JSX.Element {
   const { modal, toggle } = props;
+
+  const [alertModal, setAlertModal] = React.useState<boolean>(false);
+  const alertToggle = () => setAlertModal(!alertModal);
+  const [alertMessage, setAlertMessage] = React.useState<string>('');
+
   const settings: Settings = React.useContext(SettingsContext);
   const inputName = 'reactstrap_date_picker_basic';
   const [showHospitals, setShowHospitals] = React.useState<boolean>(true);
@@ -259,21 +263,24 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
         .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
           if (resp) {
-            alert(
+            setAlertMessage(
               'Cita previa registrada correctamente. Recibirá un email con la confimación. Muchas gracias.'
             );
+            alertToggle();
           } else {
-            alert(
+            setAlertMessage(
               'Cita previa registrada correctamente. El envio del correo con la confimación ha fallado, pero su cita queda registrada. Muchas gracias.'
             );
+            alertToggle();
           }
           resetForm();
           toggle();
         })
         .catch(() => {
-          alert(
+          setAlertMessage(
             'Lo sentimos, ha ocurrido un error registrando tu cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
           );
+          alertToggle();
         });
     }
   };
@@ -285,156 +292,170 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
   }, [settings, modal, fetchHospitals]);
 
   return (
-    <Modal isOpen={modal} toggle={toggle}>
-      <ModalHeader className="beatabg">
-        <div className="aligner">
-          <div className="aligner-item aligner-item-top" />
-          <div className="aligner-item">Reserva cita</div>
-          <div className="aligner-item aligner-item-bottom" />
-        </div>
-      </ModalHeader>
-      <ModalBody>
-        <section id="section-contact_form" className="container">
-          <div className="row justify-content-md-center">
-            <form className="col-12">
-              <span className="field-margin">Hospital {hospitalName}</span>
-              {showHospitals && hospitals && (
-                <div className="extra-padding field-margin">
-                  <Label for="dateForm" className="field-label">
-                    Servicio
-                  </Label>
-                  <br />
-                  <ButtonGroup id="serviceForm">
-                    {hospitals.map((hospital: Hospital) => {
-                      return (
-                        <Button
-                          key={hospital.idDatosPro}
-                          active={hospitalId === hospital.idDatosPro}
-                          onClick={() =>
-                            selectHospital(hospital.idDatosPro, true)
-                          }
-                          className="hospital-name"
-                        >
-                          {hospital.nombre}
-                        </Button>
-                      );
-                    })}
-                  </ButtonGroup>
-                </div>
-              )}
-              {showDays && (
-                <div className="field-margin">
-                  <Label for="dateForm" className="field-label">
-                    Fecha
-                  </Label>
-                  <DatePicker
-                    id="dateForm"
-                    name={inputName}
-                    value={selectedDay}
-                    onChange={(v: string) => {
-                      selectDay(v);
-                    }}
-                    disabledWeekDays={disabledDays}
-                    weekStartsOn={weekStart}
-                    minDate={`${new Date()
-                      .toISOString()
-                      .slice(0, 10)}T00:00:00.000Z`}
-                  />
-                </div>
-              )}
-              {showHours && (
-                <div>
-                  <Label for="hourForm" className="field-label field-margin">
-                    Hora
-                  </Label>
-                  <AppointmentHours
-                    hours={hours}
-                    onSelectedHour={(v: string) => selectHour(v)}
-                  />
-                </div>
-              )}
-              {sendEnabled && (
-                <div className="field-margin">
-                  <Label for="nameForm" className="field-label">
-                    Nombre completo
-                  </Label>
-                  <Input
-                    type="text"
-                    name="nameForm"
-                    id="nameForm"
-                    placeholder="Campo requerido"
-                    onChange={(evt) => setName(evt.target.value)}
-                    required
-                  />
-                  <Label for="phoneForm" className="field-label">
-                    Teléfono
-                  </Label>
-                  <Input
-                    type="tel"
-                    name="phoneForm"
-                    id="phoneForm"
-                    placeholder="Campo requerido"
-                    onChange={(evt) => setPhone(evt.target.value)}
-                    required
-                  />
-                  <Label for="emailForm" className="field-label">
-                    Email de contacto
-                  </Label>
-                  <Input
-                    type="email"
-                    name="emailForm"
-                    id="emailForm"
-                    placeholder="Campo requerido"
-                    onChange={(evt) => setEmail(evt.target.value)}
-                    required
-                  />
-                  <Label for="notesForm" className="field-label">
-                    Observaciones
-                  </Label>
-                  <Input
-                    type="textarea"
-                    name="notes"
-                    id="notesForm"
-                    onChange={(evt) => setExtraInfo(evt.target.value)}
-                  />
-                </div>
-              )}
-              {name && email && phone && (
-                <div className="field-margin">
-                  <Label check>
-                    <Input
-                      type="checkbox"
-                      checked={acceptTC}
-                      onChange={() => setAcceptTC(!acceptTC)}
-                    />{' '}
-                    Acepto la{' '}
-                    <a
-                      href="condiciones"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      cláusula de protección de datos
-                    </a>
-                  </Label>
-                </div>
-              )}
-            </form>
+    <>
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader className="beatabg">
+          <div className="aligner">
+            <div className="aligner-item aligner-item-top" />
+            <div className="aligner-item">Reserva cita</div>
+            <div className="aligner-item aligner-item-bottom" />
           </div>
-        </section>
-      </ModalBody>
-      <ModalFooter>
-        <Button
-          className="submit-form-button"
-          disabled={!sendEnabled || !name || !email || !phone || !acceptTC}
-          onClick={() => submitForm()}
-        >
-          Confirmar cita
-        </Button>{' '}
-        <Button color="secondary" onClick={toggle}>
-          Cancelar
-        </Button>
-      </ModalFooter>
-    </Modal>
+        </ModalHeader>
+        <ModalBody>
+          <section id="section-contact_form" className="container">
+            <div className="row justify-content-md-center">
+              <form className="col-12">
+                <span className="field-margin">Hospital {hospitalName}</span>
+                {showHospitals && hospitals && (
+                  <div className="extra-padding field-margin">
+                    <Label for="dateForm" className="field-label">
+                      Servicio
+                    </Label>
+                    <br />
+                    <ButtonGroup id="serviceForm">
+                      {hospitals.map((hospital: Hospital) => {
+                        return (
+                          <Button
+                            key={hospital.idDatosPro}
+                            active={hospitalId === hospital.idDatosPro}
+                            onClick={() =>
+                              selectHospital(hospital.idDatosPro, true)
+                            }
+                            className="hospital-name"
+                          >
+                            {hospital.nombre}
+                          </Button>
+                        );
+                      })}
+                    </ButtonGroup>
+                  </div>
+                )}
+                {showDays && (
+                  <div className="field-margin">
+                    <Label for="dateForm" className="field-label">
+                      Fecha
+                    </Label>
+                    <DatePicker
+                      id="dateForm"
+                      name={inputName}
+                      value={selectedDay}
+                      onChange={(v: string) => {
+                        selectDay(v);
+                      }}
+                      disabledWeekDays={disabledDays}
+                      weekStartsOn={weekStart}
+                      minDate={`${new Date()
+                        .toISOString()
+                        .slice(0, 10)}T00:00:00.000Z`}
+                    />
+                  </div>
+                )}
+                {showHours && (
+                  <div>
+                    <Label for="hourForm" className="field-label field-margin">
+                      Hora
+                    </Label>
+                    <AppointmentHours
+                      hours={hours}
+                      onSelectedHour={(v: string) => selectHour(v)}
+                    />
+                  </div>
+                )}
+                {sendEnabled && (
+                  <div className="field-margin">
+                    <Label for="nameForm" className="field-label">
+                      Nombre completo
+                    </Label>
+                    <Input
+                      type="text"
+                      name="nameForm"
+                      id="nameForm"
+                      placeholder="Campo requerido"
+                      onChange={(evt) => setName(evt.target.value)}
+                      required
+                    />
+                    <Label for="phoneForm" className="field-label">
+                      Teléfono
+                    </Label>
+                    <Input
+                      type="tel"
+                      name="phoneForm"
+                      id="phoneForm"
+                      placeholder="Campo requerido"
+                      onChange={(evt) => setPhone(evt.target.value)}
+                      required
+                    />
+                    <Label for="emailForm" className="field-label">
+                      Email de contacto
+                    </Label>
+                    <Input
+                      type="email"
+                      name="emailForm"
+                      id="emailForm"
+                      placeholder="Campo requerido"
+                      onChange={(evt) => setEmail(evt.target.value)}
+                      required
+                    />
+                    <Label for="notesForm" className="field-label">
+                      Observaciones
+                    </Label>
+                    <Input
+                      type="textarea"
+                      name="notes"
+                      id="notesForm"
+                      onChange={(evt) => setExtraInfo(evt.target.value)}
+                    />
+                  </div>
+                )}
+                {name && email && phone && (
+                  <div className="field-margin">
+                    <Label check>
+                      <Input
+                        type="checkbox"
+                        checked={acceptTC}
+                        onChange={() => setAcceptTC(!acceptTC)}
+                      />{' '}
+                      Acepto la{' '}
+                      <a
+                        href="condiciones"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        cláusula de protección de datos
+                      </a>
+                    </Label>
+                  </div>
+                )}
+              </form>
+            </div>
+          </section>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            className="submit-form-button"
+            disabled={!sendEnabled || !name || !email || !phone || !acceptTC}
+            onClick={() => submitForm()}
+          >
+            Confirmar cita
+          </Button>{' '}
+          <Button color="secondary" onClick={toggle}>
+            Cancelar
+          </Button>
+        </ModalFooter>
+      </Modal>
+      <Modal isOpen={alertModal} toggle={alertToggle}>
+        <ModalBody>
+          <section id="section-contact_form" className="container">
+            <div className="row justify-content-md-center">{alertMessage}</div>
+          </section>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="secondary" onClick={alertToggle}>
+            Cerrar
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
   );
 }
 

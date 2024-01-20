@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import * as React from 'react';
 import {
   Button,
@@ -31,6 +30,10 @@ type AddPostModalProps = {
 function AddPostModal(props: AddPostModalProps): ReactElement {
   const { modal, toggle, post, headerTitle } = props;
   const settings: Settings = React.useContext(SettingsContext);
+
+  const [alertModal, setAlertModal] = React.useState<boolean>(false);
+  const alertToggle = () => setAlertModal(!alertModal);
+  const [alertMessage, setAlertMessage] = React.useState<string>('');
 
   let contentState = ContentState.createFromText(post ? post.text : '');
   const inputName = 'reactstrap_date_picker_basic';
@@ -135,19 +138,23 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
           return response.json();
         }
 
-        alert(
+        setAlertMessage(
           'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
         );
+
+        alertToggle();
         throw Error(response.statusText);
       })
       .then(async (resp: string) => {
         if (resp) {
           setImgSrc(resp);
-          alert(`Imagen subida correctamente.`);
+          setAlertMessage(`Imagen subida correctamente.`);
+          alertToggle();
         } else {
-          alert(
+          setAlertMessage(
             'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
           );
+          alertToggle();
         }
       });
   };
@@ -191,19 +198,22 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
         .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
           if (resp) {
-            alert('Post registrado correctamente. Muchas gracias.');
+            setAlertMessage('Post registrado correctamente. Muchas gracias.');
+            alertToggle();
             resetForm();
             toggle();
           } else {
-            alert(
+            setAlertMessage(
               'Lo sentimos, ha ocurrido un error registrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
             );
+            alertToggle();
           }
         })
         .catch(() => {
-          alert(
+          setAlertMessage(
             'Lo sentimos, ha ocurrido un error registrando su post. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
           );
+          alertToggle();
         });
     }
   };
@@ -229,148 +239,162 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
   }
 
   return (
-    <Modal isOpen={modal} toggle={toggle}>
-      <ModalHeader toggle={toggle} className="beatabg">
-        <div className="aligner">
-          <div className="aligner-item aligner-item-top" />
-          <div className="aligner-item">{headerTitle}</div>
-          <div className="aligner-item aligner-item-bottom" />
-        </div>
-      </ModalHeader>
-      <ModalBody>
-        <section id="section-contact_form" className="container">
-          <div className="row justify-content-md-center">
-            <form className="col-12">
-              <div className="field-margin">
-                <Label for="FileUpload_FormFile" className="field-label">
-                  Imagen (max 600x600px):
-                </Label>
-                <Input
-                  id="FileUpload_FormFile"
-                  type="file"
-                  name="FileUpload_FormFile"
-                  accept=".jpg, .jpeg, .png, .webp"
-                  onChange={(e) => setFile(e)}
-                />
-                <Button
-                  className="submit-form-button top-margin"
-                  onClick={(e) => uploadfile(e)}
-                  value="Subir"
-                  disabled={!photo || !!imgSrc}
-                >
-                  Subir imagen
-                </Button>
-              </div>
-            </form>
-            <form className="col-12">
-              <div className="field-margin">
-                <Label for="titleForm" className="field-label">
-                  Título:
-                </Label>
-                <Input
-                  type="text"
-                  name="titleForm"
-                  id="titleForm"
-                  placeholder="Campo requerido"
-                  value={title}
-                  onChange={(evt) => setTitle(evt.target.value)}
-                  required
-                />
-              </div>
-              <div className="field-margin">
-                <Label for="dateForm" className="field-label">
-                  Fecha de publicación:
-                </Label>
-                <DatePicker
-                  id="dateForm"
-                  name={inputName}
-                  value={selectedDay}
-                  onChange={(v: React.SetStateAction<string>) => {
-                    setDay(v);
-                  }}
-                  weekStartsOn={weekStart}
-                  minDate={`${new Date()
-                    .toISOString()
-                    .slice(0, 10)}T00:00:00.000Z`}
-                />
-                <Label for="slugForm" className="field-label">
-                  Slug (link):
-                </Label>
-                <Input
-                  type="text"
-                  name="slugForm"
-                  id="slugForm"
-                  placeholder="Campo requerido"
-                  value={slug}
-                  onChange={(evt) => setSlug(evt.target.value)}
-                  required
-                />
-                <Label for="textForm" className="field-label">
-                  Texto:
-                </Label>
-                <Editor
-                  defaultContentState={text}
-                  onContentStateChange={setText}
-                  wrapperClassName="wrapper-class"
-                  editorClassName="editor-class"
-                  toolbarClassName="toolbar-class"
-                />
-                <Label for="captionForm" className="field-label">
-                  Caption (descripción de la imagen):
-                </Label>
-                <Input
-                  type="textarea"
-                  name="captionForm"
-                  id="captionForm"
-                  value={caption}
-                  onChange={(evt) => setCaption(evt.target.value)}
-                />
-                <Label for="metaForm" className="field-label">
-                  Meta-description:
-                </Label>
-                <Input
-                  type="textarea"
-                  name="metaForm"
-                  id="metaForm"
-                  value={metaDescription}
-                  onChange={(evt) => setMetaDescription(evt.target.value)}
-                />
-                <Label for="seoForm" className="field-label">
-                  Título para SEO:
-                </Label>
-                <Input
-                  type="textarea"
-                  name="seoForm"
-                  id="seoForm"
-                  value={seoTitle}
-                  onChange={(evt) => setSeoTitle(evt.target.value)}
-                />
-              </div>
-            </form>
+    <>
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle} className="beatabg">
+          <div className="aligner">
+            <div className="aligner-item aligner-item-top" />
+            <div className="aligner-item">{headerTitle}</div>
+            <div className="aligner-item aligner-item-bottom" />
           </div>
-        </section>
-      </ModalBody>
-      <ModalFooter>
-        <Button
-          className="submit-form-button"
-          onClick={(e) => submitForm(e)}
-          disabled={
-            !imgSrc ||
-            !title ||
-            !caption ||
-            !text ||
-            !metaDescription ||
-            !selectedDay ||
-            !seoTitle
-          }
-        >
-          Publicar
-        </Button>{' '}
-        <Button color="secondary" onClick={toggle}>
-          Cancelar
-        </Button>
-      </ModalFooter>
-    </Modal>
+        </ModalHeader>
+        <ModalBody>
+          <section id="section-contact_form" className="container">
+            <div className="row justify-content-md-center">
+              <form className="col-12">
+                <div className="field-margin">
+                  <Label for="FileUpload_FormFile" className="field-label">
+                    Imagen (max 600x600px):
+                  </Label>
+                  <Input
+                    id="FileUpload_FormFile"
+                    type="file"
+                    name="FileUpload_FormFile"
+                    accept=".jpg, .jpeg, .png, .webp"
+                    onChange={(e) => setFile(e)}
+                  />
+                  <Button
+                    className="submit-form-button top-margin"
+                    onClick={(e) => uploadfile(e)}
+                    value="Subir"
+                    disabled={!photo || !!imgSrc}
+                  >
+                    Subir imagen
+                  </Button>
+                </div>
+              </form>
+              <form className="col-12">
+                <div className="field-margin">
+                  <Label for="titleForm" className="field-label">
+                    Título:
+                  </Label>
+                  <Input
+                    type="text"
+                    name="titleForm"
+                    id="titleForm"
+                    placeholder="Campo requerido"
+                    value={title}
+                    onChange={(evt) => setTitle(evt.target.value)}
+                    required
+                  />
+                </div>
+                <div className="field-margin">
+                  <Label for="dateForm" className="field-label">
+                    Fecha de publicación:
+                  </Label>
+                  <DatePicker
+                    id="dateForm"
+                    name={inputName}
+                    value={selectedDay}
+                    onChange={(v: React.SetStateAction<string>) => {
+                      setDay(v);
+                    }}
+                    weekStartsOn={weekStart}
+                    minDate={`${new Date()
+                      .toISOString()
+                      .slice(0, 10)}T00:00:00.000Z`}
+                  />
+                  <Label for="slugForm" className="field-label">
+                    Slug (link):
+                  </Label>
+                  <Input
+                    type="text"
+                    name="slugForm"
+                    id="slugForm"
+                    placeholder="Campo requerido"
+                    value={slug}
+                    onChange={(evt) => setSlug(evt.target.value)}
+                    required
+                  />
+                  <Label for="textForm" className="field-label">
+                    Texto:
+                  </Label>
+                  <Editor
+                    defaultContentState={text}
+                    onContentStateChange={setText}
+                    wrapperClassName="wrapper-class"
+                    editorClassName="editor-class"
+                    toolbarClassName="toolbar-class"
+                  />
+                  <Label for="captionForm" className="field-label">
+                    Caption (descripción de la imagen):
+                  </Label>
+                  <Input
+                    type="textarea"
+                    name="captionForm"
+                    id="captionForm"
+                    value={caption}
+                    onChange={(evt) => setCaption(evt.target.value)}
+                  />
+                  <Label for="metaForm" className="field-label">
+                    Meta-description:
+                  </Label>
+                  <Input
+                    type="textarea"
+                    name="metaForm"
+                    id="metaForm"
+                    value={metaDescription}
+                    onChange={(evt) => setMetaDescription(evt.target.value)}
+                  />
+                  <Label for="seoForm" className="field-label">
+                    Título para SEO:
+                  </Label>
+                  <Input
+                    type="textarea"
+                    name="seoForm"
+                    id="seoForm"
+                    value={seoTitle}
+                    onChange={(evt) => setSeoTitle(evt.target.value)}
+                  />
+                </div>
+              </form>
+            </div>
+          </section>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            className="submit-form-button"
+            onClick={(e) => submitForm(e)}
+            disabled={
+              !imgSrc ||
+              !title ||
+              !caption ||
+              !text ||
+              !metaDescription ||
+              !selectedDay ||
+              !seoTitle
+            }
+          >
+            Publicar
+          </Button>{' '}
+          <Button color="secondary" onClick={toggle}>
+            Cancelar
+          </Button>
+        </ModalFooter>
+      </Modal>
+      <Modal isOpen={alertModal} toggle={alertToggle}>
+        <ModalBody>
+          <section id="section-contact_form" className="container">
+            <div className="row justify-content-md-center">{alertMessage}</div>
+          </section>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="secondary" onClick={alertToggle}>
+            Cerrar
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
   );
 }
 
