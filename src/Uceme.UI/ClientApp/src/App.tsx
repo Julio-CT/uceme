@@ -6,9 +6,7 @@ import Home from './components/Home';
 import BlogHome from './components/BlogHome';
 import Conditions from './components/Conditions';
 import BlogItem from './components/BlogPost';
-import Specialities from './components/Specialities';
 import Speciality from './components/Speciality';
-import ContactUs from './components/ContactUs';
 import AppointmentManager from './components/admin/AppointmentManager';
 import PostManager from './components/admin/PostManager';
 import ScheduleManager from './components/admin/ScheduleManager';
@@ -25,6 +23,8 @@ import './custom.scss';
 import AboutUs from './components/AboutUs';
 import Login from './components/api-authorization/Login';
 import Logout from './components/api-authorization/Logout';
+import Specialities from './components/Specialities';
+import ContactUs from './components/ContactUs';
 
 function loginAction(name: string): ReactElement {
   return <Login action={name} />;

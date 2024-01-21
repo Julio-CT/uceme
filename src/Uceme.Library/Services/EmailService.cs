@@ -45,7 +45,7 @@ public class EmailService : IEmailService
             throw new ArgumentException("the subject  provided is not valid");
         }
 
-        if (!string.IsNullOrEmpty(fromAddress) && !MailAddress.TryCreate(fromAddress, out var _))
+        if (!string.IsNullOrEmpty(fromAddress) && !MailAddress.TryCreate(fromAddress, out MailAddress? _))
         {
             throw new ArgumentException("the email address provided is not valid");
         }
@@ -67,7 +67,7 @@ public class EmailService : IEmailService
         }
         catch (Exception e)
         {
-            this.logger.LogError("error sending email to management:" + e.Message);
+            this.logger.LogError("Error sending email to management: {EMessage}", e.Message);
             throw new OperationCanceledException("Error sending email to management", e);
         }
     }
@@ -89,7 +89,7 @@ public class EmailService : IEmailService
             throw new ArgumentException("the subject provided is not valid");
         }
 
-        if (!string.IsNullOrEmpty(fromAddress) && !MailAddress.TryCreate(fromAddress, out var _))
+        if (!string.IsNullOrEmpty(fromAddress) && !MailAddress.TryCreate(fromAddress, out MailAddress? _))
         {
             throw new ArgumentException("the email address provided is not valid");
         }
@@ -111,7 +111,7 @@ public class EmailService : IEmailService
         }
         catch (Exception e)
         {
-            this.logger.LogError("error sending email to management:" + e.Message);
+            this.logger.LogError("Error sending email to management: {EMessage}", e.Message);
             throw new OperationCanceledException("Error sending email to management", e);
         }
     }
@@ -133,7 +133,7 @@ public class EmailService : IEmailService
             throw new ArgumentException("the subject provided is not valid");
         }
 
-        if (string.IsNullOrEmpty(toAddress) || (!string.IsNullOrEmpty(toAddress) && !MailAddress.TryCreate(toAddress, out var _)))
+        if (string.IsNullOrEmpty(toAddress) || (!string.IsNullOrEmpty(toAddress) && !MailAddress.TryCreate(toAddress, out MailAddress? _)))
         {
             throw new ArgumentException("the email address provided is not valid");
         }
@@ -151,7 +151,7 @@ public class EmailService : IEmailService
         }
         catch (Exception e)
         {
-            this.logger.LogError("error sending email to client:" + e.Message);
+            this.logger.LogError("Error sending email to client: {EMessage}", e.Message);
             throw new OperationCanceledException("Error sending email to client", e);
         }
     }

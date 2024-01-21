@@ -38,7 +38,7 @@ public class HomeControllerTests
     public void CanConstruct()
     {
         // Act
-        var instance = new HomeController(this.medicoService.Object, this.fotosService.Object, this.logger.Object);
+        HomeController? instance = new HomeController(this.medicoService.Object, this.fotosService.Object, this.logger.Object);
 
         // Assert
         Assert.IsNotNull(instance);
@@ -67,7 +67,7 @@ public class HomeControllerTests
     public void CanCallGetMedicoMinVista()
     {
         // Arrange
-        var usuario = new Usuario
+        Usuario? usuario = new Usuario
         {
             idUsuario = 1567499202,
             nombre = "TestValue356891095",
@@ -124,7 +124,7 @@ public class HomeControllerTests
         });
 
         // Act
-        var result = this.testClass.GetMedicoMinVista();
+        ActionResult<IEnumerable<Usuario>>? result = this.testClass.GetMedicoMinVista();
 
         // Assert
         this.medicoService.Verify(mock => mock.GetMedicoMinVista(It.IsAny<bool>()));
@@ -138,7 +138,7 @@ public class HomeControllerTests
     public void CanCallMostrarFotos()
     {
         // Arrange
-        var foto = new Fotos
+        Fotos? foto = new Fotos
         {
             idFoto = 120089836,
             nombre = "TestValue849571105",
@@ -168,7 +168,7 @@ public class HomeControllerTests
         });
 
         // Act
-        var result = this.testClass.MostrarFotos();
+        ActionResult<IEnumerable<Fotos>>? result = this.testClass.MostrarFotos();
 
         // Assert
         this.fotosService.Verify(mock => mock.GetFotos());

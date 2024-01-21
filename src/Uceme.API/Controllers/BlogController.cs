@@ -162,9 +162,16 @@ public class BlogController : Controller
     [HttpPost("onpostuploadasync")]
     public async Task<ActionResult<string>> OnPostUploadAsync([FromForm] IFormFile file)
     {
-        if (file is null)
+        if (file is null || file.Length == 0)
         {
             return this.BadRequest("file to upload is null");
+        }
+
+        string[] allowedImageTypes = new string[] { "IMAGE/JPEG", "IMAGE/PNG" };
+        if (!allowedImageTypes.Contains(file.ContentType.ToUpperInvariant())
+            || Path.GetExtension(file.FileName).Length >= 6)
+        {
+            return this.BadRequest("file to upload is not in the correct format");
         }
 
         if (this.configuration?.Value?.BlogImagesDir == null
@@ -173,27 +180,17 @@ public class BlogController : Controller
             return this.StatusCode(StatusCodes.Status502BadGateway);
         }
 
-        string blogImagesFolder = this.configuration.Value.BlogImagesDir;
-        string[] allowedImageTypes = new string[] { "IMAGE/JPEG", "IMAGE/PNG" };
-        if (!allowedImageTypes.Contains(file.ContentType.ToUpperInvariant()))
-        {
-            return this.BadRequest("file to upload is not in the correct format");
-        }
-
-        string webPFileName = string.Empty;
-
+        string webPFileName;
         try
         {
-            if (file.Length > 0 && Path.GetExtension(file.FileName).Length < 6)
-            {
-                string filename = "Blog" + this.blogService.GetNextPostImage();
-                filename += Path.GetExtension(file.FileName);
+            string blogImagesFolder = this.configuration.Value.BlogImagesDir;
+            string filename = "Blog" + this.blogService.GetNextPostImage();
+            filename += Path.GetExtension(file.FileName);
 
 #pragma warning disable CA3003 // Review code for file path injection vulnerabilities
-                SaveToOriginalFormat(file, filename, blogImagesFolder);
-                webPFileName = await SaveToWebP(file, filename, blogImagesFolder).ConfigureAwait(false);
+            SaveToOriginalFormat(file, filename, blogImagesFolder);
+            webPFileName = await SaveToWebP(file, filename, blogImagesFolder).ConfigureAwait(false);
 #pragma warning restore CA3003 // Review code for file path injection vulnerabilities
-            }
         }
         catch (Exception ex)
         {
@@ -225,10 +222,8 @@ public class BlogController : Controller
         string filePath = Path.Combine(
             blogImagesFolder,
             filename);
-        using (FileStream stream = System.IO.File.Create(filePath))
-        {
-            //// Save the image in its original format for fallback
-            file.CopyToAsync(stream);
-        }
+        using FileStream stream = System.IO.File.Create(filePath);
+        //// Save the image in its original format for fallback
+        file.CopyToAsync(stream);
     }
 }

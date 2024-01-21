@@ -19,8 +19,10 @@ type AppointmentManagerState = {
 function AppointmentManager(): ReactElement {
   const { page } = useParams();
   const settings: Settings = React.useContext(SettingsContext);
-  const [modal, setModal] = React.useState<boolean>(false);
-  const toggle = () => setModal(!modal);
+  const [closeAppointmentsModal, setCloseAppointmentsModal] =
+    React.useState<boolean>(false);
+  const closeAppointmentsToggle = () =>
+    setCloseAppointmentsModal(!closeAppointmentsModal);
   const [confirmModal, setConfirmModal] = React.useState<boolean>(false);
   const confirmToggle = () => setConfirmModal(!confirmModal);
   const [alertModal, setAlertModal] = React.useState<boolean>(false);
@@ -168,7 +170,7 @@ function AppointmentManager(): ReactElement {
               appointments: retrievedAppointments,
             });
 
-            setModal(true);
+            setCloseAppointmentsModal(true);
           })
           .catch(() => {
             setAppointmentData({
@@ -243,8 +245,15 @@ function AppointmentManager(): ReactElement {
             </Button>
           </ModalFooter>
         </Modal>
-        <Modal isOpen={modal} toggle={toggle} className="next-dates-modal">
-          <ModalHeader toggle={toggle} className="beatabg next-dates-modal">
+        <Modal
+          isOpen={closeAppointmentsModal}
+          toggle={closeAppointmentsToggle}
+          className="next-dates-modal"
+        >
+          <ModalHeader
+            toggle={closeAppointmentsToggle}
+            className="beatabg next-dates-modal"
+          >
             <div className="aligner next-dates-modal">
               <div className="aligner-item aligner-item-top" />
               <div className="aligner-item">Citas en los próximos 2 días</div>
@@ -285,7 +294,7 @@ function AppointmentManager(): ReactElement {
           </ModalBody>
           <ModalFooter>
             {' '}
-            <Button color="secondary" onClick={toggle}>
+            <Button color="secondary" onClick={closeAppointmentsToggle}>
               Cerrar
             </Button>
           </ModalFooter>

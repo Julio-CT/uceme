@@ -46,7 +46,7 @@ public class BlogService : IBlogService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving Blogs {e.Message}");
+            this.logger.LogError("Error retrieving Blogs {EMessage}", e.Message);
             throw new DataException("Error retrieving Blogs", e);
         }
     }
@@ -71,7 +71,7 @@ public class BlogService : IBlogService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving Posts {e.Message}");
+            this.logger.LogError("Error retrieving Posts {EMessage}", e.Message);
             throw new DataException("Error retrieving Posts", e);
         }
     }
@@ -96,7 +96,7 @@ public class BlogService : IBlogService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error retrieving Blogs {e.Message}");
+            this.logger.LogError("Error retrieving Blogs {EMessage}", e.Message);
             throw new DataException("Error retrieving Blogs", e);
         }
     }
@@ -113,7 +113,7 @@ public class BlogService : IBlogService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error deleting post {e.Message}");
+            this.logger.LogError("Error deleting post {EMessage}", e.Message);
             throw new DataException("Error deleting post", e);
         }
     }
@@ -147,11 +147,11 @@ public class BlogService : IBlogService
                 return result == 1;
             }
 
-            throw new DataException("Updated post Id doesn´t match the original one - it was not saved");
+            throw new DataException("Updated post Id does not match the original one - it was not saved");
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error updating post {e.Message}");
+            this.logger.LogError("Error updating post {EMessage}", e.Message);
             throw new DataException("Error updating post", e);
         }
     }
@@ -166,10 +166,6 @@ public class BlogService : IBlogService
         try
         {
             this.CheckUniqueSlug(blog);
-            if (this.context.Blog.Any(x => x.slug == blog.Slug))
-            {
-                blog.Slug = "Mas" + blog.Slug;
-            }
 
             Blog post = new Blog
             {
@@ -190,7 +186,7 @@ public class BlogService : IBlogService
         }
         catch (Exception e)
         {
-            this.logger.LogError($"Error adding post {e.Message}");
+            this.logger.LogError("Error adding post {EMessage}", e.Message);
             throw new DataException("Error adding post", e);
         }
     }
@@ -205,9 +201,8 @@ public class BlogService : IBlogService
     {
         if (this.context.Blog.Any(x => x.slug == blog.Slug))
         {
-            blog.Slug = "Mas" + blog.Slug;
+            blog.Slug = "Mas " + blog.Slug;
+            this.CheckUniqueSlug(blog);
         }
-
-        this.CheckUniqueSlug(blog);
     }
 }

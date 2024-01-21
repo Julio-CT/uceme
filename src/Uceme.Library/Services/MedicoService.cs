@@ -34,7 +34,7 @@ public class MedicoService : IMedicoService
                 foto = o.foto,
             });
 
-            this.logger.LogInformation($"retrieved {data.Count()} items");
+            this.logger.LogInformation("retrieved {Count} items", data.Count());
 
             return data;
         }

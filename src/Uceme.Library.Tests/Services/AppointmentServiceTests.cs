@@ -55,7 +55,7 @@ public class AppointmentServiceTests
         AppointmentService sut = mocker.Create<AppointmentService>();
 
         //// ACT
-        IEnumerable<Appointment> appointments = sut.GetAppointments();
+        IEnumerable<Appointment>? appointments = sut.GetAppointments();
 
         //// ASSERT
         Assert.IsNotNull(appointments);
@@ -63,10 +63,30 @@ public class AppointmentServiceTests
     }
 
     [TestMethod]
+    public void CanCallGetAppointmentsEvents()
+    {
+        //// ARRANGE
+        AutoMoqer mocker = new AutoMoqer();
+        mocker.SetInstance<IApplicationDbContext>(this.context);
+
+        AppointmentService sut = mocker.Create<AppointmentService>();
+
+        //// ACT
+        IEnumerable<CalendarEvent>? appointments = sut.GetAppointmentsEvents();
+
+        //// ASSERT
+        Assert.IsNotNull(appointments);
+        IEnumerable<CalendarEvent> calendarEvents = appointments as CalendarEvent[] ?? appointments.ToArray();
+        Assert.AreEqual(2, calendarEvents.Count());
+        Assert.AreEqual("somehospitalname: as.", calendarEvents.ToArray()[1].title);
+        Assert.AreEqual("Telf: 123, Email: asd@as", calendarEvents.ToArray()[1].description);
+    }
+
+    [TestMethod]
     public void CanConstruct()
     {
         // Act
-        var instance = new AppointmentService(this.logger.Object, this.context, this.emailServiceMock.Object);
+        AppointmentService instance = new AppointmentService(this.logger.Object, this.context, this.emailServiceMock.Object);
 
         // Assert
         Assert.IsNotNull(instance);
@@ -96,7 +116,7 @@ public class AppointmentServiceTests
         //// ARRANGE
         int tomorrowsDate = GetIntDate(1);
 
-        var appointment = new Cita
+        Cita appointment = new Cita
         {
             dia = tomorrowsDate,
             email = "asd@as",
@@ -115,18 +135,18 @@ public class AppointmentServiceTests
         AppointmentService sut = mocker.Create<AppointmentService>();
 
         // Act
-        var result = sut.GetCloseAppointments();
+        IEnumerable<Appointment> result = sut.GetCloseAppointments();
 
         // Assert
         Assert.IsNotNull(result);
-        Assert.AreEqual(1, result.Count());
+        Assert.AreEqual(2, result.Count());
     }
 
     [TestMethod]
     public void CanCallGetHours()
     {
         // Arrange
-        var appointment = new Cita
+        Cita appointment = new Cita
         {
             idCita = 750079141,
             dia = 62888007,
@@ -152,7 +172,7 @@ public class AppointmentServiceTests
 
         this.context.SaveChanges();
 
-        var appointmentHoursRequest = new AppointmentHoursRequest
+        AppointmentHoursRequest appointmentHoursRequest = new AppointmentHoursRequest
         {
             WeekDay = 1356295792,
             HospitalId = "1",
@@ -162,7 +182,7 @@ public class AppointmentServiceTests
         };
 
         // Act
-        var result = this.testClass.GetHours(appointmentHoursRequest);
+        IEnumerable<string> result = this.testClass.GetHours(appointmentHoursRequest);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(IEnumerable<string>));
@@ -175,7 +195,7 @@ public class AppointmentServiceTests
     public void CanCallGetHoursOneHourBusy()
     {
         // Arrange
-        var appointment = new Cita
+        Cita appointment = new Cita
         {
             idCita = 750079141,
             dia = 62888007,
@@ -186,7 +206,7 @@ public class AppointmentServiceTests
             idTurno = 1246174872,
         };
 
-        var appointment2 = new Cita
+        Cita appointment2 = new Cita
         {
             idCita = 750079142,
             dia = 62888007,
@@ -213,7 +233,7 @@ public class AppointmentServiceTests
 
         this.context.SaveChanges();
 
-        var appointmentHoursRequest = new AppointmentHoursRequest
+        AppointmentHoursRequest appointmentHoursRequest = new AppointmentHoursRequest
         {
             WeekDay = 1356295792,
             HospitalId = "1",
@@ -223,7 +243,7 @@ public class AppointmentServiceTests
         };
 
         // Act
-        var result = this.testClass.GetHours(appointmentHoursRequest);
+        IEnumerable<string> result = this.testClass.GetHours(appointmentHoursRequest);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(IEnumerable<string>));
@@ -242,7 +262,7 @@ public class AppointmentServiceTests
     public void CanCallGetDays()
     {
         // Arrange
-        var hospitalId = 2085461919;
+        int hospitalId = 2085461919;
         this.context.Turno.Add(new Turno
         {
             idTurno = 1246174872,
@@ -257,7 +277,7 @@ public class AppointmentServiceTests
         this.context.SaveChanges();
 
         // Act
-        var result = this.testClass.GetDays(hospitalId);
+        IEnumerable<int> result = this.testClass.GetDays(hospitalId);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(IEnumerable<int>));
@@ -269,7 +289,7 @@ public class AppointmentServiceTests
     public async Task CanCallAddAppointmentAsync()
     {
         // Arrange
-        var appointmentRequest = new AppointmentRequest
+        AppointmentRequest appointmentRequest = new AppointmentRequest
         {
             WeekDay = 1356295791,
             HospitalId = 1,
@@ -286,13 +306,13 @@ public class AppointmentServiceTests
         this.emailServiceMock.Setup(mock => mock.SendEmailToManagementAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(true);
 
         // Act
-        var result = await this.testClass.AddAppointmentAsync(appointmentRequest).ConfigureAwait(false);
+        bool result = await this.testClass.AddAppointmentAsync(appointmentRequest).ConfigureAwait(false);
 
         // Assert
         this.emailServiceMock.Verify(mock => mock.SendEmailToManagementAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
 
         Assert.IsTrue(result);
-        Assert.AreEqual(1, this.context.Cita.Where(x => x.email == appointmentRequest.Email && x.telefono == appointmentRequest.Phone && x.nombre == appointmentRequest.Name && x.hora == 1 && x.idTurno == 1 && x.dia == 20341212).Count());
+        Assert.AreEqual(1, this.context.Cita.Where(x => x.email == appointmentRequest.Email && x.telefono == appointmentRequest.Phone && x.nombre == appointmentRequest.Name && x.hora == 1 && x.idTurno == 2 && x.dia == 20341212).Count());
     }
 
     [TestMethod]
@@ -305,9 +325,9 @@ public class AppointmentServiceTests
     public void CanCallUpdatePastAppointmentsData()
     {
         //// ARRANGE
-        int tomorrowsDate = GetIntDate(-8);
+        int tomorrowsDate = GetIntDate(AppointmentService.DataExpiryDays - 1);
 
-        var appointment = new Cita
+        Cita appointment = new Cita
         {
             dia = tomorrowsDate,
             email = "asd@as",
@@ -322,7 +342,7 @@ public class AppointmentServiceTests
         this.context.SaveChanges();
 
         // Act
-        var result = this.testClass.UpdatePastAppointmentsData();
+        bool result = this.testClass.UpdatePastAppointmentsData();
 
         // Assert
         Assert.IsTrue(result);
@@ -334,7 +354,7 @@ public class AppointmentServiceTests
     public void CanCallGetAppointment()
     {
         // Arrange
-        var appointment = new Cita
+        Cita appointment = new Cita
         {
             dia = 1,
             email = "asd@as",
@@ -349,7 +369,7 @@ public class AppointmentServiceTests
         this.context.SaveChanges();
 
         // Act
-        var result = ((IAppointmentService)this.testClass).GetAppointment(appointment.idCita);
+        Appointment result = ((IAppointmentService)this.testClass).GetAppointment(appointment.idCita);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(Appointment));
@@ -366,7 +386,7 @@ public class AppointmentServiceTests
     public void CanCallDeleteAppointment()
     {
         // Arrange
-        var appointmentId = 1943569314;
+        int appointmentId = 1943569314;
         this.context.Cita.Add(new Cita
         {
             dia = 1,
@@ -381,7 +401,7 @@ public class AppointmentServiceTests
         this.context.SaveChanges();
 
         // Act
-        var result = ((IAppointmentService)this.testClass).DeleteAppointment(appointmentId);
+        bool result = ((IAppointmentService)this.testClass).DeleteAppointment(appointmentId);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(bool));
@@ -392,7 +412,7 @@ public class AppointmentServiceTests
     public void CanCallUpdateAppointment()
     {
         // Arrange
-        var appointment = new Cita
+        Cita appointment = new Cita
         {
             idCita = 750079141,
             dia = 1356295792,
@@ -423,7 +443,7 @@ public class AppointmentServiceTests
         this.context.SaveChanges();
 
         // Act
-        var result = ((IAppointmentService)this.testClass).UpdateAppointment(appointment);
+        Appointment result = ((IAppointmentService)this.testClass).UpdateAppointment(appointment);
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(Appointment));
@@ -446,7 +466,7 @@ public class AppointmentServiceTests
     public void UpdateAppointmentPerformsMapping()
     {
         // Arrange
-        var appointment = new Cita
+        Cita appointment = new Cita
         {
             idCita = 1099130085,
             dia = 452068112,
@@ -477,7 +497,7 @@ public class AppointmentServiceTests
         this.context.SaveChanges();
 
         // Act
-        var result = ((IAppointmentService)this.testClass).UpdateAppointment(appointment);
+        Appointment result = ((IAppointmentService)this.testClass).UpdateAppointment(appointment);
 
         // Assert
         Assert.AreEqual(appointment.idCita, result.idCita);
@@ -510,7 +530,7 @@ public class AppointmentServiceTests
     {
         this.context.Cita.AddRange(new Cita
         {
-            dia = 1,
+            dia = GetIntDate(2),
             email = "asd@as",
             hora = 1.1M,
             idCita = 1,
@@ -520,7 +540,7 @@ public class AppointmentServiceTests
         });
         this.context.Cita.Add(new Cita
         {
-            dia = 1,
+            dia = GetIntDate(-8),
             email = "asd@as",
             hora = 1.1M,
             idCita = 2,
@@ -532,6 +552,16 @@ public class AppointmentServiceTests
         {
             idTurno = 1,
             idHospital = 1,
+            dia = 3,
+            inicio = 1,
+            fin = 2,
+            paralelas = 2,
+            porhora = 3,
+        });
+        this.context.Turno.Add(new Turno
+        {
+            idTurno = 2,
+            idHospital = 1,
             dia = 1356295791,
             inicio = 1,
             fin = 2,
@@ -541,7 +571,7 @@ public class AppointmentServiceTests
         this.context.DatosProfesionales.Add(new DatosProfesionales
         {
             idDatosPro = 1,
-            nombre = "hospitalname",
+            nombre = "somehospitalname",
         });
 
         this.context.SaveChanges();

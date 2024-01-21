@@ -59,7 +59,7 @@ public class Startup
         this.SetupCors(services);
         this.SetupAuthentication(services);
 
-        this.SetupDependecyInjection(services);
+        this.SetupDependencyInjection(services);
         this.SetupSwagger(services);
     }
 
@@ -186,7 +186,7 @@ public class Startup
         });
     }
 
-    private void SetupDependecyInjection(IServiceCollection services)
+    private void SetupDependencyInjection(IServiceCollection services)
     {
         services.AddSingleton(this.Configuration);
 

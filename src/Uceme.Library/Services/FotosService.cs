@@ -25,7 +25,7 @@ public class FotosService : IFotosService
         try
         {
             IQueryable<Fotos> listaFotos = this.context.Fotos.Where(o => o.destacada != null && o.destacada.Value);
-            this.logger.LogInformation($"retrieved {listaFotos.Count()} items");
+            this.logger.LogInformation("retrieved {Count} items", listaFotos.Count());
 
             return listaFotos;
         }

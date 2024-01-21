@@ -16,6 +16,19 @@ export class DateTimeUtils {
     )}`;
   }
 
+  static DateFromEvent(inputString: string): Date {
+    if (!inputString) {
+      return new Date();
+    }
+
+    try {
+      const [year, month, date, hour, minutes] = inputString.split('-');
+      return new Date(+year, +month, +date, +hour, +minutes, 0);
+    } catch (e) {
+      return new Date();
+    }
+  }
+
   static FormatDate(inputDate: string): string {
     if (!inputDate) {
       return inputDate;
