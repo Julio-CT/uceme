@@ -32,6 +32,12 @@ public class BlogControllerTests
         this.testClass = new BlogController(this.blogService.Object, this.configuration.Object, this.logger.Object);
     }
 
+    [TestCleanup]
+    public void CleanUp()
+    {
+        this.testClass.Dispose();
+    }
+
     [TestMethod]
     public void CanConstruct()
     {
