@@ -21,21 +21,21 @@ public class Startup
 
     private readonly string strictPolicy = "StrictCorsPolicy";
 
+    private readonly IConfiguration configuration;
+
     public Startup(IConfiguration configuration)
     {
-        this.Configuration = configuration;
+        this.configuration = configuration;
     }
-
-    public IConfiguration Configuration { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        IConfigurationSection appSettingsSection = this.Configuration.GetSection("AppSettings");
-        services.Configure<AuthMessageSenderSettings>(this.Configuration.GetSection("EmailSettings"));
+        IConfigurationSection appSettingsSection = this.configuration.GetSection("AppSettings");
+        services.Configure<AuthMessageSenderSettings>(this.configuration.GetSection("EmailSettings"));
 
         services.Configure<AppSettings>(appSettingsSection);
-        string? ucemeConnection = this.Configuration.GetConnectionString("UcemeConnection");
+        string? ucemeConnection = this.configuration.GetConnectionString("UcemeConnection");
 
         if (ucemeConnection == null)
         {
@@ -48,7 +48,7 @@ public class Startup
         SetupIdentity(services);
         this.SetupCors(services);
 
-        services.AddSingleton(this.Configuration);
+        services.AddSingleton(this.configuration);
 
         services.AddTransient<IEmailService, EmailService>();
         services.AddTransient<ISmtpClient, SmtpClientWrapper>();
@@ -64,7 +64,7 @@ public class Startup
             configuration.RootPath = "ClientApp/build";
         });
 
-        SwaggerSettings? swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
+        SwaggerSettings? swaggerSettings = this.configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
         if (swaggerSettings == null)
         {
             throw new InvalidDataException("missing swaggerSettings settings");
@@ -85,7 +85,7 @@ public class Startup
             app.UseDeveloperExceptionPage();
             app.UseMigrationsEndPoint();
 
-            SwaggerSettings? swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
+            SwaggerSettings? swaggerSettings = this.configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
             if (swaggerSettings == null)
             {
                 throw new InvalidDataException("missing Swagger settings");
@@ -105,7 +105,7 @@ public class Startup
             app.UseHttpsRedirection();
         }
 
-        CorsSettings? corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
+        CorsSettings? corsSettings = this.configuration.GetSection("CorsSettings").Get<CorsSettings>();
         if (corsSettings == null)
         {
             throw new InvalidDataException("missing corsSettings settings");
@@ -156,7 +156,7 @@ public class Startup
 
     private void SetupCors(IServiceCollection services)
     {
-        CorsSettings? corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
+        CorsSettings? corsSettings = this.configuration.GetSection("CorsSettings").Get<CorsSettings>();
         if (corsSettings == null)
         {
             throw new InvalidDataException("missing corsSettings settings");
