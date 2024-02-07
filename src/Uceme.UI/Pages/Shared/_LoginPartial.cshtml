@@ -1,7 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Uceme.Model.Models;
-@using System.Text.RegularExpressions
-@inject SignInManager<ApplicationUser> SignInManager
+﻿@using System.Text.RegularExpressions
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Uceme.Model.Models.Security.ApplicationUser> SignInManager
 
 @{
     string? returnUrl = null;
@@ -9,8 +8,8 @@
     if (query.ContainsKey("returnUrl"))
     {
         var returnUrlFromQuery = query["returnUrl"];
-        string pattern = @"\/connect\/authorize\/callback\?client_id=Uceme\.UI&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Flogin-callback&response_type=code&scope=Uceme\.UIAPI%20openid%20profile&state=[a-z,0-9]{32}&code_challenge=[A-Z,a-z,0-9,_,-]{43}&code_challenge_method=[A-Z,0-9]{4}&response_mode=query";
-        Match m = Regex.Match(returnUrlFromQuery!, pattern, RegexOptions.IgnoreCase);
+        var pattern = @"\/connect\/authorize\/callback\?client_id=Uceme\.UI&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Flogin-callback&response_type=code&scope=Uceme\.UIAPI%20openid%20profile&state=[a-z,0-9]{32}&code_challenge=[A-Z,a-z,0-9,_,-]{43}&code_challenge_method=[A-Z,0-9]{4}&response_mode=query";
+        var m = Regex.Match(returnUrlFromQuery!, pattern, RegexOptions.IgnoreCase);
         if (m.Success)
         {
             returnUrl = returnUrlFromQuery;

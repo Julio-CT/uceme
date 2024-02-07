@@ -1,4 +1,4 @@
-﻿namespace Uceme.Api;
+﻿namespace Uceme.API;
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;

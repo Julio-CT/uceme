@@ -141,14 +141,9 @@ public class BlogController : Controller
         bool result;
         try
         {
-            if (postRequest.IdBlog != 0)
-            {
-                result = this.blogService.UpdatePost(postRequest);
-            }
-            else
-            {
-                result = this.blogService.AddPost(postRequest);
-            }
+            result = postRequest.IdBlog != 0 ?
+             this.blogService.UpdatePost(postRequest)
+             : this.blogService.AddPost(postRequest);
         }
         catch (DataException ex)
         {

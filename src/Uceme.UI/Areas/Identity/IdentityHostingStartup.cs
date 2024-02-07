@@ -16,7 +16,7 @@ public class IdentityHostingStartup : IHostingStartup
             throw new ArgumentNullException(nameof(builder));
         }
 
-        builder.ConfigureServices((context, services) =>
+        builder.ConfigureServices((_, _) =>
         {
         });
     }

@@ -121,14 +121,9 @@ public class TechniqueController : Controller
         bool result;
         try
         {
-            if (postRequest.IdTech != 0)
-            {
-                result = this.techniqueService.UpdateTechnique(postRequest);
-            }
-            else
-            {
-                result = this.techniqueService.AddTechnique(postRequest);
-            }
+            result = postRequest.IdTech != 0 ?
+             this.techniqueService.UpdateTechnique(postRequest)
+             : this.techniqueService.AddTechnique(postRequest);
         }
         catch (DataException)
         {

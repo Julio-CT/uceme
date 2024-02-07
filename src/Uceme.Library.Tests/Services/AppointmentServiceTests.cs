@@ -186,9 +186,10 @@ public class AppointmentServiceTests
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(IEnumerable<string>));
-        Assert.AreEqual(4, result.Count());
-        Assert.AreEqual("01:40", result.ToArray()[2]);
-        Assert.AreEqual("02:00", result.ToArray()[3]);
+        string[] results = result.ToArray();
+        Assert.AreEqual(4, results.Length);
+        Assert.AreEqual("01:40", results[2]);
+        Assert.AreEqual("02:00", results[3]);
     }
 
     [TestMethod]
@@ -247,9 +248,10 @@ public class AppointmentServiceTests
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(IEnumerable<string>));
-        Assert.AreEqual(3, result.Count());
-        Assert.AreEqual("01:40", result.ToArray()[1]);
-        Assert.AreEqual("02:00", result.ToArray()[2]);
+        string[] results = result.ToArray();
+        Assert.AreEqual(2, results.Length);
+        Assert.AreEqual("01:40", results[1]);
+        Assert.AreEqual("02:00", results[2]);
     }
 
     [TestMethod]
@@ -281,8 +283,9 @@ public class AppointmentServiceTests
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(IEnumerable<int>));
-        Assert.AreEqual(1, result.Count());
-        Assert.AreEqual(1356295792, result.ToArray()[0]);
+        int[] results = result.ToArray();
+        Assert.AreEqual(1, results.Length);
+        Assert.AreEqual(1356295792, results[0]);
     }
 
     [TestMethod]
@@ -312,7 +315,7 @@ public class AppointmentServiceTests
         this.emailServiceMock.Verify(mock => mock.SendEmailToManagementAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
 
         Assert.IsTrue(result);
-        Assert.AreEqual(1, this.context.Cita.Where(x => x.email == appointmentRequest.Email && x.telefono == appointmentRequest.Phone && x.nombre == appointmentRequest.Name && x.hora == 1 && x.idTurno == 2 && x.dia == 20341212).Count());
+        Assert.AreEqual(1, this.context.Cita.Count(x => x.email == appointmentRequest.Email && x.telefono == appointmentRequest.Phone && x.nombre == appointmentRequest.Name && x.hora == 1 && x.idTurno == 2 && x.dia == 20341212));
     }
 
     [TestMethod]

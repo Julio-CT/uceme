@@ -13,7 +13,6 @@ using Microsoft.OpenApi.Models;
 using Uceme.Foundation.Utilities;
 using Uceme.Library.Services;
 using Uceme.Model.Data;
-using Uceme.Model.Models;
 using Uceme.Model.Settings;
 
 public class Startup
@@ -112,14 +111,9 @@ public class Startup
             throw new InvalidDataException("missing corsSettings settings");
         }
 
-        if (corsSettings.UseStrictPolicy)
-        {
-            _ = app.UseCors(this.strictPolicy);
-        }
-        else
-        {
-            _ = app.UseCors(this.relaxedPolicy);
-        }
+        _ = app.UseCors(corsSettings.UseStrictPolicy ?
+            this.strictPolicy
+            : this.relaxedPolicy);
 
         app.UseStaticFiles();
         app.UseSpaStaticFiles();
@@ -150,11 +144,11 @@ public class Startup
 
     private static void SetupIdentity(IServiceCollection services)
     {
-        services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+        services.AddDefaultIdentity<Uceme.Model.Models.Security.ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.AddIdentityServer()
-            .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+            .AddApiAuthorization<Uceme.Model.Models.Security.ApplicationUser, ApplicationDbContext>();
 
         services.AddAuthentication()
             .AddIdentityServerJwt();

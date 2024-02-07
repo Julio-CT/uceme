@@ -39,7 +39,7 @@ public class SmtpClientWrapper : SmtpClient, ISmtpClient
         }
     }
 
-    protected void CheckDisposed()
+    private void CheckDisposed()
     {
         if (this.disposed)
         {

@@ -1,4 +1,4 @@
-﻿namespace Uceme.Foundation.Tests;
+﻿namespace Uceme.Foundation.Integration.Tests.Utilities;
 
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uceme.Foundation.Tools;
-using Uceme.Foundation.Utilities;
 using Uceme.Model.Settings;
 
 [TestClass]
@@ -41,8 +40,8 @@ public class EmailSenderIntegrationTests
         };
 
         IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
-        SmtpClientWrapper smtpClient = new SmtpClientWrapper();
-        EmailSender sut = new EmailSender(options, smtpClient);
+        Uceme.Foundation.Utilities.SmtpClientWrapper smtpClient = new Uceme.Foundation.Utilities.SmtpClientWrapper();
+        Uceme.Foundation.Utilities.EmailSender sut = new Uceme.Foundation.Utilities.EmailSender(options, smtpClient);
         string email = this.emailTo;
         string subject = "Integration Test";
         string htmlMessage = "<p>test</p>";
@@ -69,8 +68,8 @@ public class EmailSenderIntegrationTests
         };
 
         IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
-        SmtpClientWrapper smtpClient = new SmtpClientWrapper();
-        EmailSender sut = new EmailSender(options, smtpClient);
+        Uceme.Foundation.Utilities.SmtpClientWrapper smtpClient = new Uceme.Foundation.Utilities.SmtpClientWrapper();
+        Uceme.Foundation.Utilities.EmailSender sut = new Uceme.Foundation.Utilities.EmailSender(options, smtpClient);
         List<string> emails = new List<string>()
         {
             this.emailTo,
@@ -102,8 +101,8 @@ public class EmailSenderIntegrationTests
         };
 
         IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
-        SmtpClientWrapper smtpClient = new SmtpClientWrapper();
-        EmailSender sut = new EmailSender(options, smtpClient);
+        Uceme.Foundation.Utilities.SmtpClientWrapper smtpClient = new Uceme.Foundation.Utilities.SmtpClientWrapper();
+        Uceme.Foundation.Utilities.EmailSender sut = new Uceme.Foundation.Utilities.EmailSender(options, smtpClient);
         string email = this.emailTo;
         string subject = "Integration Test";
         string htmlMessage = "<p>test</p>";
@@ -130,8 +129,8 @@ public class EmailSenderIntegrationTests
         };
 
         IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
-        SmtpClientWrapper smtpClient = new SmtpClientWrapper();
-        EmailSender sut = new EmailSender(options, smtpClient);
+        Uceme.Foundation.Utilities.SmtpClientWrapper smtpClient = new Uceme.Foundation.Utilities.SmtpClientWrapper();
+        Uceme.Foundation.Utilities.EmailSender sut = new Uceme.Foundation.Utilities.EmailSender(options, smtpClient);
         List<string> emails = new List<string>()
         {
             this.emailTo,

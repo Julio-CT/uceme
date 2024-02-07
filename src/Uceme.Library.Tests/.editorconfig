@@ -1,3 +1,5 @@
-﻿
-[*.{cs,vb}]
+﻿[*.cs]
 dotnet_diagnostic.CA1707.severity = none
+# CS8618: Non nullable field _name is not initialized. Consider declare the field as nullable type
+dotnet_diagnostic.CS8618.severity = none
+dotnet_diagnostic.CS8625.severity = suggestion

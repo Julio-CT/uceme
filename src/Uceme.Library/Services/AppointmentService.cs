@@ -111,7 +111,7 @@ public class AppointmentService : IAppointmentService
                 {
                     for (decimal j = shift.inicio; j <= shift.fin; j += increment)
                     {
-                        result.Add(UCEME.Utilities.DateTimeUtils.TimeToString(j));
+                        result.Add(Uceme.Foundation.Utilities.DateTimeUtils.TimeToString(j));
                     }
                 }
 
@@ -120,7 +120,7 @@ public class AppointmentService : IAppointmentService
                     List<Cita> existingAppointments = this.context.Cita.Where(o => o.dia == americanDate && o.idTurno == shift.idTurno).ToList();
                     foreach (Cita? appointment in existingAppointments)
                     {
-                        string appointmentTime = UCEME.Utilities.DateTimeUtils.TimeToString(appointment.hora);
+                        string appointmentTime = Uceme.Foundation.Utilities.DateTimeUtils.TimeToString(appointment.hora);
                         result.Remove(appointmentTime);
                     }
                 }
@@ -165,7 +165,7 @@ public class AppointmentService : IAppointmentService
                 dia = appointmentRequest.Day
                 + (appointmentRequest.Month * 100)
                 + (appointmentRequest.Year * 10000),
-                hora = UCEME.Utilities.DateTimeUtils.TimeToDecimal(appointmentRequest.Hour),
+                hora = Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(appointmentRequest.Hour),
                 nombre = appointmentRequest.Name,
                 telefono = appointmentRequest.Phone,
             };

@@ -9,19 +9,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Uceme.Model.Models;
 
 [AllowAnonymous]
 #pragma warning disable SA1649 // File name should match first type name
 public class LoginModel : PageModel
 #pragma warning restore SA1649 // File name should match first type name
 {
-    private readonly SignInManager<ApplicationUser> signInManager;
+    private readonly SignInManager<Uceme.Model.Models.Security.ApplicationUser> signInManager;
 
     private readonly ILogger<LoginModel> logger;
 
     public LoginModel(
-        SignInManager<ApplicationUser> signInManager,
+        SignInManager<Uceme.Model.Models.Security.ApplicationUser> signInManager,
         ILogger<LoginModel> logger)
     {
         this.signInManager = signInManager;
@@ -29,7 +28,7 @@ public class LoginModel : PageModel
     }
 
     [BindProperty]
-    public InputModel? Input { get; set; }
+    public Uceme.Model.Models.Security.InputModel? Input { get; set; }
 
     public IList<AuthenticationScheme>? ExternalLogins { get; }
 

@@ -1,4 +1,4 @@
-﻿namespace Uceme.Api;
+﻿namespace Uceme.API;
 
 using System.IO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Uceme.Foundation.Utilities;
 using Uceme.Library.Services;
 using Uceme.Model.Data;
 using Uceme.Model.Settings;
@@ -103,14 +102,9 @@ public class Startup
             throw new InvalidDataException("missing cors settings");
         }
 
-        if (corsSettings.UseStrictPolicy)
-        {
-            _ = app.UseCors(this.strictPolicy);
-        }
-        else
-        {
-            _ = app.UseCors(this.relaxedPolicy);
-        }
+        _ = app.UseCors(corsSettings.UseStrictPolicy ?
+            this.strictPolicy
+            : this.relaxedPolicy);
 
         app.UseHttpsRedirection();
 
@@ -191,9 +185,9 @@ public class Startup
         services.AddSingleton(this.Configuration);
 
         services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
-        services.AddTransient<ISmtpClient, SmtpClientWrapper>();
+        services.AddTransient<Uceme.Foundation.Utilities.ISmtpClient, Uceme.Foundation.Utilities.SmtpClientWrapper>();
         services.AddTransient<IEmailService, EmailService>();
-        services.AddTransient<IEmailSender, EmailSender>();
+        services.AddTransient<Uceme.Foundation.Utilities.IEmailSender, Uceme.Foundation.Utilities.EmailSender>();
         services.AddTransient<IMedicoService, MedicoService>();
         services.AddTransient<IFotosService, FotosService>();
         services.AddTransient<IBlogService, BlogService>();
