@@ -249,7 +249,7 @@ public class AppointmentServiceTests
         // Assert
         Assert.IsInstanceOfType(result, typeof(IEnumerable<string>));
         string[] results = result.ToArray();
-        Assert.AreEqual(2, results.Length);
+        Assert.AreEqual(3, results.Length);
         Assert.AreEqual("01:40", results[1]);
         Assert.AreEqual("02:00", results[2]);
     }
