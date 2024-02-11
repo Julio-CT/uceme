@@ -1,4 +1,4 @@
-namespace Uceme.API.Tests.Controllers;
+﻿namespace Uceme.API.Tests.Controllers;
 
 using System;
 using System.Collections.Generic;
