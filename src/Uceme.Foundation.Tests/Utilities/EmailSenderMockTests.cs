@@ -1,4 +1,4 @@
-﻿namespace Uceme.Foundation.Tests;
+﻿namespace Uceme.Foundation.Tests.Utilities;
 
 using System.Collections.Generic;
 using System.Net.Mail;
@@ -8,7 +8,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Uceme.Foundation.Tools;
-using Uceme.Foundation.Utilities;
 using Uceme.Model.Settings;
 
 [TestClass]
@@ -43,11 +42,11 @@ public class EmailSenderMockTests
 
         IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
 
-        Mock<ISmtpClient> smtpClientMock = new Mock<ISmtpClient>();
+        Mock<Uceme.Foundation.Utilities.ISmtpClient> smtpClientMock = new Mock<Uceme.Foundation.Utilities.ISmtpClient>();
 
         smtpClientMock.Setup(x => x.SendMailAsync(It.IsAny<MailMessage>())).Verifiable();
 
-        EmailSender sut = new EmailSender(options, smtpClientMock.Object);
+        Uceme.Foundation.Utilities.EmailSender sut = new Uceme.Foundation.Utilities.EmailSender(options, smtpClientMock.Object);
         string email = this.emailTo;
         string subject = "BB";
         string htmlMessage = "CC";
@@ -75,11 +74,11 @@ public class EmailSenderMockTests
 
         IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
 
-        Mock<ISmtpClient> smtpClientMock = new Mock<ISmtpClient>();
+        Mock<Uceme.Foundation.Utilities.ISmtpClient> smtpClientMock = new Mock<Uceme.Foundation.Utilities.ISmtpClient>();
 
         smtpClientMock.Setup(x => x.SendMailAsync(It.IsAny<MailMessage>())).Verifiable();
 
-        EmailSender sut = new EmailSender(options, smtpClientMock.Object);
+        Uceme.Foundation.Utilities.EmailSender sut = new Uceme.Foundation.Utilities.EmailSender(options, smtpClientMock.Object);
         List<string> emails = new List<string>()
         {
             this.emailTo,
@@ -111,11 +110,11 @@ public class EmailSenderMockTests
 
         IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
 
-        Mock<ISmtpClient> smtpClientMock = new Mock<ISmtpClient>();
+        Mock<Uceme.Foundation.Utilities.ISmtpClient> smtpClientMock = new Mock<Uceme.Foundation.Utilities.ISmtpClient>();
 
         smtpClientMock.Setup(x => x.Send(It.IsAny<MailMessage>())).Verifiable();
 
-        EmailSender sut = new EmailSender(options, smtpClientMock.Object);
+        Uceme.Foundation.Utilities.EmailSender sut = new Uceme.Foundation.Utilities.EmailSender(options, smtpClientMock.Object);
         string email = this.emailTo;
         string subject = "BB";
         string htmlMessage = "CC";
@@ -143,11 +142,11 @@ public class EmailSenderMockTests
 
         IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
 
-        Mock<ISmtpClient> smtpClientMock = new Mock<ISmtpClient>();
+        Mock<Uceme.Foundation.Utilities.ISmtpClient> smtpClientMock = new Mock<Uceme.Foundation.Utilities.ISmtpClient>();
 
         smtpClientMock.Setup(x => x.Send(It.IsAny<MailMessage>())).Verifiable();
 
-        EmailSender sut = new EmailSender(options, smtpClientMock.Object);
+        Uceme.Foundation.Utilities.EmailSender sut = new Uceme.Foundation.Utilities.EmailSender(options, smtpClientMock.Object);
         List<string> emails = new List<string>()
         {
             this.emailTo,

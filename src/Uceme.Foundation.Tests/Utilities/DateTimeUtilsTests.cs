@@ -1,8 +1,7 @@
-﻿namespace Uceme.Foundation.Tests;
+﻿namespace Uceme.Foundation.Tests.Utilities;
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using UCEME.Utilities;
 
 [TestClass]
 public class DateTimeUtilsTests
@@ -19,9 +18,9 @@ public class DateTimeUtilsTests
         decimal output3 = 15.75M;
 
         // Act
-        decimal result = DateTimeUtils.TimeToDecimal(input);
-        decimal result2 = DateTimeUtils.TimeToDecimal(input2);
-        decimal result3 = DateTimeUtils.TimeToDecimal(input3);
+        decimal result = Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(input);
+        decimal result2 = Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(input2);
+        decimal result3 = Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(input3);
 
         // Assert
         Assert.AreEqual(output, result);
@@ -33,7 +32,7 @@ public class DateTimeUtilsTests
     [DataRow(null)]
     public void CannotCallTimeToDecimalWithNullStrhora(string value)
     {
-        Assert.ThrowsException<ArgumentNullException>(() => DateTimeUtils.TimeToDecimal(value));
+        Assert.ThrowsException<ArgumentNullException>(() => Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(value));
     }
 
     [DataTestMethod]
@@ -41,7 +40,7 @@ public class DateTimeUtilsTests
     [DataRow("   ")]
     public void CannotCallTimeToDecimalWithInvalidStrhora(string value)
     {
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() => DateTimeUtils.TimeToDecimal(value));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() => Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(value));
     }
 
     [TestMethod]
@@ -58,10 +57,10 @@ public class DateTimeUtilsTests
         decimal output4 = 1.75M;
 
         // Act
-        string? result = DateTimeUtils.TimeToString(output);
-        string? result2 = DateTimeUtils.TimeToString(output2);
-        string? result3 = DateTimeUtils.TimeToString(output3);
-        string? result4 = DateTimeUtils.TimeToString(output4);
+        string? result = Uceme.Foundation.Utilities.DateTimeUtils.TimeToString(output);
+        string? result2 = Uceme.Foundation.Utilities.DateTimeUtils.TimeToString(output2);
+        string? result3 = Uceme.Foundation.Utilities.DateTimeUtils.TimeToString(output3);
+        string? result4 = Uceme.Foundation.Utilities.DateTimeUtils.TimeToString(output4);
 
         // Assert
         Assert.AreEqual(input, result);

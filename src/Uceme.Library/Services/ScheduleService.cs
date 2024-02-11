@@ -16,8 +16,7 @@ public class ScheduleService : IScheduleService
 
     public ScheduleService(
         ILogger<ScheduleService> logger,
-        IApplicationDbContext context,
-        IEmailService emailService)
+        IApplicationDbContext context)
     {
         this.logger = logger;
         this.context = (ApplicationDbContext)context;

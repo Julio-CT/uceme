@@ -13,21 +13,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using Uceme.Model.Models;
 
 [AllowAnonymous]
 #pragma warning disable SA1649 // File name should match first type name
 public class RegisterModel : PageModel
 #pragma warning restore SA1649 // File name should match first type name
 {
-    private readonly SignInManager<ApplicationUser> signInManager;
-    private readonly UserManager<ApplicationUser> userManager;
+    private readonly SignInManager<Uceme.Model.Models.Security.ApplicationUser> signInManager;
+    private readonly UserManager<Uceme.Model.Models.Security.ApplicationUser> userManager;
     private readonly ILogger<RegisterModel> logger;
     private readonly IEmailSender emailSender;
 
     public RegisterModel(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
+        UserManager<Uceme.Model.Models.Security.ApplicationUser> userManager,
+        SignInManager<Uceme.Model.Models.Security.ApplicationUser> signInManager,
         ILogger<RegisterModel> logger,
         IEmailSender emailSender)
     {
@@ -38,7 +37,7 @@ public class RegisterModel : PageModel
     }
 
     [BindProperty]
-    public RegisterInputModel? Input { get; set; }
+    public Uceme.Model.Models.Security.RegisterInputModel? Input { get; set; }
 
 #pragma warning disable CA1056 // URI-like properties should not be strings
     public string? ReturnUrl { get; set; }
@@ -75,7 +74,7 @@ public class RegisterModel : PageModel
 
         if (this.ModelState.IsValid)
         {
-            ApplicationUser user = new ApplicationUser { UserName = this.Input?.Email, Email = this.Input?.Email };
+            Uceme.Model.Models.Security.ApplicationUser user = new Uceme.Model.Models.Security.ApplicationUser { UserName = this.Input?.Email, Email = this.Input?.Email };
             IdentityResult result = await this.userManager.CreateAsync(user, this.Input?.Password ?? string.Empty).ConfigureAwait(false);
             if (result.Succeeded)
             {

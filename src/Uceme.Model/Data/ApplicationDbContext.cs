@@ -7,7 +7,9 @@
     using Microsoft.Extensions.Options;
     using Uceme.Model.Models;
 
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
+#pragma warning disable CA1501
+    public class ApplicationDbContext : ApiAuthorizationDbContext<Uceme.Model.Models.Security.ApplicationUser>, IApplicationDbContext
+#pragma warning restore CA1501
     {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public ApplicationDbContext(

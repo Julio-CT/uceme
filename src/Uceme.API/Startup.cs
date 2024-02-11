@@ -1,4 +1,4 @@
-﻿namespace Uceme.Api;
+﻿namespace Uceme.API;
 
 using System.IO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Uceme.Foundation.Utilities;
 using Uceme.Library.Services;
 using Uceme.Model.Data;
 using Uceme.Model.Settings;
@@ -23,28 +22,25 @@ public class Startup
 
     private readonly string strictPolicy = "StrictCorsPolicy";
 
+    private readonly IConfiguration configuration;
+
     public Startup(IConfiguration configuration, IWebHostEnvironment env)
     {
-        this.Configuration = configuration;
-        this.Environment = env;
+        this.configuration = configuration;
     }
-
-    public IConfiguration Configuration { get; }
-
-    public IWebHostEnvironment Environment { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        IConfigurationSection appSettingsSection = this.Configuration.GetSection("AppSettings");
+        IConfigurationSection appSettingsSection = this.configuration.GetSection("AppSettings");
 
         services.Configure<AppSettings>(appSettingsSection);
-        services.Configure<AuthMessageSenderSettings>(this.Configuration.GetSection("EmailSettings"));
+        services.Configure<AuthMessageSenderSettings>(this.configuration.GetSection("EmailSettings"));
 
         AppSettings appSettings = new AppSettings();
         appSettingsSection.Bind(appSettings);
 
-        string? ucemeConnection = this.Configuration.GetConnectionString("UcemeConnection");
+        string? ucemeConnection = this.configuration.GetConnectionString("UcemeConnection");
 
         if (ucemeConnection == null)
         {
@@ -83,7 +79,7 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
 
-            SwaggerSettings? swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
+            SwaggerSettings? swaggerSettings = this.configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
@@ -97,20 +93,15 @@ public class Startup
             app.UseHsts();
         }
 
-        CorsSettings? corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
+        CorsSettings? corsSettings = this.configuration.GetSection("CorsSettings").Get<CorsSettings>();
         if (corsSettings == null)
         {
             throw new InvalidDataException("missing cors settings");
         }
 
-        if (corsSettings.UseStrictPolicy)
-        {
-            _ = app.UseCors(this.strictPolicy);
-        }
-        else
-        {
-            _ = app.UseCors(this.relaxedPolicy);
-        }
+        _ = app.UseCors(corsSettings.UseStrictPolicy ?
+            this.strictPolicy
+            : this.relaxedPolicy);
 
         app.UseHttpsRedirection();
 
@@ -125,7 +116,7 @@ public class Startup
 
     private void SetupAuthentication(IServiceCollection services)
     {
-        TokenSettings? tokenSettings = this.Configuration.GetSection("TokenSettings").Get<TokenSettings>();
+        TokenSettings? tokenSettings = this.configuration.GetSection("TokenSettings").Get<TokenSettings>();
         if (tokenSettings == null)
         {
             throw new InvalidDataException("missing token settings");
@@ -163,7 +154,7 @@ public class Startup
 
     private void SetupCors(IServiceCollection services)
     {
-        CorsSettings? corsSettings = this.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
+        CorsSettings? corsSettings = this.configuration.GetSection("CorsSettings").Get<CorsSettings>();
         if (corsSettings == null)
         {
             throw new InvalidDataException("missing Swagger settings");
@@ -188,12 +179,12 @@ public class Startup
 
     private void SetupDependencyInjection(IServiceCollection services)
     {
-        services.AddSingleton(this.Configuration);
+        services.AddSingleton(this.configuration);
 
         services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
-        services.AddTransient<ISmtpClient, SmtpClientWrapper>();
+        services.AddTransient<Uceme.Foundation.Utilities.ISmtpClient, Uceme.Foundation.Utilities.SmtpClientWrapper>();
         services.AddTransient<IEmailService, EmailService>();
-        services.AddTransient<IEmailSender, EmailSender>();
+        services.AddTransient<Uceme.Foundation.Utilities.IEmailSender, Uceme.Foundation.Utilities.EmailSender>();
         services.AddTransient<IMedicoService, MedicoService>();
         services.AddTransient<IFotosService, FotosService>();
         services.AddTransient<IBlogService, BlogService>();
@@ -205,7 +196,7 @@ public class Startup
 
     private void SetupSwagger(IServiceCollection services)
     {
-        SwaggerSettings? swaggerSettings = this.Configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
+        SwaggerSettings? swaggerSettings = this.configuration.GetSection("SwaggerSettings").Get<SwaggerSettings>();
         if (swaggerSettings == null)
         {
             throw new InvalidDataException("missing Swagger settings");

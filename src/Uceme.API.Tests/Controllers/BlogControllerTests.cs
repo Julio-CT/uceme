@@ -42,10 +42,11 @@ public class BlogControllerTests
     public void CanConstruct()
     {
         // Act
-        var instance = new BlogController(this.blogService.Object, this.configuration.Object, this.logger.Object);
+        BlogController instance = new BlogController(this.blogService.Object, this.configuration.Object, this.logger.Object);
 
         // Assert
         Assert.IsNotNull(instance);
+        instance.Dispose();
     }
 
     [TestMethod]
@@ -70,7 +71,7 @@ public class BlogControllerTests
     public void CanCallGetBlogSubset()
     {
         // Arrange
-        var amount = 165524861;
+        int amount = 165524861;
 
         this.blogService.Setup(mock => mock.GetBlogSubset(It.IsAny<int>(), It.IsAny<int>())).Returns(new[]
         {
@@ -116,7 +117,7 @@ public class BlogControllerTests
         });
 
         // Act
-        var result = this.testClass.GetBlogSubset(amount);
+        ActionResult<IEnumerable<Blog>> result = this.testClass.GetBlogSubset(amount);
 
         // Assert
         this.blogService.Verify(mock => mock.GetBlogSubset(It.IsAny<int>(), It.IsAny<int>()));
@@ -128,7 +129,7 @@ public class BlogControllerTests
     public void CanCallGetBlogList()
     {
         // Arrange
-        var page = 756548427;
+        int page = 756548427;
 
         this.blogService.Setup(mock => mock.GetBlogSubset(It.IsAny<int>(), It.IsAny<int>())).Returns(new[]
         {
@@ -174,7 +175,7 @@ public class BlogControllerTests
         });
 
         // Act
-        var result = this.testClass.GetBlogList(page);
+        ActionResult<IEnumerable<Blog>> result = this.testClass.GetBlogList(page);
 
         // Assert
         this.blogService.Verify(mock => mock.GetBlogSubset(It.IsAny<int>(), It.IsAny<int>()));
@@ -230,7 +231,7 @@ public class BlogControllerTests
         });
 
         // Act
-        var result = this.testClass.GetAllPosts();
+        ActionResult<IEnumerable<Blog>> result = this.testClass.GetAllPosts();
 
         // Assert
         this.blogService.Verify(mock => mock.GetAllPosts());
@@ -242,7 +243,7 @@ public class BlogControllerTests
     public void CanCallGetPost()
     {
         // Arrange
-        var slug = "TestValue1995376091";
+        string slug = "TestValue1995376091";
 
         this.blogService.Setup(mock => mock.GetPost(It.IsAny<string>())).Returns(new Blog
         {
@@ -259,7 +260,7 @@ public class BlogControllerTests
         });
 
         // Act
-        var result = this.testClass.GetPost(slug);
+        ActionResult<Blog> result = this.testClass.GetPost(slug);
 
         // Assert
         this.blogService.Verify(mock => mock.GetPost(It.IsAny<string>()));
@@ -285,12 +286,12 @@ public class BlogControllerTests
     public void CanCallDeletePost()
     {
         // Arrange
-        var postId = 140531184;
+        int postId = 140531184;
 
         this.blogService.Setup(mock => mock.DeletePost(It.IsAny<int>())).Returns(false);
 
         // Act
-        var result = this.testClass.DeletePost(postId);
+        ActionResult<bool> result = this.testClass.DeletePost(postId);
 
         // Assert
         this.blogService.Verify(mock => mock.DeletePost(It.IsAny<int>()));
@@ -302,7 +303,7 @@ public class BlogControllerTests
     public void CanCallAddPost()
     {
         // Arrange
-        var postRequest = new PostRequest
+        PostRequest postRequest = new PostRequest
         {
             IdBlog = 1023432791,
             Titulo = "TestValue319021207",
@@ -318,7 +319,7 @@ public class BlogControllerTests
         this.blogService.Setup(mock => mock.AddPost(It.IsAny<PostRequest>())).Returns(false);
 
         // Act
-        var result = this.testClass.AddPost(postRequest);
+        ActionResult<bool> result = this.testClass.AddPost(postRequest);
 
         // Assert
         this.blogService.Verify(mock => mock.UpdatePost(It.IsAny<PostRequest>()));
@@ -331,7 +332,7 @@ public class BlogControllerTests
     public void CanCallAddPostWithUpdateOk()
     {
         // Arrange
-        var postRequest = new PostRequest
+        PostRequest postRequest = new PostRequest
         {
             IdBlog = 0,
             Titulo = "TestValue319021207",
@@ -347,7 +348,7 @@ public class BlogControllerTests
         this.blogService.Setup(mock => mock.AddPost(It.IsAny<PostRequest>())).Returns(false);
 
         // Act
-        var result = this.testClass.AddPost(postRequest);
+        ActionResult<bool> result = this.testClass.AddPost(postRequest);
 
         // Assert
         this.blogService.Verify(mock => mock.UpdatePost(It.IsAny<PostRequest>()), times: Times.Never);
@@ -363,7 +364,7 @@ public class BlogControllerTests
         this.blogService.Setup(mock => mock.AddPost(It.IsAny<PostRequest>())).Returns(false);
 
         // Act
-        var result = this.testClass.AddPost(null);
+        ActionResult<bool> result = this.testClass.AddPost(null);
 
         // Assert
         this.blogService.Verify(mock => mock.DeletePost(It.IsAny<int>()), times: Times.Never);
@@ -376,7 +377,7 @@ public class BlogControllerTests
     {
         // Arrange
         // Act
-        var result = await this.testClass.OnPostUploadAsync(default).ConfigureAwait(false);
+        ActionResult<string> result = await this.testClass.OnPostUploadAsync(default).ConfigureAwait(false);
 
         // Assert
         this.blogService.Verify(mock => mock.DeletePost(It.IsAny<int>()), times: Times.Never);
