@@ -17,8 +17,8 @@ public class TechniqueService : ITechniqueService
 
     public TechniqueService(ILogger<TechniqueService> logger, IApplicationDbContext context)
     {
-        this.logger = logger;
-        this.context = (ApplicationDbContext)context;
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.context = (ApplicationDbContext)context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public IEnumerable<Tecnica> GetTechniques()

@@ -18,8 +18,8 @@ public class MedicoService : IMedicoService
         ILogger<MedicoService> logger,
         IApplicationDbContext context)
     {
-        this.logger = logger;
-        this.context = (ApplicationDbContext)context;
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.context = (ApplicationDbContext)context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public IEnumerable<Usuario> GetMedicoMinVista(bool hackOrder)

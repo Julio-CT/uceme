@@ -21,7 +21,7 @@
 
         DbSet<Faq> Faq { get; set; }
 
-        DbSet<Fotos> Fotos { get; set; }
+        DbSet<Foto> Fotos { get; set; }
 
         DbSet<ItemCurriculum> ItemCurriculum { get; set; }
 

@@ -49,9 +49,9 @@ public class HomeController : Controller
 
     [HttpGet("mostrarfotos")]
     [AllowAnonymous]
-    public ActionResult<IEnumerable<Fotos>> MostrarFotos()
+    public ActionResult<IEnumerable<Foto>> MostrarFotos()
     {
-        IEnumerable<Fotos> listaFotos;
+        IEnumerable<Foto> listaFotos;
         try
         {
             listaFotos = this.fotosService.GetFotos();

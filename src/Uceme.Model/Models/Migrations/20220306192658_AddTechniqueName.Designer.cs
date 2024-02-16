@@ -521,7 +521,7 @@ namespace Uceme.UI.Data.Migrations
                     b.ToTable("Faq");
                 });
 
-            modelBuilder.Entity("Uceme.Model.Models.Fotos", b =>
+            modelBuilder.Entity("Uceme.Model.Models.Foto", b =>
                 {
                     b.Property<int>("idFoto")
                         .ValueGeneratedOnAdd()
@@ -542,7 +542,7 @@ namespace Uceme.UI.Data.Migrations
 
                     b.HasKey("idFoto");
 
-                    b.ToTable("Fotos");
+                    b.ToTable("Foto");
                 });
 
             modelBuilder.Entity("Uceme.Model.Models.ItemCurriculum", b =>
