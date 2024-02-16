@@ -5,5 +5,5 @@ using Uceme.Model.Models;
 
 public interface IFotosService
 {
-    IEnumerable<Fotos> GetFotos();
+    IEnumerable<Foto> GetFotos();
 }

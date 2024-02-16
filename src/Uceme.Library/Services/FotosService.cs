@@ -16,15 +16,15 @@ public class FotosService : IFotosService
 
     public FotosService(ILogger<FotosService> logger, IApplicationDbContext context)
     {
-        this.logger = logger;
-        this.context = (ApplicationDbContext)context;
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.context = (ApplicationDbContext)context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public IEnumerable<Fotos> GetFotos()
+    public IEnumerable<Foto> GetFotos()
     {
         try
         {
-            IQueryable<Fotos> listaFotos = this.context.Fotos.Where(o => o.destacada != null && o.destacada.Value);
+            IQueryable<Foto> listaFotos = this.context.Fotos.Where(o => o.destacada != null && o.destacada.Value);
             this.logger.LogInformation("retrieved {Count} items", listaFotos.Count());
 
             return listaFotos;

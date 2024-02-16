@@ -36,7 +36,7 @@
 
         public DbSet<Faq> Faq { get; set; }
 
-        public DbSet<Fotos> Fotos { get; set; }
+        public DbSet<Foto> Fotos { get; set; }
 
         public DbSet<ItemCurriculum> ItemCurriculum { get; set; }
 

@@ -138,7 +138,7 @@ public class HomeControllerTests
     public void CanCallMostrarFotos()
     {
         // Arrange
-        Fotos? foto = new Fotos
+        Foto? foto = new Foto
         {
             idFoto = 120089836,
             nombre = "TestValue849571105",
@@ -149,7 +149,7 @@ public class HomeControllerTests
         this.fotosService.Setup(mock => mock.GetFotos()).Returns(new[]
         {
             foto,
-            new Fotos
+            new Foto
             {
                 idFoto = 884958447,
                 nombre = "TestValue322831170",
@@ -157,7 +157,7 @@ public class HomeControllerTests
                 destacada = true,
                 posicion = 1280403693,
             },
-            new Fotos
+            new Foto
             {
                 idFoto = 1280624059,
                 nombre = "TestValue756647506",
@@ -168,11 +168,11 @@ public class HomeControllerTests
         });
 
         // Act
-        ActionResult<IEnumerable<Fotos>>? result = this.testClass.MostrarFotos();
+        ActionResult<IEnumerable<Foto>>? result = this.testClass.MostrarFotos();
 
         // Assert
         this.fotosService.Verify(mock => mock.GetFotos());
-        Assert.IsInstanceOfType(result, typeof(ActionResult<IEnumerable<Fotos>>));
+        Assert.IsInstanceOfType(result, typeof(ActionResult<IEnumerable<Foto>>));
         Assert.AreEqual(3, result.Value?.ToArray().Length);
         Assert.AreEqual(foto, result.Value?.ToArray()[0]);
         Assert.AreEqual(884958447, result.Value?.ToArray()[1].idFoto);

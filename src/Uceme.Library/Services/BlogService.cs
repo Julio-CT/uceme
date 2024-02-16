@@ -20,8 +20,8 @@ public class BlogService : IBlogService
         ILogger<BlogService> logger,
         IApplicationDbContext context)
     {
-        this.logger = logger;
-        this.context = (ApplicationDbContext)context;
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        this.context = (ApplicationDbContext)context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public IEnumerable<Blog> GetBlogSubset(int amount, int page = 1)
@@ -78,6 +78,11 @@ public class BlogService : IBlogService
 
     public Blog GetPost(string slug)
     {
+        if (string.IsNullOrEmpty(slug) || string.IsNullOrEmpty(slug.Trim()))
+        {
+            throw new ArgumentNullException(nameof(slug));
+        }
+
         try
         {
             Blog data = this.context.Blog.Select(x => new Blog()
