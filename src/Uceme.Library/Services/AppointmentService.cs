@@ -170,7 +170,12 @@ public class AppointmentService : IAppointmentService
                 telefono = appointmentRequest.Phone,
             };
 
-            Turno turno = this.context.Turno.First(o => o.idHospital == appointmentRequest.HospitalId && o.dia == appointmentRequest.WeekDay);
+            Turno? turno = this.context.Turno.FirstOrDefault(o => o.idHospital == appointmentRequest.HospitalId && o.dia == appointmentRequest.WeekDay);
+            if (turno == null)
+            {
+                return false;
+            }
+
             cita.idTurno = turno.idTurno;
             if (!string.IsNullOrEmpty(appointmentRequest.Email))
             {
@@ -238,9 +243,15 @@ public class AppointmentService : IAppointmentService
 
     bool IAppointmentService.DeleteAppointment(int appointmentId)
     {
+        Cita? appointment = this.context.Cita.FirstOrDefault(cita => cita.idCita == appointmentId);
+        if (appointment == null)
+        {
+            this.logger.LogError("Appointment not found");
+            throw new DataException("Appointment not found");
+        }
+
         try
         {
-            Cita appointment = this.context.Cita.First(cita => cita.idCita == appointmentId);
             _ = this.context.Cita.Remove(appointment);
             this.context.SaveChanges();
 

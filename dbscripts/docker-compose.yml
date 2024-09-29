@@ -1,33 +1,23 @@
 version: "3.8"
 services:
-    ucemeDb:
-        image: "mcr.microsoft.com/azure-sql-edge:latest"
-        command: /opt/mssql/bin/sqlservr
+    ucemeDb2:
+        image: "mcr.microsoft.com/mssql/server:2022-latest"
+        command: bash -c "
+                chmod +x /opt/mssql_scripts/run-initialization.sh
+                && /opt/mssql_scripts/run-initialization.sh"
+        stdin_open: true
         environment:
             SA_PASSWORD: "Ch4mp10ns"
             ACCEPT_EULA: "Y"
         ports:
             - "1433:1433"
         restart: always
-        container_name: DockerUcemeDb
-        stdin_open: true
+        container_name: DockerUcemeDb22
         networks:
             - db_net
-    sqlcmd:
-        image: mcr.microsoft.com/mssql-tools:latest
-        command: bash -c "
-                chmod +x /opt/mssql_scripts/run-initialization.sh
-                && /opt/mssql_scripts/run-initialization.sh"
-        stdin_open: true
         volumes:
             - ./mssql_scripts:/opt/mssql_scripts
             - ./sqlucemedata:/var/opt/mssql
-        networks:
-            - db_net
-        depends_on:
-            ucemeDb:
-                condition: service_started
-                restart: true
 networks:
     db_net:
         name: db_net
