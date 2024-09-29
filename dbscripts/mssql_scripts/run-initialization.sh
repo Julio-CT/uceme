@@ -1,1 +1,1 @@
-/opt/mssql-tools/bin/sqlcmd -S ucemeDb -U SA -P 'Ch4mp10ns' -i /var/opt/mssql/ucemedb-2.sql
+/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Ch4mp10ns' -C -i /var/opt/mssql/ucemedb-2.sql
