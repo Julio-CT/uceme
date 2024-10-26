@@ -8,13 +8,14 @@
 name: Snyk Infrastructure as Code
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
+  #push:
+  #  branches: [ master, develop ]
+  #pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ master ]
+  #  branches: [ master, develop ]
   schedule:
     - cron: '43 0 * * 2'
+  workflow_dispatch:
 
 jobs:
   snyk:
@@ -35,7 +36,7 @@ jobs:
           # Add the path to the configuration file that you would like to test.
           # For example `deployment.yaml` for a Kubernetes deployment manifest
           # or `main.tf` for a Terraform configuration file
-          file: your-file-to-test.yaml
+          file: ./src/dbscripts/docker-compose.yml
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
