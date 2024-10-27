@@ -70,6 +70,7 @@ public class GptAppointmentServiceTests
 
         // Assert
         Assert.IsTrue(result); // Adjust based on expected behavior of AddAppointmentAsync
+        context.Dispose();
     }
 
     [TestMethod]
@@ -113,6 +114,7 @@ public class GptAppointmentServiceTests
 
         // Assert
         Assert.IsTrue(result); // Adjust based on expected behavior of AddAppointmentAsync when appointment already exists
+        context.Dispose();
     }
 
     [TestMethod]
@@ -151,6 +153,7 @@ public class GptAppointmentServiceTests
 
         // Assert
         Assert.IsFalse(result); // Adjust based on expected behavior of AddAppointmentAsync when no shifts available
+        context.Dispose();
     }
 
     [TestMethod]
@@ -189,6 +192,7 @@ public class GptAppointmentServiceTests
 
         // Assert
         Assert.IsTrue(result); // Have to change the logic, this should be false!
+        context.Dispose();
     }
 
     [TestMethod]
@@ -228,6 +232,7 @@ public class GptAppointmentServiceTests
         // Assert
         Assert.IsTrue(result); // Adjust based on expected behavior of AddAppointmentAsync
         this.emailServiceMock.Verify(e => e.SendEmailToManagementAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        context.Dispose();
     }
 
     [TestMethod]
@@ -255,6 +260,7 @@ public class GptAppointmentServiceTests
 
         // Assert
         Assert.IsTrue(result); // Adjust based on expected behavior of DeleteAppointmentAsync
+        context.Dispose();
     }
 
     [TestMethod]
@@ -282,6 +288,7 @@ public class GptAppointmentServiceTests
 
         // Act
         _ = service.DeleteAppointment(appointmentId);
+        context.Dispose();
     }
 
     private static string RandomString(int length)
