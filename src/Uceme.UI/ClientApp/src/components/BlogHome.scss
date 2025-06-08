@@ -1,7 +1,7 @@
-@import '../variables.scss';
+@import '../common.scss';
 
 .padding-top {
-  padding-top: 1.5em;
+  padding-top: $spacing-md;
 }
 
 img {
@@ -27,6 +27,7 @@ h3,
 h4,
 h5,
 h6 {
+  @include heading-base;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.125em;
@@ -36,13 +37,7 @@ h6 {
 }
 
 .section-centered {
-  display: table;
-  width: 100%;
-}
-
-.section-centered > .section-container {
-  display: table-cell;
-  vertical-align: middle;
+  @include section-centered;
 }
 
 .section-cover {

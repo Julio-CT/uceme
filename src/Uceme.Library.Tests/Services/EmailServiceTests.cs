@@ -55,19 +55,31 @@ public class EmailServiceTests
     [TestMethod]
     public void CannotConstructWithNullOptionsAccessor()
     {
-        Assert.ThrowsException<ArgumentNullException>(() => new EmailService(default, this.logger.Object, this.emailSender.Object));
+        Assert.ThrowsException<ArgumentNullException>(
+            () => new EmailService(
+                default,
+                this.logger.Object,
+                this.emailSender.Object));
     }
 
     [TestMethod]
     public void CannotConstructWithNullLogger()
     {
-        Assert.ThrowsException<ArgumentNullException>(() => new EmailService(this.optionsFake, default, this.emailSender.Object));
+        Assert.ThrowsException<ArgumentNullException>(
+            () => new EmailService(
+                this.optionsFake,
+                default,
+                this.emailSender.Object));
     }
 
     [TestMethod]
     public void CannotConstructWithNullEmailSender()
     {
-        Assert.ThrowsException<ArgumentNullException>(() => new EmailService(this.optionsFake, this.logger.Object, default));
+        Assert.ThrowsException<ArgumentNullException>(
+            () => new EmailService(
+                this.optionsFake,
+                this.logger.Object,
+                default));
     }
 
     [TestMethod]
@@ -91,7 +103,11 @@ public class EmailServiceTests
     [DataRow("   ")]
     public async Task CannotCallSendEmailToManagementAsyncWithInvalidFromAddress(string value)
     {
-        await Assert.ThrowsExceptionAsync<ArgumentException>(() => this.testClass.SendEmailToManagementAsync(value, "TestValue1815585287", "TestValue335517980")).ConfigureAwait(false);
+        await Assert.ThrowsExceptionAsync<ArgumentException>(
+            () => this.testClass.SendEmailToManagementAsync(
+                value,
+                "TestValue1815585287",
+                "TestValue335517980")).ConfigureAwait(false);
     }
 
     [DataTestMethod]
@@ -101,7 +117,11 @@ public class EmailServiceTests
     [DataRow("·$%·$%· ")]
     public async Task CannotCallSendEmailToManagementAsyncWithInvalidSubject(string value)
     {
-        await Assert.ThrowsExceptionAsync<ArgumentException>(() => this.testClass.SendEmailToManagementAsync("TestValue1405267161", value, "TestValue1749340446")).ConfigureAwait(false);
+        await Assert.ThrowsExceptionAsync<ArgumentException>(
+            () => this.testClass.SendEmailToManagementAsync(
+                "TestValue1405267161",
+                value,
+                "TestValue1749340446")).ConfigureAwait(false);
     }
 
     [DataTestMethod]
@@ -110,7 +130,11 @@ public class EmailServiceTests
     [DataRow("   ")]
     public async Task CannotCallSendEmailToManagementAsyncWithInvalidBody(string value)
     {
-        await Assert.ThrowsExceptionAsync<ArgumentException>(() => this.testClass.SendEmailToManagementAsync("TestValue1972857789", "TestValue52240965", value)).ConfigureAwait(false);
+        await Assert.ThrowsExceptionAsync<ArgumentException>(
+            () => this.testClass.SendEmailToManagementAsync(
+                "TestValue1972857789",
+                "TestValue52240965",
+                value)).ConfigureAwait(false);
     }
 
     [TestMethod]
@@ -134,7 +158,11 @@ public class EmailServiceTests
     [DataRow("   ")]
     public void CannotCallSendEmailToManagementWithInvalidFromAddress(string value)
     {
-        Assert.ThrowsException<ArgumentException>(() => this.testClass.SendEmailToManagement(value, "TestValue382143629", "TestValue75755626"));
+        Assert.ThrowsException<ArgumentException>(
+            () => this.testClass.SendEmailToManagement(
+                value,
+                "TestValue382143629",
+                "TestValue75755626"));
     }
 
     [DataTestMethod]
@@ -144,7 +172,11 @@ public class EmailServiceTests
     [DataRow("·$%·$%· ")]
     public void CannotCallSendEmailToManagementWithInvalidSubject(string value)
     {
-        Assert.ThrowsException<ArgumentException>(() => this.testClass.SendEmailToManagement("TestValue383687830", value, "TestValue619735923"));
+        Assert.ThrowsException<ArgumentException>(
+            () => this.testClass.SendEmailToManagement(
+                "TestValue383687830",
+                value,
+                "TestValue619735923"));
     }
 
     [DataTestMethod]
@@ -153,7 +185,11 @@ public class EmailServiceTests
     [DataRow("   ")]
     public void CannotCallSendEmailToManagementWithInvalidBody(string value)
     {
-        Assert.ThrowsException<ArgumentException>(() => this.testClass.SendEmailToManagement("TestValue1588817604", "TestValue1350485477", value));
+        Assert.ThrowsException<ArgumentException>(
+            () => this.testClass.SendEmailToManagement(
+                "TestValue1588817604",
+                "TestValue1350485477",
+                value));
     }
 
     [TestMethod]
@@ -177,7 +213,11 @@ public class EmailServiceTests
     [DataRow("   ")]
     public async Task CannotCallSendEmailToClientAsyncWithInvalidToAddress(string value)
     {
-        await Assert.ThrowsExceptionAsync<ArgumentException>(() => this.testClass.SendEmailToClientAsync(value, "TestValue1445224650", "TestValue106845759")).ConfigureAwait(false);
+        await Assert.ThrowsExceptionAsync<ArgumentException>(
+            () => this.testClass.SendEmailToClientAsync(
+                value,
+                "TestValue1445224650",
+                "TestValue106845759")).ConfigureAwait(false);
     }
 
     [DataTestMethod]
@@ -187,7 +227,11 @@ public class EmailServiceTests
     [DataRow("·$%·$%· ")]
     public async Task CannotCallSendEmailToClientAsyncWithInvalidSubject(string value)
     {
-        await Assert.ThrowsExceptionAsync<ArgumentException>(() => this.testClass.SendEmailToClientAsync("TestValue567195111", value, "TestValue898403055")).ConfigureAwait(false);
+        await Assert.ThrowsExceptionAsync<ArgumentException>(
+            () => this.testClass.SendEmailToClientAsync(
+                "TestValue567195111",
+                value,
+                "TestValue898403055")).ConfigureAwait(false);
     }
 
     [DataTestMethod]
@@ -196,7 +240,11 @@ public class EmailServiceTests
     [DataRow("   ")]
     public async Task CannotCallSendEmailToClientAsyncWithInvalidBody(string value)
     {
-        await Assert.ThrowsExceptionAsync<ArgumentException>(() => this.testClass.SendEmailToClientAsync("TestValue1068896686", "TestValue1967059523", value)).ConfigureAwait(false);
+        await Assert.ThrowsExceptionAsync<ArgumentException>(
+            () => this.testClass.SendEmailToClientAsync(
+                "TestValue1068896686",
+                "TestValue1967059523",
+                value)).ConfigureAwait(false);
     }
 
     [TestMethod]

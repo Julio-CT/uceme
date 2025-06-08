@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import '../../common.scss';
 
 .rbc-calendar {
   padding: 2em 0;
@@ -8,4 +8,88 @@
 .rbc-event,
 .rbc-day-slot .rbc-background-event {
   background-color: $uceme-green !important;
+}
+
+.clickable {
+  cursor: pointer;
+  color: #437132;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: #589442;
+  }
+}
+
+.turns-table {
+  th {
+    background-color: #f8f9fa;
+    color: #437132;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.2rem;
+  color: #437132;
+}
+
+.error-message {
+  padding: 20px;
+}
+
+.modal-header {
+  background-color: #437132;
+  color: white;
+
+  .close {
+    color: white;
+  }
+}
+
+.form-label {
+  color: #437132;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #437132;
+  border-color: #437132;
+
+  &:hover {
+    background-color: #589442;
+    border-color: #589442;
+  }
+}
+
+.btn-danger {
+  &:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+}
+
+.table-responsive {
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.turnos-container {
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #437132;
+  margin-bottom: 0;
 }

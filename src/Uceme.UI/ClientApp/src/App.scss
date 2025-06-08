@@ -1,4 +1,4 @@
-@import './variables.scss';
+@import './common.scss';
 
 .app {
   text-align: center;
@@ -65,45 +65,42 @@ h2,
 h3,
 h4,
 h5 {
-  line-height: 100%;
-  text-align: center;
-  font-weight: 100;
+  @include heading-base;
 }
 
 h3 {
-  font-size: 35px;
+  font-size: $font-size-xl;
   color: $uceme-green;
 }
 
 h4 {
-  font-size: 16px;
-  color: #3e4851;
+  font-size: $font-size-lg;
+  color: $uceme-gray;
   line-height: 22px;
-}
 
-h4 a {
-  color: #292929;
+  a {
+    color: #292929;
+  }
 }
 
 p {
-  font-size: 14px;
-  line-height: 20px;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
   color: $uceme-text;
   font-weight: 100;
 }
 
 strong {
-  font-weight: bold;
   font-weight: 900;
   font-size: 110%;
 }
 
 .extra-margin {
-  margin-top: 30px;
+  margin-top: $spacing-lg;
 }
 
 .extra-padding {
-  padding-top: 30px;
+  padding-top: $spacing-lg;
 }
 
 .uppercase {

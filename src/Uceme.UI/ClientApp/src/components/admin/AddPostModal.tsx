@@ -40,6 +40,7 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
   const [currentPost, setCurrentPost] = React.useState<BlogItem | undefined>(
     post
   );
+  // used when we edit an existing post
   const [photo, setPhoto] = React.useState<string | Blob>(
     post ? post.imageSrc : ''
   );
@@ -64,10 +65,12 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
   const [seoTitle, setSeoTitle] = React.useState<string>(
     post && post.seoTitle ? post.seoTitle : ''
   );
+  // stores the path of the image
   const [imgSrc, setImgSrc] = React.useState<string>(
     post && post.imageSrc ? post.imageSrc : ''
   );
   const [id, setId] = React.useState<number>(post && post.id ? +post.id : 0);
+  const [uploadSuccess, setUploadSuccess] = React.useState<boolean>(false);
 
   const weekStart = 1;
 
@@ -84,30 +87,35 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
 
     if (!selectedDay) {
       formIsValid = false;
-      errors.day = 'Cannot be empty';
+      errors.day =
+        'Fecha de publicación es requerida. Por favor, seleccione una fecha válida.';
     }
 
     if (!title) {
       formIsValid = false;
-      errors.title = 'Cannot be empty';
+      errors.title =
+        'Título es requerido. Por favor, ingrese un título para el post.';
     }
 
     if (!slug) {
       formIsValid = false;
-      errors.slug = 'Cannot be empty';
+      errors.slug =
+        'Slug es requerido. Por favor, ingrese un slug único para el post.';
     }
 
     if (!text) {
       formIsValid = false;
-      errors.text = 'Cannot be empty';
+      errors.text =
+        'Texto es requerido. Por favor, ingrese el contenido del post.';
     }
 
     if (!caption) {
       formIsValid = false;
-      errors.caption = 'Cannot be empty';
+      errors.caption =
+        'Caption es requerido. Por favor, ingrese una descripción para la imagen.';
     }
 
-    return formIsValid;
+    return { formIsValid, errors };
   };
 
   const setFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +124,7 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
     }
   };
 
-  const uploadfile = async (
+  const uploadFile = async (
     evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     evt.preventDefault();
@@ -124,6 +132,13 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
     formData.append('file', photo);
 
     const token = await authService.getAccessToken();
+
+    function handleError() {
+      setAlertMessage(
+        'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto con el equipo técnico de UCEME para reportar el error.'
+      );
+      alertToggle();
+    }
 
     fetch(`${settings?.baseHref}api/blog/onpostuploadasync`, {
       method: 'POST',
@@ -138,23 +153,17 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
           return response.json();
         }
 
-        setAlertMessage(
-          'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
-        );
-
-        alertToggle();
+        handleError();
         throw Error(response.statusText);
       })
       .then(async (resp: string) => {
         if (resp) {
           setImgSrc(resp);
+          setUploadSuccess(true);
           setAlertMessage(`Imagen subida correctamente.`);
           alertToggle();
         } else {
-          setAlertMessage(
-            'Lo sentimos, ha ocurrido un error subiendo la imagen. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
-          );
-          alertToggle();
+          handleError();
         }
       });
   };
@@ -265,9 +274,9 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
                   />
                   <Button
                     className="submit-form-button top-margin"
-                    onClick={(e) => uploadfile(e)}
+                    onClick={(e) => uploadFile(e)}
                     value="Subir"
-                    disabled={!photo || !!imgSrc}
+                    disabled={!photo || uploadSuccess}
                   >
                     Subir imagen
                   </Button>
@@ -303,6 +312,7 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
                     minDate={`${new Date()
                       .toISOString()
                       .slice(0, 10)}T00:00:00.000Z`}
+                    showClearButton={false}
                   />
                   <Label for="slugForm" className="field-label">
                     Slug (link):

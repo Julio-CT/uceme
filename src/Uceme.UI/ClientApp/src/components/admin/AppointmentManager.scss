@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import '../../common.scss';
 
 .padding-top {
   padding-top: 1.5em;
@@ -10,4 +10,8 @@
 
 .clickable {
   cursor: pointer;
+}
+
+tbody tr:nth-child(odd) td {
+  background-color: ghostwhite;
 }

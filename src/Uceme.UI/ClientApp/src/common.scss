@@ -1,0 +1,76 @@
+// Colors
+$uceme-green: #0e888e;
+$uceme-green-safe: #099;
+$uceme-nexgen-green: #3a9686;
+$uceme-legacy-green: #72beb1;
+$uceme-orange: #d6700c;
+$uceme-gray: #3e4851;
+$uceme-text: #444;
+
+$spacing-xs: 0.5rem;
+$spacing-sm: 1rem;
+$spacing-md: 1.5rem;
+$spacing-lg: 2rem;
+$spacing-xl: 3rem;
+
+$header-distance-default: 100px;
+$header-distance-large: 155px;
+
+$font-family-base: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, -apple-system, BlinkMacSystemFont,
+  Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$font-family-code: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+$font-size-base: 14px;
+$font-size-lg: 16px;
+$font-size-xl: 35px;
+$line-height-base: 1.4;
+
+$navbar-padding-x: 0.5em;
+
+@mixin clearfix {
+  &::after {
+    visibility: hidden;
+    display: block;
+    content: ' ';
+    clear: both;
+  }
+}
+
+@mixin heading-base {
+  line-height: 100%;
+  text-align: center;
+  font-weight: 100;
+}
+
+@mixin section-centered {
+  display: table;
+  width: 100%;
+
+  > .section-container {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
+.navbar {
+  --bs-navbar-padding-x: #{$navbar-padding-x};
+}
+
+.clearfix {
+  @include clearfix;
+}
+
+.clear {
+  clear: both;
+}
+
+.header-distance {
+  margin-top: $header-distance-default;
+}
+
+.header-distance-l {
+  margin-top: $header-distance-large;
+
+  @media (width >= 768px) {
+    margin-top: 0;
+  }
+}

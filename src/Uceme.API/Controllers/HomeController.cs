@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Uceme.Library.Services;
@@ -31,37 +32,69 @@ public class HomeController : Controller
 
     [HttpGet("getmedicominvista")]
     [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<Usuario>> GetMedicoMinVista()
     {
-        IEnumerable<Usuario> result;
         try
         {
-            result = this.medicoService.GetMedicoMinVista(true);
+            var result = this.medicoService.GetMedicoMinVista(true);
+            return this.Ok(result.ToList());
         }
-        catch (DataException)
+        catch (DataException ex)
         {
-            this.logger.LogError("error getting doctor");
-            return this.BadRequest();
+            this.logger.LogError(ex, "Error retrieving doctor information");
+            return this.BadRequest(new ProblemDetails
+            {
+                Title = "Database Error",
+                Detail = "Unable to retrieve doctor information",
+                Status = StatusCodes.Status400BadRequest,
+            });
         }
-
-        return result.ToList();
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Unexpected error retrieving doctor information");
+            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+            {
+                Title = "Server Error",
+                Detail = "An unexpected error occurred while retrieving doctor information",
+                Status = StatusCodes.Status500InternalServerError,
+            });
+        }
     }
 
     [HttpGet("mostrarfotos")]
     [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<Foto>> MostrarFotos()
     {
-        IEnumerable<Foto> listaFotos;
         try
         {
-            listaFotos = this.fotosService.GetFotos();
+            var listaFotos = this.fotosService.GetFotos();
+            return this.Ok(listaFotos.ToList());
         }
-        catch (DataException)
+        catch (DataException ex)
         {
-            this.logger.LogError("error getting picture");
-            return this.BadRequest();
+            this.logger.LogError(ex, "Error retrieving photos");
+            return this.BadRequest(new ProblemDetails
+            {
+                Title = "Database Error",
+                Detail = "Unable to retrieve photos",
+                Status = StatusCodes.Status400BadRequest,
+            });
         }
-
-        return listaFotos.ToList();
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Unexpected error retrieving photos");
+            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+            {
+                Title = "Server Error",
+                Detail = "An unexpected error occurred while retrieving photos",
+                Status = StatusCodes.Status500InternalServerError,
+            });
+        }
     }
 }

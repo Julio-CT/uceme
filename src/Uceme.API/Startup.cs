@@ -191,7 +191,7 @@ public class Startup
         services.AddTransient<IHospitalService, HospitalService>();
         services.AddTransient<IAppointmentService, AppointmentService>();
         services.AddTransient<ITechniqueService, TechniqueService>();
-        services.AddTransient<IScheduleService, ScheduleService>();
+        services.AddTransient<ITurnoService, TurnoService>();
     }
 
     private void SetupSwagger(IServiceCollection services)

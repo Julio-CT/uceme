@@ -32,7 +32,8 @@ public class DateTimeUtilsTests
     [DataRow(null)]
     public void CannotCallTimeToDecimalWithNullStrhora(string value)
     {
-        Assert.ThrowsException<ArgumentNullException>(() => Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(value));
+        Assert.ThrowsException<ArgumentNullException>(
+            () => Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(value));
     }
 
     [DataTestMethod]
@@ -40,7 +41,8 @@ public class DateTimeUtilsTests
     [DataRow("   ")]
     public void CannotCallTimeToDecimalWithInvalidStrhora(string value)
     {
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() => Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(value));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(value));
     }
 
     [TestMethod]

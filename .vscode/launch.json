@@ -5,12 +5,23 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Build Solution",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-solution",
+            "program": "dotnet",
+            "args": ["build", "${workspaceFolder}/src/UCEME.sln"],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Uceme.UI/bin/Debug/net6.0/Uceme.UI.dll",
+            "program": "${workspaceFolder}/src/Uceme.UI/bin/Debug/net7.0/Uceme.UI.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Uceme.UI",
             "stopAtEntry": false,
@@ -19,7 +30,7 @@
                 "action": "openExternally",
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
                 "uriFormat": "%s/swagger"
-            },
+            }, 
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
@@ -33,7 +44,7 @@
             "request": "launch",
             "preLaunchTask": "buildAPI",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Uceme.API/bin/Debug/net6.0/Uceme.API.dll",
+            "program": "${workspaceFolder}/src/Uceme.API/bin/Debug/net7.0/Uceme.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Uceme.API",
             "stopAtEntry": false,

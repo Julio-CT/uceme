@@ -34,6 +34,7 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
   const [alertModal, setAlertModal] = React.useState<boolean>(false);
   const alertToggle = () => setAlertModal(!alertModal);
   const [alertMessage, setAlertMessage] = React.useState<string>('');
+  const [error, setError] = React.useState<string | null>(null);
 
   const settings: Settings = React.useContext(SettingsContext);
   const inputName = 'reactstrap_date_picker_basic';
@@ -62,6 +63,22 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
   const weekStart = 1;
   const hospitalName = 'Beata María Ana';
 
+  const [validationErrors, setValidationErrors] = React.useState<{
+    day: string;
+    hour: string;
+    email: string;
+    name: string;
+    phone: string;
+    acceptTC: string;
+  }>({
+    day: '',
+    hour: '',
+    email: '',
+    name: '',
+    phone: '',
+    acceptTC: '',
+  });
+
   const resetForm = () => {
     setShowHours(false);
     setSendEnabled(false);
@@ -73,78 +90,88 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
   };
 
   const fetchHospitals = React.useCallback(
-    (baseHref: string) => {
+    async (baseHref: string) => {
       if (!hospitalsFetched) {
-        fetch(`${baseHref}api/hospital/gethospitals`)
-          .then((response: { json: () => Promise<Hospital[]> }) =>
-            response.json()
-          )
-          .then(async (resp: Hospital[]) => {
-            resetForm();
-            setHospitals(resp);
-            setShowHospitals(true);
-            setDisabledDays([0, 1, 2, 3, 4, 5, 6]);
-            setHospitalsFetched(true);
-          });
+        try {
+          const response = await fetch(`${baseHref}api/hospital`);
+          if (!response.ok) {
+            throw new Error(`Error fetching hospitals: ${response.statusText}`);
+          }
+
+          const resp: Hospital[] = await response.json();
+          resetForm();
+          setHospitals(resp);
+          setShowHospitals(true);
+          setDisabledDays([0, 1, 2, 3, 4, 5, 6]);
+          setHospitalsFetched(true);
+          setError(null);
+        } catch (err) {
+          setError('Error loading hospitals. Please try again later.');
+          setHospitalsFetched(false);
+        }
       }
     },
     [hospitalsFetched]
   );
 
-  const fetchDays = (
+  const fetchDays = async (
     hospital: string,
     baseHref: string,
     forceFetch: boolean
   ) => {
     if (!daysFetched || forceFetch) {
-      fetch(`${baseHref}api/appointment/getdays?hospitalId=${hospital}`)
-        .then((response: { json: () => Promise<number[]> }) => response.json())
-        .then(async (resp: number[]) => {
-          setDisabledDays(
-            [0, 1, 2, 3, 4, 5, 6].filter((el) => !resp.includes(el + 1))
-          );
-          setShowDays(true);
-          setDaysFetched(true);
-        });
+      try {
+        const response = await fetch(
+          `${baseHref}api/appointment/days/${hospital}`
+        );
+        if (!response.ok) {
+          throw new Error(`Error fetching days: ${response.statusText}`);
+        }
+
+        const resp: number[] = await response.json();
+        setDisabledDays(
+          [0, 1, 2, 3, 4, 5, 6].filter((el) => !resp.includes(el + 1))
+        );
+        setShowDays(true);
+        setDaysFetched(true);
+        setError(null);
+      } catch (err) {
+        setError('Error loading available days. Please try again later.');
+        setDaysFetched(false);
+      }
     }
   };
 
-  const fetchHours = (date: string, baseHref: string) => {
+  const fetchHours = async (date: string, baseHref: string) => {
     const day = new Date(date);
-    const data = {
-      weekDay: day.getDay(),
-      hospitalId: hospitalId?.toString(),
-      day: day.getDate(),
-      month: day.getMonth() + 1,
-      year: day.getFullYear(),
-    };
+    const params = new URLSearchParams({
+      weekDay: day.getDay().toString(),
+      hospitalId: hospitalId?.toString() || '',
+      day: day.getDate().toString(),
+      month: (day.getMonth() + 1).toString(),
+      year: day.getFullYear().toString(),
+    });
 
-    fetch(`${baseHref}api/appointment/gethours`, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    })
-      .then((response: { json: () => Promise<AppointmentHoursResponse> }) =>
-        response.json()
-      )
-      .then(async (resp: AppointmentHoursResponse) => {
-        setHours(resp.hours);
-        setSendEnabled(false);
-        setShowHours(true);
-      })
-      .catch(() => {
-        setHours([]);
-        setShowHours(false);
-        setSendEnabled(false);
-      });
+    try {
+      const response = await fetch(
+        `${baseHref}api/appointment/hours?${params.toString()}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error fetching hours: ${response.statusText}`);
+      }
+
+      const resp: AppointmentHoursResponse = await response.json();
+      setHours(resp.hours);
+      setSendEnabled(false);
+      setShowHours(true);
+      setError(null);
+    } catch (err) {
+      setError('Error loading available hours. Please try again later.');
+      setHours([]);
+      setShowHours(false);
+      setSendEnabled(false);
+    }
   };
 
   const selectHospital = (hospital: string, forceFetch: boolean) => {
@@ -182,17 +209,17 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
 
     if (!selectedDay) {
       formIsValid = false;
-      errors.day = 'Cannot be empty';
+      errors.day = 'Este campo es obligatorio';
     }
 
     if (!selectedHour) {
       formIsValid = false;
-      errors.hour = 'Cannot be empty';
+      errors.hour = 'Este campo es obligatorio';
     }
 
     if (!email) {
       formIsValid = false;
-      errors.email = 'Cannot be empty';
+      errors.email = 'Este campo es obligatorio';
     }
 
     if (typeof email !== 'undefined') {
@@ -209,34 +236,49 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
         )
       ) {
         formIsValid = false;
-        errors.email = 'Email is not valid';
+        errors.email = 'El email no es válido';
       }
     }
 
     if (!name) {
       formIsValid = false;
-      errors.name = 'Cannot be empty';
+      errors.name = 'Este campo es obligatorio';
+    } else if (name.length < 4) {
+      formIsValid = false;
+      errors.name = 'El nombre debe tener al menos 4 caracteres';
+    } else if (!name.includes(' ')) {
+      formIsValid = false;
+      errors.name = 'Por favor, introduce nombre y apellidos';
+    } else if (!/^[a-zA-ZÀ-ÿ\s]*$/.test(name)) {
+      formIsValid = false;
+      errors.name = 'El nombre no puede contener caracteres especiales';
     }
 
     if (!phone) {
       formIsValid = false;
-      errors.phone = 'Cannot be empty';
+      errors.phone = 'Este campo es obligatorio';
+    } else if (!/^[0-9+\s]+$/.test(phone)) {
+      formIsValid = false;
+      errors.phone =
+        'El teléfono solo puede contener números, espacios y el símbolo "+"';
     }
 
     if (!acceptTC) {
       formIsValid = false;
-      errors.acceptTC = 'Cannot be empty';
+      errors.acceptTC = 'Este campo es obligatorio';
     }
 
+    setValidationErrors(errors);
     return formIsValid;
   };
 
-  const submitForm = () => {
+  const submitForm = async () => {
     if (handleValidation() && settings) {
       const day = new Date(selectedDay);
+
       const data = {
         weekDay: day.getDay(),
-        hospitalId,
+        hospitalId: parseInt(hospitalId || '0', 10),
         day: day.getDate(),
         month: day.getMonth() + 1,
         year: day.getFullYear(),
@@ -247,41 +289,53 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
         extraInfo,
       };
 
-      fetch(`${settings.baseHref}api/appointment/addappointment`, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json',
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
-      })
-        .then((response: { json: () => Promise<boolean> }) => response.json())
-        .then(async (resp: boolean) => {
-          if (resp) {
-            setAlertMessage(
-              'Cita previa registrada correctamente. Recibirá un email con la confimación. Muchas gracias.'
-            );
-            alertToggle();
-          } else {
-            setAlertMessage(
-              'Cita previa registrada correctamente. El envio del correo con la confimación ha fallado, pero su cita queda registrada. Muchas gracias.'
-            );
-            alertToggle();
+      try {
+        // console.log('Submitting appointment data:', data);
+        const response = await fetch(
+          `${settings.baseHref}api/appointment/addappointment`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
           }
-          resetForm();
-          toggle();
-        })
-        .catch(() => {
-          setAlertMessage(
-            'Lo sentimos, ha ocurrido un error registrando tu cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
+        );
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          // console.error('Server error response:', errorText);
+          throw new Error(
+            `Error creating appointment: ${response.statusText}. ${errorText}`
           );
-          alertToggle();
-        });
+        }
+
+        const resp: boolean = await response.json();
+        if (resp) {
+          setAlertMessage(
+            'Cita previa registrada correctamente. Recibirá un email con la confimación. Muchas gracias.'
+          );
+        } else {
+          setAlertMessage(
+            'Cita previa registrada correctamente. El envio del correo con la confimación ha fallado, pero su cita queda registrada. Muchas gracias.'
+          );
+        }
+        alertToggle();
+        resetForm();
+        toggle();
+        setError(null);
+      } catch (err) {
+        // console.error('Error submitting appointment:', err);
+        setError(
+          err instanceof Error
+            ? err.message
+            : 'Error registering appointment. Please try again later.'
+        );
+        setAlertMessage(
+          'Lo sentimos, ha ocurrido un error registrando tu cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
+        );
+        alertToggle();
+      }
     }
   };
 
@@ -302,6 +356,11 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
           </div>
         </ModalHeader>
         <ModalBody>
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          )}
           <section id="section-contact_form" className="container">
             <div className="row justify-content-md-center">
               <form className="col-12">
@@ -347,6 +406,7 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
                       minDate={`${new Date()
                         .toISOString()
                         .slice(0, 10)}T00:00:00.000Z`}
+                      showClearButton={false}
                     />
                   </div>
                 )}
@@ -429,6 +489,20 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
               </form>
             </div>
           </section>
+          {Object.values(validationErrors).some(
+            (errorMsg) => errorMsg !== ''
+          ) && (
+            <div className="validation-errors mt-3">
+              {Object.entries(validationErrors).map(
+                ([field, message]) =>
+                  message && (
+                    <div key={field} className="text-danger mb-1">
+                      {field}: {message}
+                    </div>
+                  )
+              )}
+            </div>
+          )}
         </ModalBody>
         <ModalFooter>
           <Button

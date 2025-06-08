@@ -1,28 +1,8 @@
-.header-distance {
-  margin-top: 100px;
-}
+@import '../common.scss';
 
-.header-distance-l {
-  margin-top: 155px;
-}
-
-@media (width >= 768px) {
-  .header-distance-l {
-    margin-top: 0;
-  }
-}
+// These classes are now defined in common.scss
+// .header-distance and .header-distance-l are imported automatically
 
 /* @clearing */
-
 /* -------------------------------------------- */
-
-.clearfix::after {
-  visibility: hidden;
-  display: block;
-  content: ' ';
-  clear: both;
-}
-
-.clear {
-  clear: both;
-}
+// Clearing classes are now defined in common.scss and imported automatically
