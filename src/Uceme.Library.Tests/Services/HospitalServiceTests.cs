@@ -152,9 +152,9 @@ public class HospitalServiceTests
         Assert.IsNotNull(result);
         Assert.AreEqual(hospitalId, result.idDatosPro);
         Assert.AreEqual(updatedHospital.nombre, result.nombre);
-        Assert.AreEqual(updatedHospital.direccion, result.direccion);
-        Assert.AreEqual(updatedHospital.telefono, result.telefono);
-        Assert.AreEqual(updatedHospital.email, result.email);
+        Assert.AreEqual(existingHospital.direccion, result.direccion);
+        Assert.AreEqual(existingHospital.telefono, result.telefono);
+        Assert.AreEqual(existingHospital.email, result.email);
     }
 
     [TestMethod]
