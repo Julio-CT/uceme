@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Uceme.Library.Services;
@@ -26,39 +27,82 @@ public class HospitalController : Controller
         this.hospitalService = hospitalService ?? throw new ArgumentNullException(nameof(hospitalService));
     }
 
-    [HttpGet("gethospitals")]
+    [HttpGet]
     [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<DatosProfesionales>> GetHospitals()
     {
-        IEnumerable<DatosProfesionales> result;
         try
         {
-            result = this.hospitalService.GetHospitals();
+            var result = this.hospitalService.GetHospitals();
+            return this.Ok(result.ToList());
         }
-        catch (DataException)
+        catch (DataException ex)
         {
-            this.logger.LogError("error getting hospitals");
-            return this.BadRequest();
+            this.logger.LogError(ex, "Error retrieving hospitals list");
+            return this.BadRequest(new ProblemDetails
+            {
+                Title = "Database Error",
+                Detail = "Unable to retrieve hospitals list",
+                Status = StatusCodes.Status400BadRequest,
+            });
         }
-
-        return result.ToList();
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Unexpected error retrieving hospitals list");
+            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+            {
+                Title = "Server Error",
+                Detail = "An unexpected error occurred while retrieving hospitals list",
+                Status = StatusCodes.Status500InternalServerError,
+            });
+        }
     }
 
     [HttpGet("gethospital")]
     [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<DatosProfesionales> GetHospital(int hostpitalId)
     {
-        DatosProfesionales result;
         try
         {
-            result = this.hospitalService.GetHospital(hostpitalId);
-        }
-        catch (DataException)
-        {
-            this.logger.LogError("error getting hospital");
-            return this.BadRequest();
-        }
+            var result = this.hospitalService.GetHospital(hostpitalId);
+            if (result == null)
+            {
+                return this.NotFound(new ProblemDetails
+                {
+                    Title = "Not Found",
+                    Detail = $"Hospital with ID {hostpitalId} not found",
+                    Status = StatusCodes.Status404NotFound,
+                });
+            }
 
-        return result;
+            return this.Ok(result);
+        }
+        catch (DataException ex)
+        {
+            this.logger.LogError(ex, "Error retrieving hospital {HospitalId}", hostpitalId);
+            return this.BadRequest(new ProblemDetails
+            {
+                Title = "Database Error",
+                Detail = "Unable to retrieve hospital information",
+                Status = StatusCodes.Status400BadRequest,
+            });
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Unexpected error retrieving hospital {HospitalId}", hostpitalId);
+            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+            {
+                Title = "Server Error",
+                Detail = "An unexpected error occurred while retrieving hospital information",
+                Status = StatusCodes.Status500InternalServerError,
+            });
+        }
     }
 }

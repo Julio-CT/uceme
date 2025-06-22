@@ -168,6 +168,7 @@ public class AppointmentService : IAppointmentService
                 hora = Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(appointmentRequest.Hour),
                 nombre = appointmentRequest.Name,
                 telefono = appointmentRequest.Phone,
+                email = appointmentRequest.Email,
             };
 
             Turno? turno = this.context.Turno.FirstOrDefault(o => o.idHospital == appointmentRequest.HospitalId && o.dia == appointmentRequest.WeekDay);
@@ -177,10 +178,6 @@ public class AppointmentService : IAppointmentService
             }
 
             cita.idTurno = turno.idTurno;
-            if (!string.IsNullOrEmpty(appointmentRequest.Email))
-            {
-                cita.email = appointmentRequest.Email;
-            }
 
             this.context.Cita.Add(cita);
             await this.context.SaveChangesAsync().ConfigureAwait(false);

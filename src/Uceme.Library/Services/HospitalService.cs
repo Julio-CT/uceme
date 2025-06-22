@@ -47,4 +47,101 @@ public class HospitalService : IHospitalService
             throw new DataException("Error retrieving Hospital", e);
         }
     }
+
+    public DatosProfesionales CreateHospital(DatosProfesionales hospital)
+    {
+        try
+        {
+            if (hospital == null)
+            {
+                throw new ArgumentNullException(nameof(hospital));
+            }
+
+            hospital.activo = true;
+
+            this.context.DatosProfesionales.Add(hospital);
+            this.context.SaveChanges();
+
+            return hospital;
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError("Error creating Hospital {EMessage}", e.Message);
+            throw new DataException("Error creating Hospital", e);
+        }
+    }
+
+    public DatosProfesionales UpdateHospital(int hospitalId, DatosProfesionales hospital)
+    {
+        try
+        {
+            if (hospital == null)
+            {
+                throw new ArgumentNullException(nameof(hospital));
+            }
+
+            var existingHospital = this.context.DatosProfesionales.FirstOrDefault(x => x.idDatosPro == hospitalId);
+            if (existingHospital == null)
+            {
+                throw new KeyNotFoundException($"Hospital with ID {hospitalId} not found");
+            }
+
+            existingHospital.nombre = hospital.nombre;
+            existingHospital.direccion = hospital.direccion;
+
+            this.context.SaveChanges();
+
+            return existingHospital;
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError("Error updating Hospital {EMessage}", e.Message);
+            throw new DataException("Error updating Hospital", e);
+        }
+    }
+
+    public bool DeleteHospital(int hospitalId)
+    {
+        try
+        {
+            var hospital = this.context.DatosProfesionales.FirstOrDefault(x => x.idDatosPro == hospitalId);
+            if (hospital == null)
+            {
+                throw new KeyNotFoundException($"Hospital with ID {hospitalId} not found");
+            }
+
+            hospital.activo = false;
+
+            this.context.SaveChanges();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError("Error deleting Hospital {EMessage}", e.Message);
+            throw new DataException("Error deleting Hospital", e);
+        }
+    }
+
+    public bool HardDeleteHospital(int hospitalId)
+    {
+        try
+        {
+            var hospital = this.context.DatosProfesionales.FirstOrDefault(x => x.idDatosPro == hospitalId);
+            if (hospital == null)
+            {
+                throw new KeyNotFoundException($"Hospital with ID {hospitalId} not found");
+            }
+
+            this.context.DatosProfesionales.Remove(hospital);
+            this.context.SaveChanges();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError("Error hard deleting Hospital {EMessage}", e.Message);
+            throw new DataException("Error hard deleting Hospital", e);
+        }
+    }
 }

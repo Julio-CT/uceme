@@ -42,6 +42,10 @@ function AppointmentManager(): ReactElement {
       appointments: null,
       page: page ? +page : 1,
     });
+  const [noAppointmentsModal, setNoAppointmentsModal] =
+    React.useState<boolean>(false);
+  const noAppointmentsToggle = () =>
+    setNoAppointmentsModal(!noAppointmentsModal);
 
   const isFirstRun = React.useRef(true);
 
@@ -54,13 +58,11 @@ function AppointmentManager(): ReactElement {
     if (markedAppointment) {
       setConfirmModal(false);
       const token = await authService.getAccessToken();
-      fetch(
-        `${settings?.baseHref}
-        api/appointment/deleteappointment?appointmentid=${+markedAppointment.id}`,
-        {
-          headers: !token ? {} : { Authorization: `Bearer ${token}` },
-        }
-      )
+      // Changed to DELETE method
+      fetch(`${settings?.baseHref}api/appointment/${markedAppointment.id}`, {
+        method: 'DELETE',
+        headers: !token ? {} : { Authorization: `Bearer ${token}` },
+      })
         .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
           if (resp === true) {
@@ -77,14 +79,14 @@ function AppointmentManager(): ReactElement {
             });
           } else {
             setAlertMessage(
-              'Lo sentimos, ha ocurrido un error borrando la cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+              'Lo sentimos, ha ocurrido un error borrando la cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
             );
             alertToggle();
           }
         })
         .catch(() => {
           setAlertMessage(
-            'Lo sentimos, ha ocurrido un error borrando la cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros..'
+            'Lo sentimos, ha ocurrido un error borrando la cita previa. Por favor, inténtelo en unos minutos o pongase en contacto por teléfono con nosotros.'
           );
           alertToggle();
         });
@@ -100,10 +102,20 @@ function AppointmentManager(): ReactElement {
         fetch(`${settings?.baseHref}api/appointment/appointmentlist`, {
           headers: !token ? {} : { Authorization: `Bearer ${token}` },
         })
-          .then((response: { json: () => Promise<AppointmentResponse[]> }) =>
-            response.json()
-          )
-          .then(async (resp: AppointmentResponse[]) => {
+          .then(async (response) => {
+            // Check for 204 status code
+            if (response.status === 204) {
+              setAppointmentData({
+                loaded: true,
+                appointments: [],
+                page: pageToFetch,
+              });
+              setNoAppointmentsModal(true);
+              return;
+            }
+
+            // For 200 status code, proceed with normal flow
+            const resp: AppointmentResponse[] = await response.json();
             const retrievedAppointments: Appointment[] = [];
 
             await Promise.all(
@@ -126,6 +138,11 @@ function AppointmentManager(): ReactElement {
               appointments: retrievedAppointments,
               page: pageToFetch,
             });
+
+            // Show no appointments modal if the array is empty
+            if (retrievedAppointments.length === 0) {
+              setNoAppointmentsModal(true);
+            }
           })
           .catch(() => {
             setAppointmentData({
@@ -140,7 +157,7 @@ function AppointmentManager(): ReactElement {
     const fetchCloseAppointments = async (pageToFetch: number) => {
       const token = await authService.getAccessToken();
 
-      if (settings?.baseHref !== undefined) {
+      if (settings?.baseHref !== undefined && !noAppointmentsModal) {
         fetch(`${settings?.baseHref}api/appointment/closeappointmentlist`, {
           headers: !token ? {} : { Authorization: `Bearer ${token}` },
         })
@@ -186,12 +203,17 @@ function AppointmentManager(): ReactElement {
       const token = await authService.getAccessToken();
 
       if (settings?.baseHref !== undefined) {
-        fetch(
-          `${settings?.baseHref}api/appointment/updatepastappointmentsData`,
-          {
-            headers: !token ? {} : { Authorization: `Bearer ${token}` },
-          }
-        )
+        // Changed to PUT method
+        fetch(`${settings?.baseHref}api/appointment/past-appointments`, {
+          method: 'PUT',
+          headers: !token
+            ? {}
+            : {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+          body: JSON.stringify({}), // Empty object for PUT request
+        })
           .then((response: { json: () => Promise<boolean> }) => response.json())
           .catch();
       }
@@ -200,8 +222,8 @@ function AppointmentManager(): ReactElement {
     if (isFirstRun.current) {
       isFirstRun.current = false;
 
-      fetchCloseAppointments(currentPage);
       fetchAppointments(currentPage);
+      fetchCloseAppointments(currentPage);
       updatePastAppointmentsData();
       return;
     }
@@ -213,7 +235,7 @@ function AppointmentManager(): ReactElement {
 
   if (appointmentData.loaded && closeAppointmentData.loaded) {
     return (
-      <div className="app app-home header-distance-l">
+      <div className="app app-home header-distance">
         <Modal isOpen={alertModal} toggle={alertToggle}>
           <ModalBody>
             <section id="section-contact_form" className="container">
@@ -246,7 +268,7 @@ function AppointmentManager(): ReactElement {
           </ModalFooter>
         </Modal>
         <Modal
-          isOpen={closeAppointmentsModal}
+          isOpen={closeAppointmentsModal && !noAppointmentsModal}
           toggle={closeAppointmentsToggle}
           className="next-dates-modal"
         >
@@ -299,6 +321,27 @@ function AppointmentManager(): ReactElement {
             </Button>
           </ModalFooter>
         </Modal>
+        <Modal isOpen={noAppointmentsModal} toggle={noAppointmentsToggle}>
+          <ModalHeader toggle={noAppointmentsToggle} className="beatabg">
+            <div className="aligner">
+              <div className="aligner-item aligner-item-top" />
+              <div className="aligner-item">Información</div>
+              <div className="aligner-item aligner-item-bottom" />
+            </div>
+          </ModalHeader>
+          <ModalBody>
+            <section id="section-contact_form" className="container">
+              <div className="row justify-content-md-center">
+                No hay citas desde los ultimos 30 dias para mostrar.
+              </div>
+            </section>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={noAppointmentsToggle}>
+              Cerrar
+            </Button>
+          </ModalFooter>
+        </Modal>
         <div className="container">
           <table className="table">
             <thead>
@@ -325,6 +368,7 @@ function AppointmentManager(): ReactElement {
                     <td>
                       <DeleteIcon
                         aria-label="Delete"
+                        className="clickable"
                         onClick={() => deleteAppointment(appointment)}
                       />
                     </td>

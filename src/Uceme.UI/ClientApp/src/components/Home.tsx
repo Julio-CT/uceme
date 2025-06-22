@@ -3,7 +3,7 @@ import './Home.scss';
 import { ReactElement } from 'react';
 import Slider from './home-sections/Slider';
 import Specialities from './home-sections/Specialities';
-import Blogs from './home-sections/Blogs';
+import { Blogs } from './home-sections/Blogs';
 import ContactUs from './home-sections/ContactUs';
 
 function Home(): ReactElement {

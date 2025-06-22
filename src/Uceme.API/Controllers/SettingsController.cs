@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -26,21 +27,41 @@ public class SettingsController : Controller
 
     [HttpGet("getsettings")]
     [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<Dictionary<string, object>> GetSettings()
     {
-        Dictionary<string, object> result = new Dictionary<string, object>();
         try
         {
-            result["telephone"] = this.configuration?.Value?.Telephone ?? string.Empty;
-            result["contactEmail"] = this.configuration?.Value?.ContactEmail ?? string.Empty;
-            result["address"] = this.configuration?.Value?.Address ?? string.Empty;
-        }
-        catch (DataException)
-        {
-            this.logger.LogError("error returning settings");
-            return this.BadRequest();
-        }
+            var result = new Dictionary<string, object>
+            {
+                ["telephone"] = this.configuration?.Value?.Telephone ?? string.Empty,
+                ["contactEmail"] = this.configuration?.Value?.ContactEmail ?? string.Empty,
+                ["address"] = this.configuration?.Value?.Address ?? string.Empty,
+            };
 
-        return result;
+            return this.Ok(result);
+        }
+        catch (DataException ex)
+        {
+            this.logger.LogError(ex, "Error retrieving application settings");
+            return this.BadRequest(new ProblemDetails
+            {
+                Title = "Settings Error",
+                Detail = "Unable to retrieve application settings",
+                Status = StatusCodes.Status400BadRequest,
+            });
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Unexpected error retrieving application settings");
+            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+            {
+                Title = "Server Error",
+                Detail = "An unexpected error occurred while retrieving application settings",
+                Status = StatusCodes.Status500InternalServerError,
+            });
+        }
     }
 }

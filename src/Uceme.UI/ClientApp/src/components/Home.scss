@@ -1,7 +1,7 @@
-.header-distance {
-  margin-top: 100px;
-}
+@import '../common.scss';
 
-.header-distance-l {
-  margin-top: 155px;
+// Header distance classes are now defined in common.scss and imported automatically
+
+.text-muted {
+  color: rgba(33, 37, 41, 0.25) !important;
 }
