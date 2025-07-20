@@ -10,6 +10,13 @@ html {
   }
 }
 
+
+@media (width < 768px) {
+  .btn-group {
+    max-width: 85%;
+  }
+}
+
 .full-width {
   width: 100%;
 }

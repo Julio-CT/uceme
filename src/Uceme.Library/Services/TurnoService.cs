@@ -21,121 +21,116 @@ public class TurnoService : ITurnoService
 
     public IEnumerable<Turn> GetTurnos()
     {
-        try
-        {
-            var turnos = this.context.Turno.OrderByDescending(a => a.idTurno).ThenByDescending(a => a.dia);
-            return turnos.Select(t => Uceme.Library.Mapper.TurnMapper.FromTurno(t));
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error retrieving Turnos {EMessage}", e.Message);
-            throw new DataException("Error retrieving Turnos", e);
-        }
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
+            {
+                var turnos = this.context.Turno.OrderByDescending(a => a.idTurno).ThenByDescending(a => a.dia);
+                return turnos.Select(t => Uceme.Library.Mapper.TurnMapper.FromTurno(t));
+            },
+            "Error retrieving Turnos");
     }
 
     public Turn GetTurno(int turnoId)
     {
-        try
-        {
-            var turno = this.context.Turno.First(x => x.idTurno == turnoId);
-            return Uceme.Library.Mapper.TurnMapper.FromTurno(turno);
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error retrieving Turno {EMessage}", e.Message);
-            throw new DataException("Error retrieving Turno", e);
-        }
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
+            {
+                var turno = this.context.Turno.First(x => x.idTurno == turnoId);
+                return Uceme.Library.Mapper.TurnMapper.FromTurno(turno);
+            },
+            "Error retrieving Turno");
     }
 
     public Turn CreateTurno(Turn turn)
     {
-        try
-        {
-            if (turn == null)
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
             {
-                throw new ArgumentNullException(nameof(turn));
-            }
+                if (turn == null)
+                {
+                    throw new ArgumentNullException(nameof(turn));
+                }
 
-            var turno = Uceme.Library.Mapper.TurnMapper.ToTurno(turn);
-            this.context.Turno.Add(turno);
-            this.context.SaveChanges();
+                var turno = Uceme.Library.Mapper.TurnMapper.ToTurno(turn);
+                this.context.Turno.Add(turno);
+                this.context.SaveChanges();
 
-            return Uceme.Library.Mapper.TurnMapper.FromTurno(turno);
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error creating Turno {EMessage}", e.Message);
-            throw new DataException("Error creating Turno", e);
-        }
+                return Uceme.Library.Mapper.TurnMapper.FromTurno(turno);
+            },
+            "Error creating Turno");
     }
 
     public Turn UpdateTurno(int turnoId, Turn turn)
     {
-        try
-        {
-            if (turn == null)
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
             {
-                throw new ArgumentNullException(nameof(turn));
-            }
+                if (turn == null)
+                {
+                    throw new ArgumentNullException(nameof(turn));
+                }
 
-            var existingTurno = this.context.Turno.FirstOrDefault(x => x.idTurno == turnoId);
-            if (existingTurno == null)
-            {
-                throw new KeyNotFoundException($"Turno with ID {turnoId} not found");
-            }
+                var existingTurno = this.context.Turno.FirstOrDefault(x => x.idTurno == turnoId);
+                if (existingTurno == null)
+                {
+                    throw new KeyNotFoundException($"Turno with ID {turnoId} not found");
+                }
 
-            var updatedTurno = Uceme.Library.Mapper.TurnMapper.ToTurno(turn);
-            existingTurno.dia = updatedTurno.dia;
-            existingTurno.inicio = updatedTurno.inicio;
-            existingTurno.fin = updatedTurno.fin;
-            existingTurno.paralelas = updatedTurno.paralelas;
-            existingTurno.porhora = updatedTurno.porhora;
-            existingTurno.idHospital = updatedTurno.idHospital;
+                var updatedTurno = Uceme.Library.Mapper.TurnMapper.ToTurno(turn);
+                existingTurno.dia = updatedTurno.dia;
+                existingTurno.inicio = updatedTurno.inicio;
+                existingTurno.fin = updatedTurno.fin;
+                existingTurno.paralelas = updatedTurno.paralelas;
+                existingTurno.porhora = updatedTurno.porhora;
+                existingTurno.idHospital = updatedTurno.idHospital;
 
-            this.context.SaveChanges();
+                this.context.SaveChanges();
 
-            return Uceme.Library.Mapper.TurnMapper.FromTurno(existingTurno);
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error updating Turno {EMessage}", e.Message);
-            throw new DataException("Error updating Turno", e);
-        }
+                return Uceme.Library.Mapper.TurnMapper.FromTurno(existingTurno);
+            },
+            "Error updating Turno");
     }
 
     public bool DeleteTurno(int turnoId)
     {
-        try
-        {
-            var turno = this.context.Turno.FirstOrDefault(x => x.idTurno == turnoId);
-            if (turno == null)
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
             {
-                throw new KeyNotFoundException($"Turno with ID {turnoId} not found");
-            }
+                var turno = this.context.Turno.FirstOrDefault(x => x.idTurno == turnoId);
+                if (turno == null)
+                {
+                    throw new KeyNotFoundException($"Turno with ID {turnoId} not found");
+                }
 
-            this.context.Turno.Remove(turno);
-            this.context.SaveChanges();
+                this.context.Turno.Remove(turno);
+                this.context.SaveChanges();
 
-            return true;
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error deleting Turno {EMessage}", e.Message);
-            throw new DataException("Error deleting Turno", e);
-        }
+                return true;
+            },
+            "Error deleting Turno");
     }
 
     public IEnumerable<Turn> GetTurnosByHospital(int hospitalId)
     {
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
+            {
+                var turnos = this.context.Turno.Where(x => x.idHospital == hospitalId);
+                return turnos.Select(t => Uceme.Library.Mapper.TurnMapper.FromTurno(t));
+            },
+            "Error retrieving Turnos for Hospital");
+    }
+
+    private T ExecuteWithDataExceptionHandling<T>(Func<T> func, string errorMessage)
+    {
         try
         {
-            var turnos = this.context.Turno.Where(x => x.idHospital == hospitalId);
-            return turnos.Select(t => Uceme.Library.Mapper.TurnMapper.FromTurno(t));
+            return func();
         }
         catch (Exception e)
         {
-            this.logger.LogError("Error retrieving Turnos for Hospital {EMessage}", e.Message);
-            throw new DataException("Error retrieving Turnos for Hospital", e);
+            this.logger.LogError("{ErrorMessage} {EMessage}", errorMessage, e.Message);
+            throw new DataException(errorMessage, e);
         }
     }
 }

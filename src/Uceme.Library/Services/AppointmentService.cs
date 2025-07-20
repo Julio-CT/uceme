@@ -17,9 +17,7 @@ public class AppointmentService : IAppointmentService
     public const int DataExpiryDays = -7;
 
     private readonly ILogger<AppointmentService> logger;
-
     private readonly IEmailService emailService;
-
     private readonly ApplicationDbContext context;
 
     public AppointmentService(
@@ -34,55 +32,39 @@ public class AppointmentService : IAppointmentService
 
     public IEnumerable<CalendarEvent>? GetAppointmentsEvents()
     {
-        try
-        {
-            uint pastDate = GetUintDate(-30);
-
-            IOrderedQueryable<Cita>? existingAppointments = this.context.Cita.Where(a => a.dia > pastDate)?.OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
-
-            return existingAppointments != null && existingAppointments.Any() ? this.MapCitasToAppointmentsEvents(existingAppointments) : null;
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error retrieving appointments {EMessage}", e.Message);
-            throw new DataException("Error retrieving appointments", e);
-        }
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
+            {
+                uint pastDate = GetUintDate(-30);
+                IOrderedQueryable<Cita>? existingAppointments = this.context.Cita.Where(a => a.dia > pastDate)?.OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
+                return existingAppointments != null && existingAppointments.Any() ? this.MapCitasToAppointmentsEvents(existingAppointments) : null;
+            },
+            "Error retrieving appointments");
     }
 
     public IEnumerable<Appointment>? GetAppointments()
     {
-        try
-        {
-            uint pastDate = GetUintDate(-30);
-
-            IOrderedQueryable<Cita>? existingAppointments = this.context.Cita.Where(a => a.dia > pastDate)?.OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
-
-            return existingAppointments != null && existingAppointments.Any() ? this.MapCitasToAppointments(existingAppointments) : null;
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error retrieving appointments {EMessage}", e.Message);
-            throw new DataException("Error retrieving appointments", e);
-        }
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
+            {
+                uint pastDate = GetUintDate(-30);
+                IOrderedQueryable<Cita>? existingAppointments = this.context.Cita.Where(a => a.dia > pastDate)?.OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
+                return existingAppointments != null && existingAppointments.Any() ? this.MapCitasToAppointments(existingAppointments) : null;
+            },
+            "Error retrieving appointments");
     }
 
     public IEnumerable<Appointment> GetCloseAppointments()
     {
-        try
-        {
-            uint todaysDate = GetUintDate(0);
-
-            uint tomorrowsDate = GetUintDate(2);
-
-            IOrderedQueryable<Cita> existingAppointments = this.context.Cita.Where(a => a.dia <= tomorrowsDate && a.dia >= todaysDate).OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
-
-            return this.MapCitasToAppointments(existingAppointments);
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error retrieving appointments {EMessage}", e.Message);
-            throw new DataException("Error retrieving appointments", e);
-        }
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
+            {
+                uint todaysDate = GetUintDate(0);
+                uint tomorrowsDate = GetUintDate(2);
+                IOrderedQueryable<Cita> existingAppointments = this.context.Cita.Where(a => a.dia <= tomorrowsDate && a.dia >= todaysDate).OrderByDescending(a => a.dia).ThenByDescending(a => a.hora);
+                return this.MapCitasToAppointments(existingAppointments);
+            },
+            "Error retrieving appointments");
     }
 
     public IEnumerable<string> GetHours(AppointmentHoursRequest appointmentHoursRequest)
@@ -92,63 +74,53 @@ public class AppointmentService : IAppointmentService
             throw new ArgumentNullException(nameof(appointmentHoursRequest));
         }
 
-        try
-        {
-            int americanDate = appointmentHoursRequest.Day
-                + ((appointmentHoursRequest.Month + 1) * 100)
-                + (appointmentHoursRequest.Year * 10000);
-            int hospitalId = Convert.ToInt32(appointmentHoursRequest.HospitalId, CultureInfo.CurrentCulture);
-            int weekday = appointmentHoursRequest.WeekDay;
-
-            List<string> result = new List<string>();
-
-            List<Turno> shifts = this.context.Turno.Where(o => o.idHospital == hospitalId && o.dia == weekday).ToList();
-            foreach (Turno? shift in shifts)
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
             {
-                decimal increment = 1 / Convert.ToDecimal(shift.porhora);
-
-                for (int i = 0; i < shift.paralelas; i++)
+                int americanDate = appointmentHoursRequest.Day
+                    + ((appointmentHoursRequest.Month + 1) * 100)
+                    + (appointmentHoursRequest.Year * 10000);
+                int hospitalId = Convert.ToInt32(appointmentHoursRequest.HospitalId, CultureInfo.CurrentCulture);
+                int weekday = appointmentHoursRequest.WeekDay;
+                List<string> result = new List<string>();
+                List<Turno> shifts = this.context.Turno.Where(o => o.idHospital == hospitalId && o.dia == weekday).ToList();
+                foreach (Turno? shift in shifts)
                 {
-                    for (decimal j = shift.inicio; j <= shift.fin; j += increment)
+                    decimal increment = 1 / Convert.ToDecimal(shift.porhora);
+                    for (int i = 0; i < shift.paralelas; i++)
                     {
-                        result.Add(Uceme.Foundation.Utilities.DateTimeUtils.TimeToString(j));
+                        for (decimal j = shift.inicio; j <= shift.fin; j += increment)
+                        {
+                            result.Add(Uceme.Foundation.Utilities.DateTimeUtils.TimeToString(j));
+                        }
+                    }
+
+                    if (result.Any())
+                    {
+                        List<Cita> existingAppointments = this.context.Cita.Where(o => o.dia == americanDate && o.idTurno == shift.idTurno).ToList();
+                        foreach (Cita? appointment in existingAppointments)
+                        {
+                            string appointmentTime = Uceme.Foundation.Utilities.DateTimeUtils.TimeToString(appointment.hora);
+                            result.Remove(appointmentTime);
+                        }
                     }
                 }
 
-                if (result.Any())
-                {
-                    List<Cita> existingAppointments = this.context.Cita.Where(o => o.dia == americanDate && o.idTurno == shift.idTurno).ToList();
-                    foreach (Cita? appointment in existingAppointments)
-                    {
-                        string appointmentTime = Uceme.Foundation.Utilities.DateTimeUtils.TimeToString(appointment.hora);
-                        result.Remove(appointmentTime);
-                    }
-                }
-            }
-
-            result = result.OrderBy(o => o).Distinct().ToList();
-
-            return result;
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError($"Error retrieving hours {e.Message}");
-            throw new DataException("Error retrieving hours", e);
-        }
+                result = result.OrderBy(o => o).Distinct().ToList();
+                return result;
+            },
+            "Error retrieving hours");
     }
 
     public IEnumerable<int> GetDays(int hospitalId)
     {
-        try
-        {
-            List<int> data = this.context.Turno.Where(o => o.idHospital == hospitalId).Select(o => o.dia).ToList();
-            return data;
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError($"Error retrieving days {e.Message}");
-            throw new DataException("Error retrieving days", e);
-        }
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
+            {
+                List<int> data = this.context.Turno.Where(o => o.idHospital == hospitalId).Select(o => o.dia).ToList();
+                return data;
+            },
+            "Error retrieving days");
     }
 
     public async Task<bool> AddAppointmentAsync(AppointmentRequest appointmentRequest)
@@ -158,84 +130,65 @@ public class AppointmentService : IAppointmentService
             throw new ArgumentNullException(nameof(appointmentRequest));
         }
 
-        try
-        {
-            Cita cita = new Cita
+        return await this.ExecuteWithDataExceptionHandlingAsync(
+            async () =>
             {
-                dia = appointmentRequest.Day
-                + (appointmentRequest.Month * 100)
-                + (appointmentRequest.Year * 10000),
-                hora = Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(appointmentRequest.Hour),
-                nombre = appointmentRequest.Name,
-                telefono = appointmentRequest.Phone,
-                email = appointmentRequest.Email,
-            };
+                Cita cita = new Cita
+                {
+                    dia = appointmentRequest.Day
+                    + (appointmentRequest.Month * 100)
+                    + (appointmentRequest.Year * 10000),
+                    hora = Uceme.Foundation.Utilities.DateTimeUtils.TimeToDecimal(appointmentRequest.Hour),
+                    nombre = appointmentRequest.Name,
+                    telefono = appointmentRequest.Phone,
+                    email = appointmentRequest.Email,
+                };
 
-            Turno? turno = this.context.Turno.FirstOrDefault(o => o.idHospital == appointmentRequest.HospitalId && o.dia == appointmentRequest.WeekDay);
-            if (turno == null)
-            {
-                return false;
-            }
+                Turno? turno = this.context.Turno.FirstOrDefault(o => o.idHospital == appointmentRequest.HospitalId && o.dia == appointmentRequest.WeekDay);
+                if (turno == null)
+                {
+                    return false;
+                }
 
-            cita.idTurno = turno.idTurno;
+                cita.idTurno = turno.idTurno;
 
-            this.context.Cita.Add(cita);
-            await this.context.SaveChangesAsync().ConfigureAwait(false);
+                this.context.Cita.Add(cita);
+                await this.context.SaveChangesAsync().ConfigureAwait(false);
 
-            return await this.SendAppointmentEmailAsync(appointmentRequest, cita).ConfigureAwait(false);
-        }
-        catch (OperationCanceledException opex)
-        {
-            this.logger.LogError("Appointment added, error sending message {OpexMessage}", opex.Message);
-            return false;
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error adding appointment {EMessage}", e.Message);
-            throw new DataException("Error adding appointment", e);
-        }
+                return await this.SendAppointmentEmailAsync(appointmentRequest, cita).ConfigureAwait(false);
+            },
+            "Error adding appointment").ConfigureAwait(false);
     }
 
     public bool UpdatePastAppointmentsData()
     {
-        try
-        {
-            uint pastDate = GetUintDate(DataExpiryDays);
-
-            IQueryable<Cita> existingAppointments = this.context.Cita.Where(a => a.dia < pastDate);
-
-            foreach (Cita? existingAppointment in existingAppointments.ToList())
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
             {
-                existingAppointment.email = "eliminado";
-                existingAppointment.telefono = "eliminado";
+                uint pastDate = GetUintDate(DataExpiryDays);
+                IQueryable<Cita> existingAppointments = this.context.Cita.Where(a => a.dia < pastDate);
+                foreach (Cita? existingAppointment in existingAppointments.ToList())
+                {
+                    existingAppointment.email = "eliminado";
+                    existingAppointment.telefono = "eliminado";
+                    this.context.Cita.Update(existingAppointment);
+                }
 
-                this.context.Cita.Update(existingAppointment);
-            }
-
-            this.context.SaveChanges();
-
-            return true;
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error retrieving appointments {EMessage}", e.Message);
-            throw new DataException("Error retrieving appointments", e);
-        }
+                this.context.SaveChanges();
+                return true;
+            },
+            "Error retrieving appointments");
     }
 
     Appointment IAppointmentService.GetAppointment(int appointmentId)
     {
-        try
-        {
-            Cita cita = this.context.Cita.First(cita => cita.idCita == appointmentId);
-
-            return this.MapCitaToAppointment(cita);
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error finding appointment {EMessage}", e.Message);
-            throw new DataException("Error finding appointment", e);
-        }
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
+            {
+                Cita cita = this.context.Cita.First(cita => cita.idCita == appointmentId);
+                return this.MapCitaToAppointment(cita);
+            },
+            "Error finding appointment");
     }
 
     bool IAppointmentService.DeleteAppointment(int appointmentId)
@@ -247,43 +200,36 @@ public class AppointmentService : IAppointmentService
             throw new DataException("Appointment not found");
         }
 
-        try
-        {
-            _ = this.context.Cita.Remove(appointment);
-            this.context.SaveChanges();
-
-            return true;
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error deleting appointment {EMessage}", e.Message);
-            throw new DataException("Error deleting appointment", e);
-        }
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
+            {
+                _ = this.context.Cita.Remove(appointment);
+                this.context.SaveChanges();
+                return true;
+            },
+            "Error deleting appointment");
     }
 
     Appointment IAppointmentService.UpdateAppointment(Cita appointment)
     {
-        try
-        {
-            Cita existingAppointment = this.context.Cita.First(cita => cita.idCita == appointment.idCita);
+        return this.ExecuteWithDataExceptionHandling(
+            () =>
+            {
+                Cita existingAppointment = this.context.Cita.First(cita => cita.idCita == appointment.idCita);
 
-            existingAppointment.dia = appointment.dia;
-            existingAppointment.email = appointment.email;
-            existingAppointment.hora = appointment.hora;
-            existingAppointment.idTurno = appointment.idTurno;
-            existingAppointment.nombre = appointment.nombre;
-            existingAppointment.telefono = appointment.telefono;
+                existingAppointment.dia = appointment.dia;
+                existingAppointment.email = appointment.email;
+                existingAppointment.hora = appointment.hora;
+                existingAppointment.idTurno = appointment.idTurno;
+                existingAppointment.nombre = appointment.nombre;
+                existingAppointment.telefono = appointment.telefono;
 
-            Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Cita> result = this.context.Cita.Update(existingAppointment);
-            this.context.SaveChanges();
+                Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Cita> result = this.context.Cita.Update(existingAppointment);
+                this.context.SaveChanges();
 
-            return this.MapCitaToAppointment(result.Entity);
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error updating appointment {EMessage}", e.Message);
-            throw new DataException("Error updating appointment", e);
-        }
+                return this.MapCitaToAppointment(result.Entity);
+            },
+            "Error updating appointment");
     }
 
     private static uint GetUintDate(int delta)
@@ -393,5 +339,31 @@ public class AppointmentService : IAppointmentService
         emailMessage.Append("<br />");
 
         return await this.emailService.SendEmailToManagementAsync(cita.email, "Nueva cita en Uceme", emailMessage.ToString()).ConfigureAwait(false);
+    }
+
+    private T ExecuteWithDataExceptionHandling<T>(Func<T> func, string errorMessage)
+    {
+        try
+        {
+            return func();
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError("{ErrorMessage} {EMessage}", errorMessage, e.Message);
+            throw new DataException(errorMessage, e);
+        }
+    }
+
+    private async Task<T> ExecuteWithDataExceptionHandlingAsync<T>(Func<Task<T>> func, string errorMessage)
+    {
+        try
+        {
+            return await func().ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError("{ErrorMessage} {EMessage}", errorMessage, e.Message);
+            throw new DataException(errorMessage, e);
+        }
     }
 }

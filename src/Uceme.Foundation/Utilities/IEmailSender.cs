@@ -11,8 +11,4 @@ public interface IEmailSender
     Task SendEmailAsync(string email, string subject, string htmlMessage);
 
     Task SendEmailAsync(IEnumerable<string> emails, string subject, string htmlMessage);
-
-    void SendEmail(string email, string subject, string htmlMessage);
-
-    void SendEmail(IEnumerable<string> emails, string subject, string htmlMessage);
 }

@@ -12,7 +12,6 @@ using Uceme.Model.Models;
 public class TechniqueService : ITechniqueService
 {
     private readonly ILogger<TechniqueService> logger;
-
     private readonly ApplicationDbContext context;
 
     public TechniqueService(ILogger<TechniqueService> logger, IApplicationDbContext context)
@@ -23,30 +22,16 @@ public class TechniqueService : ITechniqueService
 
     public IEnumerable<Tecnica> GetTechniques()
     {
-        try
-        {
-            Microsoft.EntityFrameworkCore.DbSet<Tecnica> data = this.context.Tecnica;
-
-            return data;
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error retrieving Techniques {EMessage}", e.Message);
-            throw new DataException("Error retrieving Techniques", e);
-        }
+        return this.ExecuteWithDataExceptionHandling(
+            () => this.context.Tecnica,
+            "Error retrieving Techniques");
     }
 
     public Tecnica GetTechnique(int techniqueId)
     {
-        try
-        {
-            return this.context.Tecnica.First(x => x.idTecnica == techniqueId);
-        }
-        catch (Exception e)
-        {
-            this.logger.LogError("Error retrieving Techniques {EMessage}", e.Message);
-            throw new DataException("Error retrieving Techniques", e);
-        }
+        return this.ExecuteWithDataExceptionHandling(
+            () => this.context.Tecnica.First(x => x.idTecnica == techniqueId),
+            "Error retrieving Techniques");
     }
 
     public bool DeleteTechnique(int techId)
@@ -72,5 +57,18 @@ public class TechniqueService : ITechniqueService
     public string GetNextTechImage()
     {
         throw new NotImplementedException();
+    }
+
+    private T ExecuteWithDataExceptionHandling<T>(Func<T> func, string errorMessage)
+    {
+        try
+        {
+            return func();
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError("{ErrorMessage} {EMessage}", errorMessage, e.Message);
+            throw new DataException(errorMessage, e);
+        }
     }
 }

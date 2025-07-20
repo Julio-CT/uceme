@@ -42,34 +42,31 @@ public class ContactController : Controller
             });
         }
 
-        try
-        {
-            string body = $"<p>Correo de contacto recibido de {message.Name}</p><p>{message.Message}</p>";
-            var result = await this.emailService.SendEmailToManagementAsync(
+        var result = await this.HandleControllerOperationAsync(
+            async () => await this.emailService.SendEmailToManagementAsync(
                 message.Email,
                 $"Email recibido de {message.Name}",
-                body).ConfigureAwait(false);
-            return this.Ok(result);
+                $"<p>Correo de contacto recibido de {message.Name}</p><p>{message.Message}</p>").ConfigureAwait(false),
+            $"sending email from {message.Email} ({message.Name})",
+            new { message.Email, message.Name }).ConfigureAwait(false);
+        return this.Ok(result);
+    }
+
+    private async Task<T> HandleControllerOperationAsync<T>(Func<Task<T>> operation, string errorContext, object? contextId = null)
+    {
+        try
+        {
+            return await operation().ConfigureAwait(false);
         }
         catch (OperationCanceledException ex)
         {
-            this.logger.LogError(ex, "Error sending email from {Email} ({Name})", message.Email, message.Name);
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Email Service Error",
-                Detail = "Unable to send email due to a timeout",
-                Status = StatusCodes.Status500InternalServerError,
-            });
+            this.logger.LogError(ex, $"Error {errorContext}", contextId);
+            throw new InvalidOperationException("Unable to send email due to a timeout", ex);
         }
         catch (Exception ex)
         {
-            this.logger.LogError(ex, "Unexpected error sending email from {Email} ({Name})", message.Email, message.Name);
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = "An unexpected error occurred while sending the email",
-                Status = StatusCodes.Status500InternalServerError,
-            });
+            this.logger.LogError(ex, $"Unexpected error {errorContext}", contextId);
+            throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
         }
     }
 }

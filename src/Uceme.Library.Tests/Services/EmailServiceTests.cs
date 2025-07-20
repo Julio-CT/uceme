@@ -87,8 +87,8 @@ public class EmailServiceTests
     {
         // Arrange
         string? fromAddress = "Test@Value.22";
-        string? subject = "TestValue112382731";
-        string? body = "TestValue2082826035";
+        string? subject = "TestValue649043987";
+        string? body = "TestValue359222217";
 
         // Act
         bool result = await this.testClass.SendEmailToManagementAsync(fromAddress, subject, body).ConfigureAwait(false);
@@ -106,8 +106,8 @@ public class EmailServiceTests
         await Assert.ThrowsExceptionAsync<ArgumentException>(
             () => this.testClass.SendEmailToManagementAsync(
                 value,
-                "TestValue1815585287",
-                "TestValue335517980")).ConfigureAwait(false);
+                "TestValue382143629",
+                "TestValue75755626")).ConfigureAwait(false);
     }
 
     [DataTestMethod]
@@ -119,9 +119,9 @@ public class EmailServiceTests
     {
         await Assert.ThrowsExceptionAsync<ArgumentException>(
             () => this.testClass.SendEmailToManagementAsync(
-                "TestValue1405267161",
+                "TestValue383687830",
                 value,
-                "TestValue1749340446")).ConfigureAwait(false);
+                "TestValue619735923")).ConfigureAwait(false);
     }
 
     [DataTestMethod]
@@ -132,64 +132,9 @@ public class EmailServiceTests
     {
         await Assert.ThrowsExceptionAsync<ArgumentException>(
             () => this.testClass.SendEmailToManagementAsync(
-                "TestValue1972857789",
-                "TestValue52240965",
-                value)).ConfigureAwait(false);
-    }
-
-    [TestMethod]
-    public void CanCallSendEmailToManagement()
-    {
-        // Arrange
-        string? fromAddress = "Test@Value.22";
-        string? subject = "TestValue649043987";
-        string? body = "TestValue359222217";
-
-        // Act
-        bool result = this.testClass.SendEmailToManagement(fromAddress, subject, body);
-
-        // Assert
-        Assert.IsTrue(result);
-    }
-
-    [DataTestMethod]
-    [DataRow("asfas@@asdfas.es")]
-    [DataRow("adasd.es")]
-    [DataRow("   ")]
-    public void CannotCallSendEmailToManagementWithInvalidFromAddress(string value)
-    {
-        Assert.ThrowsException<ArgumentException>(
-            () => this.testClass.SendEmailToManagement(
-                value,
-                "TestValue382143629",
-                "TestValue75755626"));
-    }
-
-    [DataTestMethod]
-    [DataRow(null)]
-    [DataRow("")]
-    [DataRow("   ")]
-    [DataRow("·$%·$%· ")]
-    public void CannotCallSendEmailToManagementWithInvalidSubject(string value)
-    {
-        Assert.ThrowsException<ArgumentException>(
-            () => this.testClass.SendEmailToManagement(
-                "TestValue383687830",
-                value,
-                "TestValue619735923"));
-    }
-
-    [DataTestMethod]
-    [DataRow(null)]
-    [DataRow("")]
-    [DataRow("   ")]
-    public void CannotCallSendEmailToManagementWithInvalidBody(string value)
-    {
-        Assert.ThrowsException<ArgumentException>(
-            () => this.testClass.SendEmailToManagement(
                 "TestValue1588817604",
                 "TestValue1350485477",
-                value));
+                value)).ConfigureAwait(false);
     }
 
     [TestMethod]
@@ -259,17 +204,6 @@ public class EmailServiceTests
     {
         //// ACT
         bool result = await this.testClass.SendEmailToManagementAsync("to@me.com", "sub", "body").ConfigureAwait(false);
-
-        //// ASSERT
-        Assert.IsNotNull(result);
-        Assert.IsTrue(result);
-    }
-
-    [TestMethod]
-    public void SendEmailToManagement()
-    {
-        //// ACT
-        bool result = this.testClass.SendEmailToManagement("to@me.com", "sub", "body");
 
         //// ASSERT
         Assert.IsNotNull(result);
