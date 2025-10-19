@@ -104,7 +104,6 @@ public class Startup
             : this.relaxedPolicy);
 
         app.UseHttpsRedirection();
-
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();

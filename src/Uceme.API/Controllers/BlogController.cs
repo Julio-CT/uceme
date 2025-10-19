@@ -72,7 +72,7 @@ public class BlogController : Controller
     public ActionResult<IEnumerable<Blog>> GetAllPosts()
     {
         var result = this.HandleControllerOperation(
-            () => this.blogService.GetAllPosts(),
+            this.blogService.GetAllPosts,
             "retrieving all blog posts");
         return this.Ok(result);
     }

@@ -86,7 +86,12 @@ public class EmailService : IEmailService
 
     private List<string> BuildManagementRecipientList(string fromAddress)
     {
-        var toAddresses = new List<string> { this.Options.EmailFrom };
+        var toAddresses = new List<string>();
+        if (!string.IsNullOrEmpty(this.Options.EmailFrom))
+        {
+            toAddresses.Add(this.Options.EmailFrom);
+        }
+
         if (!string.IsNullOrEmpty(fromAddress))
         {
             toAddresses.Add(fromAddress);
@@ -97,7 +102,13 @@ public class EmailService : IEmailService
 
     private List<string> BuildClientRecipientList(string toAddress)
     {
-        return new List<string> { toAddress, this.Options.EmailFrom };
+        var toAddresses = new List<string> { toAddress };
+        if (!string.IsNullOrEmpty(this.Options.EmailFrom))
+        {
+            toAddresses.Add(this.Options.EmailFrom);
+        }
+
+        return toAddresses;
     }
 
     private async Task<bool> SendEmailInternalAsync(List<string> toAddresses, string subject, string body, string context)

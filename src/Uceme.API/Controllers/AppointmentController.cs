@@ -180,7 +180,7 @@ public class AppointmentController : Controller
     public ActionResult<IEnumerable<Appointment>> AppointmentList()
     {
         var result = this.HandleControllerOperation(
-            () => this.appointmentService.GetAppointments(),
+            this.appointmentService.GetAppointments,
             "retrieving appointments list");
         return this.Ok(result);
     }
@@ -192,7 +192,7 @@ public class AppointmentController : Controller
     public ActionResult<IEnumerable<Appointment>> CloseAppointmentList()
     {
         var result = this.HandleControllerOperation(
-            () => this.appointmentService.GetCloseAppointments(),
+            this.appointmentService.GetCloseAppointments,
             "retrieving close appointments list");
         return this.Ok(result);
     }
@@ -204,7 +204,7 @@ public class AppointmentController : Controller
     public ActionResult<IEnumerable<CalendarEvent>> AppointmentEventsList()
     {
         var result = this.HandleControllerOperation(
-            () => this.appointmentService.GetAppointmentsEvents(),
+            this.appointmentService.GetAppointmentsEvents,
             "retrieving appointment events list");
         return this.Ok(result);
     }
@@ -382,7 +382,7 @@ public class AppointmentController : Controller
     public ActionResult<bool> UpdatePastAppointmentsData()
     {
         var result = this.HandleControllerOperation(
-            () => this.appointmentService.UpdatePastAppointmentsData(),
+            this.appointmentService.UpdatePastAppointmentsData,
             "updating past appointments data");
         return this.Ok(result);
     }
