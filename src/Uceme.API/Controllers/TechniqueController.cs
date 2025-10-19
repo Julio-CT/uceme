@@ -42,31 +42,10 @@ public class TechniqueController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<Tecnica>> GetTechniques()
     {
-        try
-        {
-            var result = this.techniqueService.GetTechniques();
-            return this.Ok(result.ToList());
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, "Error retrieving techniques list");
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to retrieve techniques list",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Unexpected error retrieving techniques list");
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = "An unexpected error occurred while retrieving techniques list",
-                Status = StatusCodes.Status500InternalServerError,
-            });
-        }
+        var result = this.HandleControllerOperation(
+            () => this.techniqueService.GetTechniques().ToList(),
+            "retrieving techniques list");
+        return this.Ok(result);
     }
 
     [HttpGet("gettechnique")]
@@ -77,41 +56,16 @@ public class TechniqueController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<Tecnica> GetTechnique(int techinqueId)
     {
-        try
+        var result = this.HandleControllerOperation(
+            () => this.techniqueService.GetTechnique(techinqueId),
+            "retrieving technique",
+            techinqueId);
+        if (result == null)
         {
-            var result = this.techniqueService.GetTechnique(techinqueId);
-            if (result == null)
-            {
-                return this.NotFound(new ProblemDetails
-                {
-                    Title = "Not Found",
-                    Detail = $"Technique with ID {techinqueId} not found",
-                    Status = StatusCodes.Status404NotFound,
-                });
-            }
+            return this.NotFound();
+        }
 
-            return this.Ok(result);
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, "Error retrieving technique {TechniqueId}", techinqueId);
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to retrieve technique",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Unexpected error retrieving technique {TechniqueId}", techinqueId);
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = "An unexpected error occurred while retrieving the technique",
-                Status = StatusCodes.Status500InternalServerError,
-            });
-        }
+        return this.Ok(result);
     }
 
     [HttpDelete("deletetechnique/{techId}")]
@@ -121,41 +75,16 @@ public class TechniqueController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<bool> DeleteTech(int techId)
     {
-        try
+        var result = this.HandleControllerOperation(
+            () => this.techniqueService.DeleteTechnique(techId),
+            "deleting technique",
+            techId);
+        if (!result)
         {
-            var result = this.techniqueService.DeleteTechnique(techId);
-            if (!result)
-            {
-                return this.NotFound(new ProblemDetails
-                {
-                    Title = "Not Found",
-                    Detail = $"Technique with ID {techId} not found",
-                    Status = StatusCodes.Status404NotFound,
-                });
-            }
+            return this.NotFound();
+        }
 
-            return this.Ok(result);
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, "Error deleting technique {TechniqueId}", techId);
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to delete technique",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Unexpected error deleting technique {TechniqueId}", techId);
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = "An unexpected error occurred while deleting the technique",
-                Status = StatusCodes.Status500InternalServerError,
-            });
-        }
+        return this.Ok(result);
     }
 
     [HttpPut("updatetech")]
@@ -175,41 +104,16 @@ public class TechniqueController : Controller
             });
         }
 
-        try
+        var result = this.HandleControllerOperation(
+            () => this.techniqueService.UpdateTechnique(post),
+            "updating technique",
+            post.idTecnica);
+        if (result == null)
         {
-            var result = this.techniqueService.UpdateTechnique(post);
-            if (result == null)
-            {
-                return this.NotFound(new ProblemDetails
-                {
-                    Title = "Not Found",
-                    Detail = $"Technique with ID {post.idTecnica} not found",
-                    Status = StatusCodes.Status404NotFound,
-                });
-            }
+            return this.NotFound();
+        }
 
-            return this.Ok(result);
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, "Error updating technique {TechniqueId}", post.idTecnica);
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to update technique",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Unexpected error updating technique {TechniqueId}", post.idTecnica);
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = "An unexpected error occurred while updating the technique",
-                Status = StatusCodes.Status500InternalServerError,
-            });
-        }
+        return this.Ok(result);
     }
 
     [HttpPost("addtech")]
@@ -228,41 +132,18 @@ public class TechniqueController : Controller
             });
         }
 
-        try
-        {
-            var result = postRequest.IdTech != 0 ?
+        var result = this.HandleControllerOperation(
+            () => postRequest.IdTech != 0 ?
                 this.techniqueService.UpdateTechnique(postRequest) :
-                this.techniqueService.AddTechnique(postRequest);
-            return this.Ok(result);
-        }
-        catch (DataException ex)
+                this.techniqueService.AddTechnique(postRequest),
+            postRequest.IdTech != 0 ? "updating" : "adding",
+            postRequest.IdTech);
+        if (!result)
         {
-            this.logger.LogError(
-                ex,
-                "Error {Action} technique {TechniqueId}",
-                postRequest.IdTech != 0 ? "updating" : "adding",
-                postRequest.IdTech);
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = $"Unable to {(postRequest.IdTech != 0 ? "update" : "add")} technique",
-                Status = StatusCodes.Status400BadRequest,
-            });
+            return this.NotFound();
         }
-        catch (Exception ex)
-        {
-            this.logger.LogError(
-                ex,
-                "Unexpected error {Action} technique {TechniqueId}",
-                postRequest.IdTech != 0 ? "updating" : "adding",
-                postRequest.IdTech);
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = $"An unexpected error occurred while {(postRequest.IdTech != 0 ? "updating" : "adding")} the technique",
-                Status = StatusCodes.Status500InternalServerError,
-            });
-        }
+
+        return this.Ok(result);
     }
 
     [HttpPost("ontechuploadasync")]
@@ -326,6 +207,24 @@ public class TechniqueController : Controller
                 Detail = "An unexpected error occurred while uploading the file",
                 Status = StatusCodes.Status500InternalServerError,
             });
+        }
+    }
+
+    private T HandleControllerOperation<T>(Func<T> operation, string errorContext, object? contextId = null)
+    {
+        try
+        {
+            return operation();
+        }
+        catch (DataException ex)
+        {
+            this.logger.LogError(ex, $"Error {errorContext}", contextId);
+            throw new InvalidOperationException($"Unable to {errorContext.ToUpperInvariant()}", ex);
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, $"Unexpected error {errorContext}", contextId);
+            throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
         }
     }
 }

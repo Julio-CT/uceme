@@ -35,39 +35,11 @@ public class AppointmentController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<int>> GetDays(int hospitalId)
     {
-        try
-        {
-            var result = this.appointmentService.GetDays(hospitalId);
-            return this.Ok(result);
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(
-                ex,
-                "Error retrieving available days for hospital {HospitalId}",
-                hospitalId);
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to retrieve available days",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(
-                ex,
-                "Unexpected error retrieving days for hospital {HospitalId}",
-                hospitalId);
-            return this.StatusCode(
-                StatusCodes.Status500InternalServerError,
-                new ProblemDetails
-                {
-                    Title = "Server Error",
-                    Detail = "An unexpected error occurred while retrieving available days",
-                    Status = StatusCodes.Status500InternalServerError,
-                });
-        }
+        var result = this.HandleControllerOperation(
+            () => this.appointmentService.GetDays(hospitalId),
+            "retrieving available days for hospital",
+            hospitalId);
+        return this.Ok(result);
     }
 
     [HttpGet("hours")]
@@ -207,37 +179,10 @@ public class AppointmentController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<Appointment>> AppointmentList()
     {
-        try
-        {
-            var result = this.appointmentService.GetAppointments();
-            return this.Ok(result);
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(
-                ex,
-                "Error retrieving appointments list");
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to retrieve appointments list",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(
-                ex,
-                "Unexpected error retrieving appointments list");
-            return this.StatusCode(
-                StatusCodes.Status500InternalServerError,
-                new ProblemDetails
-                {
-                    Title = "Server Error",
-                    Detail = "An unexpected error occurred while retrieving appointments list",
-                    Status = StatusCodes.Status500InternalServerError,
-                });
-        }
+        var result = this.HandleControllerOperation(
+            this.appointmentService.GetAppointments,
+            "retrieving appointments list");
+        return this.Ok(result);
     }
 
     [HttpGet("closeappointmentlist")]
@@ -246,37 +191,10 @@ public class AppointmentController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<Appointment>> CloseAppointmentList()
     {
-        try
-        {
-            var result = this.appointmentService.GetCloseAppointments();
-            return this.Ok(result);
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(
-                ex,
-                "Error retrieving close appointments list");
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to retrieve close appointments list",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(
-                ex,
-                "Unexpected error retrieving close appointments list");
-            return this.StatusCode(
-                StatusCodes.Status500InternalServerError,
-                new ProblemDetails
-                {
-                    Title = "Server Error",
-                    Detail = "An unexpected error occurred while retrieving close appointments list",
-                    Status = StatusCodes.Status500InternalServerError,
-                });
-        }
+        var result = this.HandleControllerOperation(
+            this.appointmentService.GetCloseAppointments,
+            "retrieving close appointments list");
+        return this.Ok(result);
     }
 
     [HttpGet("appointmenteventslist")]
@@ -285,37 +203,10 @@ public class AppointmentController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<CalendarEvent>> AppointmentEventsList()
     {
-        try
-        {
-            var events = this.appointmentService.GetAppointmentsEvents();
-            return this.Ok(events ?? Array.Empty<CalendarEvent>());
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(
-                ex,
-                "Error retrieving appointment events list");
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to retrieve appointment events",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(
-                ex,
-                "Unexpected error retrieving appointment events list");
-            return this.StatusCode(
-                StatusCodes.Status500InternalServerError,
-                new ProblemDetails
-                {
-                    Title = "Server Error",
-                    Detail = "An unexpected error occurred while retrieving appointment events",
-                    Status = StatusCodes.Status500InternalServerError,
-                });
-        }
+        var result = this.HandleControllerOperation(
+            this.appointmentService.GetAppointmentsEvents,
+            "retrieving appointment events list");
+        return this.Ok(result);
     }
 
     [HttpGet("getappointment")]
@@ -490,36 +381,27 @@ public class AppointmentController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<bool> UpdatePastAppointmentsData()
     {
+        var result = this.HandleControllerOperation(
+            this.appointmentService.UpdatePastAppointmentsData,
+            "updating past appointments data");
+        return this.Ok(result);
+    }
+
+    private T HandleControllerOperation<T>(Func<T> operation, string errorContext, object? contextId = null)
+    {
         try
         {
-            var result = this.appointmentService.UpdatePastAppointmentsData();
-            return this.Ok(result);
+            return operation();
         }
         catch (DataException ex)
         {
-            this.logger.LogError(
-                ex,
-                "Error updating past appointments data");
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to update past appointments data",
-                Status = StatusCodes.Status400BadRequest,
-            });
+            this.logger.LogError(ex, $"Error {errorContext}", contextId);
+            throw new InvalidOperationException($"Unable to {errorContext.ToUpperInvariant()}", ex);
         }
         catch (Exception ex)
         {
-            this.logger.LogError(
-                ex,
-                "Unexpected error updating past appointments data");
-            return this.StatusCode(
-                StatusCodes.Status500InternalServerError,
-                new ProblemDetails
-                {
-                    Title = "Server Error",
-                    Detail = "An unexpected error occurred while updating past appointments data",
-                    Status = StatusCodes.Status500InternalServerError,
-                });
+            this.logger.LogError(ex, $"Unexpected error {errorContext}", contextId);
+            throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
         }
     }
 }

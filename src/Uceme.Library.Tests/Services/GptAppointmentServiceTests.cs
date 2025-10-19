@@ -28,9 +28,6 @@ public class GptAppointmentServiceTests
             .Setup(x => x.SendEmailToManagementAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(true);
         this.emailServiceMock
-            .Setup(x => x.SendEmailToManagement(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .Returns(true);
-        this.emailServiceMock
             .Setup(x => x.SendEmailToClientAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(true);
     }

@@ -66,46 +66,6 @@ public class EmailSender : IEmailSender
         await this.ExecuteAsync(subject, htmlMessage, emails).ConfigureAwait(false);
     }
 
-    public void SendEmail(string email, string subject, string htmlMessage)
-    {
-        if (string.IsNullOrEmpty(email))
-        {
-            throw new ArgumentNullException(nameof(email));
-        }
-
-        if (string.IsNullOrEmpty(subject))
-        {
-            throw new ArgumentNullException(nameof(subject));
-        }
-
-        if (string.IsNullOrEmpty(htmlMessage))
-        {
-            throw new ArgumentNullException(nameof(htmlMessage));
-        }
-
-        this.Execute(subject, htmlMessage, new List<string> { email });
-    }
-
-    public void SendEmail(IEnumerable<string> emails, string subject, string htmlMessage)
-    {
-        if (emails == null || !emails.Any())
-        {
-            throw new ArgumentNullException(nameof(emails));
-        }
-
-        if (string.IsNullOrEmpty(subject))
-        {
-            throw new ArgumentNullException(nameof(subject));
-        }
-
-        if (string.IsNullOrEmpty(htmlMessage))
-        {
-            throw new ArgumentNullException(nameof(htmlMessage));
-        }
-
-        this.Execute(subject, htmlMessage, emails);
-    }
-
     private async Task ExecuteAsync(string subject, string message, IEnumerable<string> toEmails)
     {
         if (this.Options.EmailFrom == null)
@@ -137,46 +97,6 @@ public class EmailSender : IEmailSender
                 try
                 {
                     await smtpServer.SendMailAsync(mailMessage).ConfigureAwait(false);
-                }
-                catch (Exception e)
-                {
-                    throw new InvalidOperationException("error sending email", e);
-                }
-            }
-        }
-    }
-
-    private void Execute(string subject, string message, IEnumerable<string> toEmails)
-    {
-        if (this.Options.EmailFrom == null)
-        {
-            throw new MissingFieldException(nameof(this.Options.EmailFrom));
-        }
-
-        using (MailMessage mailMessage = new MailMessage())
-        {
-            mailMessage.From = new MailAddress(this.Options.EmailFrom, "From Name");
-            foreach (string email in toEmails)
-            {
-                mailMessage.To.Add(new MailAddress(email, "To Name"));
-            }
-
-            mailMessage.Subject = subject;
-            mailMessage.Body = message;
-            mailMessage.IsBodyHtml = true;
-
-            using (ISmtpClient smtpServer = this.SmtpClient ?? new SmtpClientWrapper())
-            {
-                smtpServer.Host = this.Options.HostSmtp ?? string.Empty;
-                smtpServer.Port = this.Options.PortSmtp;
-                smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtpServer.UseDefaultCredentials = false;
-
-                smtpServer.Credentials = new NetworkCredential(this.Options.CredentialUser, this.Options.CredentialPassword);
-                smtpServer.EnableSsl = true;
-                try
-                {
-                    smtpServer.Send(mailMessage);
                 }
                 catch (Exception e)
                 {

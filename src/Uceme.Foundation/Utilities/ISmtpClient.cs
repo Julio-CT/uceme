@@ -21,7 +21,5 @@ public interface ISmtpClient : IDisposable
 
     bool EnableSsl { get; set; }
 
-    void Send(MailMessage mailMessage);
-
     Task SendMailAsync(MailMessage mailMessage);
 }

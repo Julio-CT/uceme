@@ -75,73 +75,11 @@ public class EmailSenderIntegrationTests
             this.emailTo,
             "test.uceme+test@gmail.com",
         };
-
         string subject = "Integration Test";
         string htmlMessage = "<p>test</p>";
 
         //// ACT
         await sut.SendEmailAsync(emails, subject, htmlMessage).ConfigureAwait(false);
-
-        //// ASSERT
-        smtpClient.Dispose();
-    }
-
-    [TestMethod]
-    [TestCategory("IntegrationTests")]
-    public async Task SendEmailToOneAddressNoAsync()
-    {
-        //// ARRANGE
-        AuthMessageSenderSettings appSettings = new AuthMessageSenderSettings()
-        {
-            EmailFrom = this.emailTo,
-            HostSmtp = "smtp.gmail.com",
-            PortSmtp = 587,
-            CredentialUser = this.emailTo,
-            CredentialPassword = await AesDecrypt.DecryptAsync(this.encryptPass).ConfigureAwait(false),
-        };
-
-        IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
-        Uceme.Foundation.Utilities.SmtpClientWrapper smtpClient = new Uceme.Foundation.Utilities.SmtpClientWrapper();
-        Uceme.Foundation.Utilities.EmailSender sut = new Uceme.Foundation.Utilities.EmailSender(options, smtpClient);
-        string email = this.emailTo;
-        string subject = "Integration Test";
-        string htmlMessage = "<p>test</p>";
-
-        //// ACT
-        sut.SendEmail(email, subject, htmlMessage);
-
-        //// ASSERT
-        smtpClient.Dispose();
-    }
-
-    [TestMethod]
-    [TestCategory("IntegrationTests")]
-    public async Task SendEmailToMoreThanOneAddressNoAsync()
-    {
-        //// ARRANGE
-        AuthMessageSenderSettings appSettings = new AuthMessageSenderSettings()
-        {
-            EmailFrom = this.emailTo,
-            HostSmtp = "smtp.gmail.com",
-            PortSmtp = 587,
-            CredentialUser = this.emailTo,
-            CredentialPassword = await AesDecrypt.DecryptAsync(this.encryptPass).ConfigureAwait(false),
-        };
-
-        IOptions<AuthMessageSenderSettings> options = Options.Create(appSettings);
-        Uceme.Foundation.Utilities.SmtpClientWrapper smtpClient = new Uceme.Foundation.Utilities.SmtpClientWrapper();
-        Uceme.Foundation.Utilities.EmailSender sut = new Uceme.Foundation.Utilities.EmailSender(options, smtpClient);
-        List<string> emails = new List<string>()
-        {
-            this.emailTo,
-            "test.uceme+test@gmail.com",
-        };
-
-        string subject = "Integration Test";
-        string htmlMessage = "<p>test</p>";
-
-        //// ACT
-        sut.SendEmail(emails, subject, htmlMessage);
 
         //// ASSERT
         smtpClient.Dispose();

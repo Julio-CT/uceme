@@ -13,12 +13,6 @@ public class SmtpClientWrapper : SmtpClient, ISmtpClient
         this.Dispose(false);
     }
 
-    public new void Send(MailMessage mailMessage)
-    {
-        this.CheckDisposed();
-        base.Send(mailMessage);
-    }
-
     public new async Task SendMailAsync(MailMessage mailMessage)
     {
         this.CheckDisposed();

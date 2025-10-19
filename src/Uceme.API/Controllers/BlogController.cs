@@ -43,31 +43,11 @@ public class BlogController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<Blog>> GetBlogSubset(int amount)
     {
-        try
-        {
-            var result = this.blogService.GetBlogSubset(amount);
-            return this.Ok(result.ToList());
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, "Error retrieving blog subset with amount {Amount}", amount);
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to retrieve blog posts",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Unexpected error retrieving blog subset with amount {Amount}", amount);
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = "An unexpected error occurred while retrieving blog posts",
-                Status = StatusCodes.Status500InternalServerError,
-            });
-        }
+        var result = this.HandleControllerOperation(
+            () => this.blogService.GetBlogSubset(amount),
+            "retrieving blog subset with amount",
+            amount);
+        return this.Ok(result);
     }
 
     [HttpGet("getbloglist")]
@@ -77,31 +57,11 @@ public class BlogController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<Blog>> GetBlogList(int page = 1)
     {
-        try
-        {
-            var result = this.blogService.GetBlogSubset(page == 1 ? 10 : 12, page);
-            return this.Ok(result.ToList());
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, "Error retrieving blog list for page {Page}", page);
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to retrieve blog list",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Unexpected error retrieving blog list for page {Page}", page);
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = "An unexpected error occurred while retrieving blog list",
-                Status = StatusCodes.Status500InternalServerError,
-            });
-        }
+        var result = this.HandleControllerOperation(
+            () => this.blogService.GetBlogSubset(page == 1 ? 10 : 12, page),
+            "retrieving blog list for page",
+            page);
+        return this.Ok(result);
     }
 
     [HttpGet("getallposts")]
@@ -111,31 +71,10 @@ public class BlogController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<Blog>> GetAllPosts()
     {
-        try
-        {
-            var result = this.blogService.GetAllPosts();
-            return this.Ok(result.ToList());
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, "Error retrieving all blog posts");
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to retrieve all blog posts",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Unexpected error retrieving all blog posts");
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = "An unexpected error occurred while retrieving all blog posts",
-                Status = StatusCodes.Status500InternalServerError,
-            });
-        }
+        var result = this.HandleControllerOperation(
+            this.blogService.GetAllPosts,
+            "retrieving all blog posts");
+        return this.Ok(result);
     }
 
     [HttpGet("getpost")]
@@ -156,41 +95,20 @@ public class BlogController : Controller
             });
         }
 
-        try
-        {
-            var result = this.blogService.GetPost(slug);
-            if (result == null)
+        var result = this.HandleControllerOperation(
+            () =>
             {
-                return this.NotFound(new ProblemDetails
+                var result = this.blogService.GetPost(slug);
+                if (result == null)
                 {
-                    Title = "Not Found",
-                    Detail = $"Blog post with slug '{slug}' not found",
-                    Status = StatusCodes.Status404NotFound,
-                });
-            }
+                    throw new Exception($"Blog post with slug '{slug}' not found");
+                }
 
-            return this.Ok(result);
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, "Error retrieving blog post with slug {Slug}", slug);
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to retrieve blog post",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Unexpected error retrieving blog post with slug {Slug}", slug);
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = "An unexpected error occurred while retrieving the blog post",
-                Status = StatusCodes.Status500InternalServerError,
-            });
-        }
+                return result;
+            },
+            "retrieving blog post with slug",
+            slug);
+        return this.Ok(result);
     }
 
     [HttpDelete("deletepost/{postId}")]
@@ -200,41 +118,20 @@ public class BlogController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<bool> DeletePost(int postId)
     {
-        try
-        {
-            var result = this.blogService.DeletePost(postId);
-            if (!result)
+        var result = this.HandleControllerOperation(
+            () =>
             {
-                return this.NotFound(new ProblemDetails
+                var result = this.blogService.DeletePost(postId);
+                if (!result)
                 {
-                    Title = "Not Found",
-                    Detail = $"Blog post with ID {postId} not found",
-                    Status = StatusCodes.Status404NotFound,
-                });
-            }
+                    throw new Exception($"Blog post with ID {postId} not found");
+                }
 
-            return this.Ok(result);
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, "Error deleting blog post {PostId}", postId);
-            return this.BadRequest(new ProblemDetails
-            {
-                Title = "Database Error",
-                Detail = "Unable to delete blog post",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Unexpected error deleting blog post {PostId}", postId);
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = "An unexpected error occurred while deleting the blog post",
-                Status = StatusCodes.Status500InternalServerError,
-            });
-        }
+                return result;
+            },
+            "deleting blog post",
+            postId);
+        return this.Ok(result);
     }
 
     [HttpPost("addpost")]
@@ -253,41 +150,17 @@ public class BlogController : Controller
             });
         }
 
-        try
-        {
-            var result = postRequest.IdBlog != 0 ?
-                this.blogService.UpdatePost(postRequest) :
-                this.blogService.AddPost(postRequest);
-            return this.Ok(result);
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(
-                ex,
-                "Error {Action} blog post {PostId}",
-                postRequest.IdBlog != 0 ? "updating" : "adding",
-                postRequest.IdBlog);
-            return this.BadRequest(new ProblemDetails
+        var result = this.HandleControllerOperation(
+            () =>
             {
-                Title = "Database Error",
-                Detail = $"Unable to {(postRequest.IdBlog != 0 ? "update" : "add")} blog post",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(
-                ex,
-                "Unexpected error {Action} blog post {PostId}",
-                postRequest.IdBlog != 0 ? "updating" : "adding",
-                postRequest.IdBlog);
-            return this.StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Title = "Server Error",
-                Detail = $"An unexpected error occurred while {(postRequest.IdBlog != 0 ? "updating" : "adding")} the blog post",
-                Status = StatusCodes.Status500InternalServerError,
-            });
-        }
+                var result = postRequest.IdBlog != 0 ?
+                    this.blogService.UpdatePost(postRequest) :
+                    this.blogService.AddPost(postRequest);
+                return result;
+            },
+            $"{(postRequest.IdBlog != 0 ? "updating" : "adding")} blog post",
+            postRequest.IdBlog);
+        return this.Ok(result);
     }
 
     [HttpPost("onpostuploadasync")]
@@ -368,5 +241,23 @@ public class BlogController : Controller
         }
 
         return webPFileName;
+    }
+
+    private T HandleControllerOperation<T>(Func<T> operation, string errorContext, object? contextId = null)
+    {
+        try
+        {
+            return operation();
+        }
+        catch (DataException ex)
+        {
+            this.logger.LogError(ex, $"Error {errorContext}", contextId);
+            throw new InvalidOperationException($"Unable to {errorContext.ToUpperInvariant()}", ex);
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, $"Unexpected error {errorContext}", contextId);
+            throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
+        }
     }
 }
