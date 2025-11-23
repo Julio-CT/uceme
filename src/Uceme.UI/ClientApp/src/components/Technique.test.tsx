@@ -1,43 +1,88 @@
 import * as React from 'react';
-import { render, screen } from '@testing-library/react';
-import { unmountComponentAtNode } from 'react-dom';
-import { MemoryRouter, Route } from 'react-router';
+import { screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import Technique from './Technique';
+import {
+  renderWithSettings,
+  mockFetchSequence,
+  clearFetchMock,
+} from '../testUtils/testUtils';
 
-let container: any;
-beforeEach(() => {
-  // setup a DOM element as a render target
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
+const mockSettings = {
+  baseHref: 'http://test.com/',
+  telephone: '123456789',
+  address: 'Test Address',
+  contactEmail: 'test@test.com',
+};
 
-afterEach(() => {
-  // cleanup on exiting
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-});
-
-describe('(Component)) Speciality', () => {
-  it.skip('renders without exploding', () => {
-    render(
-      <MemoryRouter initialEntries={['especialidad/1']}>
-        <Route path="especialidad/:esp">
-          <Technique />
-        </Route>
-      </MemoryRouter>
-    );
-    expect(screen.queryAllByText('Loading', { exact: false })).toHaveLength(1);
+describe('(Component)) Technique', () => {
+  afterEach(() => {
+    clearFetchMock();
   });
 
-  it.skip('renders no buttons', () => {
-    render(
-      <MemoryRouter initialEntries={['especialidad/1']}>
-        <Route path="especialidad/:esp">
-          <Technique />
-        </Route>
-      </MemoryRouter>
+  it('renders without exploding', async () => {
+    const mockTechniqueResponse = {
+      idTecnica: '3',
+      titulo: 'Test Technique',
+      texto: 'Test content',
+      foto: '~/fotos/test.jpg',
+      nombre: 'Test Name',
+    };
+
+    mockFetchSequence([
+      { matcher: /tecnica/, response: mockTechniqueResponse, ok: true },
+    ]);
+
+    renderWithSettings(
+      <MemoryRouter initialEntries={['/tecnica/3']}>
+        <Routes>
+          <Route path="/tecnica/:tec" element={<Technique />} />
+        </Routes>
+      </MemoryRouter>,
+      mockSettings
     );
+
+    // Initially shows loading
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+
+    // Wait for content to load
+    await waitFor(() => {
+      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+    });
+
+    // Should render the technique content
+    expect(screen.getByText('Test Technique')).toBeInTheDocument();
+  });
+
+  it('renders no buttons', async () => {
+    const mockTechniqueResponse = {
+      idTecnica: '3',
+      titulo: 'Test Technique',
+      texto: 'Test content',
+      foto: '~/fotos/test.jpg',
+      nombre: 'Test Name',
+    };
+
+    mockFetchSequence([
+      { matcher: /tecnica/, response: mockTechniqueResponse, ok: true },
+    ]);
+
+    renderWithSettings(
+      <MemoryRouter initialEntries={['/tecnica/3']}>
+        <Routes>
+          <Route path="/tecnica/:tec" element={<Technique />} />
+        </Routes>
+      </MemoryRouter>,
+      mockSettings
+    );
+
+    // Wait for content to load
+    await waitFor(() => {
+      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+    });
+
+    // Should not have any buttons
     expect(screen.queryAllByRole('button')).toHaveLength(0);
   });
 });

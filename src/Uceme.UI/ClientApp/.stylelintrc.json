@@ -1,6 +1,12 @@
 {
     "extends": "stylelint-config-standard",
     "rules": {
-      "import-notation": "string"
+      "import-notation": "string",
+      "at-rule-no-unknown": [
+        true,
+        {
+          "ignoreAtRules": ["mixin", "include", "use", "forward", "function", "return", "if", "else", "each", "for", "while"]
+        }
+      ]
     }
 }

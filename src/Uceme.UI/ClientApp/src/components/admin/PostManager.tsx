@@ -103,12 +103,10 @@ function PostManager(): ReactElement {
     if (settings?.baseHref !== undefined && markedPost) {
       setConfirmModal(false);
       const token = await authService.getAccessToken();
-      fetch(
-        `${settings?.baseHref}api/blog/deletepost?postid=${+markedPost.id}`,
-        {
-          headers: !token ? {} : { Authorization: `Bearer ${token}` },
-        }
-      )
+      fetch(`${settings?.baseHref}api/blog/deletepost/${markedPost.id}`, {
+        method: 'DELETE',
+        headers: !token ? {} : { Authorization: `Bearer ${token}` },
+      })
         .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
           if (resp === true) {

@@ -32,23 +32,77 @@ export class AuthorizeService {
   }
 
   async isAuthenticated(): Promise<boolean> {
-    const user = await this.getUser();
-    return !!user;
+    await this.ensureUserManagerInitialized();
+    const user = await this.userManager?.getUser();
+    if (!user) {
+      return false;
+    }
+
+    // Check if token is expired or about to expire (within 60 seconds)
+    const expiresAt = user.expires_at;
+    if (expiresAt) {
+      const now = Math.floor(Date.now() / 1000);
+      const timeUntilExpiry = expiresAt - now;
+      // If token is expired or expires within 60 seconds, try to refresh
+      if (timeUntilExpiry <= 60) {
+        try {
+          const refreshedUser = await this.userManager?.signinSilent();
+          if (refreshedUser) {
+            this.updateState(refreshedUser);
+            return true;
+          }
+        } catch (error) {
+          // Silent renewal failed, user needs to re-authenticate
+          this.updateState(null);
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   async getUser(): Promise<Profile | null | undefined> {
-    if (this.user && this.user.profile) {
-      return this.user.profile;
-    }
+    await this.ensureUserManagerInitialized();
+    const user = await this.getValidUser();
+    return user && user.profile;
+  }
 
+  private async getValidUser(): Promise<User | null | undefined> {
     await this.ensureUserManagerInitialized();
     const user = await this.userManager?.getUser();
-    return user && user.profile;
+
+    if (!user) {
+      return null;
+    }
+
+    // Check if token is expired or about to expire (within 60 seconds)
+    const expiresAt = user.expires_at;
+    if (expiresAt) {
+      const now = Math.floor(Date.now() / 1000);
+      const timeUntilExpiry = expiresAt - now;
+      // If token is expired or expires within 60 seconds, try to refresh
+      if (timeUntilExpiry <= 60) {
+        try {
+          const refreshedUser = await this.userManager?.signinSilent();
+          if (refreshedUser) {
+            this.updateState(refreshedUser);
+            return refreshedUser;
+          }
+        } catch (error) {
+          // Silent renewal failed, clear user state
+          this.updateState(null);
+          return null;
+        }
+      }
+    }
+
+    return user;
   }
 
   async getAccessToken(): Promise<string | null | undefined> {
     await this.ensureUserManagerInitialized();
-    const user = await this.userManager?.getUser();
+    const user = await this.getValidUser();
     return user && user.access_token;
   }
 
@@ -224,7 +278,10 @@ export class AuthorizeService {
     }
 
     const settings = await response.json();
-    settings.automaticSilentRenew = false;
+    // Enable automatic silent renewal to refresh tokens before they expire
+    settings.automaticSilentRenew = true;
+    // Set access token expiration time to renew 60 seconds before expiry
+    settings.accessTokenExpiringNotificationTime = 60;
     settings.monitorSession = false;
     settings.includeIdTokenInSilentRenew = true;
     settings.userStore = new WebStorageStateStore({
@@ -232,6 +289,41 @@ export class AuthorizeService {
     });
 
     this.userManager = new UserManager(settings);
+
+    // Handle token renewal events
+    // Note: When automaticSilentRenew is enabled, the library handles renewal automatically
+    // These event handlers are for notification and state management
+    this.userManager.events.addAccessTokenExpiring(() => {
+      // Token is about to expire, automatic renewal should be triggered
+      // We just need to ensure state is updated when renewal completes
+    });
+
+    this.userManager.events.addAccessTokenExpired(() => {
+      // Token has expired, try to renew it manually as a fallback
+      this.userManager
+        ?.signinSilent()
+        .then((user) => {
+          if (user) {
+            this.updateState(user);
+          } else {
+            this.updateState(null);
+          }
+        })
+        .catch(() => {
+          // Silent renewal failed, clear user state
+          this.updateState(null);
+        });
+    });
+
+    this.userManager.events.addUserLoaded((user) => {
+      // User was loaded (including after token renewal)
+      this.updateState(user);
+    });
+
+    this.userManager.events.addSilentRenewError(() => {
+      // Silent renewal failed, user needs to re-authenticate
+      this.updateState(null);
+    });
 
     this.userManager.events.addUserSignedOut(async () => {
       await this.userManager?.removeUser();

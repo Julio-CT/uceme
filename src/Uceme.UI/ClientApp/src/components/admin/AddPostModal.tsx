@@ -140,32 +140,67 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
       alertToggle();
     }
 
-    fetch(`${settings?.baseHref}api/blog/onpostuploadasync`, {
-      method: 'POST',
-      mode: 'cors',
-      body: formData,
-      headers: !token
-        ? { Accept: 'application/json' }
-        : { Accept: 'application/json', Authorization: `Bearer ${token}` },
-    })
-      .then((response) => {
-        if (response.status >= 200 && response.status <= 299) {
-          return response.json();
+    const makeRequest = async (authToken: string | null | undefined) => {
+      const response = await fetch(
+        `${settings?.baseHref}api/blog/onpostuploadasync`,
+        {
+          method: 'POST',
+          mode: 'cors',
+          body: formData,
+          headers: !authToken
+            ? { Accept: 'application/json' }
+            : {
+                Accept: 'application/json',
+                Authorization: `Bearer ${authToken}`,
+              },
         }
+      );
 
-        handleError();
-        throw Error(response.statusText);
-      })
-      .then(async (resp: string) => {
-        if (resp) {
-          setImgSrc(resp);
-          setUploadSuccess(true);
-          setAlertMessage(`Imagen subida correctamente.`);
-          alertToggle();
-        } else {
+      if (response.status === 401) {
+        // Token expired, try to refresh and retry
+        const refreshedToken = await authService.getAccessToken();
+        if (refreshedToken) {
+          // Retry the request with the new token
+          const retryResponse = await fetch(
+            `${settings?.baseHref}api/blog/onpostuploadasync`,
+            {
+              method: 'POST',
+              mode: 'cors',
+              body: formData,
+              headers: {
+                Accept: 'application/json',
+                Authorization: `Bearer ${refreshedToken}`,
+              },
+            }
+          );
+          if (retryResponse.status >= 200 && retryResponse.status <= 299) {
+            return retryResponse.json();
+          }
           handleError();
+          throw Error('Session expired. Please log in again.');
         }
-      });
+        handleError();
+        throw Error('Session expired. Please log in again.');
+      }
+
+      if (response.status >= 200 && response.status <= 299) {
+        return response.json();
+      }
+
+      handleError();
+      throw Error(response.statusText);
+    };
+
+    makeRequest(token).then(async (resp: string) => {
+      if (resp) {
+        setImgSrc(resp);
+        setUploadSuccess(true);
+        setAlertMessage(`Imagen subida correctamente.`);
+        alertToggle();
+      } else {
+        handleError();
+      }
+    });
   };
 
   const submitForm = async (

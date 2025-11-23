@@ -373,7 +373,7 @@ public class ScheduleController : ControllerBase
     /// <response code="400">If there was a database error retrieving the turn.</response>
     /// <response code="404">If the turn was not found.</response>
     /// <response code="500">If there was an unexpected error retrieving the turn.</response>
-    [HttpGet("turns/{turnId}")]
+    [HttpGet("turns/{turnId:int}")]
     [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -534,7 +534,7 @@ public class ScheduleController : ControllerBase
     /// <response code="400">If there was a database error updating the turn.</response>
     /// <response code="404">If the turn was not found.</response>
     /// <response code="500">If there was an unexpected error updating the turn.</response>
-    [HttpPut("turns/{turnId}")]
+    [HttpPut("turns/{turnId:int}")]
     [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -599,7 +599,7 @@ public class ScheduleController : ControllerBase
     /// <response code="400">If there was a database error deleting the turn.</response>
     /// <response code="404">If the turn was not found.</response>
     /// <response code="500">If there was an unexpected error deleting the turn.</response>
-    [HttpDelete("turns/{turnId}")]
+    [HttpDelete("turns/{turnId:int}")]
     [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

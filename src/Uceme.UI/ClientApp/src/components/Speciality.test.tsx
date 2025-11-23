@@ -1,43 +1,58 @@
 import * as React from 'react';
-import { render, screen } from '@testing-library/react';
-import { unmountComponentAtNode } from 'react-dom';
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Speciality from './Speciality';
-import { MemoryRouter, Route } from 'react-router';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import SettingsContext from '../SettingsContext';
 
-let container: any;
-beforeEach(() => {
-  // setup a DOM element as a render target
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  // cleanup on exiting
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-});
+const mockSettings = {
+  baseHref: 'http://test.com/',
+  telephone: '123456789',
+  address: 'Test Address',
+  contactEmail: 'test@test.com',
+};
 
 describe('(Component)) Speciality', () => {
-  it.skip('renders without exploding', () => {
+  it('renders without exploding', async () => {
     render(
-      <MemoryRouter initialEntries={['especialidad/1']}>
-        <Route path="especialidad/:esp">
-          <Speciality />
-        </Route>
-      </MemoryRouter>
+      <SettingsContext.Provider value={mockSettings}>
+        <MemoryRouter initialEntries={['/especialidad/cirugia']}>
+          <Routes>
+            <Route path="/especialidad/:esp" element={<Speciality />} />
+          </Routes>
+        </MemoryRouter>
+      </SettingsContext.Provider>
     );
-    expect(screen.queryAllByText('Loading', { exact: false })).toHaveLength(1);
+
+    // Initially shows loading
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+
+    // Wait for content to load
+    await waitFor(() => {
+      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+    });
+
+    // Should render the speciality content
+    expect(screen.getByText('Cirugía Tiroidea')).toBeInTheDocument();
   });
 
-  it.skip('renders no buttons', () => {
+  it('renders no buttons', async () => {
     render(
-      <MemoryRouter initialEntries={['especialidad/1']}>
-        <Route path="especialidad/:esp">
-          <Speciality />
-        </Route>
-      </MemoryRouter>
+      <SettingsContext.Provider value={mockSettings}>
+        <MemoryRouter initialEntries={['/especialidad/cirugia']}>
+          <Routes>
+            <Route path="/especialidad/:esp" element={<Speciality />} />
+          </Routes>
+        </MemoryRouter>
+      </SettingsContext.Provider>
     );
+
+    // Wait for content to load
+    await waitFor(() => {
+      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+    });
+
+    // Should not have any buttons
     expect(screen.queryAllByRole('button')).toHaveLength(0);
   });
 });
