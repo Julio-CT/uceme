@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:4155",
   "dependencies": {
+    "@babel/runtime": "^7.23.7",
     "@mui/icons-material": "^7.0.0",
     "@mui/material": "^7.0.0",
     "bfj": "^8.0.0",
@@ -132,7 +133,8 @@
       "src/**/*.{js,jsx,ts,tsx}"
     ],
     "setupFiles": [
-      "react-app-polyfill/jsdom"
+      "react-app-polyfill/jsdom",
+      "<rootDir>/src/setupEnv.js"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/src/setupTests.ts"
@@ -141,7 +143,10 @@
       "<rootDir>/src/**/__tests__/**/*.(ts|js)?(x)",
       "<rootDir>/src/**/*.(spec|test).(ts|js)?(x)"
     ],
-    "testEnvironment": "jsdom",
+    "testEnvironment": "<rootDir>/src/early-jest-environment.js",
+    "testEnvironmentOptions": {
+      "url": "http://localhost"
+    },
     "transform": {
       "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
@@ -159,7 +164,9 @@
       "^react-native$": "react-native-web",
       "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
       "^src/(.*)$": "<rootDir>/src/$1",
-      "\\.(gif|ttf|eot|svg|jpg|ico|jpeg|png|otf|webp|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
+      "\\.(gif|ttf|eot|svg|jpg|ico|jpeg|png|otf|webp|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "^react-helmet$": "<rootDir>/__mocks__/react-helmet.js",
+      "^oidc-client$": "<rootDir>/__mocks__/oidc-client.js"
     },
     "moduleFileExtensions": [
       "web.js",
@@ -203,7 +210,8 @@
   "scripts": {
     "start": "rimraf ./build && node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "jest",
+    "prebuild": "node scripts/createPnpmSymlinks.js",
+    "test": "NODE_OPTIONS='-r ./src/setupEnv.js' jest",
     "format": "prettier --write src/**/*.{js,ts,tsx,scss}",
     "lint": "eslint --fix src/**/*.{ts,tsx} -c .eslintrc.json",
     "stylelint": "stylelint **/*.scss --customSyntax postcss-scss --fix",

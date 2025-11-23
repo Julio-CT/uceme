@@ -251,7 +251,33 @@ public class BlogController : Controller
         }
         catch (DataException ex)
         {
-            this.logger.LogError(ex, $"Error {errorContext}", contextId);
+            // Sanitize contextId to avoid log injection from user-provided values
+            static string Sanitize(string input)
+            {
+                if (string.IsNullOrEmpty(input))
+                {
+                    return "null";
+                }
+
+                // Remove CR/LF, braces and other control characters to avoid log injection
+                var cleaned = new string(input.Where(c => c != '\r' && c != '\n' && c != '{' && c != '}' && !char.IsControl(c)).ToArray());
+                return string.IsNullOrEmpty(cleaned) ? "null" : cleaned;
+            }
+
+            string safeContextId = contextId switch
+            {
+                null => "null",
+                string s => Sanitize(s),
+                _ => Sanitize(contextId.ToString() ?? "null"),
+            };
+
+            // Truncate to a reasonable length to avoid excessively long log entries
+            if (safeContextId.Length > 200)
+            {
+                safeContextId = string.Concat(safeContextId.AsSpan(0, 200), "...");
+            }
+
+            this.logger.LogError(ex, "Error {ErrorContext} - ContextId: {ContextId}", errorContext, safeContextId);
             throw new InvalidOperationException($"Unable to {errorContext.ToUpperInvariant()}", ex);
         }
         catch (Exception ex)

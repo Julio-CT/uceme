@@ -80,10 +80,13 @@ public class AppointmentController : Controller
         }
         catch (DataException ex)
         {
+            var maskedHospitalId = string.IsNullOrEmpty(hospitalId)
+                ? "N/A"
+                : (hospitalId.Length <= 4 ? hospitalId : string.Concat(hospitalId.AsSpan(0, 4), "..."));
             this.logger.LogError(
                 ex,
-                "Error retrieving available hours for hospital {HospitalId} on {Day}/{Month}/{Year}",
-                hospitalId,
+                "Error retrieving available hours for hospital {HospitalIdMasked} on {Day}/{Month}/{Year}",
+                maskedHospitalId,
                 day,
                 month,
                 year);

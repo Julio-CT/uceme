@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Profile, User, UserManager, WebStorageStateStore } from 'oidc-client';
+import type { Profile, User } from 'oidc-client';
 import ApplicationPaths, {
   ApplicationName,
   Arguments,
@@ -25,11 +25,14 @@ export class AuthorizeService {
   // If you want to enable pop up authentication simply set this flag to false.
   private popUpDisabled = true;
 
-  private userManager?: UserManager;
+  // Runtime-managed object from oidc-client; keep as any to avoid importing
+  // the concrete type at module evaluation time and to prevent type errors
+  // when dynamically importing the module.
+  private userManager?: any;
 
-  constructor() {
-    this.ensureUserManagerInitialized();
-  }
+  // Do not initialize the user manager in the constructor to avoid
+  // triggering oidc-client usage (which may access browser APIs) at import time.
+  // Initialization will happen lazily when methods that need it are called.
 
   async isAuthenticated(): Promise<boolean> {
     await this.ensureUserManagerInitialized();
@@ -268,7 +271,14 @@ export class AuthorizeService {
     if (this.userManager !== undefined) {
       return;
     }
-
+    // Lazy import to avoid touching browser APIs at module import time
+    // (which can trigger SecurityError in test environments).
+    // Importing inside the method ensures it happens at runtime when needed.
+    const oidcModule = await import('oidc-client');
+    // Some module systems expose the exports as default; support both shapes
+    // by checking for `.default` and falling back to the namespace itself.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const oidc: any = oidcModule && (oidcModule.default || oidcModule);
     const response: Response = await fetch(
       ApplicationPaths.ApiAuthorizationClientConfigurationUrl
     );
@@ -284,11 +294,11 @@ export class AuthorizeService {
     settings.accessTokenExpiringNotificationTime = 60;
     settings.monitorSession = false;
     settings.includeIdTokenInSilentRenew = true;
-    settings.userStore = new WebStorageStateStore({
+    settings.userStore = new oidc.WebStorageStateStore({
       prefix: ApplicationName,
     });
 
-    this.userManager = new UserManager(settings);
+    this.userManager = new oidc.UserManager(settings);
 
     // Handle token renewal events
     // Note: When automaticSilentRenew is enabled, the library handles renewal automatically
@@ -302,7 +312,7 @@ export class AuthorizeService {
       // Token has expired, try to renew it manually as a fallback
       this.userManager
         ?.signinSilent()
-        .then((user) => {
+        .then((user: any) => {
           if (user) {
             this.updateState(user);
           } else {
@@ -315,7 +325,7 @@ export class AuthorizeService {
         });
     });
 
-    this.userManager.events.addUserLoaded((user) => {
+    this.userManager.events.addUserLoaded((user: any) => {
       // User was loaded (including after token renewal)
       this.updateState(user);
     });
