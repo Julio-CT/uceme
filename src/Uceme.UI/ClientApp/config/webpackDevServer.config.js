@@ -100,9 +100,12 @@ module.exports = function (proxy, allowedHost) {
     },
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
     proxy,
-    setupMiddlewares: (middlewares, devServer) => {
-      if(!devServer){
-        throw new Error("webpack-dev-server is not defined")
+    // Webpack Dev Server uses `onBeforeSetupMiddleware` / `onAfterSetupMiddleware`
+    // in the current installed version. Register our middlewares there so
+    // the config is compatible with the server's options schema.
+    onBeforeSetupMiddleware: (devServer) => {
+      if (!devServer) {
+        throw new Error('webpack-dev-server is not defined');
       }
 
       if (fs.existsSync(paths.proxySetup)) {
@@ -110,12 +113,10 @@ module.exports = function (proxy, allowedHost) {
         require(paths.proxySetup)(devServer.app);
       }
 
-      middlewares.push(
-        evalSourceMapMiddleware(devServer),
-        redirectServedPath(paths.publicUrlOrPath),
-        noopServiceWorkerMiddleware(paths.publicUrlOrPath)
-      )
-      return middlewares
+      // Register the same helper middlewares on the express `app`
+      devServer.app.use(evalSourceMapMiddleware(devServer));
+      devServer.app.use(redirectServedPath(paths.publicUrlOrPath));
+      devServer.app.use(noopServiceWorkerMiddleware(paths.publicUrlOrPath));
     },
   };
 };

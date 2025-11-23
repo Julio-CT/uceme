@@ -4,8 +4,8 @@
   "private": true,
   "proxy": "http://localhost:4155",
   "dependencies": {
-    "@mui/icons-material": "^5.15.6",
-    "@mui/material": "^5.15.3",
+    "@mui/icons-material": "^7.0.0",
+    "@mui/material": "^7.0.0",
     "bfj": "^8.0.0",
     "bootstrap": "^5.3.2",
     "browserslist": "^4.22.2",
@@ -19,12 +19,12 @@
     "html-react-parser": "^5.0.11",
     "html-to-draftjs": "^1.5.0",
     "html-webpack-plugin": "^5.6.0",
-    "http-proxy-middleware": "^2.0.7",
+    "http-proxy-middleware": "^2.0.9",
     "identity-obj-proxy": "^3.0.0",
     "jquery": "^3.7.1",
     "mini-css-extract-plugin": "^0.12.0",
     "moment": "^2.30.1",
-    "morgan": "^1.10.0",
+    "morgan": "^1.10.1",
     "oidc-client": "^1.11.5",
     "prompts": "^2.4.2",
     "razzle": "^4.2.18",
@@ -212,6 +212,10 @@
     "stubapi": "json-server --watch --port 4155 --routes routes.json db.json",
     "test:coverage": "jest --coverage --runInBand --watchAll=false",
     "isready": "npm run format && npm run lint && npm run stylelint && npm run test:coverage && npm run build"
+  },
+  "overrides": {
+    "webpack-dev-server": "4.15.1",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.11"
   },
   "browserslist": {
     "production": [
