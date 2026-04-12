@@ -1,19 +1,18 @@
-﻿namespace Uceme.Model.DataContracts
+﻿using System.Text.Json.Serialization;
+
+namespace Uceme.Model.DataContracts;
+
+public class EmailMessage
 {
-    using System.Text.Json.Serialization;
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
 
-    public class EmailMessage
-    {
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
+    [JsonPropertyName("email")]
+    public string? Email { get; set; }
 
-        [JsonPropertyName("email")]
-        public string? Email { get; set; }
+    [JsonPropertyName("message")]
+    public string? Message { get; set; }
 
-        [JsonPropertyName("message")]
-        public string? Message { get; set; }
-
-        [JsonPropertyName("loaded")]
-        public bool Loaded { get; set; }
-    }
+    [JsonPropertyName("loaded")]
+    public bool Loaded { get; set; }
 }

@@ -1,0 +1,9 @@
+﻿[
+  {
+    idFoto: 6001,
+    nombre: featured,
+    texto: caption,
+    destacada: true,
+    posicion: 1
+  }
+]

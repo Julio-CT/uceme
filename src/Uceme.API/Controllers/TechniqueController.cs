@@ -1,6 +1,4 @@
-﻿namespace Uceme.API.Controllers;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -15,6 +13,8 @@ using Uceme.Library.Services;
 using Uceme.Model.DataContracts;
 using Uceme.Model.Models;
 using Uceme.Model.Settings;
+
+namespace Uceme.API.Controllers;
 
 [Authorize]
 [Route("api/[controller]")]

@@ -1,6 +1,4 @@
-﻿namespace Uceme.Library.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
@@ -11,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Uceme.Model.Data;
 using Uceme.Model.DataContracts;
 using Uceme.Model.Models;
+
+namespace Uceme.Library.Services;
 
 public class AppointmentService : IAppointmentService
 {

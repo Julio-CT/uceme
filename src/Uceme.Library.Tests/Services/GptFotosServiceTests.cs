@@ -1,6 +1,4 @@
-﻿namespace Uceme.Tests.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -11,6 +9,8 @@ using Moq;
 using Uceme.Library.Services;
 using Uceme.Model.Data;
 using Uceme.Model.Models;
+
+namespace Uceme.Tests.Services;
 
 [TestClass]
 public class GptFotosServiceTests

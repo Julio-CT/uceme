@@ -1,6 +1,4 @@
-﻿namespace Uceme.API.Controllers;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -16,6 +14,8 @@ using Uceme.Library.Services;
 using Uceme.Model.DataContracts;
 using Uceme.Model.Models;
 using Uceme.Model.Settings;
+
+namespace Uceme.API.Controllers;
 
 [Authorize]
 [Route("api/[controller]")]
@@ -206,7 +206,7 @@ public class BlogController : Controller
         try
         {
             string blogImagesFolder = this.configuration.Value.BlogImagesDir;
-            string filename = "Blog" + this.blogService.GetNextPostImage();
+            string filename = "Blog" + Guid.NewGuid().ToString("N");
             filename += Path.GetExtension(file.FileName);
 
 #pragma warning disable CA3003 // Review code for file path injection vulnerabilities

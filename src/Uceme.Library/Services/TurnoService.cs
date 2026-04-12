@@ -1,12 +1,12 @@
-﻿namespace Uceme.Library.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Uceme.Model.Data;
 using Uceme.Model.DataContracts;
+
+namespace Uceme.Library.Services;
 
 public class TurnoService : ITurnoService
 {

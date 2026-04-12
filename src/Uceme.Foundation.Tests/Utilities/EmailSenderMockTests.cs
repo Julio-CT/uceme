@@ -1,6 +1,4 @@
-﻿namespace Uceme.Foundation.Tests.Utilities;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Mail;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -9,6 +7,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Uceme.Foundation.Tools;
 using Uceme.Model.Settings;
+
+namespace Uceme.Foundation.Tests.Utilities;
 
 [TestClass]
 public class EmailSenderMockTests

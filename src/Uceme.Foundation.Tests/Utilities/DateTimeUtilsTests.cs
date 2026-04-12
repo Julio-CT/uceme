@@ -1,7 +1,7 @@
-﻿namespace Uceme.Foundation.Tests.Utilities;
-
-using System;
+﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Uceme.Foundation.Tests.Utilities;
 
 [TestClass]
 public class DateTimeUtilsTests

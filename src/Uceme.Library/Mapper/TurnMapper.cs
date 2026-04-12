@@ -1,8 +1,8 @@
-﻿namespace Uceme.Library.Mapper;
-
-using System;
+﻿using System;
 using Uceme.Model.DataContracts;
 using Uceme.Model.Models;
+
+namespace Uceme.Library.Mapper;
 
 public class TurnMapper
 {

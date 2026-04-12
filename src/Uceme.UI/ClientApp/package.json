@@ -221,7 +221,7 @@
     "test:coverage": "jest --coverage --runInBand --watchAll=false",
     "isready": "npm run format && npm run lint && npm run stylelint && npm run test:coverage && npm run build"
   },
-  
+
   "browserslist": {
     "production": [
       ">0.2%",

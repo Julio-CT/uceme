@@ -1,0 +1,12 @@
+﻿[
+  {
+    idDatosPro: 7001,
+    nombre: Snapshot Hospital,
+    telefono: 900000001,
+    email: hospital@example.test,
+    direccion: Test Street 1,
+    texto: hospital text,
+    foto: h.jpg,
+    activo: true
+  }
+]

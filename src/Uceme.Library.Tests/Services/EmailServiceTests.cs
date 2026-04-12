@@ -1,6 +1,4 @@
-﻿namespace Uceme.Library.Tests.Services;
-
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using AutoMoqCore;
 using Microsoft.Extensions.Logging;
@@ -10,6 +8,8 @@ using Moq;
 using Uceme.Foundation.Utilities;
 using Uceme.Library.Services;
 using Uceme.Model.Settings;
+
+namespace Uceme.Library.Tests.Services;
 
 [TestClass]
 public class EmailServiceTests

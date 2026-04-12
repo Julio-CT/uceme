@@ -1,6 +1,4 @@
-﻿namespace Uceme.API.Controllers;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Uceme.Model.Settings;
+
+namespace Uceme.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

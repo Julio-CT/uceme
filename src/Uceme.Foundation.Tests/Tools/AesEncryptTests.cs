@@ -1,8 +1,8 @@
-﻿namespace Uceme.Foundation.Tests.Tools;
-
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uceme.Foundation.Tools;
+
+namespace Uceme.Foundation.Tests.Tools;
 
 [TestClass]
 public class AesEncryptTests

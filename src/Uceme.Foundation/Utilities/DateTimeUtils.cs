@@ -1,7 +1,7 @@
-﻿namespace Uceme.Foundation.Utilities;
-
-using System;
+﻿using System;
 using System.Globalization;
+
+namespace Uceme.Foundation.Utilities;
 
 public static class DateTimeUtils
 {

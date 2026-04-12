@@ -1,6 +1,4 @@
-﻿namespace Uceme.Foundation.Utilities;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,6 +6,8 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Uceme.Model.Settings;
+
+namespace Uceme.Foundation.Utilities;
 
 public class EmailSender : IEmailSender
 {

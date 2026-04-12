@@ -1,6 +1,4 @@
-﻿namespace Uceme.API.Controllers;
-
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Uceme.Library.Services;
 using Uceme.Model.DataContracts;
+
+namespace Uceme.API.Controllers;
 
 [Authorize]
 [Route("api/[controller]")]

@@ -27,6 +27,9 @@ type AddPostModalProps = {
   headerTitle: string;
 };
 
+const emptyEditorState = (): RawDraftContentState =>
+  convertToRaw(ContentState.createFromText(''));
+
 function AddPostModal(props: AddPostModalProps): ReactElement {
   const { modal, toggle, post, headerTitle } = props;
   const settings: Settings = React.useContext(SettingsContext);
@@ -35,51 +38,64 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
   const alertToggle = () => setAlertModal(!alertModal);
   const [alertMessage, setAlertMessage] = React.useState<string>('');
 
-  let contentState = ContentState.createFromText(post ? post.text : '');
   const inputName = 'reactstrap_date_picker_basic';
-  const [currentPost, setCurrentPost] = React.useState<BlogItem | undefined>(
-    post
-  );
-  // used when we edit an existing post
-  const [photo, setPhoto] = React.useState<string | Blob>(
-    post ? post.imageSrc : ''
-  );
+  const [newPostSession, setNewPostSession] = React.useState(0);
+  const [photo, setPhoto] = React.useState<string | Blob>('');
   const [selectedDay, setDay] = React.useState<string>(
-    post ? post.date : `${new Date().toISOString().slice(0, 10)}T00:00:00.000Z`
+    `${new Date().toISOString().slice(0, 10)}T00:00:00.000Z`
   );
-  const [title, setTitle] = React.useState<string>(
-    post && post.title ? post.title : ''
-  );
-  const [slug, setSlug] = React.useState<string>(
-    post && post.slug ? post.slug : ''
-  );
-  const [text, setText] = React.useState<RawDraftContentState>(
-    convertToRaw(contentState)
-  );
-  const [caption, setCaption] = React.useState<string>(
-    post && post.caption ? post.caption : ''
-  );
-  const [metaDescription, setMetaDescription] = React.useState<string>(
-    post && post.metaDescription ? post.metaDescription : ''
-  );
-  const [seoTitle, setSeoTitle] = React.useState<string>(
-    post && post.seoTitle ? post.seoTitle : ''
-  );
-  // stores the path of the image
-  const [imgSrc, setImgSrc] = React.useState<string>(
-    post && post.imageSrc ? post.imageSrc : ''
-  );
-  const [id, setId] = React.useState<number>(post && post.id ? +post.id : 0);
+  const [title, setTitle] = React.useState<string>('');
+  const [slug, setSlug] = React.useState<string>('');
+  const [text, setText] =
+    React.useState<RawDraftContentState>(emptyEditorState);
+  const [caption, setCaption] = React.useState<string>('');
+  const [metaDescription, setMetaDescription] = React.useState<string>('');
+  const [seoTitle, setSeoTitle] = React.useState<string>('');
+  const [imgSrc, setImgSrc] = React.useState<string>('');
+  const [id, setId] = React.useState<number>(0);
   const [uploadSuccess, setUploadSuccess] = React.useState<boolean>(false);
 
   const weekStart = 1;
 
-  const resetForm = () => {
+  const resetNewPostFields = React.useCallback(() => {
     setTitle('');
     setSlug('');
-    setText(convertToRaw(contentState));
+    setText(emptyEditorState());
     setCaption('');
-  };
+    setMetaDescription('');
+    setSeoTitle('');
+    setImgSrc('');
+    setPhoto('');
+    setUploadSuccess(false);
+    setId(0);
+    setDay(`${new Date().toISOString().slice(0, 10)}T00:00:00.000Z`);
+  }, []);
+
+  React.useEffect(() => {
+    if (!modal) {
+      return;
+    }
+
+    if (!post) {
+      setNewPostSession((s) => s + 1);
+      resetNewPostFields();
+      return;
+    }
+
+    const blocks = post.text ? htmlToDraft(post.text).contentBlocks : [];
+    const contentState = ContentState.createFromBlockArray(blocks);
+    setPhoto(post.imageSrc);
+    setDay(post.date);
+    setTitle(post.title ?? '');
+    setSlug(post.slug ?? '');
+    setText(convertToRaw(contentState));
+    setCaption(post.caption ?? '');
+    setMetaDescription(post.metaDescription ?? '');
+    setSeoTitle(post.seoTitle ?? '');
+    setImgSrc(post.imageSrc);
+    setId(+post.id);
+    setUploadSuccess(false);
+  }, [modal, post, resetNewPostFields]);
 
   const handleValidation = () => {
     const errors: Record<string, string> = {};
@@ -119,8 +135,10 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
   };
 
   const setFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target?.files) {
-      setPhoto(e.target?.files[0]);
+    if (e.target?.files?.[0]) {
+      setUploadSuccess(false);
+      setImgSrc('');
+      setPhoto(e.target.files[0]);
     }
   };
 
@@ -157,10 +175,8 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
       );
 
       if (response.status === 401) {
-        // Token expired, try to refresh and retry
         const refreshedToken = await authService.getAccessToken();
         if (refreshedToken) {
-          // Retry the request with the new token
           const retryResponse = await fetch(
             `${settings?.baseHref}api/blog/onpostuploadasync`,
             {
@@ -207,7 +223,8 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
     evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     evt.preventDefault();
-    if (handleValidation()) {
+    const validation = handleValidation();
+    if (validation.formIsValid) {
       const day = new Date(selectedDay);
       const data = {
         idBlog: id,
@@ -217,34 +234,34 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
         caption,
         fecha: day,
         seoTitle,
-        metadescription: metaDescription,
+        metaDescription,
         foto: imgSrc,
       };
 
       const token = await authService.getAccessToken();
       fetch(`${settings?.baseHref}api/blog/addpost`, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
         headers: !token
-          ? {
-              // 'Content-Type': 'application/x-www-form-urlencoded',
-            }
+          ? {}
           : {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(data),
       })
         .then((response: { json: () => Promise<boolean> }) => response.json())
         .then(async (resp: boolean) => {
           if (resp) {
             setAlertMessage('Post registrado correctamente. Muchas gracias.');
             alertToggle();
-            resetForm();
+            if (!post) {
+              resetNewPostFields();
+            }
             toggle();
           } else {
             setAlertMessage(
@@ -262,25 +279,7 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
     }
   };
 
-  if (post !== currentPost) {
-    setCurrentPost(post);
-    contentState = ContentState.createFromBlockArray(
-      post ? htmlToDraft(post.text).contentBlocks : []
-    );
-    setPhoto(post ? post.imageSrc : '');
-    // setDay(post ? post.date : '');
-    const t = post && post.title ? post.title : '';
-    setTitle(t);
-    setSlug(post && post.slug ? post.slug : '');
-    setText(convertToRaw(contentState));
-    setCaption(post ? post.caption : '');
-    setMetaDescription(
-      post && post.metaDescription ? post.metaDescription : ''
-    );
-    setSeoTitle(post && post.seoTitle ? post.seoTitle : '');
-    setImgSrc(post ? post.imageSrc : '');
-    setId(post ? +post.id : 0);
-  }
+  const editorKey = post ? post.id : `new-${newPostSession}`;
 
   return (
     <>
@@ -365,6 +364,7 @@ function AddPostModal(props: AddPostModalProps): ReactElement {
                     Texto:
                   </Label>
                   <Editor
+                    key={editorKey}
                     defaultContentState={text}
                     onContentStateChange={setText}
                     wrapperClassName="wrapper-class"

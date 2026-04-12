@@ -1,0 +1,5 @@
+﻿{
+  telephone: 12345678 ext. 30210,
+  contactEmail: jarl@condemor.com,
+  address: Calle Doctor Esquerdo 123, Barcelona
+}

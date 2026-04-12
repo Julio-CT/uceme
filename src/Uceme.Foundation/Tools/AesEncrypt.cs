@@ -1,8 +1,8 @@
-﻿namespace Uceme.Foundation.Tools;
-
-using System;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
+
+namespace Uceme.Foundation.Tools;
 
 public class AesEncrypt
 {

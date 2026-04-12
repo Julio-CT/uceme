@@ -1,6 +1,4 @@
-﻿namespace Uceme.UI.Areas.Identity.Pages.Account;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -9,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+
+namespace Uceme.UI.Areas.Identity.Pages.Account;
 
 [AllowAnonymous]
 #pragma warning disable SA1649 // File name should match first type name

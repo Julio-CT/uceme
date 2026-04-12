@@ -1,6 +1,4 @@
-﻿namespace Uceme.API;
-
-using System.IO;
+﻿using System.IO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +13,8 @@ using Microsoft.OpenApi.Models;
 using Uceme.Library.Services;
 using Uceme.Model.Data;
 using Uceme.Model.Settings;
+
+namespace Uceme.API;
 
 public class Startup
 {
@@ -62,7 +62,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dataContext)
     {
-        if (dataContext != null)
+        if (dataContext != null && !env.IsEnvironment("Testing"))
         {
             try
             {
@@ -103,7 +103,11 @@ public class Startup
             this.strictPolicy
             : this.relaxedPolicy);
 
-        app.UseHttpsRedirection();
+        if (!env.IsEnvironment("Testing"))
+        {
+            app.UseHttpsRedirection();
+        }
+
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();

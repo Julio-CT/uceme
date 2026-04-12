@@ -1,8 +1,7 @@
-﻿namespace Uceme.Model.Models.Security
-{
-    using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-    public class ApplicationUser : IdentityUser
-    {
-    }
+namespace Uceme.Model.Models.Security;
+
+public class ApplicationUser : IdentityUser
+{
 }

@@ -1,18 +1,17 @@
-﻿namespace Uceme.Model.Settings
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Uceme.Model.Settings;
+
+public class AuthMessageSenderSettings
 {
-    using System.Diagnostics.CodeAnalysis;
+    public string? EmailFrom { get; set; }
 
-    public class AuthMessageSenderSettings
-    {
-        public string? EmailFrom { get; set; }
+    [DisallowNull]
+    public string? HostSmtp { get; set; }
 
-        [DisallowNull]
-        public string? HostSmtp { get; set; }
+    public int PortSmtp { get; set; }
 
-        public int PortSmtp { get; set; }
+    public string? CredentialUser { get; set; }
 
-        public string? CredentialUser { get; set; }
-
-        public string? CredentialPassword { get; set; }
-    }
+    public string? CredentialPassword { get; set; }
 }

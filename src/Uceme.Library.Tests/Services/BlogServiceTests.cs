@@ -1,16 +1,17 @@
-﻿namespace Uceme.Library.Tests.Services;
-
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Shouldly;
 using Uceme.Library.Services;
 using Uceme.Model.Data;
 using Uceme.Model.DataContracts;
 using Uceme.Model.Models;
+
+namespace Uceme.Library.Tests.Services;
 
 [TestClass]
 public class BlogServiceTests
@@ -197,6 +198,29 @@ public class BlogServiceTests
 
         // Assert
         Assert.IsInstanceOfType(result, typeof(string));
+    }
+
+    [TestMethod]
+    public void GetNextPostImage_WhenNoPosts_ReturnsOne()
+    {
+        Mock<ILogger<BlogService>> log = new Mock<ILogger<BlogService>>();
+        DbContextOptions<ApplicationDbContext> options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: RandomString(12))
+            .Options;
+        using ApplicationDbContext emptyContext = new ApplicationDbContext(options, new OperationalStoreOptionsMigrations());
+        BlogService svc = new BlogService(log.Object, emptyContext);
+
+        string result = svc.GetNextPostImage();
+
+        result.ShouldBe("1");
+    }
+
+    [TestMethod]
+    public void GetNextPostImage_WhenPostsExist_ReturnsMaxIdPlusOne()
+    {
+        string result = this.testClass.GetNextPostImage();
+
+        result.ShouldBe("690899953");
     }
 
     private static string RandomString(int length)

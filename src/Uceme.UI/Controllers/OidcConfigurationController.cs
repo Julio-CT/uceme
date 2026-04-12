@@ -1,8 +1,8 @@
-﻿namespace Uceme.UI.Controllers;
-
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+﻿using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
+namespace Uceme.UI.Controllers;
 
 public class OidcConfigurationController : Controller
 {
