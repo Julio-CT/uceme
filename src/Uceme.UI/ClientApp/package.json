@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "uceme.ui",
   "version": "0.1.0",
   "private": true,
@@ -133,6 +133,7 @@
       "src/**/*.{js,jsx,ts,tsx}"
     ],
     "setupFiles": [
+      "<rootDir>/src/setupLocalStorage.js",
       "react-app-polyfill/jsdom",
       "<rootDir>/src/setupEnv.js"
     ],

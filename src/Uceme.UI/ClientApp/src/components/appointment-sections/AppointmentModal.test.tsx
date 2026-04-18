@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
 import '@testing-library/jest-dom';
@@ -65,11 +65,10 @@ describe('(Component) AppointmentModal', () => {
       fireEvent.click(hourButton);
 
       // Now the form inputs should be visible; the Confirmar button should still be disabled
-      const submitButtons = screen.getAllByText('Confirmar cita');
-      const disabledButton = submitButtons.find(
-        (b) =>
-          (b as HTMLButtonElement).disabled
-      );
+      const submitButtons = screen.getAllByRole('button', {
+        name: 'Confirmar cita',
+      }) as HTMLButtonElement[];
+      const disabledButton = submitButtons.find((b) => b.disabled);
       expect(disabledButton).toBeDefined();
     });
 
@@ -124,11 +123,11 @@ describe('(Component) AppointmentModal', () => {
       const acceptCheckbox = await screen.findByRole('checkbox');
       fireEvent.click(acceptCheckbox);
       // Now submit should be enabled (find enabled Confirmar)
-      const submitButtons = screen.getAllByText('Confirmar cita');
+      const submitButtons = screen.getAllByRole('button', {
+        name: 'Confirmar cita',
+      }) as HTMLButtonElement[];
       const enabledButton = submitButtons.find(
-        (b) =>
-          !(b as HTMLButtonElement).disabled &&
-          (b as HTMLButtonElement).type === 'button'
+        (b) => !b.disabled && b.type === 'button'
       );
       expect(enabledButton).toBeDefined();
       fireEvent.click(enabledButton!);
@@ -201,11 +200,10 @@ describe('(Component) AppointmentModal', () => {
 
       // Test invalid characters
       fireEvent.change(phoneInput, { target: { value: '123-456-789' } });
-      const submitButtons = screen.getAllByText('Confirmar cita');
-      const enabledButton = submitButtons.find(
-        (b) =>
-          !(b as HTMLButtonElement).disabled
-      );
+      const submitButtons = screen.getAllByRole('button', {
+        name: 'Confirmar cita',
+      }) as HTMLButtonElement[];
+      const enabledButton = submitButtons.find((b) => !b.disabled);
       fireEvent.click(enabledButton!);
       expect(
         await screen.findByText(
