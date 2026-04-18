@@ -282,7 +282,7 @@ public class BlogController : Controller
         }
         catch (Exception ex)
         {
-            this.logger.LogError(ex, $"Unexpected error {errorContext}", contextId);
+            this.logger.LogError(ex, "Unexpected error {ErrorContext}", errorContext);
             throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
         }
     }

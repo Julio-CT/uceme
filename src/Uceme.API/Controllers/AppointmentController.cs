@@ -37,8 +37,7 @@ public class AppointmentController : Controller
     {
         var result = this.HandleControllerOperation(
             () => this.appointmentService.GetDays(hospitalId),
-            "retrieving available days for hospital",
-            hospitalId);
+            "retrieving available days for hospital");
         return this.Ok(result);
     }
 
@@ -390,7 +389,7 @@ public class AppointmentController : Controller
         return this.Ok(result);
     }
 
-    private T HandleControllerOperation<T>(Func<T> operation, string errorContext, object? contextId = null)
+    private T HandleControllerOperation<T>(Func<T> operation, string errorContext)
     {
         try
         {
@@ -398,12 +397,12 @@ public class AppointmentController : Controller
         }
         catch (DataException ex)
         {
-            this.logger.LogError(ex, $"Error {errorContext}", contextId);
+            this.logger.LogError(ex, "Error {ErrorContext}", errorContext);
             throw new InvalidOperationException($"Unable to {errorContext.ToUpperInvariant()}", ex);
         }
         catch (Exception ex)
         {
-            this.logger.LogError(ex, $"Unexpected error {errorContext}", contextId);
+            this.logger.LogError(ex, "Unexpected error {ErrorContext}", errorContext);
             throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
         }
     }
