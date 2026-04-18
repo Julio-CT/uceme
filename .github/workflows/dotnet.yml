@@ -20,7 +20,7 @@ jobs:
           mkdir -p /home/runner/coverage
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v5.0.0
+      uses: actions/setup-dotnet@v5.0.1
       with:
         dotnet-version: 7.0.x
 
