@@ -15,16 +15,15 @@ namespace Uceme.API.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class AppointmentController : Controller
+public class AppointmentController : BaseController
 {
-    private readonly ILogger<AppointmentController> logger;
     private readonly IAppointmentService appointmentService;
 
     public AppointmentController(
         ILogger<AppointmentController> logger,
         IAppointmentService appointmentService)
+        : base(logger)
     {
-        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         this.appointmentService = appointmentService ?? throw new ArgumentNullException(nameof(appointmentService));
     }
 
@@ -387,23 +386,5 @@ public class AppointmentController : Controller
             this.appointmentService.UpdatePastAppointmentsData,
             "updating past appointments data");
         return this.Ok(result);
-    }
-
-    private T HandleControllerOperation<T>(Func<T> operation, string errorContext)
-    {
-        try
-        {
-            return operation();
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, "Error {ErrorContext}", errorContext);
-            throw new InvalidOperationException($"Unable to {errorContext.ToUpperInvariant()}", ex);
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Unexpected error {ErrorContext}", errorContext);
-            throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
-        }
     }
 }

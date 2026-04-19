@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
 import NavMenu from './NavMenu';
@@ -18,13 +18,9 @@ afterEach(() => {
 });
 
 describe('(Component)) NavMenu', () => {
-  it('renders without exploding', () => {
+  it('renders without exploding and has 1 button', () => {
     render(<NavMenu />, container);
     expect(screen.queryAllByText('Uceme', { exact: false })).toHaveLength(1);
-  });
-
-  it('renders 1 buttons', () => {
-    render(<NavMenu />);
     expect(screen.queryAllByRole('button')).toHaveLength(1);
   });
 });

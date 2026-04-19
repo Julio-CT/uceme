@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,9 +18,8 @@ namespace Uceme.API.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class TechniqueController : Controller
+public class TechniqueController : BaseController
 {
-    private readonly ILogger<TechniqueController> logger;
     private readonly ITechniqueService techniqueService;
     private readonly IOptions<AppSettings> configuration;
 
@@ -29,9 +27,9 @@ public class TechniqueController : Controller
         ITechniqueService techniqueService,
         IOptions<AppSettings> configuration,
         ILogger<TechniqueController> logger)
+        : base(logger)
     {
         this.techniqueService = techniqueService ?? throw new ArgumentNullException(nameof(techniqueService));
-        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
     }
 
@@ -207,24 +205,6 @@ public class TechniqueController : Controller
                 Detail = "An unexpected error occurred while uploading the file",
                 Status = StatusCodes.Status500InternalServerError,
             });
-        }
-    }
-
-    private T HandleControllerOperation<T>(Func<T> operation, string errorContext, object? contextId = null)
-    {
-        try
-        {
-            return operation();
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, $"Error {errorContext}", contextId);
-            throw new InvalidOperationException($"Unable to {errorContext.ToUpperInvariant()}", ex);
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, $"Unexpected error {errorContext}", contextId);
-            throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
         }
     }
 }

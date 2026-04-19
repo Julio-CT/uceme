@@ -13,11 +13,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Uceme.API;
 using Uceme.Model.Data;
+using Uceme.Model.Settings;
 
 /// <summary>
 /// Boots the real API with an in-memory database and WireMock-backed OIDC authority URL from configuration.
 /// </summary>
-public sealed class ApiWebApplicationFactory : WebApplicationFactory<Startup>
+public sealed class ApiWebApplicationFactory : WebApplicationFactory<TestEntryPoint>
 {
     private readonly string idpAuthorityBaseUrl;
     private readonly string inMemoryDatabaseName;
@@ -40,6 +41,14 @@ public sealed class ApiWebApplicationFactory : WebApplicationFactory<Startup>
         ArgumentNullException.ThrowIfNull(builder);
 
         builder.UseEnvironment("Testing");
+
+        // Override TokenSettings using settings (higher priority than appsettings.json)
+        builder.UseSetting("TokenSettings:Authority", this.idpAuthorityBaseUrl);
+        builder.UseSetting("TokenSettings:AuthorityAlt", this.idpAuthorityBaseUrl);
+
+        // Set content root to the API project directory so appsettings.json is loaded
+        string apiProjectPath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", "..", "Uceme.API");
+        builder.UseContentRoot(apiProjectPath);
 
         // Avoid binding to fixed ports from appsettings or launchSettings during TestServer startup.
         builder.UseSetting("urls", "http://127.0.0.1:0");
@@ -66,6 +75,13 @@ public sealed class ApiWebApplicationFactory : WebApplicationFactory<Startup>
         builder.ConfigureServices(
             services =>
             {
+                // Override TokenSettings with WireMock URL
+                services.Configure<Uceme.Model.Settings.TokenSettings>(options =>
+                {
+                    options.Authority = this.idpAuthorityBaseUrl;
+                    options.AuthorityAlt = this.idpAuthorityBaseUrl;
+                });
+
                 foreach (var d in services.Where(x => x.ServiceType == typeof(DbContextOptions<ApplicationDbContext>)).ToList())
                 {
                     services.Remove(d);

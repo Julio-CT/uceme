@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,9 +19,8 @@ namespace Uceme.API.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class BlogController : Controller
+public class BlogController : BaseController
 {
-    private readonly ILogger<BlogController> logger;
     private readonly IOptions<AppSettings> configuration;
     private readonly IBlogService blogService;
 
@@ -30,10 +28,10 @@ public class BlogController : Controller
         IBlogService blogService,
         IOptions<AppSettings> configuration,
         ILogger<BlogController> logger)
+        : base(logger)
     {
         this.blogService = blogService ?? throw new ArgumentNullException(nameof(blogService));
         this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpGet("getblogsubset")]
@@ -241,49 +239,5 @@ public class BlogController : Controller
         }
 
         return webPFileName;
-    }
-
-    private T HandleControllerOperation<T>(Func<T> operation, string errorContext, object? contextId = null)
-    {
-        try
-        {
-            return operation();
-        }
-        catch (DataException ex)
-        {
-            // Sanitize contextId to avoid log injection from user-provided values
-            static string Sanitize(string input)
-            {
-                if (string.IsNullOrEmpty(input))
-                {
-                    return "null";
-                }
-
-                // Remove CR/LF, braces and other control characters to avoid log injection
-                var cleaned = new string(input.Where(c => c != '\r' && c != '\n' && c != '{' && c != '}' && !char.IsControl(c)).ToArray());
-                return string.IsNullOrEmpty(cleaned) ? "null" : cleaned;
-            }
-
-            string safeContextId = contextId switch
-            {
-                null => "null",
-                string s => Sanitize(s),
-                _ => Sanitize(contextId.ToString() ?? "null"),
-            };
-
-            // Truncate to a reasonable length to avoid excessively long log entries
-            if (safeContextId.Length > 200)
-            {
-                safeContextId = string.Concat(safeContextId.AsSpan(0, 200), "...");
-            }
-
-            this.logger.LogError(ex, "Error {ErrorContext} - ContextId: {ContextId}", errorContext, safeContextId);
-            throw new InvalidOperationException($"Unable to {errorContext.ToUpperInvariant()}", ex);
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Unexpected error {ErrorContext}", errorContext);
-            throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
-        }
     }
 }

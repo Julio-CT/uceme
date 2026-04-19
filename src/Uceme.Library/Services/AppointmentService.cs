@@ -186,7 +186,8 @@ public class AppointmentService : IAppointmentService
             () =>
             {
                 Cita cita = this.context.Cita.First(cita => cita.idCita == appointmentId);
-                return this.MapCitaToAppointment(cita);
+                var turno = this.context.Turno.First(t => t.idTurno == cita.idTurno);
+                return this.MapCitaToAppointment(cita, new Dictionary<int, Turno> { { turno.idTurno, turno } });
             },
             "Error finding appointment");
     }
@@ -227,7 +228,8 @@ public class AppointmentService : IAppointmentService
                 Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Cita> result = this.context.Cita.Update(existingAppointment);
                 this.context.SaveChanges();
 
-                return this.MapCitaToAppointment(result.Entity);
+                var turno = this.context.Turno.First(t => t.idTurno == result.Entity.idTurno);
+                return this.MapCitaToAppointment(result.Entity, new Dictionary<int, Turno> { { turno.idTurno, turno } });
             },
             "Error updating appointment");
     }
@@ -255,21 +257,32 @@ public class AppointmentService : IAppointmentService
     private List<CalendarEvent> MapCitasToAppointmentsEvents(IOrderedQueryable<Cita> existingAppointments)
     {
         List<CalendarEvent> response = new List<CalendarEvent>();
+
+        // Batch load all Turno records needed for these appointments
+        var turnoIds = existingAppointments.Select(a => a.idTurno).Distinct().ToList();
+        var turnos = this.context.Turno.Where(t => turnoIds.Contains(t.idTurno)).ToDictionary(t => t.idTurno);
+
+        // Batch load all DatosProfesionales records needed
+        var hospitalIds = turnos.Values.Select(t => t.idHospital).Distinct().ToList();
+        var hospitals = this.context.DatosProfesionales.Where(h => hospitalIds.Contains(h.idDatosPro)).ToDictionary(h => h.idDatosPro);
+
         foreach (Cita existingAppointment in existingAppointments)
         {
-            response.Add(this.MapCitaToAppointmentEvents(existingAppointment));
+            response.Add(this.MapCitaToAppointmentEvents(existingAppointment, turnos, hospitals));
         }
 
         return response;
     }
 
-    private CalendarEvent MapCitaToAppointmentEvents(Cita existingAppointment)
+    private CalendarEvent MapCitaToAppointmentEvents(Cita existingAppointment, Dictionary<int, Turno> turnos, Dictionary<int, DatosProfesionales> hospitals)
     {
-        Turno turno = this.context.Turno.First(x => x.idTurno == existingAppointment.idTurno);
+        Turno turno = turnos[existingAppointment.idTurno];
+        DatosProfesionales hospital = hospitals[turno.idHospital];
+
         return new CalendarEvent()
         {
             id = existingAppointment.idCita,
-            title = this.context.DatosProfesionales.First(x => x.idDatosPro == turno.idHospital).nombre + ": " + existingAppointment.nombre + ".",
+            title = hospital.nombre + ": " + existingAppointment.nombre + ".",
             description = "Telf: " + existingAppointment.telefono + ", Email: " + existingAppointment.email,
             start = ParseEventDate(existingAppointment.dia, existingAppointment.hora),
             end = ParseEventDate(existingAppointment.dia, existingAppointment.hora + (turno.porhora != 1 ? (1M / turno.porhora) : 0M)),
@@ -279,17 +292,22 @@ public class AppointmentService : IAppointmentService
     private List<Appointment> MapCitasToAppointments(IOrderedQueryable<Cita> existingAppointments)
     {
         List<Appointment> response = new List<Appointment>();
+
+        // Batch load all Turno records needed for these appointments
+        var turnoIds = existingAppointments.Select(a => a.idTurno).Distinct().ToList();
+        var turnos = this.context.Turno.Where(t => turnoIds.Contains(t.idTurno)).ToDictionary(t => t.idTurno);
+
         foreach (Cita existingAppointment in existingAppointments)
         {
-            response.Add(this.MapCitaToAppointment(existingAppointment));
+            response.Add(this.MapCitaToAppointment(existingAppointment, turnos));
         }
 
         return response;
     }
 
-    private Appointment MapCitaToAppointment(Cita existingAppointment)
+    private Appointment MapCitaToAppointment(Cita existingAppointment, Dictionary<int, Turno> turnos)
     {
-        Turno turno = this.context.Turno.First(x => x.idTurno == existingAppointment.idTurno);
+        Turno turno = turnos[existingAppointment.idTurno];
         return new Appointment()
         {
             dia = existingAppointment.dia,
