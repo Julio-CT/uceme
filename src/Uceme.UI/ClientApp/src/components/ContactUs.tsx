@@ -77,6 +77,7 @@ const ContactUs: () => ReactElement = () => {
         }
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.error('Network error:', error);
         showAlert(
           'Lo sentimos, ha ocurrido un error de conexión. Por favor, verifica tu conexión a internet e inténtalo de nuevo.'
