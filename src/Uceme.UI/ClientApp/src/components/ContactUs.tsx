@@ -57,24 +57,31 @@ const ContactUs: () => ReactElement = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    }).then((response) => {
-      if (response && response.status === 200) {
-        showAlert(
-          'Correo electrónico enviado. Nuestro equipo se pondrá en contacto lo antes posible. Muchas gracias.'
-        );
+    })
+      .then((response) => {
+        if (response && response.status === 200) {
+          showAlert(
+            'Correo electrónico enviado. Nuestro equipo se pondrá en contacto lo antes posible. Muchas gracias.'
+          );
 
-        setData({
-          loaded: true,
-          name: '',
-          email: '',
-          message: '',
-        });
-      } else {
+          setData({
+            loaded: true,
+            name: '',
+            email: '',
+            message: '',
+          });
+        } else {
+          showAlert(
+            'Lo sentimos, el envío del correo electrónico ha fallado, por favor inténtelo en unos minutos.'
+          );
+        }
+      })
+      .catch((error) => {
+        console.error('Network error:', error);
         showAlert(
-          'Lo sentimos, el envío del correo electrónico ha fallado, por favor inténtelo en unos minutos.'
+          'Lo sentimos, ha ocurrido un error de conexión. Por favor, verifica tu conexión a internet e inténtalo de nuevo.'
         );
-      }
-    });
+      });
   };
 
   if (settings) {

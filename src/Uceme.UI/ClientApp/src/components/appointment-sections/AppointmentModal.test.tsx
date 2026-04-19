@@ -130,7 +130,7 @@ describe('(Component) AppointmentModal', () => {
       });
       const enabledButton = submitButtons.find(
         (b) => !(b as HTMLButtonElement).disabled &&
-          b.type === 'button'
+          (b as HTMLButtonElement).type === 'button'
       );
       expect(enabledButton).toBeDefined();
       fireEvent.click(enabledButton!);
