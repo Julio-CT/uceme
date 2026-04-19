@@ -67,8 +67,10 @@ describe('(Component) AppointmentModal', () => {
       // Now the form inputs should be visible; the Confirmar button should still be disabled
       const submitButtons = screen.getAllByRole('button', {
         name: 'Confirmar cita',
-      }) as HTMLButtonElement[];
-      const disabledButton = submitButtons.find((b) => b.disabled);
+      });
+      const disabledButton = submitButtons.find(
+        (b) => (b as HTMLButtonElement).disabled
+      );
       expect(disabledButton).toBeDefined();
     });
 
@@ -125,9 +127,10 @@ describe('(Component) AppointmentModal', () => {
       // Now submit should be enabled (find enabled Confirmar)
       const submitButtons = screen.getAllByRole('button', {
         name: 'Confirmar cita',
-      }) as HTMLButtonElement[];
+      });
       const enabledButton = submitButtons.find(
-        (b) => !b.disabled && b.type === 'button'
+        (b) => !(b as HTMLButtonElement).disabled &&
+          b.type === 'button'
       );
       expect(enabledButton).toBeDefined();
       fireEvent.click(enabledButton!);
@@ -202,8 +205,10 @@ describe('(Component) AppointmentModal', () => {
       fireEvent.change(phoneInput, { target: { value: '123-456-789' } });
       const submitButtons = screen.getAllByRole('button', {
         name: 'Confirmar cita',
-      }) as HTMLButtonElement[];
-      const enabledButton = submitButtons.find((b) => !b.disabled);
+      });
+      const enabledButton = submitButtons.find(
+        (b) => !(b as HTMLButtonElement).disabled
+      );
       fireEvent.click(enabledButton!);
       expect(
         await screen.findByText(
