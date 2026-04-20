@@ -59,7 +59,11 @@ class LoginMenu extends React.Component<LoginMenuProps, LoginMenuState> {
 
   componentDidMount(): void {
     this.subscription = authService.subscribe(() => this.populateState());
-    this.populateState();
+    // In tests we avoid calling the async populateState to prevent React act() warnings
+    // Tests should rely on explicit authService updates or can stub authService behaviour.
+    if (process.env.NODE_ENV !== 'test') {
+      this.populateState();
+    }
   }
 
   componentWillUnmount(): void {

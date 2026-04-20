@@ -1,6 +1,4 @@
-﻿namespace Uceme.Library.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
@@ -9,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Uceme.Model.Data;
 using Uceme.Model.DataContracts;
 using Uceme.Model.Models;
+
+namespace Uceme.Library.Services;
 
 public class BlogService : IBlogService
 {
@@ -132,8 +132,6 @@ public class BlogService : IBlogService
 
         try
         {
-            this.CheckUniqueSlug(blog);
-
             Blog post = this.context.Blog.First(post => post.idBlog == blog.IdBlog);
 
             post.titulo = blog.Titulo;
@@ -198,6 +196,11 @@ public class BlogService : IBlogService
 
     public string GetNextPostImage()
     {
+        if (!this.context.Blog.Any())
+        {
+            return "1";
+        }
+
         int lastPhoto = this.context.Blog.OrderByDescending(post => post.idBlog).First().idBlog;
         return (lastPhoto + 1).ToString(CultureInfo.InvariantCulture);
     }

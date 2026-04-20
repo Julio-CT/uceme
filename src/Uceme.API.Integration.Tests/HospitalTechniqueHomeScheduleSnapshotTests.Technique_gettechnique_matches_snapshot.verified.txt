@@ -1,0 +1,8 @@
+﻿{
+  idTecnica: 5001,
+  titulo: Technique snapshot,
+  fecha: DateTimeOffset_1,
+  foto: t.jpg,
+  texto: technique body,
+  nombre: TechniqueName
+}

@@ -1,0 +1,5 @@
+﻿{
+  title: Invalid Request,
+  status: 400,
+  detail: Email message and email address are required
+}

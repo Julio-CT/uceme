@@ -1,7 +1,7 @@
-﻿namespace Uceme.UI;
-
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+
+namespace Uceme.UI;
 
 public static class Program
 {

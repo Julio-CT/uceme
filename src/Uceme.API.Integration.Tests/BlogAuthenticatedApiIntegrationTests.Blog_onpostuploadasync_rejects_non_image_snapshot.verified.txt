@@ -1,0 +1,5 @@
+﻿{
+  title: Invalid File Format,
+  status: 400,
+  detail: File must be a JPEG or PNG image
+}

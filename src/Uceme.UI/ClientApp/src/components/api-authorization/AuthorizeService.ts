@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Profile, User, UserManager, WebStorageStateStore } from 'oidc-client';
+import type { Profile, User } from 'oidc-client';
 import ApplicationPaths, {
   ApplicationName,
   Arguments,
@@ -25,30 +25,87 @@ export class AuthorizeService {
   // If you want to enable pop up authentication simply set this flag to false.
   private popUpDisabled = true;
 
-  private userManager?: UserManager;
+  // Runtime-managed object from oidc-client; keep as any to avoid importing
+  // the concrete type at module evaluation time and to prevent type errors
+  // when dynamically importing the module.
+  private userManager?: any;
 
-  constructor() {
-    this.ensureUserManagerInitialized();
-  }
+  // Do not initialize the user manager in the constructor to avoid
+  // triggering oidc-client usage (which may access browser APIs) at import time.
+  // Initialization will happen lazily when methods that need it are called.
 
   async isAuthenticated(): Promise<boolean> {
-    const user = await this.getUser();
-    return !!user;
+    await this.ensureUserManagerInitialized();
+    const user = await this.userManager?.getUser();
+    if (!user) {
+      return false;
+    }
+
+    // Check if token is expired or about to expire (within 60 seconds)
+    const expiresAt = user.expires_at;
+    if (expiresAt) {
+      const now = Math.floor(Date.now() / 1000);
+      const timeUntilExpiry = expiresAt - now;
+      // If token is expired or expires within 60 seconds, try to refresh
+      if (timeUntilExpiry <= 60) {
+        try {
+          const refreshedUser = await this.userManager?.signinSilent();
+          if (refreshedUser) {
+            this.updateState(refreshedUser);
+            return true;
+          }
+        } catch (error) {
+          // Silent renewal failed, user needs to re-authenticate
+          this.updateState(null);
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   async getUser(): Promise<Profile | null | undefined> {
-    if (this.user && this.user.profile) {
-      return this.user.profile;
-    }
+    await this.ensureUserManagerInitialized();
+    const user = await this.getValidUser();
+    return user && user.profile;
+  }
 
+  private async getValidUser(): Promise<User | null | undefined> {
     await this.ensureUserManagerInitialized();
     const user = await this.userManager?.getUser();
-    return user && user.profile;
+
+    if (!user) {
+      return null;
+    }
+
+    // Check if token is expired or about to expire (within 60 seconds)
+    const expiresAt = user.expires_at;
+    if (expiresAt) {
+      const now = Math.floor(Date.now() / 1000);
+      const timeUntilExpiry = expiresAt - now;
+      // If token is expired or expires within 60 seconds, try to refresh
+      if (timeUntilExpiry <= 60) {
+        try {
+          const refreshedUser = await this.userManager?.signinSilent();
+          if (refreshedUser) {
+            this.updateState(refreshedUser);
+            return refreshedUser;
+          }
+        } catch (error) {
+          // Silent renewal failed, clear user state
+          this.updateState(null);
+          return null;
+        }
+      }
+    }
+
+    return user;
   }
 
   async getAccessToken(): Promise<string | null | undefined> {
     await this.ensureUserManagerInitialized();
-    const user = await this.userManager?.getUser();
+    const user = await this.getValidUser();
     return user && user.access_token;
   }
 
@@ -214,7 +271,14 @@ export class AuthorizeService {
     if (this.userManager !== undefined) {
       return;
     }
-
+    // Lazy import to avoid touching browser APIs at module import time
+    // (which can trigger SecurityError in test environments).
+    // Importing inside the method ensures it happens at runtime when needed.
+    const oidcModule = await import('oidc-client');
+    // Some module systems expose the exports as default; support both shapes
+    // by checking for `.default` and falling back to the namespace itself.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const oidc: any = oidcModule && (oidcModule.default || oidcModule);
     const response: Response = await fetch(
       ApplicationPaths.ApiAuthorizationClientConfigurationUrl
     );
@@ -224,14 +288,52 @@ export class AuthorizeService {
     }
 
     const settings = await response.json();
-    settings.automaticSilentRenew = false;
+    // Enable automatic silent renewal to refresh tokens before they expire
+    settings.automaticSilentRenew = true;
+    // Set access token expiration time to renew 60 seconds before expiry
+    settings.accessTokenExpiringNotificationTime = 60;
     settings.monitorSession = false;
     settings.includeIdTokenInSilentRenew = true;
-    settings.userStore = new WebStorageStateStore({
+    settings.userStore = new oidc.WebStorageStateStore({
       prefix: ApplicationName,
     });
 
-    this.userManager = new UserManager(settings);
+    this.userManager = new oidc.UserManager(settings);
+
+    // Handle token renewal events
+    // Note: When automaticSilentRenew is enabled, the library handles renewal automatically
+    // These event handlers are for notification and state management
+    this.userManager.events.addAccessTokenExpiring(() => {
+      // Token is about to expire, automatic renewal should be triggered
+      // We just need to ensure state is updated when renewal completes
+    });
+
+    this.userManager.events.addAccessTokenExpired(() => {
+      // Token has expired, try to renew it manually as a fallback
+      this.userManager
+        ?.signinSilent()
+        .then((user: any) => {
+          if (user) {
+            this.updateState(user);
+          } else {
+            this.updateState(null);
+          }
+        })
+        .catch(() => {
+          // Silent renewal failed, clear user state
+          this.updateState(null);
+        });
+    });
+
+    this.userManager.events.addUserLoaded((user: any) => {
+      // User was loaded (including after token renewal)
+      this.updateState(user);
+    });
+
+    this.userManager.events.addSilentRenewError(() => {
+      // Silent renewal failed, user needs to re-authenticate
+      this.updateState(null);
+    });
 
     this.userManager.events.addUserSignedOut(async () => {
       await this.userManager?.removeUser();

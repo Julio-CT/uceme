@@ -1,7 +1,7 @@
-﻿namespace Uceme.Library.Services;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Uceme.Model.Models;
+
+namespace Uceme.Library.Services;
 
 public interface IFotosService
 {

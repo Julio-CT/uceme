@@ -1,8 +1,5 @@
-﻿namespace Uceme.API.Controllers;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,12 +14,13 @@ using Uceme.Model.DataContracts;
 using Uceme.Model.Models;
 using Uceme.Model.Settings;
 
+namespace Uceme.API.Controllers;
+
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class BlogController : Controller
+public class BlogController : BaseController
 {
-    private readonly ILogger<BlogController> logger;
     private readonly IOptions<AppSettings> configuration;
     private readonly IBlogService blogService;
 
@@ -30,10 +28,10 @@ public class BlogController : Controller
         IBlogService blogService,
         IOptions<AppSettings> configuration,
         ILogger<BlogController> logger)
+        : base(logger)
     {
         this.blogService = blogService ?? throw new ArgumentNullException(nameof(blogService));
         this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpGet("getblogsubset")]
@@ -206,7 +204,7 @@ public class BlogController : Controller
         try
         {
             string blogImagesFolder = this.configuration.Value.BlogImagesDir;
-            string filename = "Blog" + this.blogService.GetNextPostImage();
+            string filename = "Blog" + Guid.NewGuid().ToString("N");
             filename += Path.GetExtension(file.FileName);
 
 #pragma warning disable CA3003 // Review code for file path injection vulnerabilities
@@ -241,23 +239,5 @@ public class BlogController : Controller
         }
 
         return webPFileName;
-    }
-
-    private T HandleControllerOperation<T>(Func<T> operation, string errorContext, object? contextId = null)
-    {
-        try
-        {
-            return operation();
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, $"Error {errorContext}", contextId);
-            throw new InvalidOperationException($"Unable to {errorContext.ToUpperInvariant()}", ex);
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, $"Unexpected error {errorContext}", contextId);
-            throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
-        }
     }
 }

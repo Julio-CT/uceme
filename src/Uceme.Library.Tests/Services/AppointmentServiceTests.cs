@@ -1,6 +1,4 @@
-﻿namespace Uceme.Library.Tests.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
@@ -15,6 +13,8 @@ using Uceme.Library.Services;
 using Uceme.Model.Data;
 using Uceme.Model.DataContracts;
 using Uceme.Model.Models;
+
+namespace Uceme.Library.Tests.Services;
 
 [TestClass]
 public class AppointmentServiceTests

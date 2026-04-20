@@ -1,6 +1,6 @@
-﻿namespace Uceme.Library.Services;
+﻿using System.Collections.Generic;
 
-using System.Collections.Generic;
+namespace Uceme.Library.Services;
 
 public interface ITurnoService
 {

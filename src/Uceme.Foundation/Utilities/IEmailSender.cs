@@ -1,8 +1,8 @@
-﻿namespace Uceme.Foundation.Utilities;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Uceme.Model.Settings;
+
+namespace Uceme.Foundation.Utilities;
 
 public interface IEmailSender
 {

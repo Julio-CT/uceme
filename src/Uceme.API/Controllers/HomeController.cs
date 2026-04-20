@@ -1,6 +1,4 @@
-﻿namespace Uceme.API.Controllers;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -10,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Uceme.Library.Services;
 using Uceme.Model.Models;
+
+namespace Uceme.API.Controllers;
 
 [Authorize]
 [Route("api/[controller]")]

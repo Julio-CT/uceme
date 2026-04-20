@@ -1,0 +1,5 @@
+﻿{
+  title: Database Error,
+  status: 400,
+  detail: Unable to retrieve hospital information
+}

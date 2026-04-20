@@ -1,6 +1,4 @@
-﻿namespace Uceme.Library.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
@@ -9,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Uceme.Foundation.Utilities;
 using Uceme.Model.Settings;
+
+namespace Uceme.Library.Services;
 
 public class EmailService : IEmailService
 {

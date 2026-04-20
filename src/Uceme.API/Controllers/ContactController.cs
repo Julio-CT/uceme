@@ -1,6 +1,4 @@
-﻿namespace Uceme.API.Controllers;
-
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,19 +7,20 @@ using Microsoft.Extensions.Logging;
 using Uceme.Library.Services;
 using Uceme.Model.DataContracts;
 
+namespace Uceme.API.Controllers;
+
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class ContactController : Controller
+public class ContactController : BaseController
 {
-    private readonly ILogger<ContactController> logger;
     private readonly IEmailService emailService;
 
     public ContactController(
         ILogger<ContactController> logger,
         IEmailService emailService)
+        : base(logger)
     {
-        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         this.emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
     }
 
@@ -50,23 +49,5 @@ public class ContactController : Controller
             $"sending email from {message.Email} ({message.Name})",
             new { message.Email, message.Name }).ConfigureAwait(false);
         return this.Ok(result);
-    }
-
-    private async Task<T> HandleControllerOperationAsync<T>(Func<Task<T>> operation, string errorContext, object? contextId = null)
-    {
-        try
-        {
-            return await operation().ConfigureAwait(false);
-        }
-        catch (OperationCanceledException ex)
-        {
-            this.logger.LogError(ex, $"Error {errorContext}", contextId);
-            throw new InvalidOperationException("Unable to send email due to a timeout", ex);
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, $"Unexpected error {errorContext}", contextId);
-            throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
-        }
     }
 }

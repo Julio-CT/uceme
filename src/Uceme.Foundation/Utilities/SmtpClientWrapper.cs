@@ -1,8 +1,8 @@
-﻿namespace Uceme.Foundation.Utilities;
-
-using System;
+﻿using System;
 using System.Net.Mail;
 using System.Threading.Tasks;
+
+namespace Uceme.Foundation.Utilities;
 
 public class SmtpClientWrapper : SmtpClient, ISmtpClient
 {

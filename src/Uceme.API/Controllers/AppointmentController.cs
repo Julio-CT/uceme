@@ -1,6 +1,4 @@
-﻿namespace Uceme.API.Controllers;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -12,19 +10,20 @@ using Uceme.Library.Services;
 using Uceme.Model.DataContracts;
 using Uceme.Model.Models;
 
+namespace Uceme.API.Controllers;
+
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class AppointmentController : Controller
+public class AppointmentController : BaseController
 {
-    private readonly ILogger<AppointmentController> logger;
     private readonly IAppointmentService appointmentService;
 
     public AppointmentController(
         ILogger<AppointmentController> logger,
         IAppointmentService appointmentService)
+        : base(logger)
     {
-        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         this.appointmentService = appointmentService ?? throw new ArgumentNullException(nameof(appointmentService));
     }
 
@@ -37,8 +36,7 @@ public class AppointmentController : Controller
     {
         var result = this.HandleControllerOperation(
             () => this.appointmentService.GetDays(hospitalId),
-            "retrieving available days for hospital",
-            hospitalId);
+            "retrieving available days for hospital");
         return this.Ok(result);
     }
 
@@ -80,10 +78,13 @@ public class AppointmentController : Controller
         }
         catch (DataException ex)
         {
+            var maskedHospitalId = string.IsNullOrEmpty(hospitalId)
+                ? "N/A"
+                : (hospitalId.Length <= 4 ? hospitalId : string.Concat(hospitalId.AsSpan(0, 4), "..."));
             this.logger.LogError(
                 ex,
-                "Error retrieving available hours for hospital {HospitalId} on {Day}/{Month}/{Year}",
-                hospitalId,
+                "Error retrieving available hours for hospital {HospitalIdMasked} on {Day}/{Month}/{Year}",
+                maskedHospitalId,
                 day,
                 month,
                 year);
@@ -385,23 +386,5 @@ public class AppointmentController : Controller
             this.appointmentService.UpdatePastAppointmentsData,
             "updating past appointments data");
         return this.Ok(result);
-    }
-
-    private T HandleControllerOperation<T>(Func<T> operation, string errorContext, object? contextId = null)
-    {
-        try
-        {
-            return operation();
-        }
-        catch (DataException ex)
-        {
-            this.logger.LogError(ex, $"Error {errorContext}", contextId);
-            throw new InvalidOperationException($"Unable to {errorContext.ToUpperInvariant()}", ex);
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, $"Unexpected error {errorContext}", contextId);
-            throw new InvalidOperationException($"An unexpected error occurred while {errorContext.ToUpperInvariant()}", ex);
-        }
     }
 }

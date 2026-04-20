@@ -1,0 +1,38 @@
+﻿[
+  {
+    idBlog: 1003,
+    titulo: Snapshot post newest,
+    fecha: DateTimeOffset_1,
+    foto: f3,
+    texto: body3,
+    profesional: null,
+    slug: snap-newest,
+    seoTitle: seo3,
+    metaDescription: meta3,
+    idUsuario: 0
+  },
+  {
+    idBlog: 1002,
+    titulo: Snapshot post middle,
+    fecha: DateTimeOffset_2,
+    foto: f2,
+    texto: body2,
+    profesional: null,
+    slug: snap-middle,
+    seoTitle: seo2,
+    metaDescription: meta2,
+    idUsuario: 0
+  },
+  {
+    idBlog: 1001,
+    titulo: Snapshot post oldest,
+    fecha: DateTimeOffset_3,
+    foto: f1,
+    texto: body1,
+    profesional: null,
+    slug: snap-oldest,
+    seoTitle: seo1,
+    metaDescription: meta1,
+    idUsuario: 0
+  }
+]

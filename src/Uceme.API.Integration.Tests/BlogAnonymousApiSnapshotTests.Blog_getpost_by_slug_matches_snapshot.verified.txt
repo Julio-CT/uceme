@@ -1,0 +1,12 @@
+﻿{
+  idBlog: 1003,
+  titulo: Snapshot post newest,
+  fecha: DateTimeOffset_1,
+  foto: f3,
+  texto: body3,
+  profesional: null,
+  slug: snap-newest,
+  seoTitle: seo3,
+  metaDescription: meta3,
+  idUsuario: 0
+}

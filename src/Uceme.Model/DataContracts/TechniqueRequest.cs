@@ -1,31 +1,30 @@
-﻿namespace Uceme.Model.DataContracts
+﻿using System.Text.Json.Serialization;
+
+namespace Uceme.Model.DataContracts;
+
+public class TechniqueRequest
 {
-    using System.Text.Json.Serialization;
+    [JsonPropertyName("idTech")]
+    public int IdTech { get; set; }
 
-    public class TechniqueRequest
-    {
-        [JsonPropertyName("idTech")]
-        public int IdTech { get; set; }
+    [JsonPropertyName("titulo")]
+    public string? Titulo { get; set; }
 
-        [JsonPropertyName("titulo")]
-        public string? Titulo { get; set; }
+    [JsonPropertyName("fecha")]
+    public string? Fecha { get; set; }
 
-        [JsonPropertyName("fecha")]
-        public string? Fecha { get; set; }
+    [JsonPropertyName("foto")]
+    public string? Foto { get; set; }
 
-        [JsonPropertyName("foto")]
-        public string? Foto { get; set; }
+    [JsonPropertyName("texto")]
+    public string? Texto { get; set; }
 
-        [JsonPropertyName("texto")]
-        public string? Texto { get; set; }
+    [JsonPropertyName("slug")]
+    public string? Slug { get; set; }
 
-        [JsonPropertyName("slug")]
-        public string? Slug { get; set; }
+    [JsonPropertyName("seoTitle")]
+    public string? SeoTitle { get; set; }
 
-        [JsonPropertyName("seoTitle")]
-        public string? SeoTitle { get; set; }
-
-        [JsonPropertyName("metaDescription")]
-        public string? MetaDescription { get; set; }
-    }
+    [JsonPropertyName("metaDescription")]
+    public string? MetaDescription { get; set; }
 }

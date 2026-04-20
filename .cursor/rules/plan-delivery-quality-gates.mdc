@@ -1,0 +1,25 @@
+---
+description: Every planned change must ship with tests, lint/format, and a clean build
+alwaysApply: true
+---
+
+# Plan completion and delivery quality gates
+
+When executing **any** plan or feature work in this repository, treat the following as **mandatory** before the work is considered done.
+
+## Tests
+
+- **Unit tests**: New or changed behavior must have unit tests (or explicitly extended tests) covering the affected code paths.
+- **Integration tests**: Where the change crosses process or HTTP boundaries, add or update integration tests that use **Shouldly** for assertions and **WireMock** to stub external HTTP dependencies. If the solution does not yet reference these packages in the relevant test project, add them as part of the same change.
+
+## Lint and format
+
+- **.NET**: Code must satisfy analyzers; run `dotnet format` (or the project’s agreed formatter) so style is consistent.
+- **ClientApp** (`src/Uceme.UI/ClientApp/package.json`): run `npm run lint`, `npm run format`, and `npm run stylelint` (or equivalent project scripts) and fix reported issues.
+
+## Build and test run
+
+- **Build**: Full solution builds with **zero errors** (`dotnet build` on the solution).
+- **Tests**: All automated tests pass (`dotnet test` for .NET test projects; `npm test` / project test script for the UI where changes touch it).
+
+Do not mark a plan or task complete until the above gates are satisfied unless the user explicitly narrows scope in writing.

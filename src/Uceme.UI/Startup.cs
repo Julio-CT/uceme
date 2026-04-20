@@ -1,6 +1,4 @@
-﻿namespace Uceme.UI;
-
-using System.IO;
+﻿using System.IO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +14,8 @@ using Uceme.Library.Services;
 using Uceme.Model.Data;
 using Uceme.Model.Models.Security;
 using Uceme.Model.Settings;
+
+namespace Uceme.UI;
 
 public class Startup
 {

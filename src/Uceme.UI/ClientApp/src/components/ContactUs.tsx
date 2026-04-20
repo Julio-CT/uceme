@@ -50,31 +50,63 @@ const ContactUs: () => ReactElement = () => {
     event: React.FormEvent
   ) => {
     event.preventDefault();
+
+    // Basic input validation
+    if (!data.name.trim()) {
+      showAlert('Por favor, introduce tu nombre.');
+      return;
+    }
+
+    if (!data.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      showAlert(
+        'Por favor, introduce una dirección de correo electrónico válida.'
+      );
+      return;
+    }
+
+    if (!data.message.trim()) {
+      showAlert('Por favor, introduce un mensaje.');
+      return;
+    }
+
+    // Sanitize inputs to prevent XSS
+    const sanitizedData = {
+      name: data.name.trim().substring(0, 100), // Limit length
+      email: data.email.trim().toLowerCase(),
+      message: data.message.trim().substring(0, 1000), // Limit length
+    };
+
     fetch(`${settings?.baseHref}api/contact/contactemail`, {
       method: 'POST',
       cache: 'no-cache',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
-    }).then((response) => {
-      if (response && response.status === 200) {
-        showAlert(
-          'Correo electrónico enviado. Nuestro equipo se pondrá en contacto lo antes posible. Muchas gracias.'
-        );
+      body: JSON.stringify(sanitizedData),
+    })
+      .then((response) => {
+        if (response && response.status === 200) {
+          showAlert(
+            'Correo electrónico enviado. Nuestro equipo se pondrá en contacto lo antes posible. Muchas gracias.'
+          );
 
-        setData({
-          loaded: true,
-          name: '',
-          email: '',
-          message: '',
-        });
-      } else {
+          setData({
+            loaded: true,
+            name: '',
+            email: '',
+            message: '',
+          });
+        } else {
+          showAlert(
+            'Lo sentimos, el envío del correo electrónico ha fallado, por favor inténtelo en unos minutos.'
+          );
+        }
+      })
+      .catch(() => {
         showAlert(
-          'Lo sentimos, el envío del correo electrónico ha fallado, por favor inténtelo en unos minutos.'
+          'Lo sentimos, ha ocurrido un error de conexión. Por favor, verifica tu conexión a internet e inténtalo de nuevo.'
         );
-      }
-    });
+      });
   };
 
   if (settings) {

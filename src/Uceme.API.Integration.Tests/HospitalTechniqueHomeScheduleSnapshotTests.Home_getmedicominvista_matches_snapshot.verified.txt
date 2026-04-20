@@ -1,0 +1,18 @@
+﻿[
+  {
+    idUsuario: 9001,
+    nombre: Doc,
+    apellidos: Snapshot,
+    nick: null,
+    login: null,
+    foto: doc.jpg,
+    ultimoupdate: null,
+    password: null,
+    newsletter: null,
+    linkedin: null,
+    display_order: null,
+    idCurriculum: 0,
+    idDatosContacto: 0,
+    idRol: 0
+  }
+]

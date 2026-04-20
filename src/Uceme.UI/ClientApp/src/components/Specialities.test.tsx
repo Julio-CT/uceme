@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
 import Specialities from './Specialities';
@@ -18,15 +18,11 @@ afterEach(() => {
 });
 
 describe('(Component)) Specialities', () => {
-  it('renders without exploding', () => {
+  it('renders without exploding and has no buttons', () => {
     render(<Specialities />, container);
     expect(
       screen.queryAllByText('Especialidades', { exact: false })
     ).toHaveLength(1);
-  });
-
-  it('renders no buttons', () => {
-    render(<Specialities />);
     expect(screen.queryAllByRole('button')).toHaveLength(0);
   });
 });

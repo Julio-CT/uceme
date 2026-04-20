@@ -7,7 +7,7 @@
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.4">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
@@ -15,10 +15,12 @@
   <PropertyGroup>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <NoWarn>NETSDK1138;NU1608</NoWarn>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <!-- All unit tests (.Test) projects require coverlet.msbuild for coverage. -->
-  <ItemGroup Condition="$(MSBuildProjectName.IndexOf('.Test')) != -1">
+  <ItemGroup Condition="$([System.String]::Copy('$(MSBuildProjectName)').IndexOf('.Test')) != -1">
     <PackageReference Include="coverlet.collector" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -26,13 +28,13 @@
   </ItemGroup>
 
   <!-- All unit tests (.Test) projects need to be exluded from coverage. -->
-  <ItemGroup Condition="$(MSBuildProjectName.IndexOf('.Test')) != -1">
+  <ItemGroup Condition="$([System.String]::Copy('$(MSBuildProjectName)').IndexOf('.Test')) != -1">
     <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage" />
   </ItemGroup>
 
   <!-- All integration tests (.Test) projects need to be marked as TestCategory mock. -->
   <ItemGroup
-    Condition="$(MSBuildProjectName.IndexOf('.Test')) != -1 And $(MSBuildProjectName.IndexOf('.Integration')) == -1">
+    Condition="$([System.String]::Copy('$(MSBuildProjectName)').IndexOf('.Test')) != -1 And $([System.String]::Copy('$(MSBuildProjectName)').IndexOf('.Integration')) == -1">
     <AssemblyAttribute Include="Microsoft.VisualStudio.TestTools.UnitTesting.TestCategory">
       <_Parameter1>MockTests</_Parameter1>
     </AssemblyAttribute>
@@ -40,7 +42,7 @@
 
   <!-- All integration tests (.Test) projects need to be marked as TestCategory integration. -->
   <ItemGroup
-    Condition="$(MSBuildProjectName.IndexOf('.Test')) != -1 And $(MSBuildProjectName.IndexOf('.Integration')) != -1">
+    Condition="$([System.String]::Copy('$(MSBuildProjectName)').IndexOf('.Test')) != -1 And $([System.String]::Copy('$(MSBuildProjectName)').IndexOf('.Integration')) != -1">
     <AssemblyAttribute Include="Microsoft.VisualStudio.TestTools.UnitTesting.TestCategory">
       <_Parameter1>integration</_Parameter1>
     </AssemblyAttribute>
@@ -51,7 +53,6 @@
     <Authors>JCT Software</Authors>
     <InformationalVersion>1.0.0</InformationalVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Nullable>disable</Nullable>
     <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
     <LangVersion>11.0</LangVersion>
     <Nullable>enable</Nullable>
