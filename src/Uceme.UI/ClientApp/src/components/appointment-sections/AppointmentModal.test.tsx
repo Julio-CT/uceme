@@ -129,7 +129,8 @@ describe('(Component) AppointmentModal', () => {
         name: 'Confirmar cita',
       });
       const enabledButton = submitButtons.find(
-        (b) => !(b as HTMLButtonElement).disabled &&
+        (b) =>
+          !(b as HTMLButtonElement).disabled &&
           (b as HTMLButtonElement).type === 'button'
       );
       expect(enabledButton).toBeDefined();

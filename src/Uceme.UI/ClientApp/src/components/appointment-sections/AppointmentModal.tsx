@@ -276,21 +276,22 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
     if (handleValidation() && settings) {
       const day = new Date(selectedDay);
 
-      const data = {
+      // Sanitize user inputs to prevent security issues
+      const sanitizedData = {
         weekDay: day.getDay(),
         hospitalId: parseInt(hospitalId || '0', 10),
         day: day.getDate(),
         month: day.getMonth() + 1,
         year: day.getFullYear(),
         hour: selectedHour,
-        name,
-        phone,
-        email,
-        extraInfo,
+        name: name?.trim().substring(0, 100) || '', // Limit length and trim
+        phone: phone?.trim().substring(0, 20) || '', // Limit length and trim
+        email: email?.trim().toLowerCase().substring(0, 100) || '', // Limit length, trim, and lowercase
+        extraInfo: extraInfo ? extraInfo.trim().substring(0, 500) : '', // Optional field with length limit
       };
 
       try {
-        // console.log('Submitting appointment data:', data);
+        // console.log('Submitting appointment data:', sanitizedData);
         const response = await fetch(
           `${settings.baseHref}api/appointment/addappointment`,
           {
@@ -298,7 +299,7 @@ function AppointmentModal(props: AppointmentModalProps): JSX.Element {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(sanitizedData),
           }
         );
 
