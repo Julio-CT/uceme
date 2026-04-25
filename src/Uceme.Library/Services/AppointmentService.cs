@@ -254,6 +254,21 @@ public class AppointmentService : IAppointmentService
         return year + "-" + month + "-" + day + "-" + hours + "-" + minutes;
     }
 
+    private static CalendarEvent MapCitaToAppointmentEvents(Cita existingAppointment, Dictionary<int, Turno> turnos, Dictionary<int, DatosProfesionales> hospitals)
+    {
+        Turno turno = turnos[existingAppointment.idTurno];
+        DatosProfesionales hospital = hospitals[turno.idHospital];
+
+        return new CalendarEvent()
+        {
+            id = existingAppointment.idCita,
+            title = hospital.nombre + ": " + existingAppointment.nombre + ".",
+            description = "Telf: " + existingAppointment.telefono + ", Email: " + existingAppointment.email,
+            start = ParseEventDate(existingAppointment.dia, existingAppointment.hora),
+            end = ParseEventDate(existingAppointment.dia, existingAppointment.hora + (turno.porhora != 1 ? (1M / turno.porhora) : 0M)),
+        };
+    }
+
     private List<CalendarEvent> MapCitasToAppointmentsEvents(IOrderedQueryable<Cita> existingAppointments)
     {
         List<CalendarEvent> response = new List<CalendarEvent>();
@@ -268,25 +283,10 @@ public class AppointmentService : IAppointmentService
 
         foreach (Cita existingAppointment in existingAppointments)
         {
-            response.Add(this.MapCitaToAppointmentEvents(existingAppointment, turnos, hospitals));
+            response.Add(MapCitaToAppointmentEvents(existingAppointment, turnos, hospitals));
         }
 
         return response;
-    }
-
-    private CalendarEvent MapCitaToAppointmentEvents(Cita existingAppointment, Dictionary<int, Turno> turnos, Dictionary<int, DatosProfesionales> hospitals)
-    {
-        Turno turno = turnos[existingAppointment.idTurno];
-        DatosProfesionales hospital = hospitals[turno.idHospital];
-
-        return new CalendarEvent()
-        {
-            id = existingAppointment.idCita,
-            title = hospital.nombre + ": " + existingAppointment.nombre + ".",
-            description = "Telf: " + existingAppointment.telefono + ", Email: " + existingAppointment.email,
-            start = ParseEventDate(existingAppointment.dia, existingAppointment.hora),
-            end = ParseEventDate(existingAppointment.dia, existingAppointment.hora + (turno.porhora != 1 ? (1M / turno.porhora) : 0M)),
-        };
     }
 
     private List<Appointment> MapCitasToAppointments(IOrderedQueryable<Cita> existingAppointments)

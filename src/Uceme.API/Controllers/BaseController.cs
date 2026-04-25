@@ -21,6 +21,11 @@ public abstract class BaseController : Controller
 
     protected T HandleControllerOperation<T>(Func<T> operation, string errorContext, object? contextId = null)
     {
+        if (operation == null)
+        {
+            throw new ArgumentNullException(nameof(operation));
+        }
+
         try
         {
             return operation();
@@ -60,6 +65,11 @@ public abstract class BaseController : Controller
 
     protected async Task<T> HandleControllerOperationAsync<T>(Func<Task<T>> operation, string errorContext, object? contextId = null)
     {
+        if (operation == null)
+        {
+            throw new ArgumentNullException(nameof(operation));
+        }
+
         try
         {
             return await operation().ConfigureAwait(false);
