@@ -26,13 +26,16 @@ public class MedicoService : IMedicoService
     {
         try
         {
-            IQueryable<Usuario> data = this.context.Usuario.Where(us => us.idRol == 2).OrderBy(o => o.display_order).Select(o => new Usuario
-            {
-                idUsuario = o.idUsuario,
-                nombre = o.nombre,
-                apellidos = o.apellidos,
-                foto = o.foto,
-            });
+            IQueryable<Usuario> data = this.context.Usuario
+                .Where(us => us.idRol == 2)
+                .OrderBy(o => o.display_order)
+                .Select(o => new Usuario
+                {
+                    idUsuario = o.idUsuario,
+                    nombre = o.nombre,
+                    apellidos = o.apellidos,
+                    foto = o.foto,
+                });
 
             this.logger.LogInformation("retrieved {Count} items", data.Count());
 
